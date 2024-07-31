@@ -3,7 +3,7 @@ const Sequelize = require("sequelize");
 
 const {Op} = require('sequelize'); 
 
-/* const seq = new Sequelize("ourwa_mwt", "root", "12345", {
+const seq = new Sequelize("ourwa_mwt", "root", "12345", {
   dialect: "mysql",
   host: "localhost",
   logging: false, // قم بتعطيل السجلات إذا كنت لا تحتاجها
@@ -19,9 +19,9 @@ Database = (async () => {
   } catch (e) {
     console.log(`Error in database : ${e}`);
   }
-})(); */
+})(); 
 
- 
+/*
 // استخدام المتغيرات البيئية من ملف .env
 const seq = new Sequelize(
   process.env.MYSQL_ADDON_DB,
@@ -53,7 +53,7 @@ const Database = (async () => {
   } catch (e) {
     console.log(`Error in database: ${e}`);
   }
-})();
+})(); */
  
 
 module.exports = { Database ,seq ,Op }

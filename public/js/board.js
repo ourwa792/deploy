@@ -8,18 +8,15 @@ if(window.location.hostname === 'deploy-kewv.onrender.com') {
     socket = io('http://localhost:3000', { transports: ['websocket', 'polling'] })
 }
 
-// تعريف receivedMessages في النطاق العام
-let receivedMessages = new Set();
+
 
 socket.on("connect_error", (err) => {
     // the reason of the error, for example "xhr poll error"
     console.log("--err.message--"+err.message);
     // some additional description, for example the status code of the initial HTTP response
-    if (err.description) console.log("--err.description--"+err.description);
+    console.log("--err.description--"+err.description);
     // some additional context, for example the XMLHttpRequest object
-    if (err.context) console.log("---err.context---"+err.context);
-    showError(`Connection Error: ${err.message}`);
-
+    console.log("---err.context---"+err.context);
 });
 
 socket.on("connect", () => {
@@ -28,9 +25,6 @@ socket.on("connect", () => {
 });
 
 socket.on("draw", (message) => {
-    if (receivedMessages.has(message.id)) return;
-    receivedMessages.add(message.id);
-
     const data = message.data;
     console.log(JSON.stringify(data, null, 2))
     ctx.save();
@@ -49,10 +43,9 @@ socket.on("draw", (message) => {
 });
 
 socket.on("chat", (message) => {
-    if (receivedMessages.has(message.id)) return;
-    receivedMessages.add(message.id);
-
+  
     addMessageToChat(message.username, message.data);
+
 });
 
 socket.on("error", (message)=> {
@@ -65,18 +58,19 @@ socket.on("disconnect", (reason, details) => {
     console.log(`Socket.IO connection closed: ${reason}`);
     console.log("Attempting to reconnect...");
     // the low-level reason of the disconnection, for example "xhr post error"
-    if (details) {
-        if (details.message) console.log(`Details: ${details.message}`);
-        if (details.description) console.log(`Description: ${details.description}`);
-        if (details.context) console.log(`Context: ${details.context}`);
-    }
+    console.log("details.message"+details.message);
 
-    showError("تم قطع اتصالك بسبب اساءة الاستخدام...جاري اعادة المحاولة")
+    // some additional description, for example the status code of the HTTP response
+    console.log("details.message"+details.description);
+
+    // some additional context, for example the XMLHttpRequest object
+    console.log("details.message"+details.context);
+    
+    showError("تم قطع اتصالك لسبب ما ...جاري اعادة المحاولة")
     setTimeout(() => {
         socket.connect();
     }, 5000);
 });
-
 
 
 let paint = false;
@@ -136,7 +130,6 @@ function draw(event) {
 function sendDrawData(event, painting) {
     if (socket.connected) {
         const drawData = {
-            id: generateUUID(),
             x: event.offsetX,
             y: event.offsetY,
             painting: painting,
@@ -146,6 +139,7 @@ function sendDrawData(event, painting) {
         socket.emit('draw', { type: 'draw', data: drawData });
     } else {
         console.log("Socket.IO is not connected.");
+        showError('تم قطع اتصالك لتجاوز عدد المنافذ')
     }
 }
 
@@ -163,14 +157,11 @@ function sendChat() {
     const chatInput = document.getElementById('messageInput');
     const message = chatInput.value;
     if (socket.connected) {
-        const chatData = {
-            id: generateUUID(),
-            data: message
-        };
-        socket.emit('chat', { type: 'chat', data: chatData });
+        socket.emit('chat', { type: 'chat', data: message });
         chatInput.value = '';
     } else {
         console.log("Socket.IO is not connected.");
+        showError('تم قطع اتصالك لتجاوز عدد المنافذ')
     }
 }
 
@@ -182,18 +173,12 @@ function addMessageToChat(username, message) {
     messageDiv.innerHTML = `
         <div class="pr-2"> <span class="name">${username}</span>
             <p class="msg">${message}</p>
-        </div>
-    `;
+        </div>`
+    ;
     messagesDiv.appendChild(messageDiv);
     messagesDiv.scrollTop = messagesDiv.scrollHeight;
 }
 
-function generateUUID() {
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-        const r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
-        return v.toString(16);
-    });
-}
 
 
 canvas.addEventListener('mousedown', startDraw);

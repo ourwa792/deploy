@@ -188,7 +188,7 @@ app.use((req, res, next) => {
 
 // WebSocket إدارة
 const userConnections = {};
-const MAX_CONNECTIONS = 3;
+const MAX_CONNECTIONS = 1;
 
 const wrap = middleware => (socket, next) => middleware(socket.request, {}, next);
 
@@ -220,12 +220,10 @@ io.on('connection', (socket) => {
     console.log(`=====User ${req.session.user.userName} connected. Connections: ${userConnections[userId]}`);
 
     socket.on('draw', (data) => {
-      if (!data.data.id) return;
       io.emit('draw', { ...data, username: req.session.user.userName });
     });
 
     socket.on('chat', (data) => {
-      if (!data.data.id) return;
       io.emit('chat', { ...data, username: req.session.user.userName });
     });
 
