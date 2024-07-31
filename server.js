@@ -27,9 +27,11 @@ const server = http.createServer(app);
 
 const io = socketIo(server, {
   cors: {
-      origin: '*',  // السماح لأي نطاق بالاتصال
-      methods: ['GET', 'POST']
-  }
+    origin: '*',
+    methods: ['GET', 'POST'],
+    allowedHeaders: ['Content-Type'],
+    credentials: true
+}
 });
 
 
@@ -59,12 +61,12 @@ app.use(sessionMiddleware)
 
 store.sync({alter:true})
 
-/* const corsOption = {
+const corsOption = {
   origin: "*", // يلي بدو يبعت ريكويست
   methods : ["GET","HEAD","PUT","PATCH","POST","DELETE"],
   credentials : true
 }
-app.use(cors(corsOption)) */
+app.use(cors(corsOption))
 
 
 const User = require('./model/association').User ;
@@ -228,6 +230,13 @@ io.on('connection', (socket) => {
     socket.on('disconnect', () => {
         userConnections[userId]--;
         console.log(`====User ${req.session.user.userName} disconnected. Connections: ${userConnections[userId]}`);
+    });
+
+    io.engine.on("connection_error", (err) => {
+      console.log(err.req);      // the request object
+      console.log(err.code);     // the error code, for example 1
+      console.log(err.message);  // the error message, for example "Session ID unknown"
+      console.log(err.context);  // some additional error context
     });
 });
 

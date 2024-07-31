@@ -1,14 +1,25 @@
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
-let socket = io();
 
-// ضبط عنوان الـ Socket.IO بناءً على بيئة الإنتاج
-if (window.location.hostname === 'https://deploy-kewv.onrender.com') {
-    socket = io('https://deploy-kewv.onrender.com');
+let socket;
+if(window.location.hostname === 'deploy-kewv.onrender.com') {
+    socket = io('https://deploy-kewv.onrender.com', { transports: ['websocket', 'polling'] });
 } else {
-    socket = io('http://localhost:3000');
+    socket = io('http://localhost:3000', { transports: ['websocket', 'polling'] })
 }
 
+
+
+socket.on("connect_error", (err) => {
+    // the reason of the error, for example "xhr poll error"
+    console.log("--err.message--"+err.message);
+    
+    // some additional description, for example the status code of the initial HTTP response
+    console.log("--err.description--"+err.description);
+    
+    // some additional context, for example the XMLHttpRequest object
+    console.log("---err.context---"+err.context);
+});
 
 socket.on("connect", () => {
     console.log("Connected to Socket.IO server.");
@@ -45,9 +56,18 @@ socket.on("error", (message)=> {
     socket.disconnect()
 })
 
-socket.on("disconnect", (reason) => {
+socket.on("disconnect", (reason, details) => {
     console.log(`Socket.IO connection closed: ${reason}`);
     console.log("Attempting to reconnect...");
+    // the low-level reason of the disconnection, for example "xhr post error"
+    console.log("details.message"+details.message);
+
+    // some additional description, for example the status code of the HTTP response
+    console.log("details.message"+details.description);
+
+    // some additional context, for example the XMLHttpRequest object
+    console.log("details.message"+details.context);
+    
     showError("تم قطع اتصالك بسبب اساءة الاستخدام...جاري اعادة المحاولة")
     setTimeout(() => {
         socket.connect();

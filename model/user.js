@@ -56,10 +56,3 @@ User.isAdmin = async function (email, password) {
 }
 
 module.exports = User;
-
-User.findAll()
-.then((result) => {
-  console.log(result)
-}).catch((err) => {
-  console.log(err)
-});
