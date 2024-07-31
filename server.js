@@ -220,11 +220,13 @@ io.on('connection', (socket) => {
     console.log(`=====User ${req.session.user.userName} connected. Connections: ${userConnections[userId]}`);
 
     socket.on('draw', (data) => {
-        io.emit('draw', { ...data, username: req.session.user.userName });
+      if (!data.data.id) return;
+      io.emit('draw', { ...data, username: req.session.user.userName });
     });
 
     socket.on('chat', (data) => {
-        io.emit('chat', { ...data, username: req.session.user.userName });
+      if (!data.data.id) return;
+      io.emit('chat', { ...data, username: req.session.user.userName });
     });
 
     socket.on('disconnect', () => {
@@ -233,10 +235,10 @@ io.on('connection', (socket) => {
     });
 
     io.engine.on("connection_error", (err) => {
-      console.log(err.req);      // the request object
-      console.log(err.code);     // the error code, for example 1
-      console.log(err.message);  // the error message, for example "Session ID unknown"
-      console.log(err.context);  // some additional error context
+      console.log("-=-connectionERorSOcket-=-"+err.req);      // the request object
+      console.log("-=-connectionERorSOcket-=-"+err.code);     // the error code, for example 1
+      console.log("-=-connectionERorSOcket-=-"+err.message);  // the error message, for example "Session ID unknown"
+      console.log("-=-connectionERorSOcket-=-"+err.context);  // some additional error context
     });
 });
 

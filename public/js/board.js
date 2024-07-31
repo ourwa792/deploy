@@ -13,12 +13,12 @@ if(window.location.hostname === 'deploy-kewv.onrender.com') {
 socket.on("connect_error", (err) => {
     // the reason of the error, for example "xhr poll error"
     console.log("--err.message--"+err.message);
-    
     // some additional description, for example the status code of the initial HTTP response
-    console.log("--err.description--"+err.description);
-    
+    if (err.description) console.log("--err.description--"+err.description);
     // some additional context, for example the XMLHttpRequest object
-    console.log("---err.context---"+err.context);
+    if (err.context) console.log("---err.context---"+err.context);
+    showError(`Connection Error: ${err.message}`);
+
 });
 
 socket.on("connect", () => {
@@ -27,6 +27,9 @@ socket.on("connect", () => {
 });
 
 socket.on("draw", (message) => {
+    if (receivedMessages.has(message.id)) return;
+    receivedMessages.add(message.id);
+
     const data = message.data;
     console.log(JSON.stringify(data, null, 2))
     ctx.save();
@@ -45,9 +48,10 @@ socket.on("draw", (message) => {
 });
 
 socket.on("chat", (message) => {
-  
-    addMessageToChat(message.username, message.data);
+    if (receivedMessages.has(message.id)) return;
+    receivedMessages.add(message.id);
 
+    addMessageToChat(message.username, message.data);
 });
 
 socket.on("error", (message)=> {
@@ -60,14 +64,12 @@ socket.on("disconnect", (reason, details) => {
     console.log(`Socket.IO connection closed: ${reason}`);
     console.log("Attempting to reconnect...");
     // the low-level reason of the disconnection, for example "xhr post error"
-    console.log("details.message"+details.message);
+    if (details) {
+        if (details.message) console.log(`Details: ${details.message}`);
+        if (details.description) console.log(`Description: ${details.description}`);
+        if (details.context) console.log(`Context: ${details.context}`);
+    }
 
-    // some additional description, for example the status code of the HTTP response
-    console.log("details.message"+details.description);
-
-    // some additional context, for example the XMLHttpRequest object
-    console.log("details.message"+details.context);
-    
     showError("تم قطع اتصالك بسبب اساءة الاستخدام...جاري اعادة المحاولة")
     setTimeout(() => {
         socket.connect();
@@ -133,6 +135,7 @@ function draw(event) {
 function sendDrawData(event, painting) {
     if (socket.connected) {
         const drawData = {
+            id: generateUUID(),
             x: event.offsetX,
             y: event.offsetY,
             painting: painting,
@@ -159,6 +162,10 @@ function sendChat() {
     const chatInput = document.getElementById('messageInput');
     const message = chatInput.value;
     if (socket.connected) {
+        const chatData = {
+            id: generateUUID(),
+            data: message
+        };
         socket.emit('chat', { type: 'chat', data: message });
         chatInput.value = '';
     } else {
@@ -180,6 +187,12 @@ function addMessageToChat(username, message) {
     messagesDiv.scrollTop = messagesDiv.scrollHeight;
 }
 
+function generateUUID() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        const r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+    });
+}
 
 
 canvas.addEventListener('mousedown', startDraw);
