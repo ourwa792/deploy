@@ -8,7 +8,8 @@ if(window.location.hostname === 'deploy-kewv.onrender.com') {
     socket = io('http://localhost:3000', { transports: ['websocket', 'polling'] })
 }
 
-
+// تعريف receivedMessages في النطاق العام
+let receivedMessages = new Set();
 
 socket.on("connect_error", (err) => {
     // the reason of the error, for example "xhr poll error"
@@ -166,7 +167,7 @@ function sendChat() {
             id: generateUUID(),
             data: message
         };
-        socket.emit('chat', { type: 'chat', data: message });
+        socket.emit('chat', { type: 'chat', data: chatData });
         chatInput.value = '';
     } else {
         console.log("Socket.IO is not connected.");
