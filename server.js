@@ -24,7 +24,14 @@ var store = new SequelizeStore({
 
 const app = express();
 const server = http.createServer(app);
-const io = socketIo(server);
+
+const io = socketIo(server, {
+  cors: {
+      origin: '*',  // السماح لأي نطاق بالاتصال
+      methods: ['GET', 'POST']
+  }
+});
+
 
 const sessionMiddleware = session({
   secret: process.env.SESSION_SECRET,

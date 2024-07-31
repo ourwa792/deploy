@@ -1,6 +1,14 @@
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
-let socket = io("http://localhost:3000");
+let socket = io();
+
+// ضبط عنوان الـ Socket.IO بناءً على بيئة الإنتاج
+if (window.location.hostname === 'https://deploy-kewv.onrender.com') {
+    socket = io('https://deploy-kewv.onrender.com');
+} else {
+    socket = io('http://localhost:3000');
+}
+
 
 socket.on("connect", () => {
     console.log("Connected to Socket.IO server.");
