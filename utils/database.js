@@ -1,5 +1,5 @@
 require('dotenv').config()
-const Sequelize = require("sequelize");
+/* const Sequelize = require("sequelize");
 
 const {Op} = require('sequelize'); 
  
@@ -19,9 +19,9 @@ Database = (async () => {
   } catch (e) {
     console.log(`Error in database : ${e}`);
   }
-})();  
+})(); */ 
  
-/* 
+
 // استخدام المتغيرات البيئية من ملف .env
 const seq = new Sequelize(
   process.env.MYSQL_ADDON_DB,
@@ -54,6 +54,6 @@ const Database = (async () => {
     console.log(`Error in database: ${e}`);
   }
 })(); 
- */
+ 
 
 module.exports = { Database ,seq ,Op }
