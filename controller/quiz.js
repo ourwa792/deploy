@@ -359,10 +359,59 @@ exports.getUserPerformanceReport = async (req, res) => {
   }
 };
  */
+
+//--------===-----------
+
+const analyzeAllUsersPerformance = async () => {
+  const quizResults = await QuizResult.findAll({
+    include: [{ model: Quiz }, { model: User }],
+  });
+
+  const performanceByUser = {};
+
+  quizResults.forEach(result => {
+    if (!performanceByUser[result.userId]) {
+      performanceByUser[result.userId] = {
+        userName: result.user.userName,
+        totalScore: 0,
+        maxScore: 0,
+        correctAnswers: 0,
+        incorrectAnswers: 0,
+        quizCount: 0,
+        attempts: []
+      };
+    }
+
+    const percentageScore = ((result.userScore / result.quiz.maxScore) * 100).toFixed(2);
+
+    performanceByUser[result.userId].totalScore += parseFloat(percentageScore);
+    performanceByUser[result.userId].maxScore += result.quiz.maxScore;
+    performanceByUser[result.userId].correctAnswers += result.resultSchems.correctAnswers;
+    performanceByUser[result.userId].incorrectAnswers += result.resultSchems.incorrectAnswers;
+    performanceByUser[result.userId].quizCount += 1;
+    performanceByUser[result.userId].attempts.push({
+      title: result.quiz.title,
+      userScore: result.userScore,
+      maxScore: result.quiz.maxScore,
+      correctAnswers: result.resultSchems.correctAnswers,
+      incorrectAnswers: result.resultSchems.incorrectAnswers,
+      createdAt: result.quizDate
+    });
+  });
+
+  return Object.values(performanceByUser).map(userPerformance => ({
+    ...userPerformance,
+    averageScore: (userPerformance.totalScore / userPerformance.quizCount).toFixed(2),
+    averageCorrectAnswers: (userPerformance.correctAnswers / userPerformance.quizCount).toFixed(2),
+    averageIncorrectAnswers: (userPerformance.incorrectAnswers / userPerformance.quizCount).toFixed(2),
+  }));
+};
+
+
 // دالة لجلب تقارير الأداء لجميع الطلاب (للمدير)
 exports.getAllUsersPerformanceReport = async (req, res) => {
   try {
-    const performanceReports = await analyzePerformance();
+    const performanceReports = await analyzeAllUsersPerformance();
     console.log("====performanceReports==="+JSON.stringify(performanceReports,null,2))
 
     res.render("admin/allUsersPerformance", { performanceReports, pageTitle: "تقرير أداء الطلاب" });

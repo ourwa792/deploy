@@ -1,0 +1,353 @@
+<%- include("../partial/head.ejs") %>
+
+    <link href="/css/animate.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://unpkg.com/mathlive/dist/mathlive.min.css">
+
+    <style>
+
+/* Default style for virtual keyboard */
+math-virtual-keyboard {
+  width: 100%; /* Full width on small screens */
+  max-width: 600px; /* Limit the width on larger screens */
+}
+
+/* Custom media query for small mobile screens */
+@media only screen and (max-width: 600px) {
+  math-virtual-keyboard {
+    font-size: 1.2rem; /* Increase the font size slightly */
+    --key-size: 40px; /* Set smaller key sizes for better fit */
+    --keyboard-height: 300px; /* Reduce keyboard height for smaller screens */
+  }
+}
+
+    
+        h5 {
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            color: #fb983c
+        }
+        .header {
+            background-color: #defdb6;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .header img {
+            width: 60px;
+            height: auto;
+        }
+        
+        .math-field-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        math-field {
+            width: 100%;
+            font-size: x-large;
+            border-radius: 10px;
+        }
+        .feedback {
+            font-size: 1.3rem;
+            margin-top: 10px;
+            color: #28a745;
+            /* لون الأخضر للإشارة إلى النجاح */
+        }
+        .incorrect {
+            color: red;
+        }
+        button {
+            background-color: #ffce54;
+            /* ألوان زاهية للأزرار */
+            border: none;
+            color: #fff;
+            font-size: 1.2rem;
+            padding: 10px 20px;
+            margin: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            border-radius: 10px;
+        }
+
+        button:hover {
+            background-color: #ff9f43;
+            /* تغيير لون الأزرار عند التمرير */
+        }
+
+        /* من الضروري استخدامه عند كل تنسيق رياضي لتصبح الشاشات الصغيرة مناسبة ومتجاوبة */
+        .example-box {
+            background-color: #fff3cd;
+            border: 2px solid #ffeb3b;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            max-width: 100%;/* تأكد أن العرض لا يتجاوز 100% */
+            overflow-x: auto;/* إضافة تمرير أفقي عند الحاجة */
+            white-space: nowrap;/* منع تكسير النص داخل الـ div */
+        }
+
+        .math-equation {
+            overflow-x: auto;
+            display: block;  /* عرض المعادلة كـ block */
+            white-space: nowrap;  /* منع التفاف النص */
+            max-width: 100%;  /* ضمان أن المعادلة لا تتجاوز عرض الحاوية */
+        }
+
+        .example-box:hover {
+            transform: scale(1.2);
+        }
+
+        .highlight {
+            color: #d32f2f;
+            font-weight: bold;
+        }
+
+        .knowledge-section {
+            background-color: #bbdefb;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .question-section {
+            background-color: #c8e6c9;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        p {
+            word-wrap: break-word;
+            /* منع تجاوز النص لحدود العنصر */
+        }
+
+        ul {
+            padding-right: 20px;
+            list-style-type: none;
+            /* إزالة العلامات الجانبية */
+        }
+
+        ul li::before {
+            content: "🔹";
+            /* إضافة رمز مخصص للعناصر */
+            margin-left: 5px;
+        }
+    </style>
+    </head>
+
+    <body>
+
+        <!-- ترويسة الصفحة -->
+        <div class="row header animate__animated animate__fadeInDown d-flex align-items-center">
+            <!-- عمود الصورة -->
+            <div class=" col-6 text-start">
+                <img src="<%= lesson.cover %>" style="width: 150%; height: auto;" class="img-fluid" alt="cover">
+            </div>
+            <!-- عمود العنوان -->
+            <div class="col-lg-10 text-center">
+                <h1 id="element">
+                    <%= lesson.title %>
+                </h1>
+            </div>
+        </div>
+
+        <!-- النص التمهيدي -->
+
+        
+  <div class="row content-section animate__animated animate__fadeInUp">
+    <div class="col-12">
+      <p>
+        مضاعفات العدد 2 هي: 2,4,6,8,10,12,14,16,18 ....
+        <br>
+        مضاعفات العدد 3 هي: 3,6,9,12,15,18,21 ....
+      </p>
+    </div>
+  </div>
+
+
+<!--  قسم تعلم 
+  
+<div class="container col-12 knowledge-section mt-4">
+    <h2>تعلم</h2>
+
+    <h5> خاصة 1</h5>
+    <p>لجمع (أو طرح) الكسور ذات المقامات المتساوية، نجمع (أو نطرح) البسوط لهذه الكسور ونحتفظ بالمقام المشترك</p>
+    <p >\( \frac{a}{b} - \frac{c}{b} = \frac{a-c}{b} \)</p>
+
+        <!-- قسم الأمثلة 
+        <div class="row">
+
+            <div class="col-6 col-md-6 col-sm-11 animate__animated animate__bounceInUp">
+                <div class="example-box p-3">
+                    <p>
+                        مثال: \( \frac{1}{5} - \frac{3}{5} = \frac{1-3}{5} = \frac{-2}{5} = - \frac{2}{5} \)
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-6 col-md-6 col-sm-11 animate__animated animate__bounceInUp">
+                <div class="example-box p-3">
+                    <p>مثال: \( \frac{-7}{3} + \frac{0.5}{3} = \frac{-6.5}{3} \)</p>
+                </div>
+            </div>
+        </div>
+        
+        <h5> خاصة 2</h5>
+        <div class="d-flex flex-column"> <!-- العناصر فوق بعض الدسبلي فليكس لذلك حطينا عناصر فقرات كثيرة 
+            لجمع ( أو طرح ) كسور عادية ذات مقامات مختلفة، نوحد مقاماتها، ثم نجري العمليات وفقّ الخاصة1. 
+            <p class="example-box ">
+            
+                مثال:$\cdot \frac{5}{6}+\frac{3}{4}=\frac{10}{12}+\frac{9}{12}=\frac{10+9}{12}=\frac{19}{12}$  
+            </p>
+
+            <p>
+                12هو مضاعف مشترك للعددين 6 و 4 فهو مقام مشترك للكسرين استبدلنا، بكل كسرٍ، كسراً يساويه مقامه يساوي 12 .
+            </p>
+
+            <p class="example-box">
+                مثال: $-2.5-\frac{1}{3}=-\frac{5}{2}-\frac{1}{3}=-\frac{15}{6}-\frac{2}{6}=\frac{-17}{6}=-\frac{17}{6}$                
+            </p>
+
+            <p>
+               6 هو مضاعف مشترك للعددين 2 و3 فهو مقام مشترك للكسرين. استبدلنا، بكل كسرٍ، كسراً يِساويه مقامه 6.
+            </p>
+
+            <p class="example-box">
+                مثال: لإنجاز العملية  $\frac{1}{2}+\frac{3}{4}$  
+            </p>
+            <p>
+                نلاحظ أنُ 4 هو مقام مشترك للكسرين. إذن  \( \frac{1}{2} + \frac{3}{4} = \frac{2}{4} + \frac{3}{4} = \frac{5}{4} \)
+            </p>
+
+        </div>
+</div>
+        <!-- اكتساب معارف 
+        <div class="container col-12 knowledge-section mt-4"> 
+
+             <h2>اكتساب معارف</h2>
+             💡 كيف ننجز سلسلة من عمليات الجمع والطرح؟
+             <br>
+             لإنجاز سلسلة من عمليات الجمع والطرح على كسور عادية، يفضل أن نبدأ بإجراء العمليات على الكسور ذات المقامات المتساوية.
+             
+             <div class="example-box">
+                مثال: أنجز حساب
+                 \( A = \frac{5}{3} - \frac{7}{6} + \frac{8}{3} \)
+                 بصيغة كسر عادي
+             </div>
+         
+            <h5>الحل</h5>
+        
+            <ul class = "example-box">
+                     <li>
+                         \( \text{العدد 6 مضاعف للعدد 3 فلتوحيد مقامات الكسور الثلاثة، يكفي إيجاد مضاعفٍ للعددين 6 و 8} \)
+                     </li>
+                     <li>
+                         \( \text{مضاعفات العدد 6 هي: 6 12 18 24 30 } \)..
+                     </li>
+                     <li>
+                         \( \text{مضاعفات العدد 8 هي: 8 16 24 } \)..
+                     </li>
+                     <li>
+                         \( \text{أصغر مضاعف للعددين 6 و 8 هو 24} \)
+                     </li>
+            </ul>
+
+            <p class = "example-box">
+            \( A = \frac{40}{24}-\frac{28}{24}+\frac{9}{24}=\frac{40-28+9}{24}=\frac{21}{24}=\frac{\not 3 \times 7}{\not 3 \times 8}=\frac{7}{8}                             
+            \)
+            </p>
+        </div>
+
+</div> -->
+
+
+
+        <%- lesson.content %>
+
+            <!-- قسم تطبيق -->
+            <div class="container question-section mt-4 col-12 col-sm-12">
+                <h2>تطبيق</h2>
+
+                <h5 >الخطوة 1: إيجاد المضاعف المشترك الأصغر</h5>
+                <p class="text-center">ما هو المضاعف المشترك الأصغر (LCM) للعددين 6 و 4؟</p>
+                <div class="math-field-container">
+                    <math-field id="lcm-answer">
+                        \placeholder[answer]{ ? }
+                    </math-field>
+                </div>
+                <div class="text-center">
+                    <button id="checkLCM">تحقق من الإجابة</button>
+                    <div id="lcm-feedback" class="feedback"></div>
+                </div>
+            
+             
+                <h5 >الخطوة 2: توحيد المقامات</h5>
+                <p class="text-center example-box">قم بتحويل الكسرين \( \frac{5}{6} \) و \( \frac{3}{4} \) لتوحيد المقامات.</p>
+                <div class="row justify-content-center">
+                    <div class="col-lg-5 math-field-container">
+                        <label for="fraction1">الكسر الأول:</label>
+                        <math-field read-only id="fraction1">
+                            \frac{5}{6}= \frac{\placeholder[numerator]{?}}{\placeholder[denominator]{?}}
+                        </math-field>
+                    </div>
+                    <div class="col-lg-5 math-field-container">
+                        <label for="fraction2">الكسر الثاني:</label>
+                        <math-field read-only id="fraction2"> 
+                            \frac{3}{4}= \frac{\placeholder[numerator]{?}}{\placeholder[denominator]{?}}
+                        </math-field>
+                    </div>
+                </div>
+                <div class="text-center">
+                    <div id="fraction-feedback" class="feedback"></div>
+                </div>
+            
+               
+                <h5 >الخطوة 3: إجراء العملية الحسابية</h5>
+                <p class="text-center">اجمع الكسور الموحدة وأدخل الإجابة النهائية:</p>
+                <div class="math-field-container">
+                    <math-field id="final-answer"></math-field>
+                </div>
+                <div class="text-center">
+                    <button id="checkFinalAnswer">تحقق من النتيجة</button>
+                    <div id="final-feedback" class="feedback"></div>
+                </div>            
+
+
+            </div>
+
+
+            <!-- قسم التمارين -->
+         
+            <%- lesson.exercies %>
+
+            <!-- <div class="container question-section col-12 col-sm-12 mt-4">
+                <h2>تحقق من فهمك</h2>
+                <h5>السؤال الاول</h5>
+
+                <%# for (let i = 1; i < 3; i++) { %>
+
+                    <div class="math-field-container">
+                        <math-field read-only id=fraction3 >
+                            \frac{5}{9}+\frac{1}{3}=\frac{5}{9}+ \frac{\placeholder[numerator1]{?}}{9} = \frac{\placeholder[numerator2]{?}}{9}
+                        </math-field>
+                    </div>
+                                        
+                <%# } %>
+
+                <h5>السؤال الثاني</h5>
+                
+                <div id="problems-container" class="row"></div>
+                   
+                  
+            </div>         -->   
+
+            
+
+                <a href="/" class="btn btn-outline-info mt-5">
+                    <img src="/icon/iconBack.png" class="bi" width="34" height="34">
+                    <span>الصفحة الرئيسية</span>
+                </a>
+        
+
+            <script defer="defer" type="module" src="/js/less_6.js"></script>
+
+<%- include('../partial/end.ejs') %>

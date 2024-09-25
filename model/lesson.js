@@ -15,7 +15,7 @@ const Lesson = seq.define(
       allowNull: false,
     },
     cover: {
-      type: Sequelize.STRING,
+      type: Sequelize.TEXT('medium'),
       allowNull: false,
     },
     title: {
@@ -33,8 +33,6 @@ const Lesson = seq.define(
   },
   {
     timestamps: false,
-  },
-  {
     freezeTableName: true,
   }
 );
@@ -43,3 +41,17 @@ const Lesson = seq.define(
 module.exports = Lesson;
 
 // يمكن استخدامه ايضا في لفرونت اند كوسيط بين الرودكت و الكارت
+
+
+/* (async ()=> {
+  const les = await Lesson.findByPk(1)
+  
+    les.exercies = `[
+      { x: '70%', y: '60%', id: 'input1', correctAnswer: 'منفرجة' },
+      { x: '45%', y: '60%', id: 'input2', correctAnswer: 'قائمة' },
+      { x: '20%', y: '60%', id: 'input3', correctAnswer: 'حادة' },
+      { x: '0%', y: '60%', id: 'input4', correctAnswer: 'مستقيمة' },
+  ]`
+  await les.save()
+  console.log('data inserted')
+})() */

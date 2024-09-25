@@ -1,0 +1,245 @@
+<!DOCTYPE >
+<html lang="ar" dir="rtl">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>تمثيل الكسور والأعداد الكسرية</title>
+
+        <link rel="stylesheet" href="https://unpkg.com/mathlive/dist/mathlive.core.css">
+
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                margin: 20px;
+                text-align: center;
+            }
+
+            #visualization {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                margin-top: 20px;
+                flex-wrap: wrap;
+            }
+
+            .circle-container {
+                position: relative;
+                margin: 10px;
+            }
+
+            canvas {
+                display: block;
+                margin: 0 auto;
+                border: 1px solid #ddd;
+                background-color: white;
+            }
+
+            .label {
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                font-size: 1.2em;
+                font-weight: bold;
+                color: blue;
+                text-align: center;
+            }
+        </style>
+    </head>
+
+    <body>
+
+        <h1>تمثيل الكسور والأعداد الكسرية</h1>
+        <p>أدخل كسرًا أو عددًا كسريًا:</p>
+        <math-field id="fractionInput"></math-field>
+        <button id="visualizeButton">عرض التمثيل البصري</button>
+
+        <div id="visualization"></div>
+        <div id="formulas">
+            <p>إليك بعض الأمثلة:</p>
+            <p>صيغة في داخل النص: \(a^2 + b^2 = c^2\)</p>
+            <p>صيغة في داخل النص: \(a^2 + b^2 = c^2\)</p>
+            <p>صيغة بشكل عرضي:</p>
+            <p>\[\frac{-b \pm \sqrt{b^2 - 4ac}}{2a}\]</p>
+            <p>\[\frac{-b \pm \sqrt{b^2 - 4ac}}{2a}\]</p>
+            <p>\[\frac{-3}{-5} + \sqrt{2^7}\]</p>
+        </div>
+
+
+        <script type="module">
+            import { ComputeEngine } from 'https://unpkg.com/@cortex-js/compute-engine?module';
+
+            import { MathfieldElement, renderMathInDocument } from '//unpkg.com/mathlive?module';
+
+
+            const ce = new ComputeEngine();
+
+            document.addEventListener('DOMContentLoaded', () => {
+                renderMathInDocument({
+                    TeX: {
+                        delimiters: {
+                            inline: [
+                                ['$', '$'],
+                                ['\\(', '\\)'],
+                            ],
+                            display: [
+                                ['\\[', '\\]'],
+                                ['$$', '$$'],
+                            ],
+                        },
+                    },
+                });
+
+                renderMathInDocument(); // Render LaTeX in the document
+            });
+
+            document.getElementById('visualizeButton').addEventListener('click', visualizeFraction);
+
+            function extractValues() {
+                const mf = document.getElementById('fractionInput');
+                const expr = mf.expression;
+                console.log('expr :', expr);
+
+                const numerator = ce.box(['Numerator', expr], { canonical: false }).evaluate({ canonical: false }).value;
+                const denominator = ce.box(['Denominator', expr], { canonical: false }).evaluate({ canonical: false }).value;
+
+                console.log('numerator :', numerator);
+                console.log('denominator :', denominator);
+
+                return { numerator, denominator };
+            }
+
+            function drawCircle(ctx, filledParts, totalParts) {
+                let startAngle = -0.5 * Math.PI;
+                const anglePerPart = (2 * Math.PI) / totalParts;
+
+                for (let i = 0; i < totalParts; i++) {
+                    const endAngle = startAngle + anglePerPart;
+
+                    ctx.beginPath();
+                    ctx.moveTo(75, 75);
+                    ctx.arc(75, 75, 70, startAngle, endAngle);
+
+                    ctx.fillStyle = i < filledParts ? "lightgreen" : "lightgray";
+                    ctx.fill();
+                    ctx.strokeStyle = "black";
+                    ctx.stroke();
+                    ctx.closePath();
+
+                    startAngle = endAngle;
+                }
+            }
+
+            function visualizeFraction() {
+                const { numerator, denominator } = extractValues();
+
+                const visualization = document.getElementById('visualization');
+                visualization.innerHTML = '';
+
+                const whole = Math.floor(numerator / denominator);
+                const fractionNumerator = numerator % denominator;
+
+                for (let i = 0; i < whole; i++) {
+                    const container = document.createElement('div');
+                    container.className = 'circle-container';
+
+                    const canvas = document.createElement('canvas');
+                    canvas.width = 150;
+                    canvas.height = 150;
+                    const ctx = canvas.getContext('2d');
+
+                    drawCircle(ctx, 1, 1);
+
+                    const label = document.createElement('div');
+                    label.className = 'label';
+                    label.textContent = `1`;
+
+                    container.appendChild(canvas);
+                    container.appendChild(label);
+                    visualization.appendChild(container);
+                }
+
+                if (fractionNumerator > 0) {
+                    const container = document.createElement('div');
+                    container.className = 'circle-container';
+
+                    const canvas = document.createElement('canvas');
+                    canvas.width = 150;
+                    canvas.height = 150;
+                    const ctx = canvas.getContext('2d');
+
+                    drawCircle(ctx, fractionNumerator, denominator);
+
+                    const label = document.createElement('div');
+                    label.className = 'label';
+                    label.innerHTML = `\\(\\frac{${fractionNumerator}}{${denominator}}\\)`;
+
+                    container.appendChild(canvas);
+                    container.appendChild(label);
+                    visualization.appendChild(container);
+
+                    // Re-render the LaTeX formula inside the label داخل الدوائر
+                    renderMathInDocument();
+                }
+            }
+
+
+        </script>
+
+    </body>
+
+</html>
+
+
+
+<!-- 
+
+  <script type="module">
+
+            const userInput = ["Add", ["Multiply", 2, 3], ["Divide", 10, 2]];
+
+            try {
+                // تحويل التعبير إلى تعبير مغلف
+                const boxedExpr = ce.box(userInput);
+
+                // تقييم التعبير للحصول على النتيجة العددية
+                const result = boxedExpr.evaluate();
+                console.log('Evaluated Result:', result.N().value);  // الناتج: 11
+
+                // تبسيط التعبير
+                const simplifiedExpr = boxedExpr.simplify();
+                console.log('Simplified Expression:', simplifiedExpr.latex);  // قد لا يكون هناك تبسيط إضافي، لكن يتم عرضه كـ LaTeX
+
+                // يمكنك أيضًا مقارنة التعبير مع تعبير آخر (مثال: "6 + 5")
+                const isEqual = boxedExpr.isSame(ce.box(["Add", 6, 5]).canonical);
+                console.log('Is Equal to "6 + 5"?', isEqual ? 'Yes' : 'No');  // الناتج: Yes
+
+            } catch (error) {
+                console.error('Error processing user input:', error);
+            }
+
+
+
+            function extractValues() {
+                //const mf = document.getElementById('mathField');
+                const mf = new MathfieldElement()
+                // الحصول على التعبير الرياضي من الحقل بدون تبسيط
+                const expr = mf.expression;  // يتم الحصول على التعبير كما أدخله المستخدم
+
+                // استخراج البسط والمقام بدون تبسيط
+                const numerator = ce.box(['Numerator', expr], { canonical: false })
+                .evaluate({ canonical: false }).value;
+                const denominator = ce.box(['Denominator', expr], { canonical: false })
+                .evaluate({ canonical: false }).value;
+
+                // عرض النتائج
+                document.getElementById('output').innerText =
+                    `Numerator: ${numerator}, Denominator: ${denominator}`;
+            }
+
+
+        </script>
+
+-->
+

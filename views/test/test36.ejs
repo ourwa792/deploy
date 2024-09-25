@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="ar">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <head>
+
+        <title>تعلم القسمة</title>
+
+    </head>
+
+<body>
+    <script type="module">
+
+        import zim from "https://zimjs.com/cdn/016/zim_physics";
+        //import zim from '/library/zim_physics.js'
+        const assets = ["1000_Pounds.jpg", "pragma_wink.png"];
+        const path = "/assets/"
+
+        var frame = new Frame({
+            scaling: FIT, width: 1304, height: 868, color: light,
+            outerColor: dark,
+            progress: new Waiter({
+                backgroundColor: blue, corner: 10
+            }),
+            assets: assets, path: path
+        });
+
+        frame.on("ready", function () {
+            const stage = frame.stage;
+            let stageW = frame.width;
+            let stageH = frame.height;
+
+
+            let numCircles = 0;
+            let numContainers = 0;
+
+            const emitter = new Emitter({
+                obj: new Poly([30, 50, 80], 5, .5, [yellow, silver, grey, red]),
+                gravity: 0,
+                force: { min: 3, max: 6 },
+                startPaused: true
+            })
+
+
+            const animation = new Sprite({
+                image: "pragma_wink.png",
+                cols: 6,
+                rows: 5,
+                animations: {
+                    general: [0, 7],
+                    correct: [8, 18]
+                }
+            }).pos(10, 200)
+
+            let questionDialog = new Dialog({
+                width: 600,
+                height: 200,
+                dialogType: "oval",
+                borderWidth: 3,
+                size: 40,
+                font: "Comic Sans MS",
+                color: dark,
+                corner: 70,
+                tailH: LEFT,
+                tailV: BOTTOM
+            })
+
+            function setupGame() {
+                stage.removeAllChildren();
+
+                new LabelWords({
+                        label: "تعلم القسمة",
+                        color: white, 
+                        //itemRegY:BOTTOM, 
+                        backgroundColor: orange,
+                        size: 50,
+                        //width: 100,
+                    })
+                    .center().pos(400, 100, CENTER, RIGHT)
+                    .animate({
+                        props:{scaleY:0},
+                        time: 4,
+                        rewind: true,
+                        loop: true,
+                        sequence:.1
+                    }); 
+
+                questionDialog.backgroundColor = 'lightblue'
+
+                animation.addTo(stage).run({ time: 1.7, label: "general", loop: true })
+                numCircles = rand(5, 20); // عدد الدوائر (مثلا بين 5 و 14)
+                numContainers = Math.floor(Math.random() * (numCircles - 1)) + 1; // عدد الحاويات (يجب أن يكون أقل من عدد الدوائر)
+                // التحقق من أن الحاويات أقل من الدوائر
+                if (numContainers >= numCircles) {
+                    setupGame(); // إذا كانت الحاويات أكثر من الدوائر، إعادة التوليد
+                    return;
+                }
+
+                questionDialog.pos(200, 50)
+                    .setWords(`كم هو ناتج ${numContainers} ÷ ${numCircles} ؟`)
+                // إنشاء الدوائر
+                let circles = [];
+                for (let i = 0; i < numCircles; i++) {
+                    //let circle = new Circle(30, "blue")
+                    let circle = asset("1000_Pounds.jpg").clone().sca(.4).rot(90)
+                        //.pos(Math.random() * stageW, Math.random() * (stageH - 200) + 200)
+                        .pos(rand(.25 * stageW, .85 * stageW), rand(.25 * stageH, .7 * stageH - 50), TOP, LEFT)
+                        .drag();
+                    circles.push(circle);
+                }
+
+                // إنشاء الحاويات
+                let containers = [];
+                for (let i = 0; i < numContainers; i++) {
+                    //let container = new Rectangle(100, 100, "gray")
+                    let container = new Blob({
+                        color: blue,
+                        interactive: false,
+                        points: [[26.8, -5.7, 0, 0, -0.6, -18.4, 0.3, 8.4, "mirror"], [19.6, 36.6, 0, 0, 7.3, -15.1, -7.3, 15.1],
+                        [-31, 61.8, 0, 0, 28.7, 1.2, -46.1, 0, "free"], [-73.2, -3.9, 0, 0, 0, 18.2, 0, -16.3, "mirror"],
+                        [-24.8, 19.5, 0, 0, -28.8, 1.8, 39.6, -2.5]]
+                    })
+                        .pos((i + 1) * stageW / (numContainers + 1), stageH - 100)
+                        .addTo(stage)
+                    containers.push(container);
+                }
+
+                let checkButton = new Button(200, 50, "تحقق")
+                    .pos(500, 50, CENTER, RIGHT)
+                    .on("click", () => checkAnswer(circles, containers));
+
+            }
+
+            function checkAnswer(circles, containers) {
+                let correct = true;
+                let totalInContainers = 0;
+                let remainder = numCircles % numContainers; // حساب باقي القسمة
+
+                // حساب الدوائر داخل كل حاوية
+                containers.forEach(container => {
+                    let count = 0;
+                    circles.forEach(circle => {
+                        if (circle.hitTestBounds(container)) {
+                            count++;
+                        }
+                    });
+                    if (count !== Math.floor(numCircles / numContainers)) {
+                        correct = false; // إذا كانت القسمة غير متساوية
+                    }
+                    totalInContainers += count;
+                });
+                // حساب الدوائر خارج الحاويات
+                let remainingCircles = numCircles - totalInContainers;
+
+                // التحقق من أن كل الدوائر قد تم توزيعها بشكل صحيح
+                if (correct && totalInContainers + remainingCircles === numCircles) {
+                    if (remainder > 0) {
+                        animation.run({time:2.1, label:"correct"})
+                        questionDialog.setWords(
+                            `أحسنت! تم توزيع ${numContainers} ÷ ${numCircles} = ${Math.floor(numCircles / numContainers)} وباقي ${remainder} خارج الحاويات.`)
+                        questionDialog.backgroundColor = "#4CB821"
+                        emitter.spurt(40).center()
+
+                    } else {
+                        animation.run({time:2.1, label:"correct"})
+                        questionDialog.setWords(
+                            `أحسنت! تم توزيع ${numContainers} ÷ ${numCircles} = ${Math.floor(numCircles / numContainers)} بدون باقي.`)
+                        questionDialog.backgroundColor = "#4CB821"
+                        emitter.spurt(40).center()
+                    }
+                    setTimeout(setupGame, 3000); // إعادة توليد المشهد بعد 2 ثانية
+                } else {
+
+                    questionDialog.setWords("حاول مرة أخرى");
+                    questionDialog.backgroundColor = red
+                }
+            }
+
+            setupGame();
+
+            /*
+            const pounds = asset("1000_Pounds.jpg").sca(.4)
+ 
+            const tile = new Tile({
+                obj: pounds,
+                cols: 7, 
+                rows: rand(1,5),
+                spacingH: 5,
+                spacingV: 5,           
+            }).pos(20, 20, LEFT, BOTTOM).drag(); 
+
+            const path = new Blob().center();
+            const circle = new Circle(50, purple).pos(50,80).drag();
+
+            // circle.on("pressmove", function() {
+            Ticker.add(()=>{
+                if (circle.hitTestPath(path, 5, true)) { // false to not see test points on path
+                    circle.alpha -= .02;
+                    S.update();
+                }
+            }); 
+
+            
+            */
+
+        })
+
+    </script>
+
+
+</body>
+
+</html>

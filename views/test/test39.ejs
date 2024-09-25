@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+
+
+    <!-- 	<script src="/library/createjs.js"></script>
+    <script src="/library/zim_min.js"></script> -->
+
+    <!--     <script src="https://zimjs.org/cdn/Box2dWeb-2.1.a.3.min.js"></script>
+         <script type="module" src="/library/zim_physics.js"></script>
+         <script type="module" src="https://zimjs.com/cdn/016/zim_test"> </script> -->
+</head>
+
+<body>
+
+
+    <script type="module">
+        import zim from "https://zimjs.com/cdn/016/zim_physics";
+
+        var width = 1024;
+        var height = 768;
+
+        const assets = ["butterfly.png","flowers02.jpg"];
+        const path = "/assets/"
+
+        var frame = new Frame({
+            scaling: FIT, width, height, color: grey,
+            outerColor: darker,
+            progress: new Waiter({
+                backgroundColor: blue, corner: 10
+            }),
+            assets, path
+        });
+
+
+        frame.on("ready", () => {
+
+            const stage = frame.stage;
+            const stageW = frame.width;
+            const stageH = frame.height;
+
+
+            const field = frame.asset("flowers02.jpg").scaleTo(stage, null, 100).center();
+            const sound = new Aud({ file: "/sound/coin.mp3", volume: .2, loop: false });
+
+            const timer = new Timer({
+                time:0,
+                down: false,
+                borderColor:dark,
+                isometric:LEFT, // isometric for left side of board
+                colon: true
+            }).loc(100,150)
+
+            const studentSprite = new Sprite({
+                image: "butterfly.png",
+                cols: 10,
+                rows: 4,
+                animations: { right: [20,29], left: [0,9], down: [30,39], up: [10,19] }
+            }).centerReg(stage)//.sca(2);
+            
+            const scorer = new Scorer({
+                backgroundColor: green, color: "black", isometric: "LEFT",
+                 score: 0, size: 36, font: "Arial"
+            }).loc(stageW - 150, 40).addTo(stage);
+
+            const controller = new MotionController({
+                target: studentSprite, type: "keydown", speed: 5, damp: 1,
+            });
+
+            controller.on("change", (e) => {
+                if (e.dir === "right") {
+                    studentSprite.run(null, [{ label: "right" }]);
+                } else if (e.dir === "left") {
+                    studentSprite.run(null, [{ label: "left" }]);
+                } else if (e.dir === "up") {
+                    studentSprite.run(null, [{ label: "up" }]);
+                } else if (e.dir === "down") {
+                    studentSprite.run(null, [{ label: "down" }]);
+                }
+            });
+
+            let targetNumber, correctFactors, allEmojis = [];
+            updateTarget();
+
+            Ticker.add(() => {
+                allEmojis = allEmojis.filter(item => {
+                    if (studentSprite.hitTestBounds(item.emoji)) {
+                        handleCollision(item);
+                        return false;
+                    }
+                    return true;
+                });
+
+                if (correctFactors.length === 0) updateTarget();
+                stage.update();
+            });
+
+            function updateTarget() {
+                allEmojis.forEach(item => item.emoji.dispose());
+                allEmojis = [];
+
+                targetNumber = Math.floor(Math.random() * 50) + 1;
+                correctFactors = getFactors(targetNumber);
+                createTargetLabel(targetNumber);
+                createEmojis();
+            }
+
+            function getFactors(num) {
+                return Array.from({ length: num }, (_, i) => i + 1).filter(i => num % i === 0);
+            }
+
+            function createTargetLabel(number) {
+                new Label({
+                    text: "جد قواسم العدد : " + number, size: 40, color: "black",
+                     backgroundColor: "white"
+                }).pos(20, 20).addTo(stage);
+            }
+
+            function createEmojis() {
+                correctFactors.forEach(factor => createEmoji("\ud83c\udf3a", factor, true)); // grapes emoji
+                Array.from({ length: 10 }).forEach(() => createEmoji("\ud83d\udd78", randomFactor())); // dog emoji
+            }
+
+            function createEmoji(code, value, isCorrect = false) {
+                const emoji = new Emoji(code, 70)
+                    .loc(Math.random() * (stageW - 100), Math.random() * (stageH - 100))
+                    .animate({
+                       rotation:"360",
+                        ease:"linear",
+                    })
+                    .addTo(stage);
+                //emoji.alpha = 0.7;
+                const label = new Label({
+                    text: value.toString(),
+                    size: 50,
+                    color: black,
+                    bold: true,
+                    italic: true
+                }).centerReg(emoji).addTo(emoji)
+                // تخزين الرمز التعبيري والرقم معًا
+                allEmojis.push({ emoji, value, isCorrect });
+
+            }
+
+            function randomFactor() {
+                return Math.floor(Math.random() * 50) + 1;
+            }
+
+            function handleCollision(item) {
+                if (item.isCorrect) {
+                    scorer.score += 10;
+                    correctFactors = correctFactors.filter(f => f !== item.value);
+                    sound.play()
+                    //item.emoji.animate({ scaleX: 2, scaleY: 2 }, 500, "easeInOut");
+                } else {
+                    scorer.score -= 5;
+                }
+                setTimeout(() => item.emoji.dispose(), 500);
+            }
+        });
+
+    </script>
+</body>
+
+</html>

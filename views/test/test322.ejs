@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tank</title>
+
+    <script src="/library/createjs.js"></script>
+    <script src="/library/zim_min.js"></script>
+
+</head>
+
+<body>
+
+    <script>
+
+        var width = 1280;
+        var height = 868;
+        var color = light;
+        var outerColor = darker;
+        var assets = ['anmat.png'];
+        //const path = "https://zimjs.org/assets/";
+        const path = "/assets/";
+
+        var frame = new Frame({
+            scaling: FIT, width, height, color: light,
+            outerColor: darker, assets, path,
+            progress: new Waiter()
+        });
+
+        frame.on("ready", function () {
+            let stage = frame.stage;
+            let stageW = frame.width;
+            let stageH = frame.height;
+
+
+           /*  
+           const pods = new Tile(new Circle(40, [pink, yellow, green, blue, red, orange, black, white]), 6, 8, 5, 5)
+           .center().cur()
+            //.drag({onTop:false})
+            .drag({all: true})
+
+            pods.on("mousedown", e => {
+                console.log(e);
+                //e.target.dispose();
+                //stage.update()
+                
+            }) */
+
+            // onMobile --> frame.on("resize", ()=> stage.update())
+
+           /*  const label = new Label({
+            text:"press to edit with TextEditor",
+            italic:true,
+            align:CENTER,
+            font:"verdana"
+            })
+            .center()
+            .expand()
+            .tap(()=>{
+                textEditor.show(label);
+            });
+
+            zog(label)
+
+            const textEditor = new TextEditor({
+            colorList:true, // or array of colors
+            optionList:["bold","italic","align"], // or true, or array with any of these
+            sizeList:true, // or array of sizes
+            fontList:true, // or array of fonts
+            live:true, // default
+            scroll:true // default, etc.
+            }); */
+
+            /* const studentSprite = new Sprite({
+                image: "anmat.png",
+                cols: 6,
+                rows: 1,
+                animations: { right: [20,29], left: [0,9], down: [30,39], up: [10,19] }
+            }).centerReg(stage).run({
+                loop:true, time:3,
+            }) */
+
+            
+        
+            const tile = new Tile({
+                obj: new Blob({
+                    color:(red, blue),
+                    controlType:"free", // free will be default control type (rather than "straight")
+                    points:
+                    [[-100,-100,0,0,0,0,0,0,"none"],[100,-100,0,0,0,0,0,0,"none"]
+                    ,[100,100,0,0,0,0,0,0,"none"],[-100,100,0,0,0,0,0,0,"none"]]
+                }).sca(.5)
+                ,
+                cols:10, rows:1,
+                spacingH:15, spacingV:30,
+                valign:CENTER
+            }).center();
+        
+        })
+    </script>
+
+
+</body>
+
+</html>

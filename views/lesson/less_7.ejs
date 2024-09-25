@@ -1,0 +1,619 @@
+<%- include("../partial/head.ejs") %>
+
+    <link href="/css/animate.min.css" rel="stylesheet">
+
+    
+    <link rel="stylesheet" href="https://unpkg.com/mathlive/dist/mathlive.core.css">
+
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+
+     
+     <link rel="stylesheet" href="/css/e-learning-js.min.css"/>
+ 
+    <style>
+        /* Default style for virtual keyboard */
+        math-virtual-keyboard {
+            width: 100%; 
+            /* Full width on small screens */
+            max-width: 600px;
+            /* Limit the width on larger screens */
+        }
+
+        /* Custom media query for small mobile screens */
+        @media only screen and (max-width: 600px) {
+            math-virtual-keyboard {
+                font-size: 1.2rem;
+                /* Increase the font size slightly */
+                --key-size: 40px;
+                /* Set smaller key sizes for better fit */
+                --keyboard-height: 300px;
+                /* Reduce keyboard height for smaller screens */
+            }
+        }
+        body{
+            font-size: large;
+        }
+
+        h5 {
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            color: #5c2e03;
+            background-color: pink;
+            font-weight: bold;
+        }
+
+        .header {
+            background-color: #defdb6;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .header img {
+            width: 60px;
+            height: auto;
+        }
+
+        .math-field-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        math-field {
+            width: 100%;
+            font-size: large;
+            border-radius: 10px;
+        }
+
+        .feedback {
+            font-size: 1.3rem;
+            margin-top: 10px;
+            color: #28a745;
+            /* لون الأخضر للإشارة إلى النجاح */
+        }
+
+        .incorrect {
+            color: red;
+        }
+
+        button {
+            background-color: #ffce54;
+            /* ألوان زاهية للأزرار */
+            border: none;
+            color: #fff;
+            padding: 10px 20px;;
+            margin: 10px; 
+            cursor: pointer;
+            font-weight: bold;
+            border-radius: 10px;
+        }
+
+        button:hover {
+            background-color: #ff9f43;
+            /* تغيير لون الأزرار عند التمرير */
+        }
+
+        /* من الضروري استخدامه عند كل تنسيق رياضي لتصبح الشاشات الصغيرة مناسبة ومتجاوبة */
+        .example-box {
+            background-color: #fff3cd;
+            border: 2px solid #ffeb3b;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            max-width: 100%;
+            /* تأكد أن العرض لا يتجاوز 100% */
+            overflow-x: auto;
+            /* إضافة تمرير أفقي عند الحاجة */
+            white-space: nowrap;
+            /* منع تكسير النص داخل الـ div */
+        }
+
+        .math-equation {
+            overflow-x: auto;
+            display: block;
+            /* عرض المعادلة كـ block */
+            white-space: nowrap;
+            /* منع التفاف النص */
+            max-width: 100%;
+            /* ضمان أن المعادلة لا تتجاوز عرض الحاوية */
+        }
+
+        .example-box:hover {
+            transform: scale(1.2);
+        }
+
+        .math-equation-rtl {
+            direction: rtl; /* لجعل المعادلات تظهر من اليسار إلى اليمين */
+            display: inline-block; /* للتأكد من عرض المعادلة بشكل مضمن */
+        }
+
+        .highlight {
+            color: #d32f2f;
+            font-weight: bold;
+        }
+
+        .knowledge-section {
+            background-color: #bbdefb;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .question-section {
+            background-color: #c8e6c9;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        p {
+            word-wrap: break-word;
+            max-width: 100%;
+            /* منع تجاوز النص لحدود العنصر */
+        }
+
+        ul {
+            padding-right: 20px;
+            list-style-type: none;
+           /*إزالة العلامات الجانبية */
+        }
+
+        ul li::before {
+            content: "🔹";
+            /* إضافة رمز مخصص للعناصر */
+            margin-left: 5px;
+        } 
+        ol li label{
+            margin-left: 4px !important;
+        }
+    </style>
+</head>
+
+<body style="margin: 0; padding: 0;">
+
+
+    <div class="container">
+
+        <!-- ترويسة الصفحة -->
+        <div class="row header animate__animated animate__fadeInDown d-flex align-items-center">
+            <!-- عمود الصورة -->
+            <div class=" col-6 text-start">
+                <img src="<%= lesson.cover %>" style="width: 150%; height: auto;" class="img-fluid" alt="cover">
+            </div>
+            <!-- عمود العنوان -->
+            <div class="col-lg-10 text-center">
+                <h1 id="element">
+                    <%= lesson.title %>
+                </h1>
+            </div>
+        </div>
+        
+            <div class="row content-section animate__animated animate__fadeInUp">
+                <div class="col-12">
+                  <p>
+                        إعطاء قاعدة لضرب كسرين عاديين
+                    <br>
+             
+                  </p>
+                </div>
+            </div>
+
+    </div>
+
+
+
+    
+<!--  قسم تعلم -->
+    
+    <div class="container col-12 knowledge-section mt-4">
+        <h2>تعلم</h2>
+
+        <h5> خاصة </h5>
+        <p class=" math-equation-rtl">جداء ضرب كسرين عاديين هو كسر , بسطه يساوي جداء ضرب البسطين ومقامه يساوي جداء ضرب المقامين أي: 
+
+            \( \frac{a}{b} \times \frac{c}{d} = \frac{a \times c}{b \times c} \quad
+                ( b \neq 0 \quadو \quad d \neq 0 )     
+            \)
+            وفي حالة خاصة 
+            \(  h \times \frac{c}{d} = \frac{h \times c}{d}  \)
+
+        </p>
+
+        
+            <!-- قسم الأمثلة -->
+            <div class="row">
+
+                <div class="col-6 col-md-6 col-sm-11 animate__animated animate__bounceInUp">
+                    <div class="example-box p-3">
+                        <p>
+                            مثال:
+                            \(
+                            \frac{-5}{7} \times \frac{3}{4} = \frac{-5 \times3}{7 \times 4} = \frac{-15}{28} = -\frac{15}{28}
+                            \)
+                        </p>
+                    </div>
+                </div>
+                <div class="col-6 col-md-6 col-sm-11 animate__animated animate__bounceInUp">
+                    <div class="example-box p-3">
+                        <p>
+                            مثال:
+                            \(
+                            \frac{-1}{2} \times \frac{4}{-5} = \frac{1}{2} \times \frac{4}{5} = \frac{1 \times \cancel{2} \times 2}{\cancel{2} \times 5} = \frac{2}{5}
+                            \)
+                        </p>
+                    </div>
+                </div>
+
+                <div class="col-6 col-md-6 col-sm-11 animate__animated animate__bounceInUp">
+                    <div class="example-box p-3">
+                        <p>
+                            مثال: لإنجاز العملية \( \frac{-1}{2} \times \frac{4}{-5} \)
+                            <ul>
+                                <li>نضع أولاً إشارة الجداء (جداء ضرب عددين سالبين عددُُ موجب)</li>
+                                <li>
+                                    لا نغفل الاختصار
+                                    \(
+                                        \frac{-1}{2} \times \frac{4}{-5} = \frac{1}{2} \frac{4}{5}
+                                        = \frac{1 \times \cancel{2} \times 2}{\cancel{2} \times 5}         
+                                        = \frac{2}{5}
+                                    \)
+                                </li>
+                            </ul>
+
+
+                        </p>
+                    </div>
+                </div>
+                <div class="col-6 col-md-6 col-sm-11 animate__animated animate__bounceInUp">
+                    <div class="example-box p-3">
+                        <p>
+                            مثال:
+                           (الحساب بعد الاختصار)
+                            \(
+                                \frac{2}{15} \times \frac{-21}{14}=-\frac{2\times21}{15\times14}    
+                                =- \frac{\cancel{2}\times\cancel{3}\times\cancel{7}}{\cancel{3}\times5\times\cancel{2}\times\cancel{7}}
+                                = - \frac{1}{5}
+                            \)
+
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <h5>صيغ مبسطة</h5>
+            <p>
+                يكتب  \( (-6) \times (-4) \) بالصيغة                
+                                    
+                  \( -6 \times (-4) \) 
+                  
+                ويكتب  \( \ (-6) \times 4 \  \)                    
+                  
+                  و بالصيغة  \(-6 \times 4\).
+                <br>
+
+                قد لاتكتب الاشارة \( \times \)
+
+                
+                عندما يكون أحد المضروبين حرفاً، مثلاً \( b \times c \)  
+                
+                يكتب \(bc\) 
+                                
+                و \( 6 \times h = 6h.\)
+                
+                
+            </p>
+
+    </div>
+        <div class="container question-section mt-4 col-12 col-sm-12">
+            <h2>مسألة</h2>
+
+            <h5 >الخطوة 1: نضرب الجزء بالكل</h5>
+            <p class="text-center">
+                أكلتَ ثلاثة أرباع قطعة من الحلوى كانت تلك القطعة ثُلُثي قالبٍ, أكلتَ إذن نصفَ قالب الحلوى.
+            </p>
+            <div class="math-field-container">
+                <math-field id="answer1">
+                    \frac{3}{\placeholder[den1]{ ? }} \times \frac{\placeholder[num2]{ ? }}{3} 
+                    = \frac{ \cancel{3} \times \placeholder[num1]{? } } { \placeholder[den2]{? } \times \cancel{3}}
+                    = \frac{1}{2}
+                </math-field>
+            </div>
+
+
+            <div class="container col-12 knowledge-section mt-4"> 
+
+                <h2>اكتساب معارف</h2>
+                <p>
+                💡 لإنجاز جداء ضرب من النمط
+                \( (-5) \times 4x \)
+                , نجري أولاً ضرب المعاملات العددية \(-5\)
+                 و\(4\) 
+                ثم نكتب الحرف \(x\) .
+                </p>
+            
+                
+                <div class="example-box">
+                   مثال: أنجز كل من العمليات الآتية.
+                   <br>
+                   \(   \textcolor{red}{1.}  (-3x) \times (-6) \quad
+                      \textcolor{red}{2.}  -(-2) \times 3 \times (-7y) \quad
+                      \textcolor{red}{3.}  -(5 \times 4z) \quad
+                    \)
+                    
+                </div>
+            
+               <h5>الحل</h5>
+           
+               <div class="d-flex flex-column">
+                    <ul> \[   (-3x) \times (-6) \quad \textcolor{red}{.1} \]
+        
+                            <li>
+                                نضرب المضاريب العددية مع التقيد بقاعدة ضرب الاشارات: \((-3) \times (-6) = 18\)
+                            </li>
+                            <li>
+                            ثم نضع الرمز \(x\)
+                                فنجد \((-3x) \times (-6) = 18x \)
+        
+                            </li>
+                    </ul>
+
+
+                    <div id="problemContainer1"></div>        
+
+                    <h2>💡كيف نعرف إشارة جداء؟</h2>
+
+                    <%- lesson.content %>
+                 <!--
+                    <p>
+                      عند ضرب عدة أعداد مغايرة للصفر
+                    </p>
+                 
+                    <ul>
+                        <li>
+                            إذا كان عدد الأعداد السالبة زوجياً, كان الجداء موجباً
+                        </li>
+                        <li>
+                            ًإذا كان عدد الأعداد السالبة فردياً, كان الجداء سالبا
+                        </li>
+                    </ul>
+            
+                
+                    <div class="example-box">
+                        مثال :
+                        إشارة \( (-5) \times (20.87) \times (-3) \times (-20) \times (-33.3) \times (-24) \)سالبة
+
+                    </div>
+                    <div class="example-box">
+                        مثال :
+                        إشارة \( (-3) \times (-4) \times (2) \times 5 \times 3 \)موجبة
+
+                    </div>
+
+                    <h2>💡كيف ننشر عبارة ونبسطها ؟</h2>
+
+                    <div class="row">
+
+                            <div class="example-box p-3">
+                                <p>
+                                    نشر:
+                                    \(
+                                    a \times (x+y) = ax + ay
+                                    \)
+                                </p>
+                            </div>
+                            <div class="example-box p-3">
+                                <p>
+                                    نشر:
+                                    \(
+                                        a \times (x-y) = ax - ay
+                                    \)
+                                </p>
+                            </div>
+
+                            <p>
+                                في هذا النشر اعتمدنا على مايسمى <strong style="color: #d32f2f;">الخاصة التوزيعية</strong> (توزيع الضرب على الجمع)
+                            </p>
+
+                    </div> -->
+
+                    <div class="example-box">
+                        مثال: أنجز كل من العمليات الآتية.
+                        <br>
+                        \(   \textcolor{red}{1.}    A=-3 \times (4+5x) \quad
+                           \textcolor{red}{2.}      B=-5 \times (3-4y) \quad
+                           \textcolor{red}{3.}      C=-4 \times (-5+3z) \quad
+                         \)
+                         
+                     </div>
+
+                </div>
+             
+                <h5>الحل</h5>
+
+                <div id="problemContainer2"></div>
+
+                <h2>💡كيف نحلل عبارة ونبسطها ؟</h2>
+
+                <div class="row">
+
+                            <div class="example-box p-3">
+                                <p>
+                                    تحليل:
+                                    \(
+                                     hx + hy = h \times (x+y) 
+                                    \)
+                                </p>
+                            </div>
+                            <div class="example-box p-3">
+                                <p>
+                                    تحليل:
+                                    \(
+                                        hx - hy = h \times (x-y) 
+                                        \)
+                                </p>
+                            </div>
+
+                           
+                </div>
+
+                <div class="example-box">
+                        مثال: حلل العبارة.
+                        <br>
+                        \(      A= 2x -5x   \)
+                         
+                </div>
+             
+                <h5>الحل</h5>
+
+                <div id="problemContainer3"></div>
+
+            </div>
+            <h5>اكتب تعبيراً داخل القوسين ليتم إخراج العامل المشترك</h5>
+            <math-field class="mathfield">
+                \mathrm{Factor}(2a+ab)
+            </math-field>
+            <p class="example-box m-3 latex"></p>
+        
+        
+            <div class="container question-section col-12 col-sm-12 mt-4">
+                <h2>تحقق من فهمك</h2>
+
+                <h5>السؤال الاول</h5>
+                <p>أوجد إشارة كل جداء ثم احسبه.</p>
+                <div id="q1"></div>
+
+                
+               
+                <h5>السؤال الثاني</h5>
+                <p>أعط اشارة الجداء دون إنجاز الحساب</p>
+                
+                <%- lesson.exercies %>
+                 <!-- 
+                <ol class="word_list questions_5_1">
+                        <li> \( -4 \times 4 \times 7.4 \)
+                          <ol data-question="1" class="no_list">
+                            <li>
+                              <input id="option_1_1" data-option="option_1" value="1" type="radio" name="option_1" autocomplete="off"/>
+                              <label for="option_1_1"><i class="far"></i></label> موجب
+                            </li>
+                            <li>
+                              <input id="option_1_2" data-option="option_2" value="2" type="radio" name="option_1" autocomplete="off"/>
+                              <label for="option_1_2"><i class="far"></i></label> سالب
+                            </li>
+                             <li>
+                              <input id="option_1_3" data-option="option_3" value="3" type="radio" name="option_1" autocomplete="off"/>
+                              <label for="option_1_3"><i class="far"></i></label> Opción respuesta 3.
+                            </li>
+                            <li>
+                              <input id="option_1_4" data-option="option_4" value="4" type="radio" name="option_1" autocomplete="off"/>
+                              <label for="option_1_4"><i class="far"></i></label> Opción respuesta 4.
+                            </li> 
+                           </ol>
+                        </li>
+                        <li>  \( -2 \times (-21.4) \times (-10) \)
+                          <ol data-question="2" class="no_list">
+                            <li>
+                              <input id="option_2_1" data-option="option_1" value="1" type="radio" name="option_2" autocomplete="off"/>
+                              <label for="option_2_1"><i class="far"></i></label> موجب
+                            </li>
+                            <li>
+                              <input id="option_2_2" data-option="option_2" value="2" type="radio" name="option_2" autocomplete="off"/>
+                              <label for="option_2_2"><i class="far"></i></label> سالب
+                            </li> 
+                             <li>
+                              <input id="option_2_3" data-option="option_3" value="3" type="radio" name="option_2" autocomplete="off"/>
+                              <label for="option_2_3"><i class="far"></i></label> Opción respuesta 3.
+                            </li>
+                            <li>
+                              <input id="option_2_4" data-option="option_4" value="4" type="radio" name="option_2" autocomplete="off"/>
+                              <label for="option_2_4"><i class="far"></i></label> Opción respuesta 4.
+                            </li> 
+                           </ol>
+                        </li>
+                      
+                        <li> \( -2 \times (-1.55) \times (2) \times 77 \times 18 \times (-0.14)(-0.12) \)
+                          <ol data-question="3" class="no_list">
+                            <li>
+                              <input id="option_3_1" data-option="option_1" value="1" type="radio" name="option_3" autocomplete="off"/>
+                              <label for="option_3_1"><i class="far"></i></label> موجب
+                            </li>
+                            <li>
+                              <input id="option_3_2" data-option="option_2" value="2" type="radio" name="option_3" autocomplete="off"/>
+                              <label for="option_3_2"><i class="far"></i></label> سالب
+                            </li> 
+                            <li>
+                              <input id="option_3_3" data-option="option_3" value="3" type="radio" name="option_3" autocomplete="off"/>
+                              <label for="option_3_3"><i class="far"></i></label> Opción respuesta 3.
+                            </li>
+                            <li>
+                              <input id="option_3_4" data-option="option_4" value="4" type="radio" name="option_3" autocomplete="off"/>
+                              <label for="option_3_4"><i class="far"></i></label> Opción respuesta 4.
+                            </li> 
+                           </ol>
+                        </li> 
+
+
+                </ol>
+                      
+                      
+                <div class="btn_activities grid12">
+                    <div id="check_answers_5_1">
+                        <span>Check</span>
+                    </div>
+                    <div id="reset_answers_5_1">
+                        <span>Reset</span>
+                    </div>
+                    <div id="answers_5_1">
+                        <span>Answers</span>
+                    </div>
+                </div>  -->
+
+
+                <h5>السؤال الثاني</h5>
+                <p>أحسب ذهنياً</p>
+             
+             
+                <p class="math-equation">
+                    \(  \textcolor{red}{1.}    (-5) \times 5 \quad
+                        \textcolor{red}{2.}      4 \times (-12) \quad
+                        \textcolor{red}{3.}      (-9) \times (-6) \quad
+                    \)
+
+                </p>
+                
+                <p>أحسب يدوياً </p>
+            
+                <p class="math-equation">
+
+                    \(   \textcolor{red}{1.}    (-2.4) \times (-5.5) \quad
+                        \textcolor{red}{2.}      (-8.2) - (-4.5) \quad
+                        \textcolor{red}{3.}      (-8.2) \times (-4.5) \quad
+                    \)
+                </p>
+          
+               
+                <math-field class="mathfield">
+                    \mathrm{Multiply}(2 \times -5)
+                </math-field>
+                <p class="example-box m-3 latex"></p>
+                
+            </div>
+            
+            
+        </div>            
+
+        <a href="/" class="btn btn-outline-info mt-5">
+            <img src="/icon/iconBack.png" class="bi" width="34" height="34">
+            <span>الصفحة الرئيسية</span>
+        </a>
+
+        
+<script type="text/javascript" src="/library/e-learning-js.min.js"></script>  
+
+
+<script type="module" defer="true" src="/js/less_7.js"></script>
+
+<%- include("../partial/end.ejs") %>
+

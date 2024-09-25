@@ -20,7 +20,10 @@ exports.getSign = (req, res, next) => {
 };
 
 exports.postSign = async (req, res, next) => {
-  const { userName, email, password, confirmPassword } = req.body;
+  const { userName, email, password, confirmPassword, isAdmin } = req.body;
+ 
+  console.log(userName,email,password,confirmPassword,isAdmin)
+  
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     console.log(errors.array());
@@ -50,6 +53,7 @@ exports.postSign = async (req, res, next) => {
       userName,
       email,
       password: hashedPassword,
+      isAdmin: isAdmin ? true : false
     });
     await user.save();
     req.flash("success", " تم تسجيلك بنجاح  بإمكانك المتابعة");
@@ -59,6 +63,7 @@ exports.postSign = async (req, res, next) => {
     req.flash("error", "some thing went error");
     res.redirect("/register");
   }
+    
 };
 
 exports.getLogIn = (req, res, next) => {
@@ -74,7 +79,8 @@ exports.getLogIn = (req, res, next) => {
 
 exports.postLogIn = async (req, res, next) => {
   const { email, password } = req.body;
-
+  
+  
   try {
     const user = await User.findOne({
       where: { email },
@@ -101,6 +107,7 @@ exports.postLogIn = async (req, res, next) => {
     req.flash("error", "some thing went wrong");
     res.redirect("/login");
   }
+  
 };
 
 exports.getForgotPassword = (req, res, next) => {
@@ -258,7 +265,8 @@ exports.postResetPassword = async (req, res) => {
   }
 };
 
-exports.logout = (req, res, next) => {
-  req.session.destroy();
+exports.logout = async (req, res, next) => {
+  req.flash("success", "تم تسجيل الخروج بنجاح.");
+  await req.session.destroy();
   res.redirect("/login");
 };

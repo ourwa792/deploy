@@ -1,0 +1,134 @@
+/* overrided frome main.css */
+body{
+    margin: 0px,
+    padding:0px,
+    font-size: 25px ;
+    //direction: auto; /* لضبط الاتجاه الافتراضي من اليمين لليسار */
+    text-align: right ; /* لضبط محاذاة النص */
+
+    background-color: #f0f8ff;
+   
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+/*     background: linear-gradient(
+      100deg,
+      rgb(17,51,161) 0% ,
+      rgb(137,34,195) 100% 
+  ); */
+} 
+
+h5 {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    color: #fb983c
+}
+.header {
+    background-color: #defdb6;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+.header img {
+    width: 60px;
+    height: auto;
+}
+
+.math-field-container {
+    text-align: center;
+    margin-bottom: 20px;
+}
+math-field {
+    width: 100%;
+    font-size: x-large;
+    border-radius: 10px;
+}
+.feedback {
+    font-size: 1.3rem;
+    margin-top: 10px;
+    color: #28a745;
+    /* لون الأخضر للإشارة إلى النجاح */
+}
+.incorrect {
+    color: red;
+}
+button {
+    background-color: #ffce54;
+    /* ألوان زاهية للأزرار */
+    border: none;
+    color: #fff;
+    font-size: 1.2rem;
+    cursor: pointer;
+    font-weight: bold;
+    border-radius: 10px;
+}
+
+button:hover {
+    background-color: #ff9f43;
+    /* تغيير لون الأزرار عند التمرير */
+}
+
+/* من الضروري استخدامه عند كل تنسيق رياضي لتصبح الشاشات الصغيرة مناسبة ومتجاوبة */
+.example-box {
+    background-color: #fff3cd;
+    border: 2px solid #ffeb3b;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 20px;
+    max-width: 100%;/* تأكد أن العرض لا يتجاوز 100% */
+    overflow-x: auto;/* إضافة تمرير أفقي عند الحاجة */
+    white-space: nowrap;/* منع تكسير النص داخل الـ div */
+}
+
+.math-equation {
+    overflow-x: auto;
+    display: block;  /* عرض المعادلة كـ block */
+    white-space: nowrap;  /* منع التفاف النص */
+    max-width: 100%;  /* ضمان أن المعادلة لا تتجاوز عرض الحاوية */
+}
+
+.example-box:hover {
+    transform: scale(1.2);
+}
+
+.highlight {
+    color: #d32f2f;
+    font-weight: bold;
+}
+
+.knowledge-section {
+    background-color: #bbdefb;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.question-section {
+    background-color: #c8e6c9;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+p {
+    word-wrap: break-word;
+    /* منع تجاوز النص لحدود العنصر */
+}
+
+ul {
+    padding-right: 20px;
+    list-style-type: none;
+    /* إزالة العلامات الجانبية */
+}
+
+ul li::before {
+    content: "🔹";
+    /* إضافة رمز مخصص للعناصر */
+    margin-left: 5px;
+}
+ol li label{
+    margin-left: 4px !important;
+}
+img{
+    width:100%;
+    height: auto
+}

@@ -1,0 +1,719 @@
+<%#- include('../partial/head.ejs') %>
+
+   <!--  <script src="/library/createjs.js"></script>
+    <script src="/library/zim_min.js"></script> 
+ -->
+    </head>
+
+    <body style="margin: 0; padding: 0" lang="ar" dir="rtl">
+
+
+
+        <script type="module">
+
+            const title = String.raw` <%= lesson.title %>`;
+            const url = String.raw` <%= lesson.cover.url %> `
+
+
+            import zim from "https://zimjs.org/cdn/016/zim_game.js";
+
+            const scaling = FIT;
+            const width = 1240;
+            const height = 868;
+
+            const assets = ["titlanmat.png", "bear.svg", "annmat.png","anmat2.png",
+                'apple.png', 'rose.png', 'tree10.png','treeRos.png','rosTree.png'
+            ];
+            const path = "/assets/";
+
+            var frame = new Frame({
+                scaling,
+                width,
+                height,
+                color: light,
+                allowDefault: true,
+                assets,
+                path,
+                progress: new Waiter({ backgroundColor: blue, corner: 10 }),
+            });
+
+            frame.on("ready", function ready() {
+                var stage = frame.stage;
+                let stageW = frame.width;
+                let stageH = frame.height;
+
+
+                /*   new Poly(200, 5, .6, pink).center();
+                
+                  const cp = new ColorPicker()
+                   .show() // use show() and hide() with ColorPicker. As of ZIM ZIM 01 can also use pos(), loc(), center(), etc.
+                   .change(()=>{
+                      zog(cp.selectedColor); // #ffcc99, etc. after pressing OK
+                      zog(cp.selectedAlpha); // 0-1
+                   }); */
+
+                /* 
+                const text1 = new Label({text:"", backgroundColor:white}).pos(100,100);
+                const text2 = new Label({text:"", backgroundColor:white}).pos(100,200);
+                
+                // create a new Keyboard and pass in the labels as an array
+                // or if just one label, then pass in the label
+                const keyboard = new Keyboard([text1, text2]);
+                
+                // if just the letter is needed use the keydown event
+                keyboard.on("keydown", e=>{
+                   zog(e.letter);
+                });
+                
+                // create events to capture a mousedown on the labels
+                const text1Event = text1.on("mousedown", activate);
+                const text2Event = text2.on("mousedown", activate);
+                function activate(e) {
+                   keyboard.show();
+                   // remove the events when keyboard is active
+                   text1.off("mousedown", text1Event);
+                   text2.off("mousedown", text2Event);
+                }
+                keyboard.show(); // optionally show the keyboard to start
+                
+                // add back the events to show the keyboard
+                keyboard.on("close", ()=>{
+                   text1.on("mousedown", text1Event);
+                   text2.on("mousedown", text2Event);
+                }); */
+
+                /*
+                
+                    var page1 = new Page(stageW, stageH, orange, green);
+                        new Circle(200,dark).center(page1)
+                        page1.icon = frame.makeIcon().sca(2.5).center(page1);
+                        page1.backing;
+                        new Label("swipe").pos(85,85,RIGHT,BOTTOM,page1);
+                        new Triangle(40,40,40,dark).alp(.2).rot(90).loc(975, 665, page1);
+                        new Triangle(40,40,40,dark).alp(.2).rot(180).loc(890, 715, page1);
+                
+                    var page2 = new Page(stageW, stageH, blue, pink);
+                        page2.icon = frame.makeIcon().pos(50,50,RIGHT,BOTTOM,page2);
+                        new Label({text:"presenting, at last,\n\nZIM Page()...", align:CENTER}).center(page2);
+                
+                    var page3 = new Page(stageW, stageH, white, yellow);
+                        page3.icon = frame.makeIcon().pos(50,50,RIGHT,BOTTOM,page3);
+                        new Label("it's just a container with a rectangle backing...").center(page3);
+                
+                    var page4 = new Page(stageW, stageH, pink, white, false, );
+                        page4.icon = frame.makeIcon().pos(50,50,RIGHT,BOTTOM,page4);
+                        new Label("but now we know what to use with ZIM Pages()")
+                            .center(page4);
+                
+                    var page5 = new Page(stageW, stageH, pink, yellow);
+                        page5.icon = frame.makeIcon().pos(50,50,RIGHT,BOTTOM,page5);
+                        new Label({
+                            text:"and Pages() has new transitions... can you tell?",
+                            color:light,
+                            backgroundColor:dark
+                        }).center(page5);
+                
+                    
+                
+                    var pages = new Pages([
+                        {page:page1, swipe:[page5,page2,page5,page2]},
+                        {page:page2, swipe:[page1,page3,page1,page3]},
+                        {page:page3, swipe:[page2,page4,page2,page4]},
+                        {page:page4, swipe:[page3,page5,page3,page5]},
+                        {page:page5, swipe:[page4,page1,page4,page1]}
+                    ], "bubbleZIM", .5, [
+                        [page2, page3, "pixelZIM"],
+                        [page3, page2, "pixelZIM"],
+                        [page3, page4, "fan"],
+                        [page4, page3, "fan"],
+                        [page4, page5, "explodeDark"],
+                        [page5, page4, "explodeZIM"],
+                        [page1, page5, "lineLight"],
+                        [page5, page1, "lineDark"],
+                    ]).addTo();
+                
+                    loop(pages.pages, function (page) {
+                        page.page.icon.tap(function () {
+                            zgo("https://zimjs.com", "_blank");
+                        });
+                    });
+                
+                
+                    stage.update()
+                
+                    */
+
+                const sound1 = new Aud({ file: "/sound/anmat.mp3", volume: .8, loop: false });
+                const sound2 = new Aud({ file: "/sound/anmat2.mp3", volume: .8, loop: false });
+                const sound3 = new Aud({ file: "/sound/anmat3.mp3", volume: .8, loop: false });
+               
+                const wrongSound = new Aud({file: "/sound/wronganswer.mp3", volume: .8, loop: false,
+                maxNum: 1,          // يسمح بتشغيل نسخة واحدة من الصوت فقط
+                interrupt: "any"    // يقطع الصوت الحالي ويبدأ من جديد إذا تم النقر عليه مرة أخرى
+                })    
+                const rightSound = new Aud({file: "/sound/rightanswer.mp3", volume: .8, loop: false,
+                maxNum: 1,          // يسمح بتشغيل نسخة واحدة من الصوت فقط
+                interrupt: "any"    // يقطع الصوت الحالي ويبدأ من جديد إذا تم النقر عليه مرة أخرى
+                })    
+
+                STYLE = { width: W / 2, color: series( orange, green) };
+
+                const page0 = new Page();
+                const page1 = new Page();
+                const page2 = new Page();
+                const page3 = new Page();
+                const page4 = new Page();
+                const page5 = new Page();
+                const page6 = new Page();
+                const page7 = new Page();
+                const page8 = new Page();
+                const page9 = new Page();
+                const pages = [page0, page1, page2, page3, page4, page5, page6, page7, page8, page9];
+
+
+                const colorPicker = new ColorPicker().center().hide();  // اخفاء منتقي الألوان في البداية
+
+                const emitter = new Emitter({
+                    obj: new Poly([30, 50, 80], 5, .5, [yellow, silver, grey, red]),
+                    gravity: 0,
+                    force: { min: 3, max: 6 },
+                    startPaused: true
+                })
+
+
+                //page -0-
+                const pic = new Pic("titlanmat.png").sca(.9).pos(15, 40).addTo(page0)
+                const lab = new Label({
+                    text:"أتعلم:",
+                    align: RIGHT,
+                    size:100,
+                    backgroundBorderColor:red,
+                    color:white,
+                    rollColor:red,
+                    bold:true,
+                    italic:true
+                }).loc(90,200,pic);
+                new Emoji("\ud83d\udd2c", 100).loc(0,200,pic);
+
+                const lab2 = new Label({
+                    text:"عبّر نطقاً عن الأنماط التالية:",
+                    align: RIGHT,
+                    size:60,
+                    backgroundBorderColor:red,
+                    color:white,
+                    rollColor:red,
+                    bold:true,
+                    italic:true
+                })
+                lab2.pos(80,360,RIGHT,BOTTOM,page0)//.addTo(page0)
+
+
+
+                //page -1-
+                const container = new Container()//.drag({all:true})
+                container.addTo(page1)//.outline();
+                container.drag({all:true})
+                const colors1 = ["red", "blue"];
+                for (let i = 0; i < 10; i++) {
+
+                    const square = new Rectangle(60, 60, colors1[i % 2])
+                    .pos(stageW/8 + 30, i * 80 + 40)
+                    .addTo(container)
+                }
+                
+                const img1 = new Pic("annmat.png").sca(.5).loc(350,20,container).addTo(page1)
+                const img2 = new Pic("annmat.png").sca(.5).loc(350,230,container).addTo(page1)
+                const img3 = new Pic("annmat.png").sca(.5).loc(350,440,container).addTo(page1)
+                
+                new Button({
+                    label:"اسمع الصوت",
+                    width:160,
+                    height:60,
+                    backgroundColor:"purple",
+                    rollBackgroundColor:"MediumOrchid",
+                    borderWidth:8,
+                    borderColor:"violet",
+                    gradient:.3,
+                    corner:10
+                }).loc(20,230,container)
+                .tap(()=> sound1.play())
+                new Button({
+                    label:"اسمع الصوت",
+                    width:160,
+                    height:60,
+                    backgroundColor:"purple",
+                    rollBackgroundColor:"MediumOrchid",
+                    borderWidth:8,
+                    borderColor:"violet",
+                    gradient:.3,
+                    corner:10
+                }).loc(440,230,container)
+                .tap(()=> sound2.play())
+
+
+
+                //page -2-
+
+                const lb = new Label({
+                    text:"أتحقق:" ,
+                    align: RIGHT,
+                    size:60,
+                    backgroundBorderColor:blue,
+                    backgroundBorderWidth:4,
+                    color:white,
+                    rollColor:red,
+                    bold:true,
+                    italic:true
+                })
+                .pos(-50,40).addTo(page2)
+
+                new Emoji('\ud83c\udfa8', 60).loc(0,20,lb)
+               
+                new Label({
+                    text:"أكمل النمط التالي بالألوان المناسبة:" ,
+                    align: CENTER,
+                    size:47,
+                    backgroundBorderColor:blue,
+                    backgroundBorderWidth:4,
+                    color:white,
+                    rollColor:red,
+                    bold:true,
+                    italic:true
+                }).center(page2)
+
+                
+                //page -3-
+
+          
+                const c1 = new Circle(35, white).pos(stageW/4,530).cur().addTo(page3)
+                const c2 = new Circle(35, white).pos(stageW/4,605).cur().addTo(page3)
+                const c3 = new Circle(35, white).pos(stageW/4,680).cur().addTo(page3) 
+
+            
+                const circleRadius = 35; // نصف قطر الدوائر
+                const spacing = 15; // المسافة بين كل دائرة والأخرى
+                const circles = []; // مصفوفة لتخزين الدوائر
+                const circleColors = [
+                    "blue", "red", "red", "blue", "red", "red", 
+                ];
+
+                let startY = 20; 
+                circleColors.forEach((color, index) => {
+                    const circle = new Circle(circleRadius, color).pos(stageW/4, startY)
+                    .addTo(page3);
+                    circles.push(circle); 
+
+                    startY += circleRadius * 2 + spacing; 
+                });
+
+                c1.on("mousedown", function(){
+                    const colorPicker1 = new ColorPicker()
+                    colorPicker1.show();
+                    colorPicker1.change(() => {
+                    c1.color = colorPicker1.selectedColor;
+                    colorPicker1.hide(); 
+                    });
+                })
+                c2.on("mousedown", function(){
+                    const colorPicker2 = new ColorPicker()
+                    colorPicker2.show();
+                    colorPicker2.change(() => {
+                    c2.color = colorPicker2.selectedColor;
+                    colorPicker2.hide(); 
+                    });
+                })
+                c3.on("mousedown", function(){
+                    const colorPicker3 = new ColorPicker()
+                    colorPicker3.show();
+                    colorPicker3.change(() => {
+                    c3.color = colorPicker3.selectedColor;
+                    colorPicker3.hide(); 
+                    });
+                })
+            
+                // page -4-
+
+                new Blob({
+                    color: yellow,
+                    borderColor: black,
+                    showControls: false,
+                    points:[[-2.5,-154.3,0,0,-17.6,0,14.7,0,"mirror"],[42.8,-88.3,0,0,-13.4,-7.4,10.7,5.9,"mirror"],
+                    [114,-102.4,0,0,-8.5,-9.2,10.6,11.5,"mirror"],[95.6,-26.2,0,0,-4.7,-14.2,2.8,8.6,"mirror"],
+                    [160.6,11.1,0,0,0,-8.8,0,11.8,"mirror"],[92.3,34.6,0,0,4.9,-11.1,-6.2,13.8,"mirror"],[113.5,107.8,0,0,10.4,-18.4,-10.4,18.4,"mirror"],[34.6,92.3,0,0,11.1,-4.9,-11.1,4.9,"mirror"],[-2.5,153.1,0,0,11.7,0,-14.7,0,"mirror"],[-42.8,88.3,0,0,13.4,7.4,-13.4,-7.4,"mirror"],[-120,110.1,0,0,9.6,12.2,-5.8,-7.3,"mirror"],[-92.3,34.6,0,0,3.7,8.3,-2.4,-5.5,"mirror"],[-161.5,-2.5,0,0,0,14.5,0,-14.6,"mirror"],[-92.3,-34.7,0,0,-2.5,5.6,4.9,-11.1,"mirror"]
+                    ,[-135,-112.3,0,0,-8.5,9.1,6.3,-6.9,"mirror"],[-50.7,-83.5,0,0,-7.7,5.1,15.4,-10.3,"mirror"]]
+                }).sca(.4).pos(stageW/4,20).addTo(page4);
+                new Blob({
+                    color: "lightgrey",
+                    borderColor: black,
+                    showControls: false,
+                    points: [[-1.2,37.8,0,0,-50,0,50,0,"mirror"],[100,0,0,0,0,-50,0,50,"mirror"],
+                    [0,100,0,0,50,0,-50,0,"mirror"],[-100,0,0,0,0,50,0,-50,"mirror"]]
+
+                }).sca(.4).rot(-45).pos(stageW/4,150).addTo(page4);
+    
+                const sun1 = new Blob({
+                    color: white,
+                    borderColor: black,
+                    showControls: false,
+                    points:[[-2.5,-154.3,0,0,-17.6,0,14.7,0,"mirror"],[42.8,-88.3,0,0,-13.4,-7.4,10.7,5.9,"mirror"],
+                    [114,-102.4,0,0,-8.5,-9.2,10.6,11.5,"mirror"],[95.6,-26.2,0,0,-4.7,-14.2,2.8,8.6,"mirror"],
+                    [160.6,11.1,0,0,0,-8.8,0,11.8,"mirror"],[92.3,34.6,0,0,4.9,-11.1,-6.2,13.8,"mirror"],[113.5,107.8,0,0,10.4,-18.4,-10.4,18.4,"mirror"],[34.6,92.3,0,0,11.1,-4.9,-11.1,4.9,"mirror"],[-2.5,153.1,0,0,11.7,0,-14.7,0,"mirror"],[-42.8,88.3,0,0,13.4,7.4,-13.4,-7.4,"mirror"],[-120,110.1,0,0,9.6,12.2,-5.8,-7.3,"mirror"],[-92.3,34.6,0,0,3.7,8.3,-2.4,-5.5,"mirror"],[-161.5,-2.5,0,0,0,14.5,0,-14.6,"mirror"],[-92.3,-34.7,0,0,-2.5,5.6,4.9,-11.1,"mirror"]
+                    ,[-135,-112.3,0,0,-8.5,9.1,6.3,-6.9,"mirror"],[-50.7,-83.5,0,0,-7.7,5.1,15.4,-10.3,"mirror"]]
+                }).sca(.4).pos(stageW/4,230).addTo(page4);
+                const moon1 = new Blob({
+                    color: white,
+                    borderColor: black,
+                    showControls: false,
+                    points: [[-1.2,37.8,0,0,-50,0,50,0,"mirror"],[100,0,0,0,0,-50,0,50,"mirror"],
+                    [0,100,0,0,50,0,-50,0,"mirror"],[-100,0,0,0,0,50,0,-50,"mirror"]]
+
+                }).sca(.4).rot(-45).pos(stageW/4,360).addTo(page4);
+    
+                const sun2 = new Blob({
+                    color: white,
+                    borderColor: black,
+                    showControls: false,
+                    points:[[-2.5,-154.3,0,0,-17.6,0,14.7,0,"mirror"],[42.8,-88.3,0,0,-13.4,-7.4,10.7,5.9,"mirror"],
+                    [114,-102.4,0,0,-8.5,-9.2,10.6,11.5,"mirror"],[95.6,-26.2,0,0,-4.7,-14.2,2.8,8.6,"mirror"],
+                    [160.6,11.1,0,0,0,-8.8,0,11.8,"mirror"],[92.3,34.6,0,0,4.9,-11.1,-6.2,13.8,"mirror"],[113.5,107.8,0,0,10.4,-18.4,-10.4,18.4,"mirror"],[34.6,92.3,0,0,11.1,-4.9,-11.1,4.9,"mirror"],[-2.5,153.1,0,0,11.7,0,-14.7,0,"mirror"],[-42.8,88.3,0,0,13.4,7.4,-13.4,-7.4,"mirror"],[-120,110.1,0,0,9.6,12.2,-5.8,-7.3,"mirror"],[-92.3,34.6,0,0,3.7,8.3,-2.4,-5.5,"mirror"],[-161.5,-2.5,0,0,0,14.5,0,-14.6,"mirror"],[-92.3,-34.7,0,0,-2.5,5.6,4.9,-11.1,"mirror"]
+                    ,[-135,-112.3,0,0,-8.5,9.1,6.3,-6.9,"mirror"],[-50.7,-83.5,0,0,-7.7,5.1,15.4,-10.3,"mirror"]]
+                }).sca(.4).pos(stageW/4,435).addTo(page4);
+                const moon2 = new Blob({
+                    color: white,
+                    borderColor: black,
+                    showControls: false,
+                    points: [[-1.2,37.8,0,0,-50,0,50,0,"mirror"],[100,0,0,0,0,-50,0,50,"mirror"],
+                    [0,100,0,0,50,0,-50,0,"mirror"],[-100,0,0,0,0,50,0,-50,"mirror"]]
+
+                }).sca(.4).rot(-45).pos(stageW/4,555).addTo(page4);
+    
+                
+                const sun3 = new Blob({
+                    color: white,
+                    borderColor: black,
+                    showControls: false,
+                    points:[[-2.5,-154.3,0,0,-17.6,0,14.7,0,"mirror"],[42.8,-88.3,0,0,-13.4,-7.4,10.7,5.9,"mirror"],
+                    [114,-102.4,0,0,-8.5,-9.2,10.6,11.5,"mirror"],[95.6,-26.2,0,0,-4.7,-14.2,2.8,8.6,"mirror"],
+                    [160.6,11.1,0,0,0,-8.8,0,11.8,"mirror"],[92.3,34.6,0,0,4.9,-11.1,-6.2,13.8,"mirror"],[113.5,107.8,0,0,10.4,-18.4,-10.4,18.4,"mirror"],[34.6,92.3,0,0,11.1,-4.9,-11.1,4.9,"mirror"],[-2.5,153.1,0,0,11.7,0,-14.7,0,"mirror"],[-42.8,88.3,0,0,13.4,7.4,-13.4,-7.4,"mirror"],[-120,110.1,0,0,9.6,12.2,-5.8,-7.3,"mirror"],[-92.3,34.6,0,0,3.7,8.3,-2.4,-5.5,"mirror"],[-161.5,-2.5,0,0,0,14.5,0,-14.6,"mirror"],[-92.3,-34.7,0,0,-2.5,5.6,4.9,-11.1,"mirror"]
+                    ,[-135,-112.3,0,0,-8.5,9.1,6.3,-6.9,"mirror"],[-50.7,-83.5,0,0,-7.7,5.1,15.4,-10.3,"mirror"]]
+                }).sca(.4).pos(stageW/4,625).addTo(page4);
+                const moon3 = new Blob({
+                    color: white,
+                    borderColor: black,
+                    showControls: false,
+                    points: [[-1.2,37.8,0,0,-50,0,50,0,"mirror"],[100,0,0,0,0,-50,0,50,"mirror"],
+                    [0,100,0,0,50,0,-50,0,"mirror"],[-100,0,0,0,0,50,0,-50,"mirror"]]
+
+                }).sca(.4).rot(-45).pos(stageW/4,745).addTo(page4);
+
+                moon1.on("mousedown", function(){
+                    const colorPicker1 = new ColorPicker()
+                    colorPicker1.show();
+                    colorPicker1.change(() => {
+                    moon1.color = colorPicker1.selectedColor;
+                    colorPicker1.hide(); 
+                    });
+                })
+                moon2.on("mousedown", function(){
+                    const colorPicker2 = new ColorPicker()
+                    colorPicker2.show();
+                    colorPicker2.change(() => {
+                    moon2.color = colorPicker2.selectedColor;
+                    colorPicker2.hide(); 
+                    });
+                })
+                moon3.on("mousedown", function(){
+                    const colorPicker3 = new ColorPicker()
+                    colorPicker3.show();
+                    colorPicker3.change(() => {
+                    moon3.color = colorPicker3.selectedColor;
+                    colorPicker3.hide(); 
+                    });
+                })
+
+                sun1.on("mousedown", function(){
+                    const colorPicker1 = new ColorPicker()
+                    colorPicker1.show();
+                    colorPicker1.change(() => {
+                    sun1.color = colorPicker1.selectedColor;
+                    colorPicker1.hide(); 
+                    });
+                })
+                sun2.on("mousedown", function(){
+                    const colorPicker2 = new ColorPicker()
+                    colorPicker2.show();
+                    colorPicker2.change(() => {
+                    sun2.color = colorPicker2.selectedColor;
+                    colorPicker2.hide(); 
+                    });
+                })
+                sun3.on("mousedown", function(){
+                    const colorPicker3 = new ColorPicker()
+                    colorPicker3.show();
+                    colorPicker3.change(() => {
+                    sun3.color = colorPicker3.selectedColor;
+                    colorPicker3.hide(); 
+                    });
+                })
+
+                
+
+                //page -5-
+
+                new Pic("anmat2.png").sca(1.2).rot(-90).pos(stageW/4,10).addTo(page5).drag()
+
+                const correctAnswers = ["ارنب", "جزرة","جزرة"];
+
+                const answers = [];  // مصفوفة لحفظ مربعات النص
+                const positions = [{x: 335, y: 670}, {x: 335, y: 720}, {x:335, y:770}];  // مواضع الفراغات
+
+                positions.forEach((pos, index) => {
+                    const answerField = new Label({
+                        text: ".........",
+                        size: 30,
+                        font: "Comic Sans",
+                        color: black
+                    }).pos(pos.x, pos.y).addTo(page5).cur();
+                        
+                        // تمكين التحرير عند النقر
+                    const textEditor = new TextEditor({
+                        colorList: true,  // منتقي الألوان متاح
+                        optionList: ["bold", "italic", "align"],  // خيارات التنسيق
+                        sizeList: [20, 30, 40]  // أحجام النصوص
+                    });
+
+                    // إظهار المحرر عند النقر
+                    answerField.on("click", () => {
+                        textEditor.show(answerField);
+                    });
+
+                    answers.push(answerField);
+                });
+
+                // زر التحقق من الإجابات
+                new Button({
+                    label:"تحقق",
+                    width:150,
+                    height:60,
+                    backgroundColor:"purple",
+                    rollBackgroundColor:"MediumOrchid",
+                    borderWidth:8,
+                    borderColor:"violet",
+                    gradient:.3,
+                    corner:10,
+                    color: "white"
+                }).pos(100, 150).addTo(page5)
+                .on("click", () => {
+                    let correct = true;
+                    answers.forEach((answerField, index) => {
+                        const userAnswer = answerField.text.trim();
+                        if (userAnswer !== correctAnswers[index]) {
+                            correct = false;
+                            answerField.color = "red";  // إجابة خاطئة
+                            answerField.bold = true
+                        } else {
+                            answerField.color = "green";  // إجابة صحيحة
+                            rightSound.play()
+                        }
+                    });
+                    // عرض النتيجة
+                    if (correct) {
+                        rightSound.play();
+                        emitter.spurt(40).center(page5)
+                    } else {
+                        wrongSound.play();
+                    }
+                });
+
+                new Button({
+                    label:"تحدث",
+                    width:150,
+                    height:60,
+                    backgroundColor:"purple",
+                    rollBackgroundColor:"MediumOrchid",
+                    borderWidth:8,
+                    borderColor:"violet",
+                    gradient:.3,
+                    corner:10,
+                    color: "white"
+                }).pos(100, 350).addTo(page5)
+                .tap(()=> {
+                    sound3.play()
+                })
+
+
+                //page -6-
+
+                const p = new Pic("anmat3.png").sca(.8).center(page6)
+                
+                const l = new Label({
+                    text:"أكمل النمط الآتي بالألوان المناسبة:",
+                    align: CENTER,
+                    size:40,
+                    backgroundBorderColor:red,
+                    color:white,
+                    rollColor:yellow,
+                    bold:true,
+                    italic:true
+                }).pos(40,90).addTo(page6);
+                new Emoji("\ud83d\udd2c", 100).pos(90,190).addTo(page6);
+
+                const svg = `<svg id="ekMFqzvbEfA1" xmlns="http://www.w3.org/2000/svg"
+                xmlns:xlink="http://www.w3.org/1999/xlink" 
+                viewBox="0 0 300 300" shape-rendering="geometricPrecision"
+                text-rendering="geometricPrecision"
+                project-id="29a264206f9249bebc73364bce52f9c0" 
+                export-id="1904d18bffa947b8a54aa795011662cf">
+                <g id="bear">
+                <path d="M345.5,200.11c8.33,3,25.83,6,28.5,24.33s-16,16.89-23.83,11.67c-10-6.67-20-42.67-4.67-36Z" fill="#70442d"/><g>
+                <path d="M263.75,370.94c3-5.33,13.83-8.83,23.33-8.67s28.67-2.33,29.17,0s2.83,8.83-1.17,9-56.16,6.17-51.33-.33Z" fill="#70442d"/>
+                <path d="M325.11,303.07c3.7-21.22,10.42-42.08-3.89-66s-43.22-25.86-56.85-1.07-3.35,75.38-1.89,87.26s29,12.51,41.53,14.13s13.81,7.49,21.1-34.32Z" fill="#70002d"/>
+                <path d="M292.94,294.69c-18.9-1.93-34.45,10-29.62,31.65s6.78,27.08,7.76,32.21s2.09,11.52,19,13s27.83,3.1,28.44-12.67s1.9-25.94,2.39-35.69-1.36-25.78-27.97-28.5Z" fill="#70442d"/></g>
+                <g><path d="M151.16,203.3c-11.6.16-37.51,21.41-30.73,69.55c5.52,39.17,9.2,41.34,15.22,46.23c6.78,5.5,26.88,8.26,33.77,2.55c2-1.66,7-5.31,7.38-21s18.97-97.93-25.64-97.33Z" fill="#70442d"/>
+                <path d="M124.57,297.53c2,10.37,12.73,49.16,13,62.26.1,4.93,1.81,8.47,11.83,9.32s22.63,7.77,23.75-8.3s3.49-51.76,3.63-62.39c.43-31.42-58.73-30.58-52.21-.89Z" fill="#70442d"/>
+                <path d="M119.58,371.28c3-5.33,13.83-8.83,23.33-8.67s28.67-2.33,29.17,0s2.83,8.83-1.17,9-56.16,6.17-51.33-.33Z" fill="#70442d"/></g>
+                <path d="M121.58,162.19c10.38,3.85,31.5,8.25,51.75,8.75s34.5,2.5,28.75,35.75-8.75,74.25-27,72.5-46.25-17.12-67.75-26.62-10.75-42.37-4.5-57.12s10-36.51,18.75-33.26Z" fill="#8a583d"/>
+                <path d="M133.83,202.44c2.52-19.38,18.25-41.25,52.5-34.5s59.25,3.5,79,2.75s67.25.5,84.75,38s3.75,79.75-29,92-112.25,7.25-142-11.75-50-50-45.25-86.5Z" fill="#8a583d"/>
+                <g><path d="M156.08,205.94c-11.37,2.27-33,27.9-17.5,74c12.58,37.5,16.6,39,23.42,42.67c7.67,4.17,27.94,3.2,33.67-3.67c1.67-2,5.92-6.5,3.42-22s.74-99.75-43.01-91Z" fill="#8a583d"/>
+                <path d="M147.17,303.44c3.83,9.83,21.5,46,24.17,58.83c1,4.83,3.33,8,13.33,7s23.67,3.5,21.83-12.5-6-51.52-7.83-62c-5.34-30.99-63.34-19.33-51.5,8.67Z" fill="#8a583d"/>
+                <path d="M153.83,371.28c3-5.33,13.83-8.83,23.33-8.67s28.67-2.33,29.17,0s2.83,8.83-1.17,9-56.16,6.17-51.33-.33Z" fill="#8a583d"/></g>
+                <g><path d="M300.75,370.94c3-5.33,13.83-8.83,23.33-8.67s28.67-2.33,29.17,0s2.83,8.83-1.17,9-56.16,6.17-51.33-.33Z" fill="#8a583d"/>
+                <path d="M355.58,300.19c1.52-21.49,6.08-42.92-10.58-65.25s-45.67-21.33-56.67,4.67s4.33,75.33,7,87s30.08,9.5,42.75,9.83s14.5,6.09,17.5-36.25Z" fill="#8a583d"/>
+                <path d="M322.08,294.94c-19,0-33.25,13.5-26.25,34.5s9.5,26.25,11,31.25s3.25,11.25,20.25,11s28,.25,27-15.5-.75-26-1.25-35.75-4-25.5-30.75-25.5Z" fill="#8a583d"/></g>
+                <g><path d="M131,166.94c-11.89-6.86-29.33-17.33-54-6s-29.67,30-32.33,40.33-5.67,11.33-13,15.33-3.33,12,2.67,19.33s18.33,13,29.33,13.33s34.67.67,45.67,4s27-34,29-51.33s9.99-24.99-7.34-34.99Z" fill="#8a583d"/>
+                <path d="M92.33,171.94c-3.17-11,5-24.17,16.67-16.83s9.33,31-6.67,28.33c-5,0-9.83-8.83-10-11.5Z" fill="#70442d"/><path d="M37.5,219.78c-.24-2.84-2.74-3.16-5.84-3.16-5.1,2.78-4.71,7.5-2,12.58c3.86-1.92,8.11-6.2,7.84-9.42Z" fill="#472818"/>
+                <path d="M62.5,201.78c-3.7.13-4,8.67.33,8.5s4.5-8.67-.33-8.5Z" fill="#472818"/>
+                </g></g></svg> `
+
+                const brownBear1 = new SVG({svg:svg, bitmap:false}).sca(.33)
+                const brownBear2 = new SVG({svg:svg, bitmap:false}).sca(.33)
+                const yellowBear1 = new SVG({svg:svg, bitmap:false}).sca(.33)
+                const yellowBear2 = new SVG({svg:svg, bitmap:false}).sca(.33) 
+                const whiteBear1 = new SVG({svg:svg, bitmap:false}).sca(.33) 
+                const whiteBear2 = new SVG({svg:svg, bitmap:false}).sca(.33) 
+                const whiteBear3 = new SVG({svg:svg, bitmap:false}).sca(.33) 
+                const whiteBear4 = new SVG({svg:svg, bitmap:false}).sca(.33) 
+
+        
+
+                for (let i = 0; i < brownBear1.children.length; i++) {
+                    whiteBear1.getChildAt(i).color =  white;
+                    whiteBear2.getChildAt(i).color =  white;
+                    whiteBear3.getChildAt(i).color =  white;
+                    whiteBear4.getChildAt(i).color =  white;
+                }
+
+                for (let i = 0; i < yellowBear1.children.length; i++) {
+                    yellowBear1.getChildAt(i).color =  yellow;
+                    yellowBear2.getChildAt(i).color =  yellow;
+                }
+
+                yellowBear1.pos(stageW/8-20,100).addTo(page7)
+                yellowBear2.pos(stageW/8-20,160).addTo(page7)
+                brownBear1.pos(stageW/8-20,220).addTo(page7)
+                brownBear2.pos(stageW/8-20,280).addTo(page7)
+                whiteBear1.pos(stageW/8-20,340).addTo(page7)
+                whiteBear2.pos(stageW/8-20,400).addTo(page7)
+                whiteBear3.pos(stageW/8-20,460).addTo(page7)
+                whiteBear4.pos(stageW/8-20,512).addTo(page7)
+
+                const picker = new ColorPicker();
+
+                let whiteBears = [whiteBear1, whiteBear2, whiteBear3, whiteBear4];
+
+                // تخزين الدب الذي سيتم تغيير لونه
+                let selectedBear = null;
+
+                whiteBears.forEach(bear => {
+                    bear.on('click', () => {
+                        // تحديد الدب الذي تم النقر عليه
+                        selectedBear = bear;
+                        picker.show();
+                    });
+                });
+
+                picker.on('change', function () {
+                    // تطبيق اللون المختار فقط على الدب الذي تم النقر عليه
+                    if (selectedBear) {
+                        for (let i = 0; i < selectedBear.children.length; i++) {
+                            selectedBear.getChildAt(i).color = picker.selectedColor;
+                        }
+                        picker.hide();
+                    }
+                });
+               
+              
+
+
+
+                // page -8-
+                //'treeRos.png','rosTree.png'
+                const la = new Label({
+                    text:"العنصر الناقص من النمط التالي؟",
+                    align: CENTER,
+                    size:40,
+                    backgroundBorderColor:red,
+                    color:white,
+                    rollColor:yellow,
+                    bold:true,
+                    italic:true
+                }).pos(40,90).addTo(page8)
+                 .animate({
+                    props:{y:"-30"},
+                    time: 4,
+                    rewind:true,
+                    sequence:.2,
+                    loop:true
+                }); 
+
+                new Pic("treeRos.png").loc(215,300,page8)
+                new Pic("rosTree.png").loc(20,300,page8)
+
+                const gap = new Rectangle(70,70,grey).loc(150,320,page8).outline()
+
+                const tree = new Pic('tree10.png').loc(50,400,page8).drag().cur()
+                const apple = new Pic('apple.png').loc(250, 400, page8).drag().cur()
+                const rose = new Pic('rose.png').loc(450, 400, page8).drag().cur()
+
+                let roseCollided = false; 
+
+                apple.on("pressmove", ()=>{
+                    if (apple.hitTestBounds(gap)) {
+                        wrongSound.play()
+                        zog('apple in rect')
+                        page8.removeChild(apple);
+                    }
+                })
+
+                tree.on("pressmove", ()=>{
+                    if (tree.hitTestBounds(gap)) {
+                        wrongSound.play()
+                         zog('apple in rect')
+                        page8.removeChild(tree);
+                    }
+                })
+
+                rose.on("pressmove", ()=>{
+                    if (rose.hitTestBounds(gap) && !roseCollided) {
+                        emitter.spurt()
+                        rightSound.play()
+                        roseCollided = true
+                    }
+                })
+
+
+             
+                const book = new Book({width:W - 30, height: H - 30, pages: pages,
+                startPage: 1, radius:120}).center()
+                //zog(book)
+                stage.update()
+
+            })
+
+        </script>
+
+
+
+    </body>
+
+    <%#- include('../partial/end.ejs') %>

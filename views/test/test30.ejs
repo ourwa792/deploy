@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+
+    <script lang="text/javascript" src="/library/createjs.js"> </script>
+    <script lang="text/javascript" src="/library/zim_min.js"> </script>
+    <!--     <script type="module" src="/library/zim_physics.js"></script>
+ -->
+</head>
+
+<body>
+
+    <script>
+
+
+        const assets = ["car.jpg", 'butterfly.png', "flowers02.jpg",
+            "book1.png", "book2.png", "teacher1.jpg",
+            "rightfish.png", "junko walking.png",
+            "drabstract.png", "city.png"];
+        const path = "/assets/"
+
+        const frame = new Frame({scaling:FIT, width:1024, height:768,color: "#501",
+        outerColor: "#555", path:path, assets:assets});
+        frame.on("ready", () => { // ES6 Arrow Function - similar to function(){}
+            zog("ready from ZIM Frame"); // logs in console (F12 - choose console)
+
+
+            const stage = frame.stage;
+            const stageW = frame.width;
+            const stageH = frame.height;
+   
+       /*      
+            const svg = `
+                       <svg id="character-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+                           <circle id="face" cx="50" cy="50" r="40" fill="#FFD700" />
+                           <circle id="eye-left" cx="35" cy="40" r="5" fill="#000" />
+                           <circle id="eye-right" cx="65" cy="40" r="5" fill="#000" />
+                           <path id="mouth" d="M 35 60 Q 50 80 65 60" stroke="#000" stroke-width="5" fill="transparent" />
+                       </svg>`;
+       
+                   const svgcontainer = new SVGContainer({svg,showControls:false}).sca(2).center()
+                   const mouth = svgcontainer.getChildAt(3);
+                   const eyeLeft = svgcontainer.getChildAt(1);
+                   const eyeRight = svgcontainer.getChildAt(2); 
+
+            //const pathPoints = svgcontainer.getChildAt(3)
+            //zog("pathPoints"+pathPoints)
+            zog(mouth)
+               
+                     mouth.animate({
+                         //props: { path: pathPoints} ,
+                         props:{path:"d=M 35 70 Q 50 60 65 70"},
+                         loop: true,           // تكرار الحركة
+                         rewind: true,         // الرجوع إلى الوضع الأصلي بعد الانتهاء
+                     });
+         
+                     eyeLeft.animate({
+                         props:{ scaleY:.4 },
+                         loop:true,
+                         rewind:true
+                     }) 
+                     eyeRight.animate({
+                         props:{ scaleY:.4 },
+                         loop:true,
+                         rewind:true
+                     }) 
+       */
+
+                     
+/*<path id="mouth1" d="M 35 70 Q 50 60 65 70" stroke="#000" stroke-width="5" fill="transparent" /> 
+
+
+            const lands = new Container(W, H).addTo();
+            const jungle = new Pic("flowers02.jpg")
+                .scaleTo(lands)
+                .center(lands);
+            const researchBuilding = new Pic("rightfish.png")
+                .scaleTo(lands)
+                .center(lands);
+            const portalObject = new Circle(118, faint, pink, 16, true)
+                .addTo(stage)
+                .pos(580, 470)
+                .animate({obj:{rotation:"360"}, time:70, ease:"linear", loop:true});
+            const portal = new Portal(portalObject, lands);
+            portal.on("enter", function() {
+                // play a sound here!
+            }); */
+
+                        // إنشاء الوجه (الدائرة)
+            const face = new Circle(100, "yellow")
+            .center(stage)
+            .drag()
+            .animate({
+                props: {rotation: 360},
+                loop: true,
+                time: 5000,
+            });
+
+            // إضافة العيون
+            const eye1 = new Circle(10, "black").loc({x:35, y: -30, container:face})
+            .animate({
+                props: {scaleY: .6},
+                loop: true,
+                time: 2,
+                rewind: true
+            })
+            const eye2 = new Circle(10, "black").loc({x:-35, y: -30, container:face})
+            .animate({
+                props: {scaleY: .6},
+                loop: true,
+                time: 2,
+                rewind: true
+            })
+
+            // إنشاء الفم باستخدام Squiggle
+            const mouth = new Squiggle({
+                points: 'M 35 60 Q 50 80 65 60',
+                length: 70,
+                controlType: "mirror",
+                color: "black",
+                thickness: 7,
+                showControls: false,
+            }).sca(2).loc(-100,-90, face)
+            .animate({props: {}
+        
+            })
+
+        })
+
+    </script>
+</body>
+
+</html>

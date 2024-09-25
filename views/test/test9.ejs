@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.0/gsap.min.js"></script>
+
+    <style>
+  body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+#app {
+    margin: 20px auto;
+    padding: 20px;
+    max-width: 600px;
+    background-color: #fff;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    color: #4CAF50;
+}
+
+#step-container {
+    margin: 20px 0;
+    padding: 20px;
+    background-color: #e8f5e9;
+    border: 2px solid #4CAF50;
+    border-radius: 10px;
+    min-height: 200px;
+}
+
+#step-container img {
+    max-width: 100%;
+    height: auto;
+    margin-top: 20px;
+}
+
+button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+#character-container {
+    width: 200px;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+svg {
+    width: 100%;
+    height: auto;
+}
+#next-step {
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+
+    </style>
+
+</head>
+<body>
+
+    <div id="app">
+        <h1>تعلم ضرب الأعداد</h1>
+        <div id="content">
+            <div id="step-container">
+                <!-- سيتم إضافة الخطوات هنا بواسطة JavaScript -->
+            </div>
+            <div id="character-container">
+                <!-- سيتم إضافة SVG للشخصية هنا -->
+            </div>
+        </div>
+        <button id="next-step">التالي</button>
+    </div>
+
+    <script>
+ const steps = [
+    {
+        title: "الخطوة الأولى",
+        description: "نكتب العددين شاقوليًا ونبدأ عملية الضرب من آحاد العدد.",
+        image: "images/step1.png",
+        characterSVG: `
+            <svg id="character-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+                <circle id="face" cx="50" cy="50" r="40" fill="#FFD700" />
+                <circle id="eye-left" cx="35" cy="40" r="5" fill="#000" />
+                <circle id="eye-right" cx="65" cy="40" r="5" fill="#000" />
+                <path id="mouth" d="M 35 60 Q 50 80 65 60" stroke="#000" stroke-width="5" fill="transparent" />
+            </svg>`,
+        customAnimation: function() {
+            // حركة مخصصة للخطوة الأولى
+            gsap.to("#eye-left, #eye-right", { scaleY: 0.5, repeat: 5, yoyo: true, duration: 0.2 });
+        }
+    },
+    // خطوات إضافية...
+];
+
+let currentStep = 0;
+
+const stepContainer = document.getElementById('step-container');
+const characterContainer = document.getElementById('character-container');
+const nextStepButton = document.getElementById('next-step');
+
+function animateCharacter() {
+    // الحركة الأساسية للشخصية
+    gsap.to("#eye-left, #eye-right", { scaleY: 0.1, repeat: -1, yoyo: true, duration: 0.1, ease: "power1.inOut", repeatDelay: 2 });
+
+    document.getElementById('character-svg').addEventListener('click', () => {
+        gsap.to("#mouth", { attr: { d: "M 35 70 Q 50 60 65 70" }, duration: 0.5, yoyo: true });
+        gsap.to("#character-svg", { rotation: 20, duration: 0.2, yoyo: true });
+    });
+}
+
+function renderStep() {
+    const step = steps[currentStep];
+    stepContainer.innerHTML = `
+        <h2>${step.title}</h2>
+        <p>${step.description}</p>
+        <img src="${step.image}" alt="${step.title}" id="step-image">
+    `;
+    
+    characterContainer.innerHTML = step.characterSVG;
+
+    animateCharacter();
+    
+    if (step.customAnimation) {
+        step.customAnimation();
+    }
+
+    gsap.fromTo("#step-container", { opacity: 0, y: 50 }, { opacity: 1, y: 0, duration: 1 });
+    gsap.fromTo("#step-image", { opacity: 0, scale: 0 }, { opacity: 1, scale: 1, duration: 1 });
+    gsap.fromTo("#character-svg", { opacity: 0, scale: 0 }, { opacity: 1, scale: 1, duration: 1 });
+}
+
+nextStepButton.addEventListener('click', () => {
+    currentStep++;
+    if (currentStep < steps.length) {
+        renderStep();
+    } else {
+        stepContainer.innerHTML = `<h2>مبروك! أكملت جميع الخطوات.</h2>`;
+        characterContainer.innerHTML = '';
+        gsap.fromTo("#step-container", { opacity: 0, scale: 0.8 }, { opacity: 1, scale: 1, duration: 1 });
+        nextStepButton.style.display = 'none';
+    }
+});
+
+renderStep();
+
+
+    </script>
+    
+</body>
+</html>

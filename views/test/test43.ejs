@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<script type="text/javascript" src="/library/jsxgraphcore.js"></script>
+
+<body>
+    <div id="jxgbox" style="width: 600px; height: 500px;"></div>
+
+    <script type="text/javascript">
+    (function(){
+        var board = JXG.JSXGraph.initBoard('jxgbox', {
+                    boundingbox: [-.5, 2.25, 2.5, -.75],
+                    keepaspectreatio: true,
+                    axis: true,
+                    grid: false,
+                    shownavigation: false,
+                    showcopyright: false
+        });
+        //board.suspendUpdate()
+        var ll = board.create('slider', [[0,-0.25],[1,-0.25],[0,.25,1]],{
+            name:'',strokeColor:"#123", baseline:{strokeColor:'#ffffff'},
+            highline:{strokeColor:'#ffffff'}, face:'<>'
+        })
+        var gl = board.create('slider', [[0,2],[0.6,2],[0,1,1]], {
+            name:'',strokeColor:'#122',
+            label: { visible:true },
+        });
+        var p0 = board.create('point',[0,0], {name:'p0', fillColor: '#f9fff', strokeColor: '#ffffff',visible:true, fixed:true});
+        var p1 = board.create('point',[1,0], {name:'p1', fillColor: '#f9fff', strokeColor: '#ffffff',visible:true, fixed:true});
+        var p2 = board.create('point',[1,1], {name:'p2', fillColor: '#f9fff', strokeColor: '#ffffff',visible:true, fixed:true});
+        var q2 = board.create('point',[1,1], {name:'q2', fillColor: '#f9fff', strokeColor: '#ffffff',visible:true, fixed:true});
+        var p3 = board.create('point',[0,1], {name:'p3', fillColor: '#f9fff', strokeColor: '#ffffff',visible:true, fixed:true});
+        var p4 = board.create('point',[1,2], {name:'p4', fillColor: '#f9fff', strokeColor: '#ffffff',visible:true, fixed:true});
+        var p5 = board.create('point',[2,2], {name:'p5', fillColor: '#f9fff', strokeColor: '#ffffff',visible:true, fixed:true});
+        var p6 = board.create('point',[2,1], {name:'p6', fillColor: '#f9fff', strokeColor: '#ffffff',visible:true, fixed:true});
+        var s1 = board.create('polygon',[p0,p1,p2,p3], {name:'s1', fillColor: 'none', highlightFillColor: 'none', borders: {strokeColor: '#123'}});
+        var s2 = board.create('polygon',[q2,p4,p5,p6], {name:'s2', fillColor: 'none', highlightFillColor: 'none', borders: {strokeColor: '#223'}});
+        var sl = board.create('point', [function() { return ll.Value(); },function() { return 1; }], {name:'sL', fillColor: '#ffffff', strokeColor: '#123',visible:true});                                              
+        var c1 = board.create('circle',[p3,sl], {name:'c1', fillColor: 'none', strokeColor: '#123',visible:true});
+        var c2 = board.create('circle',[p0,c1], {name:'c2', fillColor: 'none', strokeColor: '#123',visible:true});
+        var c3 = board.create('circle',[p1,c1], {name:'c3', fillColor: 'none', strokeColor: '#123',visible:true});
+        var c4 = board.create('circle',[p2,c1], {name:'c4', fillColor: 'none', strokeColor: '#123',visible:true});
+        var k4 = board.create('circle',[q2,c1], {name:'k4', fillColor: 'none', strokeColor: '#122',visible:true});
+        var c5 = board.create('circle',[p4,c1], {name:'c5', fillColor: 'none', strokeColor: '#123',visible:true});
+        var c6 = board.create('circle',[p5,c1], {name:'c6', fillColor: 'none', strokeColor: '#123',visible:true});
+        var c7 = board.create('circle',[p6,c1], {name:'c7', fillColor: 'none', strokeColor: '#122',visible:true});
+        var i1 = board.create('intersection',[c2,s1.borders[3],1], {name:'i1', fillColor: 'red', strokeColor: '#122',visible:true});
+        var i2 = board.create('intersection',[c3,s1.borders[0],1], {name:'i2', fillColor: 'red', strokeColor: '#333',visible:true});
+        var i3 = board.create('intersection',[c4,s1.borders[1],1], {name:'i3', fillColor: 'red', strokeColor: '#222',visible:true});
+        var i4 = board.create('intersection',[k4,s2.borders[0],0], {name:'i4', fillColor: 'red', strokeColor: '#22',visible:true});
+        var i5 = board.create('intersection',[c5,s2.borders[1],0], {name:'i5', fillColor: 'red', strokeColor: '#222',visible:true});
+        var i6 = board.create('intersection',[c6,s2.borders[2],0], {name:'i6', fillColor: 'red', strokeColor: '#222',visible:true});
+        var i7 = board.create('intersection',[c7,s2.borders[3],0], {name:'i7', fillColor: 'red', strokeColor: '#222',visible:true});
+        var j1 = board.create('intersection',[c1,s1.borders[3],0], {name:'j1', fillColor: 'red', strokeColor: '#222',visible:true});
+        var j2 = board.create('intersection',[c2,s1.borders[0],0], {name:'j2', fillColor: 'red', strokeColor: '#222',visible:true});
+        var l1 = board.create('line',[j1,i3], {name:'l1', fillColor: 'grey', strokeColor: 'green',visible:true});
+        var l2 = board.create('line',[sl,j2], {name:'l2', fillColor: 'green', strokeColor: 'green',visible:true});
+        var j3 = board.create('intersection',[l1,l2,0], {name:'j3', fillColor: 'red', strokeColor: '#222',visible:true});
+
+        var s3 = board.create('polygon',[i4,i5,i6,i7], {name:' ', opacity: 1, fillColor: '#88ddff', highlightFillColor: 'none', borders: {strokeColor: '#ffffff'}});
+        var s4 = board.create('polygon',[p3,j1,j3,sl], {name:' ', opacity: 1, fillColor: '#88ddff', highlightFillColor: 'none', borders: {strokeColor: '#ffffff'}});
+        var s5 = board.create('polygon',[j2,p1,i3,j3], {name:' ', opacity: 1, fillColor: '#88ddff', highlightFillColor: 'none', borders: {strokeColor: '#ffffff'}});
+
+        var d1 = board.create('polygon',[sl,j3,i3], {name:' ', opacity: 1, fillColor: '#ffbb33', highlightFillColor: 'none', borders: {strokeColor: '#ffffff'}});
+        var d2 = board.create('polygon',[j1,j2,j3], {name:' ', opacity: 1, fillColor: '#ffbb33', highlightFillColor: 'none', borders: {strokeColor: '#ffffff'}});
+        var d3 = board.create('polygon',[p6,i7,i6], {name:' ', opacity: 1, fillColor: '#ffbb33', highlightFillColor: 'none', borders: {strokeColor: '#ffffff'}});
+        var d4 = board.create('polygon',[p4,i4,i5], {name:' ', opacity: 1, fillColor: '#ffbb33', highlightFillColor: 'none', borders: {strokeColor: '#ffffff'}});
+        var d5 = board.create('polygon',[j1,p0,j2], {name:' ', opacity: 1, fillColor: '#ff6633', highlightFillColor: 'none', borders: {strokeColor: '#ffffff'}});
+        var d6 = board.create('polygon',[sl,i3,p2], {name:' ', opacity: 1, fillColor: '#ff6633', highlightFillColor: 'none', borders: {strokeColor: '#ffffff'}});
+        var d7 = board.create('polygon',[q2,i4,i7], {name:' ', opacity: 1, fillColor: '#ff6633', highlightFillColor: 'none', borders: {strokeColor: '#ffffff'}});
+        var d8 = board.create('polygon',[p5,i5,i6], {name:' ', opacity: 1, fillColor: '#ff6633', highlightFillColor: 'none', borders: {strokeColor: '#ffffff'}});
+        board.update()
+
+        var tr = board.create('transform',[
+            function(){ return -(p2.X()-j3.X())*(1-gl.Value()); },
+            function(){ return -(p2.Y()-j3.Y())*(1-gl.Value()); }
+        ],{type: 'translate'});
+
+        tr.bindTo(q2)
+        tr.bindTo(p4);
+        tr.bindTo(p5);
+        tr.bindTo(p6); 
+
+    })()
+
+     //مبرهنة فيثاغورث
+/* 
+ (function() {
+                var board = JXG.JSXGraph.initBoard('jxgbox', {
+                    boundingbox: [-.5, 2.25, 2.5, -.75],
+                    keepaspectreatio: true,
+                    axis: false,
+                    grid: false,
+                    shownavigation: false,
+                    showcopyright: false
+                });
+                // construction
+                //board.suspendUpdate();
+                var ll = board.create('slider', [[0,-0.25],[1,-0.25],[0,.25,1]], {
+                    name:'',
+                    strokeColor:'#ffffff',
+                    baseline: { strokeColor: '#ffffff' },
+                    highline: { strokeColor: '#ffffff' },
+                    label: { visible:false },
+                    face:'<>'
+                });
+                var gl = board.create('slider', [[0,-500],[2,-500],[0,1,1]], {
+                    name:'',
+                    strokeColor:'#ffffff',
+                    baseline: { strokeColor: '#ffffff' },
+                    highline: { strokeColor: '#ffffff' },
+                    label: { visible:false },
+                    face:'<script>'
+                });
+                var p0 = board.create('point',[0,0], {name:' ', fillColor: '#ffffff', strokeColor: '#ffffff',visible:false, fixed:true});
+                var p1 = board.create('point',[1,0], {name:' ', fillColor: '#ffffff', strokeColor: '#ffffff',visible:false, fixed:true});
+                var p2 = board.create('point',[1,1], {name:' ', fillColor: '#ffffff', strokeColor: '#ffffff',visible:false, fixed:true});
+                var q2 = board.create('point',[1,1], {name:' ', fillColor: '#ffffff', strokeColor: '#ffffff',visible:false, fixed:true});
+                var p3 = board.create('point',[0,1], {name:' ', fillColor: '#ffffff', strokeColor: '#ffffff',visible:false, fixed:true});
+                var p4 = board.create('point',[1,2], {name:' ', fillColor: '#ffffff', strokeColor: '#ffffff',visible:false, fixed:true});
+                var p5 = board.create('point',[2,2], {name:' ', fillColor: '#ffffff', strokeColor: '#ffffff',visible:false, fixed:true});
+                var p6 = board.create('point',[2,1], {name:' ', fillColor: '#ffffff', strokeColor: '#ffffff',visible:false, fixed:true});
+                var s1 = board.create('polygon',[p0,p1,p2,p3], {name:' ', fillColor: 'none', highlightFillColor: 'none', borders: {strokeColor: '#ffffff'}});
+                var s2 = board.create('polygon',[q2,p4,p5,p6], {name:' ', fillColor: 'none', highlightFillColor: 'none', borders: {strokeColor: '#ffffff'}});
+                //var sl = board.create('glider', [0.25,1,s1.borders[2]], {name:' ', fillColor: '#ffffff', strokeColor: '#ffffff'});                                              
+                var sl = board.create('point', [function() { return ll.Value(); },function() { return 1; }], {name:' ', fillColor: '#ffffff', strokeColor: '#ffffff',visible:false});                                              
+                var c1 = board.create('circle',[p3,sl], {name:' ', fillColor: 'none', strokeColor: '#ffffff',visible:false});
+                var c2 = board.create('circle',[p0,c1], {name:' ', fillColor: 'none', strokeColor: '#ffffff',visible:false});
+                var c3 = board.create('circle',[p1,c1], {name:' ', fillColor: 'none', strokeColor: '#ffffff',visible:false});
+                var c4 = board.create('circle',[p2,c1], {name:' ', fillColor: 'none', strokeColor: '#ffffff',visible:false});
+                var k4 = board.create('circle',[q2,c1], {name:' ', fillColor: 'none', strokeColor: '#ffffff',visible:false});
+                var c5 = board.create('circle',[p4,c1], {name:' ', fillColor: 'none', strokeColor: '#ffffff',visible:false});
+                var c6 = board.create('circle',[p5,c1], {name:' ', fillColor: 'none', strokeColor: '#ffffff',visible:false});
+                var c7 = board.create('circle',[p6,c1], {name:' ', fillColor: 'none', strokeColor: '#ffffff',visible:false});
+                var i1 = board.create('intersection',[c2,s1.borders[3],1], {name:' ', fillColor: '#ffffff', strokeColor: '#ffffff',visible:false});
+                var i2 = board.create('intersection',[c3,s1.borders[0],1], {name:' ', fillColor: '#ffffff', strokeColor: '#ffffff',visible:false});
+                var i3 = board.create('intersection',[c4,s1.borders[1],1], {name:' ', fillColor: '#ffffff', strokeColor: '#ffffff',visible:false});
+                var i4 = board.create('intersection',[k4,s2.borders[0],0], {name:' ', fillColor: '#ffffff', strokeColor: '#ffffff',visible:false});
+                var i5 = board.create('intersection',[c5,s2.borders[1],0], {name:' ', fillColor: '#ffffff', strokeColor: '#ffffff',visible:false});
+                var i6 = board.create('intersection',[c6,s2.borders[2],0], {name:' ', fillColor: '#ffffff', strokeColor: '#ffffff',visible:false});
+                var i7 = board.create('intersection',[c7,s2.borders[3],0], {name:' ', fillColor: '#ffffff', strokeColor: '#ffffff',visible:false});
+                var j1 = board.create('intersection',[c1,s1.borders[3],0], {name:' ', fillColor: '#ffffff', strokeColor: '#ffffff',visible:false});
+                var j2 = board.create('intersection',[c2,s1.borders[0],0], {name:' ', fillColor: '#ffffff', strokeColor: '#ffffff',visible:false});
+                var l1 = board.create('line',[j1,i3], {name:' ', fillColor: '#ffffff', strokeColor: '#ffffff',visible:false});
+                var l2 = board.create('line',[sl,j2], {name:' ', fillColor: '#ffffff', strokeColor: '#ffffff',visible:false});
+                var j3 = board.create('intersection',[l1,l2,0], {name:' ', fillColor: '#ffffff', strokeColor: '#ffffff',visible:false});
+                var s3 = board.create('polygon',[i4,i5,i6,i7], {name:' ', opacity: 1, fillColor: '#88ddff', highlightFillColor: 'none', borders: {strokeColor: '#ffffff'}});
+                var s4 = board.create('polygon',[p3,j1,j3,sl], {name:' ', opacity: 1, fillColor: '#88ddff', highlightFillColor: 'none', borders: {strokeColor: '#ffffff'}});
+                var s5 = board.create('polygon',[j2,p1,i3,j3], {name:' ', opacity: 1, fillColor: '#88ddff', highlightFillColor: 'none', borders: {strokeColor: '#ffffff'}});
+                var d1 = board.create('polygon',[sl,j3,i3], {name:' ', opacity: 1, fillColor: '#ffbb33', highlightFillColor: 'none', borders: {strokeColor: '#ffffff'}});
+                var d2 = board.create('polygon',[j1,j2,j3], {name:' ', opacity: 1, fillColor: '#ffbb33', highlightFillColor: 'none', borders: {strokeColor: '#ffffff'}});
+                var d3 = board.create('polygon',[p6,i7,i6], {name:' ', opacity: 1, fillColor: '#ffbb33', highlightFillColor: 'none', borders: {strokeColor: '#ffffff'}});
+                var d4 = board.create('polygon',[p4,i4,i5], {name:' ', opacity: 1, fillColor: '#ffbb33', highlightFillColor: 'none', borders: {strokeColor: '#ffffff'}});
+                var d5 = board.create('polygon',[j1,p0,j2], {name:' ', opacity: 1, fillColor: '#ff6633', highlightFillColor: 'none', borders: {strokeColor: '#ffffff'}});
+                var d6 = board.create('polygon',[sl,i3,p2], {name:' ', opacity: 1, fillColor: '#ff6633', highlightFillColor: 'none', borders: {strokeColor: '#ffffff'}});
+                var d7 = board.create('polygon',[q2,i4,i7], {name:' ', opacity: 1, fillColor: '#ff6633', highlightFillColor: 'none', borders: {strokeColor: '#ffffff'}});
+                var d8 = board.create('polygon',[p5,i5,i6], {name:' ', opacity: 1, fillColor: '#ff6633', highlightFillColor: 'none', borders: {strokeColor: '#ffffff'}});
+                board.update();
+                var tr = board.create('transform',[function(){ return -(p2.X()-j3.X())*(1-gl.Value()); },function(){ return -(p2.Y()-j3.Y())*(1-gl.Value()); }], {type: 'translate'});
+                tr.bindTo(q2);
+                tr.bindTo(p4);
+                tr.bindTo(p5);
+                tr.bindTo(p6);
+                //board.unsuspendUpdate();
+})(); */
+    
+    </script>
+
+</body>
+
+</html>

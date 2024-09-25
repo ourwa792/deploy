@@ -1,0 +1,375 @@
+<!-- <!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لعبة ترتيب الوحدات</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            direction: rtl;
+            text-align: center;
+            background-color: #f0f0f0;
+        }
+        h1 {
+            margin-top: 20px;
+        }
+        #units, #drop-area {
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items: flex-end;
+            margin: 20px 0;
+            width: 50%;
+            margin: 0 auto;
+        }
+        .unit {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 5px;
+            cursor: grab;
+            user-select: none;
+            width: 100px;
+        }
+        #drop-area {
+            background-color: #ddd;
+            padding: 10px;
+            border: 2px dashed #ccc;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+        .drop-slot {
+            width: 100px;
+            height: 50px;
+            margin: 5px;
+            border: 1px dashed #ccc;
+            background-color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        .drop-slot.correct {
+            border: 2px solid green;
+            background-color: #d4edda;
+        }
+        .drop-slot.incorrect {
+            border: 2px solid red;
+            background-color: #f8d7da;
+        }
+        .step {
+            position: absolute;
+            right: 0;
+            top: 0;
+            transform: translateY(-50%);
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 20px;
+        }
+        #check-button, #hint-button {
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        #hint {
+            margin-top: 20px;
+            font-size: 18px;
+            color: blue;
+        }
+    </style>
+</head>
+<body>
+    <h1>لعبة ترتيب الوحدات من الأكبر إلى الأصغر</h1>
+    <div id="units">
+        <div class="unit" data-unit="km">كيلومتر<br>km</div>
+        <div class="unit" data-unit="hm">هكتومتر<br>hm</div>
+        <div class="unit" data-unit="dam">ديكامتر<br>dam</div>
+        <div class="unit" data-unit="m">متر<br>m</div>
+        <div class="unit" data-unit="dm">ديسيمتر<br>dm</div>
+        <div class="unit" data-unit="cm">سنتيمتر<br>cm</div>
+        <div class="unit" data-unit="mm">مليمتر<br>mm</div>
+    </div>
+    <div id="drop-area">
+        <div class="drop-slot" data-position="0"></div>
+        <div class="drop-slot" data-position="1"></div>
+        <div class="drop-slot" data-position="2"></div>
+        <div class="drop-slot" data-position="3"></div>
+        <div class="drop-slot" data-position="4"></div>
+        <div class="drop-slot" data-position="5"></div>
+        <div class="drop-slot" data-position="6"></div>
+    </div>
+    <button id="check-button">تحقق من الإجابة</button>
+    <button id="hint-button">تلميح</button>
+    <div id="result"></div>
+    <div id="hint"></div>
+
+    <audio id="correct-sound" src="correct.mp3"></audio>
+    <audio id="wrong-sound" src="wrong.mp3"></audio>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script>
+    <script>
+        const units = document.querySelectorAll('.unit');
+        const dropSlots = document.querySelectorAll('.drop-slot');
+        const correctOrder = ['km', 'hm', 'dam', 'm', 'dm', 'cm', 'mm'];
+        const correctSound = document.getElementById('correct-sound');
+        const wrongSound = document.getElementById('wrong-sound');
+        const dropArea = document.getElementById('drop-area');
+
+        // Initialize Sortable.js
+        Sortable.create(units[0].parentElement, {
+            animation: 150,
+            group: 'shared',
+            draggable: '.unit',
+            onEnd: function () {
+                // Move unit to drop-area if placed
+                dropSlots.forEach(slot => {
+                    if (slot.children.length === 0 && document.querySelector('.unit.dragging')) {
+                        slot.appendChild(document.querySelector('.unit.dragging'));
+                    }
+                });
+            }
+        });
+
+        Sortable.create(dropArea, {
+            animation: 150,
+            group: 'shared',
+            draggable: '.unit',
+            onEnd: function () {
+                units.forEach(unit => unit.classList.remove('dragging'));
+            }
+        });
+
+        document.getElementById('check-button').addEventListener('click', () => {
+            let isCorrect = true;
+            dropSlots.forEach((slot, index) => {
+                const unit = slot.querySelector('.unit');
+                if (unit && unit.getAttribute('data-unit') === correctOrder[index]) {
+                    slot.classList.add('correct');
+                    slot.classList.remove('incorrect');
+                } else {
+                    slot.classList.add('incorrect');
+                    slot.classList.remove('correct');
+                    isCorrect = false;
+                }
+            });
+
+            const result = document.getElementById('result');
+            if (isCorrect) {
+                result.textContent = 'إجابة صحيحة!';
+                result.style.color = 'green';
+                correctSound.play();
+            } else {
+                result.textContent = 'إجابة خاطئة، حاول مرة أخرى.';
+                result.style.color = 'red';
+                wrongSound.play();
+            }
+        });
+
+        document.getElementById('hint-button').addEventListener('click', () => {
+            const hint = document.getElementById('hint');
+            hint.textContent = 'تلميح: الوحدة الأكبر هي كيلومتر (km) والوحدة الأصغر هي مليمتر (mm).';
+        });
+    </script>
+</body>
+</html>
+ -->
+
+
+ <!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ترتيب الوحدات</title>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.0/themes/base/jquery-ui.css">
+    <style>
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: #f7f7f7;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #sortable-container {
+            display: flex;
+            justify-content: center;
+            overflow-x: auto;
+            width: 100%;
+            max-width: 100%;
+            padding: 10px 0;
+            box-sizing: border-box;
+        }
+
+        #sortable {
+            display: flex;
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            gap: 10px;
+        }
+
+        #sortable li {
+            padding: 10px 15px;
+            font-size: 1.2em;
+            background-color: #e0f7fa;
+            border-radius: 8px;
+            border: 1px solid #00897b;
+            cursor: move;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s, transform 0.2s;
+            white-space: nowrap;
+        }
+
+        #sortable li:hover {
+            background-color: #b2ebf2;
+        }
+
+        .ui-sortable-placeholder {
+            background-color: #80deea;
+            border: dashed 2px #00897b;
+            visibility: visible !important;
+            width: 80px;
+            height: auto;
+        }
+
+        .feedback {
+            margin-top: 20px;
+            font-size: 1.4em;
+            font-weight: bold;
+            color: #00796b;
+        }
+
+        .options {
+            margin: 20px;
+            font-size: 1.2em;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 1em;
+            color: white;
+            background-color: #00796b;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background-color: #004d40;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="https://code.jquery.com/ui/1.14.0/jquery-ui.js"></script>
+    <script>
+        $(function() {
+            $("#sortable").sortable({
+                placeholder: "ui-sortable-placeholder",
+                axis: "x",
+                scroll: true,
+                scrollSensitivity: 50,
+                scrollSpeed: 20,
+                start: function(event, ui) {
+                    ui.helper.css("opacity", "0.9");
+                },
+                stop: function(event, ui) {
+                    ui.item.css("opacity", "1");
+                }
+            });
+
+            $("#sortable").disableSelection();
+        });
+
+        function initializeUnits(units) {
+            const sortableList = $("#sortable");
+            sortableList.empty(); // تفريغ القائمة الحالية
+
+            units.forEach(unit => {
+                sortableList.append(`<li class="ui-state-default">${unit}</li>`);
+            });
+            // الترتيب الصحيح
+            window.unitsAscendingOrder = ['mm²', 'cm²', 'dm²', 'm²', 'dam²', 'hm²', 'km²'];
+            window.unitsDescendingOrder = [...unitsAscendingOrder].reverse();
+        }
+
+        function checkOrder() {
+            const selectedOrder = document.querySelector('input[name="order"]:checked').value;
+            const correctOrder = selectedOrder === 'ascending' ? window.unitsAscendingOrder : window.unitsDescendingOrder;
+
+            const units = $("#sortable").children("li").map(function() {
+                return $(this).text().trim();
+            }).get();
+
+            const feedback = document.getElementById('feedback');
+            if (JSON.stringify(units) === JSON.stringify(correctOrder)) {
+                feedback.textContent = 'ترتيب صحيح! أحسنت!';
+                feedback.style.color = 'green';
+            } else {
+                feedback.textContent = 'ترتيب خاطئ. حاول مرة أخرى.';
+                feedback.style.color = 'red';
+            }
+        }
+
+        $(document).ready(function() {
+            //            الذي سيعرض للمستخدم
+            const defaultUnits = ['mm²', 'cm²', 'dm²', 'm²', 'dam²', 'hm²', 'km²'];
+            initializeUnits(defaultUnits);
+        });
+    </script>
+</head>
+<body>
+
+    <div class="container">
+        <h1>ترتيب الوحدات</h1>
+        <p>قم بترتيب الوحدات عن طريق السحب والإفلات.</p>
+
+        <div class="options">
+            <label>
+                <input type="radio" name="order" value="ascending" checked> ترتيب تصاعدي
+            </label>
+            <label style="margin-left: 20px;">
+                <input type="radio" name="order" value="descending"> ترتيب تنازلي
+            </label>
+        </div>
+
+        <div id="sortable-container">
+            <ul id="sortable">
+                <!-- سيتم تعبئة الوحدات ديناميكيا هنا -->
+            </ul>
+        </div>
+
+        <button onclick="checkOrder()">تحقق من الترتيب</button>
+
+        <div id="feedback" class="feedback"></div>
+    </div>
+
+</body>
+</html>
+
+<!-- لماذا نستخدم JSON.stringify؟
+مقارنة المصفوفات:
+
+في JavaScript، لا يمكن مقارنة المصفوفات مباشرة باستخدام === أو == لأنها تقارن المراجع وليس القيم. حتى إذا كانت المصفوفات تحتوي على نفس العناصر بالضبط وبنفس الترتيب، فإن مقارنة [1, 2, 3] === [1, 2, 3] ستعيد false لأنهما ليستا نفس الكائنات في الذاكرة.
+تحويل المصفوفة إلى سلسلة نصية:
+
+JSON.stringify يقوم بتحويل المصفوفة إلى سلسلة نصية (string) تمثل محتويات المصفوفة. على سبيل المثال:
+javascript
+Copy code
+const arr = [1, 2, 3];
+const str = JSON.stringify(arr); // "[1,2,3]"
+بعد تحويل المصفوفات إلى سلاسل نصية، يمكن مقارنتها مباشرة باستخدام ===، لأن سلاسل النصوص تقارن حسب القيمة.
+ -->

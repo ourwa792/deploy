@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title></title>
+    <script src="/library/jsxgraphcore.js"></script>
+    <link rel="stylesheet" href="/css/jsxgraph.css" />
+    <style>
+        #jxgbox {
+            width: 600px;
+            height: 600px;
+        }
+    </style>
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js" id="MathJax-script"></script>
+
+</head>
+
+<body>
+
+    <div id="jxgbox" style="width: 700px; height: 600px; border: 1px solid aquamarine; border-radius: 14%;"></div>
+    <!--  <button onclick="play()">play</button>
+    <button onclick="resetAnimation()">reset</button> -->
+
+    [<span id="outputID">Change JSXGraph construction.</span>]
+    <button onclick="show();">Show/hide additional elements!</button>
+
+    <script>
+
+        var board = JXG.JSXGraph.initBoard("jxgbox", {
+            boundingbox: [-4, 5, 6, -3],
+            keepaspectratio: true,
+            axis: true,
+            //gride: true, showNavigation: true
+        });
+        /*
+                var view = board.create('view3d',
+                    [
+                        [-6, -3],
+                        [8, 8], // 2D box of view
+                        [
+                            [-5, 5],
+                            [-5, 5],
+                            [-5, 5]
+                        ]
+                    ], // 3D bounding cube
+                    {});
+        
+                // Point A (free point)                       
+                var p = view.create('point3d', [1, 1, 2], { size: 5, name: 'A' });
+        
+                view.create('line3d', [p, [1, 0, 0], [0, () => -p.X() - 5]], { dash: 1 });
+                view.create('line3d', [p, [0, 1, 0], [0, () => -p.Y() - 5]], { dash: 1 });
+                view.create('line3d', [p, [0, 0, 1], [0, () => -p.Z() - 5]], { dash: 1 }) */
+
+
+        /*  // إنشاء نقطة وخط على اللوحة
+         var p1 = board.create('point', [0, 0], { name: 'A' });
+         var p2 = board.create('point', [3, 3], { name: 'B' });
+         var line = board.create('line', [p1, p2], { straightFirst: false, straightLast: false, strokeWidth: 2 });
+ 
+         // إضافة قدرة إدارة الأحداث لعناصر JSXGraph
+         JXG.EventEmitter.eventify(p1);
+         JXG.EventEmitter.eventify(line);
+ 
+         // تسجيل معالجات الأحداث المخصصة
+         p1.on('customEvent', function() {
+             console.log('Custom event triggered on point A!');
+             p1.setAttribute({ strokeColor: 'green' });
+             board.update();
+         });
+ 
+         line.on('customEvent', function() {
+             console.log('Custom event triggered on line!');
+             line.setAttribute({ strokeColor: 'green' });
+             board.update();
+         });
+ 
+         // تفعيل الأحداث المخصصة
+         setTimeout(function() {
+             p1.trigger('customEvent');
+             line.trigger('customEvent');
+         }, 2000); // تفعيل الأحداث بعد ثانيتين
+  */
+
+
+        /*  var board = JXG.JSXGraph.initBoard('jxgbox', {boundingbox: [-6, 2, 5, -2],
+            axis: true ,
+            keepAspectRatio:true}); */
+
+        /*  var p = board.create('point',[-1,-1],{name:"A"});
+         var q = board.create('point',[0,0],{name:"B"});
+ 
+         var circle1 = board.create("circle",[p,q],{strokeColor:"red", strokeWidth:4});
+         var circle2 = board.create("circle",["B",1.8],{method:"pointRadius", fillColor:"gray",
+             fillOpacity:0.2}); */
+
+
+        /* p1 = board.create('point',[0,0],{name:'p1'});
+        p2 = board.create('point',[3,3],{name:'p2'});
+        let ptOnCir = board.create('point',[4,5],{name:'ptOnCir'});
+        lineSeg = board.create('segment',[p1,p2]);
+
+        let center = board.create('midpoint',[lineSeg],{name:'midpoint of line segment'});
+        board.create('circle', [center, function(){}])
+        p1 = board.create('point',[2,1],{name:'',size:1}); */
+        /* p1 = board.create('point',[2,1],{name:'p1'});
+        p2 = board.create('point',[2,5],{name:'p2'});
+        p3 = board.create('point',[4,3],{name:'p3'});
+        center = board.create('circumcenter',[p1,p2,p3],{name:'center'});
+    board.create('arc',[center,p2,p3]); */
+
+        /* A = board.create('point',[0,0]);
+        B = board.create('point',[3,0]);
+        C = board.create('point',[0,2]);
+
+        c1 = board.create('circle',[A, B]);
+        board.create('segment',[A,B])
+        board.create('segment',[A,C])
+        board.create('segment',[B,C])
+
+        D = board.create('mirrorpoint', [C,A])
+        let S1 = board.create('regularpolygon', [A,D,4])
+
+        let S2 = board.create('regularpolygon', [A,C,4])
+        let S3 = board.create('regularpolygon', [C,B,4], {fillColor: "red"})
+
+        let L = [S1, S2, S3];
+        L.forEach(element => {
+            board.create("smartlabel", [element], {
+                unit: 'cm^2',
+                measure: 'area',
+                prefix: 'S = ',
+                cssClass: 'smart-label-pure smart-label-polygon',
+                highlightCssClass: 'smart-label-pure smart-label-polygon',
+                useMathJax: true
+            })
+        });            
+
+        a = board.create('angle',[B, A, C], {radius:0.5});
+
+        a.setAngle(function() {
+            return Math.PI / 2;
+        });
+        
+        board.update() */
+
+        /* T = board.create('polygon',[[0,0],[0,3],[function(){
+            return 
+        }]]); */
+        /*     let a = board.create('point', [-2,2])
+            let c = board.create('circle',[a, 2])//.hide()
+
+            var p1 = board.create('glider', [0,2,c], {name:'G'});
+            board.create('mirrorpoint', [p1,a])
+            //var p2 = board.create('glider', [c], {name:'T'});
+            var tr = board.create("transform", [function(){
+            return Math.PI/6 * 180 } , a ], {type: "rotate"})
+
+            tr.bindTo(p1)
+
+            board.update() */
+        /* 
+              var A = board.create('point', [0, 0], { name: 'A', size: 3, color: 'blue' });
+              var B = board.create('point', [2.5, 0], { name: 'B', size: 3, color: 'blue' });
+              var C = board.create('point', [0, 1.5], { name: 'C', size: 3, color: 'blue' });
+      
+              var lineAB = board.create('segment', [A, B], { straightFirst: false, straightLast: false });
+              var lineAC = board.create('segment', [A, C], { straightFirst: false, straightLast: false });
+              var lineBC = board.create('segment', [B, C],);
+      
+              function updateC() {
+                  var dx = B.X() - A.X();
+                  var dy = C.Y() - A.Y();
+                  C.setPosition(JXG.COORDS_BY_USER, [A.X(), A.Y() + dy]);
+                  B.setPosition(JXG.COORDS_BY_USER, [A.X() + dx, A.Y()]);
+              }
+      
+              function updateB() {
+                  var dx = B.X() - A.X();
+                  var dy = C.Y() - A.Y();
+                  B.setPosition(JXG.COORDS_BY_USER, [A.X() + dx, A.Y()]);
+                  C.setPosition(JXG.COORDS_BY_USER, [A.X(), A.Y() + dy]);
+              }
+      
+              A.on('drag', function() {
+                  updateB();
+                  updateC();
+              });
+      
+              B.on('drag', function() {
+                  updateC();
+              });
+      
+              C.on('drag', function() {
+                  updateB();
+              });
+      
+              updateC();
+              function dist() {
+                  var d = B.Dist(C);
+                  console.log(d);
+                  board.update() 
+              }
+              dist()
+      
+              let S1 = board.create('regularpolygon', [A,C,4])
+              let S2 = board.create('regularpolygon', [B,A,4])
+              let S3 = board.create('regularpolygon', [C,B,4], {fillColor: "red"})
+      
+              let L = [S1, S2, S3];
+                  L.forEach(element => {
+                      board.create("smartlabel", [element], {
+                          unit: 'cm^2',
+                          measure: 'area',
+                          prefix: 'S = ',
+                          cssClass: 'smart-label-pure smart-label-polygon',
+                          highlightCssClass: 'smart-label-pure smart-label-polygon',
+                          useMathJax: true
+                      })
+                  });  */
+        /* var isPlaying = false;
+    var starttime = 0;
+    var timeElapsed = 0;
+    var requestId = 0;
+
+    // تعريف أبعاد المستطيل
+    var x1 = 1, y1 = 1, x2 = 4, y2 = 3;
+    var perimeter = 2 * ((x2 - x1) + (y2 - y1)); // محيط المستطيل
+
+    // النقطة المتحركة حول المستطيل
+    var p = board.create('point', [
+        function() {
+            var d = (timeElapsed % perimeter) / perimeter; // نسبة المسافة المقطوعة على المحيط
+            if (d < (x2 - x1) / perimeter) {
+                return x1 + d * perimeter;
+            } else if (d < (x2 - x1 + y2 - y1) / perimeter) {
+                return x2;
+            } else if (d < (2 * (x2 - x1) + y2 - y1) / perimeter) {
+                return x2 - (d - (x2 - x1 + y2 - y1) / perimeter) * perimeter;
+            } else {
+                return x1;
+            }
+        },
+        function() {
+            var d = (timeElapsed % perimeter) / perimeter; // نسبة المسافة المقطوعة على المحيط
+            if (d < (x2 - x1) / perimeter) {
+                return y1;
+            } else if (d < (x2 - x1 + y2 - y1) / perimeter) {
+                return y1 + (d - (x2 - x1) / perimeter) * perimeter;
+            } else if (d < (2 * (x2 - x1) + y2 - y1) / perimeter) {
+                return y2;
+            } else {
+                return y2 - (d - (2 * (x2 - x1) + y2 - y1) / perimeter) * perimeter;
+            }
+        }
+    ], { trace: true });
+
+    // دالة تشغيل الرسوم المتحركة
+    function playing() {
+        timeElapsed = (Date.now() - starttime) / 1000;
+        board.update();
+        requestId = window.requestAnimationFrame(playing);
+    }
+
+    // دالة بدء الرسوم المتحركة
+    function play() {
+        if (!isPlaying) {
+            starttime = Date.now();
+            isPlaying = true;
+            playing();
+        }
+    }
+
+    // دالة إعادة تعيين الرسوم المتحركة
+    function resetAnimation() {
+        if (requestId) {
+            window.cancelAnimationFrame(requestId);
+        }
+        timeElapsed = 0;
+        isPlaying = false;
+        board.update();
+    }
+
+    // بدء الرسوم المتحركة عند تحميل الصفحة
+    play(); */
+
+        // Create the reflexed traingle of two 
+
+        /* const input = [
+            0, 0,   // point P(x, y)
+            0, 20,  // point Q(x, y)
+            -8, 4,  // point A(x, y)
+            -2, 6,  // point B(x, y)
+            -5, 15, // point C(x, y)
+            3, 17,  // point A'(x, y)
+            8, 10,  // point B'(x, y)
+            6,4 ]
+    
+            let a = board.create('line', [[input[0], input[1]], [input[2], input[3]]], {
+                name: 'a',
+                withLabel: true,
+                label: {offset: [10, 0], fontSize: 16, align: 'middle'},
+                fixed: true,
+                strokeWidth: 3
+            })
+    
+            let A = board.create('point', [input[4], input[5]], {
+                name: "A",
+                label: {offset: [10,-5], fontSize: 16},
+                fixed: true,
+                snapToGrid: true
+            })
+    
+            let B = board.create("point", [input[6], input[7]], {
+                name: 'B',
+                label: {offset: [0,15], fontSize:15},
+                fixed: true,
+                snapToGrid: true
+            })
+    
+            let C = board.create('point', [input[8], input[9]], {
+                name: '\\(C\\)',
+                label: {offset: [0, 15], fontSize: 16},
+                fixed: true,
+                snapToGrid: true
+            });
+    
+            let ABC = board.create('polygon', [A,B,C], {
+                borders:{strokeWidth: 2}
+            })
+            // traingle A'B'C'
+            let A1 = board.create('point', [input[10], input[11]], {
+            name: '\\(A\'\\)',
+            label: {offset: [10, 0], fontSize: 16},
+            snapToGrid: true
+             });
+             let B1 = board.create('point', [input[12], input[13]], {
+            name: '\\(B\'\\)',
+            label: {offset: [10, 0], fontSize: 16},
+            snapToGrid: true
+            });
+            let C1 = board.create('point', [input[14], input[15]], {
+            name: '\\(C\'\\)',
+            label: {offset: [10, 0], fontSize: 16},
+            snapToGrid: true
+            });
+            let A1B1C1 = board.create('polygon', [A1, B1, C1], {
+            borders: {strokeWidth: 2}
+            });
+    
+            let opt;
+            let ABCref = board.create('reflection', [ABC,a], {
+                fillColor: "#cc3ccc",
+                borders: {strokeWidth: 1, strokeColor:"#cc3ccc"},
+                vertices: {size:1, strokeColor:"#cc3ccc", fillColor:"#cc3ccc"},
+                visible: () => {return !opt}
+            })
+    
+            let output = function() {
+                return [
+                    A1.X(), A1.Y(), B1.X(), B1.Y(), C1.X(), C1.Y()
+                ]
+            }
+    
+            A1.on('up', function(e){
+                document.getElementById('outputID').innerHTML = output()
+            })
+            B1.on('up', function(){
+                document.getElementById('outputID').innerHTML = output()
+            })
+            C1.on('up', function(){
+                document.getElementById('outputID').innerHTML = output()
+            })
+    
+            let show = function(){
+                opt = !opt;
+                board.update()
+            }
+        */
+
+       /*  let input = [
+            2, 4,   // point A(x, y)
+            12, 6,  // point B(x, y)
+            8, 12,  // point C(x, y)
+            2       // unit
+        ];
+
+        // unit
+
+        let unit = board.create('segment', [[1, 14], [3, 14]], {
+            name: '\\(' + input[6] + '\\) \\(cm\\)',
+            withLabel: true,
+            label: { offset: [-20, -20], fontSize: 16, align: 'middle' },
+            fixed: true,
+            strokeWidth: 3
+        });
+
+        // triangle ABC
+
+        let A = board.create('point', [input[0], input[1]], {
+            name: '\\(A\\)',
+            label: { offset: [-25, -10], fontSize: 16 },
+            snapToGrid: true
+        });
+        let B = board.create('point', [input[2], input[3]], {
+            name: '\\(B\\)',
+            label: { offset: [10, -5], fontSize: 16 },
+            snapToGrid: true
+        });
+        let C = board.create('point', [input[4], input[5]], {
+            name: '\\(C\\)',
+            label: { offset: [0, 15], fontSize: 16 },
+            snapToGrid: true
+        });
+        let ABC = board.create('polygon', [A, B, C], {
+            borders: { strokeWidth: 2 }
+        });
+
+        // the following elements are visible: true / invisible: false
+        let opt = false;
+
+        // baseline of triangle ABC
+        let c = board.create('segment', [A, B], {
+            name: '',
+            withLabel: true,
+            label: { offset: [0, -15], fontSize: 15 },
+            strokeColor: "#f55000",
+            visible: () => {
+                return opt
+            }
+        })
+
+        let F = board.create('perpendicularpoint', [C, c], {
+            name: '',
+            label: { offset: [0, -15], fontSize: 15 },
+            strokeColor: "#999999",
+            fillColor: "#999999",
+            visible: () => {
+                return opt
+            }
+        })
+
+        let h = board.create('segment', [C, F], {
+            name: '',
+            withlabel: true,
+            label: { offset: [-20, -15], fontSize: 16 },
+            strokeColor: '#ff0000',
+            dash: 2,
+            visible: () => {
+                return opt;
+            }
+        })
+        let output = function () {
+            return [
+                A.X(), A.Y(),   // point A(x, y)
+                B.X(), B.Y(),   // point B(x, y)
+                C.X(), C.Y(),   // point C(x, y)
+                input[6],      // unit
+                0.5 * c.L() * h.L()  // area
+            ];
+        }
+        // output events (only necessary for demonstration in share database, not needed in LMS)
+
+        A.on('up', function (e) {
+            document.getElementById('outputID').innerHTML = output();
+        });
+        B.on('up', function (e) {
+            document.getElementById('outputID').innerHTML = output();
+        });
+        C.on('up', function (e) {
+            document.getElementById('outputID').innerHTML = output();
+        });
+
+        let show = function () {
+            opt = !opt;
+            board.update();
+        }
+    */
+    
+ /* Create an arc out of three free points
+    var A = board.create('point', [2, 4], {name:"A"});
+    var C = board.create('point', [3, 2.0], {name:"C"});
+    const c = board.create('circle', [C,A])
+    var G = board.create('glider', [c], {name:"G"});
+    var L = board.create('glider', [5,2,c], {name:"L"});
+
+    var arc = board.create('arc', [C,A,G],{strokeColor:"green",  selection: 'minor'});
+
+    var segment1 = board.create('line', [C,G], { straightFirst: false, straightLast: false })    
+    var segment2 = board.create('line', [C,A], { straightFirst: false, straightLast: false })    
+    var segment3 = board.create('line', [A,L], { straightFirst: false, straightLast: false })    
+    var segment4 = board.create('line', [G,L], { straightFirst: false, straightLast: false })    
+
+    var arc_ = board.create('arc', [L,A,G], {strokeColor:'red',  selection: 'auto', visible: true})
+
+    board.create('text',[-2,2,function(){return 'الزاوية المركزية: ' + Math.round(arc.Value('degrees'))}]) 
+    board.create('text',[2,2,function(){return 'الزاوية المحيطية: ' + Math.round(arc_.Value('degrees'))}]) 
+ */
+
+ /*  // Create a circle
+ var center = board.create('point', [0, 0], { name: 'O', fixed: true });
+  var radiusPoint = board.create('point', [3, 0], { name: 'R', visible: false });
+  var circle = board.create('circle', [center, radiusPoint]);
+
+  // Create points on the circle
+  var A = board.create('glider', [2, 2, circle], { name: 'A' });
+  var B = board.create('glider', [-2, 2, circle], { name: 'B' });
+  var C = board.create('glider', [2, -2, circle], { name: 'C' });
+
+   // إنشاء نقاط على المماس
+   var D = board.create('glider', [4, 0, circle], { name: 'D' });
+   var E = board.create('glider', [-4, 0, circle], { name: 'E' });
+
+  // Create chords
+  var oB = board.create('line', [B,center], { straightFirst: false, straightLast: false });
+  var oA = board.create('line', [A,center], { straightFirst: false, straightLast: false });
+  var chordBC = board.create('line', [B, C], { straightFirst: false, straightLast: false });
+  var chordCA = board.create('line', [C, A], { straightFirst: false, straightLast: false });
+
+  var tangent1 = board.create('tangent', [D, circle])
+  var tangent2 = board.create('tangent', [E, circle])
+  
+  // Create central angle
+  var centralAngle = board.create('angle', [B, center, A], {
+    name: '&alpha;',
+    radius: 0.5,
+    fillColor: 'yellow',
+    withLabel: true,
+  });
+
+  // Create inscribed angle
+  var inscribedAngle = board.create('angle', [B, C, A], {
+    name: '&beta;',
+    radius: 0.5,
+    fillColor: 'lightblue',
+    withLabel: true,
+  });
+
+  // إنشاء زاوية مماسية 1
+  var tangentAngle1 = board.create('angle', [B, D, A], { 
+    name: '&gamma;<sub>1</sub>',
+    radius: 0.5,
+    fillColor: 'purple',
+    withLabel: true
+  });
+
+  // إنشاء زاوية مماسية 2
+  var tangentAngle2 = board.create('angle', [B, E, A], {
+    name: '&gamma;<sub>2</sub>',
+    radius: 0.5,
+    fillColor: 'purple', // لون مختلف للزاوية المماسية الثانية
+    withLabel: true
+  });
+
+
+  // Function to ensure angle is within [0, 180]
+  function ensureMinorAngle(angle) {
+    angle = angle * 180 / Math.PI;
+    if (angle < 0) angle += 360;
+    if (angle > 180) angle = 360 - angle;
+    return angle;
+  }
+
+  // Display angle measures in degrees (outside the angle, normalized to [0, 180])
+  var centralAngleText = board.create('text', [
+    () => center.X() + 0.3,
+    () => center.Y() + 0.3,
+    () => ensureMinorAngle(centralAngle.Value()).toFixed(2) + '&deg;'
+  ]);
+
+  var inscribedAngleText = board.create('text', [
+    () => C.X() + 0.3,
+    () => C.Y() - 0.3,
+    () => ensureMinorAngle(inscribedAngle.Value()).toFixed(2) + '&deg;' // استخدام inscribedAngle.Value() هنا
+  ]);
+
+  
+  var tangentAngle1Text = board.create('text', [
+    () => D.X() + 0.3,
+    () => D.Y() + 0.3,
+    () => ensureMinorAngle(tangentAngle1.Value()).toFixed(2) + '&deg'
+  ]);
+
+  var tangentAngle2Text = board.create('text', [
+    () => E.X() - 0.3,
+    () => E.Y() + 0.3,
+    () => ensureMinorAngle(tangentAngle2.Value()).toFixed(2) + '&deg'
+  ]);
+
+  // Add instructions
+  var instructions = board.create('text', [
+    -4,
+    4,
+    'اسحب النقاط A و B و C على الدائرة لاستكشاف العلاقة بين الزوايا المركزية والمحيطية.'
+  ]); 
+ */
+
+ var board = JXG.JSXGraph.initBoard('jxgbox', {boundingbox: [-5, 2, 5, -2],keepAspectRatio:true, showCopyright:false, showNavigation:false });
+ var p = board.create('point',[-2,0],{name:"A"});
+ var q = board.create('point',[1,1.5],{name:"B"});
+ var r = board.create('point',[1,-1],{name:"C"});
+ var line1 = board.create('line',[p,q]);
+ var line2 = board.create('line',[p,r]);
+ var angle1 = board.create('angle',["C", "A", "B"], {radius:2});
+ var angle2 = board.create('angle',[line2,line1,-1,-1], {radius:1,color:'green'});
+ var angle3 = board.create('angle',[line2,line1,1,-1], {radius:1,color:'pink'});
+
+
+    </script>
+</body>
+
+</html>

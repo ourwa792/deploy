@@ -1,41 +1,38 @@
-<!-- المسار: /src/views/resources/index.ejs -->
 <%- include('../partial/head.ejs') %>
-    <style>
-        .scrollspy-example {
-            position: relative;
-            height: 400px;
-            overflow: auto;
-        }
-        .list-group-item-action:hover {
-            cursor: pointer;
-            background-color: aquamarine;
-        }
-        .loading-spinner {
+<style>
+    .scrollspy-example {
+        position: relative;
+        height: 400px;
+        overflow: auto;
+    }
+    .list-group-item-action:hover {
+        cursor: pointer;
+        background-color: aquamarine;
+    }
+    .loading-spinner {
         display: none;
         font-size: 24px;
         margin-top: 5px;
     }
-    </style>
+</style>
 
- <script src="library/toastify-js.js" lang="text/javascript"></script>
- <link rel="stylesheet" href="css/toastify.min.css">
+<script src="/library/toastify-js.js" lang="text/javascript"></script>
+<link rel="stylesheet" href="/css/toastify.min.css">
 
 </head>
 <body>
     <%- include('../partial/navBar.ejs') %>
     <div class="container">
 
-        <% if (success_msg && success_msg.length> 0) { %>
+        <% if (success_msg && success_msg.length > 0) { %>
             <div class="alert alert-success">
                 <% success_msg.forEach(function(msg) { %>
-                    <p>
-                        <%= msg %>
-                    </p>
-                    <% }); %>
+                    <p><%= msg %></p>
+                <% }); %>
             </div>
-            <% } %>
+        <% } %>
 
-        <h1 class="text-center mt-5">مصادر تعليمية و اوراق عمل </h1>
+        <h1 class="text-center mt-5">مصادر تعليمية وأوراق عمل</h1>
         <a href="/resources/upload" class="btn btn-primary mb-3">ارفع مرفق تعليمي جديد</a>
         <div class="row">
             <div class="col-4">
@@ -59,37 +56,74 @@
                                 <a href="<%= resource.url %>" target="_blank"><%= resource.title %></a>
                             <% } %>
                         </p>
-<!-- <a href="<%#= resource.url %>" target="_blank" download="<%#= resource.title %>" class="btn btn-primary btn-sm">View/Download</a>
- -->                    
                         <form action="/resources/download/<%= resource.id %>" method="get" onsubmit="return jobber()">
-                            <button id="downloader" type="submit" class="btn btn-info btn-sm ml-2 job">view/download</button>
+                            <button id="downloader" type="submit" class="btn btn-info btn-sm ml-2 job">عرض/تحميل</button>
                         </form>
-
 
                         <div class="loading-spinner" id="loading-spinner">
                             <i class="fas fa-spinner fa-spin"></i> تتم المعالجة ...
                         </div>
 
-
-                        <form action="/resources/<%= resource.id %>?_method=DELETE" method="POST" onsubmit="return jobber();">
-                            <button type="submit" class="btn btn-danger btn-sm ml-2 job">Delete</button>
+                        <form action="/resources/<%= resource.id %>" method="POST" onsubmit="return deleteResource(event, <%= resource.id %>);">
+                            <input type="hidden" name="_method" value="DELETE">
+                            <button type="submit" class="btn btn-danger btn-sm ml-2 job">حذف</button>
                         </form>
                         <hr>
                     <% }); %>
                 </div>
-               
             </div>
         </div>
     </div>
-   
+
     <script>
         function jobber() {
             const elements = document.querySelectorAll('.job');
-
             elements.forEach(element => {
-                document.getElementById('loading-spinner').style.display = 'block'
+                document.getElementById('loading-spinner').style.display = 'block';
             });
         }
-        </script>
 
- <%- include('../partial/end.ejs') %>
+        async function deleteResource(event, resourceId) {
+            event.preventDefault();
+            document.getElementById('loading-spinner').style.display = 'block';
+            try {
+                const response = await fetch(`/resources/${resourceId}`, {
+                    method: 'DELETE',
+                });
+                console.log('==response=='+response)
+                if (response.ok) {
+                    Toastify({
+                        text: 'تم حذف المورد بنجاح',
+                        duration: 3000,
+                        gravity: "top",
+                        position: "right",
+                        backgroundColor: "linear-gradient(to right, #00b09b, #96c93d)",
+                    }).showToast();
+                    setTimeout(() => {
+                        window.location.reload();
+                    }, 3000);
+                } else {
+                    const result = await response.json();
+                    Toastify({
+                        text: result.error,
+                        duration: 3000,
+                        gravity: "top",
+                        position: "right",
+                        backgroundColor: "linear-gradient(to right, #ff5f6d, #ffc371)",
+                    }).showToast();
+                }
+            } catch (error) {
+                Toastify({
+                    text: 'حدث خطأ أثناء حذف المورد',
+                    duration: 3000,
+                    gravity: "top",
+                    position: "right",
+                    backgroundColor: "linear-gradient(to right, #ff5f6d, #ffc371)",
+                }).showToast();
+            } finally {
+                document.getElementById('loading-spinner').style.display = 'none';
+            }
+        }
+    </script>
+
+<%- include('../partial/end.ejs') %>

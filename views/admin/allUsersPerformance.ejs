@@ -126,10 +126,10 @@
           <tr>
             <td><%= report.userName %></td>
             <td><%= report.quizCount %></td>
-            <td><%= report.totalScore %> / <%= report.maxScore %></td>
-            <td><%= (report.totalScore / report.quizCount).toFixed(2) %></td>
-            <td><%= (report.correctAnswers / report.quizCount).toFixed(2) %></td>
-            <td><%= (report.incorrectAnswers / report.quizCount).toFixed(2) %></td>
+            <td><%= report.totalScore %></td>
+            <td><%= report.averageScore %></td>
+            <td><%= report.averageCorrectAnswers %></td>
+            <td><%= report.averageIncorrectAnswers %></td>
           </tr>
         <% }) %>
       </tbody>

@@ -10,6 +10,7 @@ const cookieParser = require('cookie-parser')
 const methodOverride = require('method-override')
 //const helmet = require('helmet');
 const http = require('http')
+const favicon = require('serve-favicon')
 const socketIo = require('socket.io')
 
 
@@ -39,6 +40,7 @@ const sessionMiddleware = session({
   secret: process.env.SESSION_SECRET,
   resave: false ,
   saveUninitialized: false,
+  cookie: { maxAge: 3600000 }, // 1-h
   store: store
 })
 
@@ -80,16 +82,19 @@ const videoRout = require('./routes/video')
 const resourceRoutes = require('./routes/resources');
 const quizRout = require('./routes/quiz')
 const wolframRoutes = require('./routes/wolfram');
-const boardRout = require('./routes/board')
+const boardRout = require('./routes/board');
+
 
 app.set('view engine', 'ejs')
 app.set('views', 'views')
 
 const port = process.env.PORT 
-
+// Use bodyParser to parse URL-encoded bodies
+app.use(express.urlencoded({extended: true}))
 app.use(express.json())
-app.use(express.urlencoded({extended: false}))
 app.use(express.static(path.join(__dirname, 'public')))
+
+app.use(favicon(path.join(__dirname ,'public', 'icon', 'ourwaMath.png')))
 
 app.use('/css', express.static(path.join(__dirname, 'public/css'), {
   setHeaders: (res, path) => {
@@ -137,7 +142,7 @@ app.use((req, res, next) => {
 
 
 app.use((req, res, next) => {
-  console.log('====Cookies:====', req.headers.cookie);
+  //console.log('====Cookies:====', req.headers.cookie);
   // تحقق إذا كان هناك مستخدم مسجل في الجلسة
   if (!req.session.user) {
     console.log('no user in session')
@@ -261,11 +266,13 @@ io.on('connection', (socket) => {
   });
 }); 
  */
+app.get("/test:id",(req,res)=>{
+  id = req.params.id;
+  res.render(`test/test${id}`, {pageTitle:`test${id}`})
+})
 
+app.get('/api/greet', function(req, res){
+  res.json({message: 'Hello from server!'});
+})
 
 server.listen(port, db.Database)
-
-
-/* app.get('/api',(req,res)=>{
-  res.json({message: ' hello world '})
-}) */

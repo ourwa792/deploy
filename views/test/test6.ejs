@@ -1,0 +1,201 @@
+<!DOCTYPE html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تطبيق تعليمي wasell</title>
+    <!-- تضمين Bootstrap 5 -->
+    <link href="/css/bootstrap.rtl.min.css" rel="stylesheet">
+    <style>
+         
+           /* تنسيق مخصص للتطبيق */
+    /* تنسيق مخصص للتطبيق */
+    .matching-container {
+            position: relative;
+            width: 100%;
+            max-width: 1200px;
+            margin: auto;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+        .matching-item {
+            padding: 15px;
+            background-color: #ffffff;
+            border: 2px solid #ddd;
+            cursor: pointer;
+            text-align: center;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            margin-bottom: 20px;
+        }
+        .matching-item img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 7px;
+            max-height: 300px;
+            object-fit: contain;
+        }
+        .correct {
+            background-color: #c8e6c9 !important;
+            animation: correctAnimation 1s ease-in-out;
+        }
+        .wrong {
+            background-color: #ffcdd2 !important;
+            animation: wrongAnimation 1s ease-in-out;
+        }
+        @keyframes correctAnimation {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        @keyframes wrongAnimation {
+            0% { transform: scale(1); }
+            50% { transform: scale(0.95); }
+            100% { transform: scale(1); }
+        }
+        .feedback {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            padding: 10px;
+            background-color: #333;
+            color: white;
+            border-radius: 5px;
+            display: none;
+        }
+
+        /* زيادة التباعد الأفقي بين الأعمدة */
+        .offset-space {
+            margin-left: 70px;
+        }
+
+        @media (max-width: 768px) {
+            .matching-container {
+                padding: 10px;
+            }
+            .matching-item {
+                margin-bottom: 15px;
+            }
+            .offset-space {
+                margin-left: 0;
+            }
+        }
+
+    </style>
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jsplumb@2.15.6/css/jsplumbtoolkit-defaults.min.css">
+
+<!-- إدراج مكتبة jsPlumb -->
+<script src="https://cdn.jsdelivr.net/npm/jsplumb@2.15.6/dist/js/jsplumb.min.js"></script>
+
+</head>
+
+<body>
+
+    <div class="container my-5 mx-4">
+        hghgh
+    </div>
+
+    <div class="container-fluid">
+        <div class="matching-container row justify-content-center">
+            <div class="col-lg-4 col-md-5 col-12 mb-4">
+                <div class="matching-item" id="q1">
+                    <img src="path_to_question_image1.jpg" alt="سؤال 1">
+                </div>
+                <div class="matching-item" id="q2">
+                    <img src="path_to_question_image2.jpg" alt="سؤال 2">
+                </div>
+                <div class="matching-item" id="q3">
+                    <img src="path_to_question_image3.jpg" alt="سؤال 3">
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-5 col-12 offset-space">
+                <div class="matching-item" id="a1">
+                    <img src="path_to_answer_image1.jpg" alt="إجابة 1">
+                </div>
+                <div class="matching-item" id="a2">
+                    <img src="/image/certificate.jfif" alt="إجابة 2">
+                </div>
+                <div class="matching-item" id="a3">
+                    <img src="/image/teachersprite.jpg" alt="إجابة 3">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="feedback" class="feedback"></div>
+
+<script>
+    jsPlumb.ready(function() {
+        const questions = document.querySelectorAll(".matching-container .matching-item[id^='q']");
+        const answers = document.querySelectorAll(".matching-container .matching-item[id^='a']");
+        const feedback = document.getElementById("feedback");
+
+        jsPlumb.setContainer(document.body);
+
+        function showFeedback(message, correct) {
+            feedback.textContent = message;
+            feedback.style.backgroundColor = correct ? '#4CAF50' : '#F44336';
+            feedback.style.display = 'block';
+            setTimeout(() => feedback.style.display = 'none', 2000);
+        }
+
+        function markConnection(connection, correct) {
+            const color = correct ? 'green' : 'red';
+            connection.setPaintStyle({ stroke: color, strokeWidth: 4 });
+            showFeedback(correct ? 'إجابة صحيحة!' : 'إجابة خاطئة!', correct);
+        }
+
+        function restClass(element) {
+            element.classList.remove('correct');
+            element.classList.remove('wrong');
+        }
+
+        questions.forEach(question => {
+            jsPlumb.addEndpoint(question, {
+                anchors: "Right",
+                endpoint: "Dot",
+                paintStyle: { fill: "#7AB02C", radius: 7 },
+                isSource: true,
+                isTarget: false,
+                connectorStyle: { stroke: "#7AB02C", strokeWidth: 2 },
+                connectorOverlays: [
+                    ["Arrow", { width: 10, length: 10, location: 1 }]
+                ]
+            });
+        });
+
+        answers.forEach(answer => {
+            jsPlumb.addEndpoint(answer, {
+                anchors: "Left",
+                endpoint: "Dot",
+                paintStyle: { fill: "#7AB02C", radius: 7 },
+                isSource: false,
+                isTarget: true
+            });
+        });
+
+        jsPlumb.bind("connection", function(info) {
+            const questionElement = document.getElementById(info.sourceId);
+            const answerElement = document.getElementById(info.targetId);
+
+            restClass(questionElement);
+            restClass(answerElement);
+            
+            const correct = info.sourceId.charAt(1) === info.targetId.charAt(1);
+
+            markConnection(info.connection, correct);
+
+            if (correct) {
+                questionElement.classList.add('correct');
+                answerElement.classList.add('correct');
+            } else {
+                questionElement.classList.add('wrong');
+                answerElement.classList.add('wrong');
+            }
+        });
+    });
+</script>
+
+<%- include('../partial/end.ejs') %>

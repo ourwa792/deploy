@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ar">
+
+<head>
+    <meta charset="UTF-8">
+    <title>مبرهنة فيثاغورث العكسية</title>
+    <script type="text/javascript" src="/library/jsxgraphcore.js"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/polyfill/7.0.0/polyfill.min.js"></script>
+    <script>
+        window.MathJax = {
+            loader: { load: ['input/tex', 'output/chtml', 'input/mml'] },
+            tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script> 
+     
+    <style> 
+        .jxgbox {
+            width: 500px;
+            height: 500px;
+            margin: 20px;
+        }
+        .controls {
+            margin: 20px;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="jxgbox" id="jxgbox"></div>
+    <div id="info"></div>
+
+    <div></div>
+    <script>
+
+        var board = JXG.JSXGraph.initBoard('jxgbox', {
+            boundingbox: [-5, 5, 5, -5],
+            axis: true,
+            keepAspectRatio:true
+        });
+ 
+
+        
+        /* var A = board.create('point', [0, 0], { name: 'A', size: 3, color: 'blue' });
+        var B = board.create('point', [2.5, 0], { name: 'B', size: 3, color: 'blue' });
+        var C = board.create('point', [0, 1.5], { name: 'C', size: 3, color: 'blue' });
+      
+        var lineAB = board.create('segment', [A, B]);
+        var lineAC = board.create('segment', [A, C]);
+        var lineBC = board.create('segment', [B, C]);
+      
+        function updateC() {
+            var dx = B.X() - A.X();
+            var dy = C.Y() - A.Y();
+            C.setPosition(JXG.COORDS_BY_USER, [A.X(), A.Y() + dy]);
+            B.setPosition(JXG.COORDS_BY_USER, [A.X() + dx, A.Y()]);
+        }
+        function updateB() {
+            var dx = B.X() - A.X();
+            var dy = C.Y() - A.Y();
+            B.setPosition(JXG.COORDS_BY_USER, [A.X() + dx, A.Y()]);
+            C.setPosition(JXG.COORDS_BY_USER, [A.X(), A.Y() + dy]);
+        }
+      
+        A.on('drag', function() {
+            updateB();
+            updateC();
+        });
+        B.on('drag', function() {
+            updateC();
+        });
+        C.on('drag', function() {
+            updateB();
+        });
+      
+        updateC();
+        function dist() {
+            var d = B.Dist(C);
+            board.update() 
+        }
+        dist() */
+    </script>
+</body>
+</body>

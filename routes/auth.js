@@ -11,19 +11,16 @@ route.post(
   "/register",
   guestRout,
   [
-    check("email")
-      .isEmail()
+    check("email").isEmail()
       .withMessage("الرجاء أدخل إيميل صالح")
       .custom((value, { req }) => {
         if (value === "test@test.com") {
           throw new Error("هذا الإيميل منسي بالفعل");
         }
         return true;
-      })
-      .normalizeEmail(),
+      }).normalizeEmail(),
 
-    body("userName")
-      .notEmpty()
+    body("userName").notEmpty()
       .withMessage("اسم المستخدم فارغ")
       .isLength({ min: 3 })
       .withMessage("اسم المستخدم يجب ألّا يقل عن 3 احرف")
@@ -35,9 +32,7 @@ route.post(
       }),
 
     body("password", "الرجاء ادخل  كلمة سر بطول 5 محارف على الاقل") // برامتر تاني مشان ما نكرر رسالة الخطأ
-      .isLength({ min: 5 })
-      
-      .trim(),
+      .isLength({ min: 5 }).trim(),
 
     body("confirmPassword")
       .trim()
@@ -48,8 +43,7 @@ route.post(
         return true;
       }),
   ],
-  authController.postSign
-);
+  authController.postSign);
 
 route.get("/login", guestRout, authController.getLogIn);
 route.post(

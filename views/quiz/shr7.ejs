@@ -1,0 +1,112 @@
+<div class="container">
+    <h1>
+        <%= quiz.title %>
+    </h1>
+    <div id="surveyElement"></div>
+    <div id="resultsButton" style="display: none;">
+        <a id="viewResults" class="btn btn-primary" href="#">نتيجة الاختبار</a>
+    </div>
+</div>
+<script>
+
+    $(document).ready(function () {
+        //const json = <%#- JSON.stringify(quiz.quizSchema) %> ;
+        //json.id = <%#= quiz.id %> ; // تضمين معرف الكويز في JSON 
+        
+        Survey.Serializer.addProperty("question", {
+                    name: "score:number"
+                });
+
+                const survey = new Survey.Model(json);
+
+                function calculateMaxScore(questions) {
+                    let maxScore = 0;
+                    questions.forEach((question) => {
+                        if (question.score) {
+                            maxScore += question.score;
+                        }
+                    });
+                    return maxScore;
+                }
+
+                function calculateTotalScore(data) {
+                    let totalScore = 0;
+                    let correctAnswers = 0;
+                    let incorrectAnswers = 0;
+
+                    Object.keys(data).forEach((qName) => {
+                        const question = survey.getQuestionByValueName(qName);
+                        if (question && question.isAnswerCorrect()) {
+                            correctAnswers++;
+                            if (question.score) {
+                                totalScore += question.score;
+                            }
+                        } else {
+                            incorrectAnswers++;
+                        }
+                    });
+
+                    return { totalScore, correctAnswers, incorrectAnswers };
+                }
+
+                survey.onComplete.add((sender) => { // sender = json survey
+
+                    /* 
+                    في هذا السياق، **`sender`** هو الكائن الذي يمثل نموذج **Survey.js** الذي قام بإطلاق الحدث `onComplete`. عندما يكمل المستخدم الاختبار، يتم تشغيل هذا الحدث ويتم تمرير الكائن **`survey`** (الذي يحتوي على جميع البيانات المرتبطة بالاختبار) كمعامل للوظيفة التي تم تعريفها.
+
+باختصار:
+- **`sender`** هو نموذج الاختبار الذي يتم إكماله (وهو كائن `Survey.Model`).
+- يمكنك الوصول إلى البيانات المتعلقة بالاختبار باستخدام **`sender.data`**، وهي تحتوي على الإجابات التي قدمها المستخدم.
+- يمكنك أيضًا استخدام **`sender`** للوصول إلى طرق `Survey.Model` مثل **`getAllQuestions()`** لاسترداد جميع الأسئلة أو **`setValue()`** لتعيين قيم معينة.
+
+في المثال:
+- **`sender.data`** تحتوي على الإجابات التي قدمها المستخدم.
+- باستخدام **`sender.setValue()`**، يتم تخزين نتائج الاختبار (مثل `maxScore` و `totalScore`) في الكائن **`sender`**.
+
+هذا يسمح لك بتحديث نموذج الاختبار بالقيم المحسوبة بناءً على إجابات المستخدم، مثل الدرجات النهائية والإجابات الصحيحة أو الخاطئة.
+
+                    */
+
+                    const { totalScore, correctAnswers, incorrectAnswers } = calculateTotalScore(sender.data);
+                    const maxScore = calculateMaxScore(sender.getAllQuestions());
+
+                    sender.setValue("maxScore", maxScore);
+                    sender.setValue("totalScore", totalScore);
+                    sender.setValue("correctAnswers", correctAnswers);
+                    sender.setValue("incorrectAnswers", incorrectAnswers);
+                });
+
+                survey.onComplete.add((sender) => {
+                    const results = {
+                        quizId: json.id,
+                        userAnswers: sender.data,
+                        userScore: sender.getValue('totalScore'),
+                        maxScore: sender.getValue('maxScore'),
+                        correctAnswers: sender.getValue('correctAnswers'),
+                        incorrectAnswers: sender.getValue('incorrectAnswers')
+                    };
+
+                    console.log('Results to be sent:', results);
+
+                    // إرسال النتائج إلى الخادم
+                    $.ajax({
+                        url: '/quiz/submit',
+                        type: 'POST',
+                        data: JSON.stringify(results),
+                        contentType: 'application/json',
+                        success: function (response) {
+                            console.log('Server response:', response);
+                            // عرض زر النتائج مع رابط إلى صفحة النتائج
+                            $('#resultsButton').show();
+                            $('#viewResults').attr('href', `/quiz/results/${response.resultId}`);
+                        },
+                        error: function (error) {
+                            console.error('Error:', error);
+                            alert('There was an error submitting your results. Please try again.');
+                        }
+                    });
+                });
+
+    })
+        
+</script>

@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>درس رياضيات: العدد 1000</title>
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.0/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+  <style>
+    body {
+      background-color: #f0f8ff;
+      font-family: 'Comic Sans MS', cursive, sans-serif;
+    }
+    .lesson-header {
+      background-color: #fffacd;
+      border-radius: 15px;
+      padding: 10px;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .lesson-content {
+      border: 2px solid #ff69b4;
+      border-radius: 15px;
+      padding: 20px;
+      background-color: #fff0f5;
+    }
+    .interactive {
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    .interactive:hover {
+      transform: scale(1.1);
+    }
+    .highlight {
+      background-color: #ffe4e1;
+      border-radius: 10px;
+      padding: 5px;
+      display: inline-block;
+      margin: 5px;
+    }
+    .verify {
+      background-color: #ffebcd;
+      border: 2px solid #ff6347;
+      border-radius: 10px;
+      padding: 10px;
+      margin-top: 20px;
+    }
+    .speech-bubble {
+      position: relative;
+      background: #ffebcd;
+      border-radius: .4em;
+      padding: 10px;
+    }
+    .speech-bubble:after {
+      content: '';
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      border-width: 10px;
+      border-style: solid;
+      border-color: #ffebcd transparent transparent transparent;
+      transform: translateX(-50%);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="lesson-header">
+      <h1>الدرس 1: العدد 1000</h1>
+    </div>
+    <div class="lesson-content">
+      <div class="row">
+        <div class="col-md-4 text-center">
+          <div class="highlight">
+            <p>سنتعلم مكونات العدد 1000 باستعمال (المئات)</p>
+          </div>
+          <img src="path/to/your/image_of_money.jpg" class="img-fluid interactive" alt="صورة النقود">
+          <p>أدي تسع لوحات أضف لوحة مئة فتصبح لدي ألف</p>
+        </div>
+        <div class="col-md-8">
+          <div class="row mb-3">
+            <div class="col-md-3">
+              <img src="path/to/your/image_of_100_units.jpg" class="img-fluid interactive" alt="100 وحدة">
+            </div>
+            <div class="col-md-3">
+              <p>+</p>
+            </div>
+            <div class="col-md-3">
+              <img src="path/to/your/image_of_100_units.jpg" class="img-fluid interactive" alt="100 وحدة">
+            </div>
+            <div class="col-md-3">
+              <p>=</p>
+            </div>
+          </div>
+          <div class="row mb-3">
+            <div class="col-md-3">
+              <div class="highlight">
+                <p>900</p>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <p>+</p>
+            </div>
+            <div class="col-md-3">
+              <div class="highlight">
+                <p>100</p>
+              </div>
+            </div>
+            <div class="col-md-3">
+              <p>= 1000</p>
+            </div>
+          </div>
+          <div class="verify">
+            <p>عد المئات، ثم اكتب العدد في الفراغ:</p>
+            <div class="row">
+              <div class="col-md-4">
+                <div class="highlight">
+                  <p>......</p>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="highlight">
+                  <p>......</p>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="highlight">
+                  <p>1000</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row mt-4">
+            <div class="col-md-12 text-center">
+              <img id="talking-child" src="path/to/your/child_image.jpg" class="img-fluid interactive" alt="صورة الطفل">
+              <div id="speech-bubble" class="speech-bubble mt-2">
+                <p>عد المئات، ثم اكتب العدد في الفراغ:</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.0/js/bootstrap.min.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      var textElement = document.querySelector("#speech-bubble p");
+      var text = textElement.textContent;
+      textElement.textContent = "";
+      anime({
+        targets: textElement,
+        textContent: [0, text.length],
+        round: 1,
+        easing: 'easeInOutQuad',
+        duration: 3000,
+        update: function(anim) {
+          var progress = Math.round(anim.progress);
+          textElement.textContent = text.substring(0, progress / 100 * text.length);
+        }
+      });
+    });
+  </script>
+</body>
+</html>

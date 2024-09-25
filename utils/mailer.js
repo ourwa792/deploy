@@ -3,8 +3,8 @@ var nodmailer = require('nodemailer');
 
 exports.mailerReset = async (reciver, token) => {
     
-    let DEV_URL='http://localhost:3000' ;
-    let PROD_URL='https://deploy-kewv.onrender.com'
+    let dev_url ='http://localhost:3000' ;
+    let prod_url ='https://deploy-kewv.onrender.com'
 
     const transporter = nodmailer.createTransport({
         service: 'gmail',
@@ -20,7 +20,7 @@ exports.mailerReset = async (reciver, token) => {
         subject: ' اعادة تعيين كلمة المرور',
         text: ` تغيير كلمة المرور  ` ,
         html: `<p>اضغط على هذا الرابط لإعادة تعيين كلمة المرور الخاصة بك</p> <br/>
-        <a href="DEV_URL/reset-password/${token}">  اعادة ضبط كلمة المرور</a>   `
+        <a href="${dev_url}/reset-password/${token}">  اعادة ضبط كلمة المرور</a>   `
     }
     try {
         const info = await transporter.sendMail(mailOptions)

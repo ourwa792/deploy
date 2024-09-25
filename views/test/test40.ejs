@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="ar">
+
+<head>
+    <meta charset="UTF-8">
+    <title>مبرهنة فيثاغورث العكسية</title>
+    <script type="text/javascript" src="/library/jsxgraphcore.js"></script>
+    <script type="text/javascript" src="/js/custom-stair.js"> </script>
+    <style>
+        #jxgbox {
+            width: 700px;
+            height: 500px;
+            border: 1px solid black;
+            margin-bottom: 10px;
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>تطبيق تعليمي لمبرهنة فيثاغورث العكسية</h1>
+    <div id="jxgbox"></div>
+
+    <div class="controls">
+        <button id="selectMode">اختيار النمط</button>
+        <button id="drawPolygon">رسم مضلع مغلق</button>
+        <button id="drawCircle">رسم دائرة</button>
+        <button id="drawSegment">رسم قطعة مستقيمة</button>
+        <button id="drawParallel">رسم مستقيم موازي</button>
+        <button id="findMidpoint">تحديد منتصف القطعة المستقيمة</button>
+        <button id="clearBoard">مسح اللوحة</button>
+    </div>
+    <!--  <div id="controls">
+        <button id="midpointBtn">تحديد منتصف القطع</button>
+        <button id="polygonBtn">رسم مضلع</button>
+    </div>
+    
+    <button id="resetBtn">إعادة تعيين</button> -->
+
+
+    <!--     <staircase-drawer steps="10" step-width="40" step-height="20"></staircase-drawer>
+ -->
+    <script type="text/javascript">
+        var board = JXG.JSXGraph.initBoard('jxgbox', {
+            boundingbox: [-5, 5, 5, -5],
+            axis: true,
+        });
+
+
+
+        /*  var p1 = board.create('point', [0, 0], {name: 'A', size: 4, fixed: true});
+         var p2 = board.create('point', [4, 0], {name: 'B', size: 4});
+         var p3 = board.create('point', [4, 3], {name: 'C', size: 4});
+ 
+         var triangle = board.create('polygon', [p1, p2, p3], {borders: {strokeColor: 'blue'}});
+ 
+         function checkPythagoreanTheorem() {
+             var a = JXG.Math.Geometry.distance(p1, p2);
+             var b = JXG.Math.Geometry.distance(p2, p3);
+             var c = JXG.Math.Geometry.distance(p1, p3);
+             var isRightTriangle = Math.abs(a*a + b*b - c*c) < 0.01 || Math.abs(a*a + c*c - b*b) < 0.01 || Math.abs(b*b + c*c - a*a) < 0.01;
+ 
+             if (isRightTriangle) {
+                 board.create('text', [-4, 4, 'المثلث قائم الزاوية: نعم'], {fontSize: 18, strokeColor: 'green'});
+             } else {
+                 board.create('text', [-4, 4, 'المثلث قائم الزاوية: لا'], {fontSize: 18, strokeColor: 'red'});
+             }
+         }
+ 
+         board.on('update', checkPythagoreanTheorem);
+         board.unsuspendUpdate();
+         checkPythagoreanTheorem(); */
+
+        /*  var line = board.create('line', [[-4, 0], [4, 0]], {strokeColor: 'blue'});
+     
+         var glider = board.create('glider', [2, 0, line], {
+                 name: 'G',
+                 size: 4,
+                 face: 'o',
+                 strokeColor: 'red',
+                 fillColor: 'red'
+             });
+     
+             var point = board.create('point',[1,2], {trace:false})
+     
+             // 4. تحريك النقطة باستخدام الميثودات في JXG.CoordsElement
+             glider.moveAlong([[3, 1], [1, -1]], 4000, {
+                 callback: function() {
+                     console.log('Movement finished!');
+                 }
+             }); 
+      */
+
+        /*        
+                var board = JXG.JSXGraph.initBoard('jxgbox', {
+                    boundingbox: [-10, 2, 10, -2], 
+                    axis: false // إخفاء المحاور الافتراضية
+                });
+        
+                // رسم محور X فقط
+                board.create('axis', [[-10, 0], [10, 0]], {
+                    strokeColor: 'black',
+                    ticks: {
+                        majorHeight: 10,
+                        minorHeight: 5,
+                        strokeColor: 'black',
+                        label: {
+                        toFraction: true,
+                        //useMathjax: true,
+                        anchorX: 'middle',
+                        //offset: [0, -10]
+                        }
+                    }
+                });
+        
+                // إضافة النقطة التي سيتم التحكم فيها
+                var point = board.create('point', [0, 0], {name:'Result', size:4, face:'o', color:'blue'});
+                var operationLine;
+                var operationText;
+        
+                // دالة لتحريك النقطة ورسم خط ونص يوضح العملية
+                function applyOperation() {
+                    var inputValue = parseFloat(document.getElementById('inputValue').value); // قراءة القيمة من حقل الإدخال
+                    var operation = document.getElementById('operation').value; // قراءة العملية المختارة
+                    var newX;
+                    var operationSymbol; // رمز العملية
+        
+                    if (!isNaN(inputValue)) {
+                        var startX = point.X(); // حفظ موقع النقطة قبل العملية
+        
+                        switch(operation) {
+                            case 'add':
+                                newX = startX + inputValue;
+                                operationSymbol = '+';
+                                break;
+                            case 'subtract':
+                                newX = startX - inputValue;
+                                operationSymbol = '-';
+                                break;
+                            case 'multiply':
+                                newX = startX * inputValue;
+                                operationSymbol = '×';
+                                break;
+                            case 'divide':
+                                if (inputValue !== 0) {
+                                    newX = startX / inputValue;
+                                    operationSymbol = '÷';
+                                } else {
+                                    alert("Cannot divide by zero!");
+                                    return;
+                                }
+                                break;
+                        }
+        
+                        point.setPosition(JXG.COORDS_BY_USER, [newX, 0]); // تحديث موضع النقطة
+        
+                        // إزالة الخط القديم والنص القديم إذا كان موجودًا
+                        if (operationLine) {
+                            board.removeObject(operationLine);
+                        }
+                        if (operationText) {
+                            board.removeObject(operationText);
+                        }
+        
+                        // رسم خط يوضح العملية
+                        operationLine = board.create('arrow', [[startX, 0], [newX, 0]], {
+                            strokeColor: 'red',
+                            strokeWidth: 2,
+                            name: operationSymbol
+                        });
+        
+                        // إضافة نص توضيحي للعملية مع رمز العملية
+                        operationText = board.create('text', [
+                            (startX + newX) / 2, // موقع النص بين النقطة القديمة والجديدة
+                            0.5, // ارتفاع النص فوق السهم
+                            `${operationSymbol} ${inputValue}`
+                        ], {
+                            anchorX: 'middle', // تمركز النص أفقياً
+                            fontSize: 16,
+                            strokeColor: 'black'
+                        });
+        
+                        board.update(); // تحديث اللوحة
+                    } else {
+                        alert("Please enter a valid number");
+                    }
+                } */
+
+        /* 
+        var board = JXG.JSXGraph.initBoard('jxgbox', {
+            boundingbox: [-15, 2, 15, -3],
+            axis: false,
+            showNavigation: true,
+            showCopyright: false,
+            zoom: {
+                enabled: true, // تمكين خاصية التكبير
+                //factorX: 1.25, // عامل التكبير على المحور X
+                //factorY: 1.25, // عامل التكبير على المحور Y
+                //min: 0.01, // أقل قيمة للتكبير
+                //max: 100 // أعلى قيمة للتكبير
+            },
+            pan: {
+                enabled: true, // تمكين خاصية التمرير
+                needShift: false, // التمرير بدون الحاجة للضغط على مفتاح Shift
+                needTwoFingers: false // التمرير بدون الحاجة لاستخدام أصبعين (على الأجهزة التي تعمل باللمس)
+            }
+        });
+        
+        // إنشاء محور x
+        board.create('axis', [[-20, 0], [20, 0]], {
+            strokeColor: 'black',
+            ticks: {
+                drawZero: true,
+                majorHeight: 15,
+                minorHeight: 10,
+                strokeColor: 'green',
+                label: {
+                    toFraction: true,
+                    anchorX: 'middle'
+                }
+            }
+        });
+        
+        // إنشاء نقطة البداية لمستقيم الأعداد
+        var startPoint = board.create('point', [0, 0], {name: 'A', visible: true});
+        
+        // حقول إدخال للرقمين ولنوع العملية
+        var num1Input = board.create('input', [-10, 1.3, '0', 'الرقم الأول'], {cssStyle: 'width: 50px;'});
+        var operationInput = board.create('input', [-3, 1.3, '+', 'العملية'], {cssStyle: 'width: 50px;'});
+        var num2Input = board.create('input', [3, 1.3, '0', 'الرقم الثاني'], {cssStyle: 'width: 50px;'});
+        
+        // نص لعرض النتيجة
+        var resultText = board.create('text', [1, 1.8, function() {
+            var num1 = parseFloat(num1Input.Value());
+            var num2 = parseFloat(num2Input.Value());
+            var operation = operationInput.Value().trim();
+            
+            var result;
+            if (operation === '+') {
+                result = num1 + num2;
+            } else if (operation === '-') {
+                result = num1 - num2;
+            } else if (operation === '*') {
+                result = num1 * num2;
+            } else if (operation === '/') {
+                result = num1 / num2;
+            } else {
+                return 'عملية غير صالحة';
+            }
+            
+            return num1 + ' ' + operation + ' ' + num2 + ' = ' + result;
+        }, {fontSize: 18, fixed: true}]);
+        
+        // دالة لتحديد لون السهم بناءً على نوع العملية
+        function getArrowColor(operation) {
+            switch (operation) {
+                case '+':
+                    return 'blue';
+                case '-':
+                    return 'red';
+                case '*':
+                    return 'green';
+                case '/':
+                    return 'purple';
+                default:
+                    return 'black';
+            }
+        }
+        
+        // تحديث مستقيم الأعداد بناءً على المدخلات
+        var currentArrow;
+        var updateLine = function() {
+            var num1 = parseFloat(num1Input.Value());
+            var num2 = parseFloat(num2Input.Value());
+            var operation = operationInput.Value().trim();
+            
+            var result;
+            if (operation === '+') {
+                result = num1 + num2;
+            } else if (operation === '-') {
+                result = num1 - num2;
+            } else if (operation === '*') {
+                result = num1 * num2;
+            } else if (operation === '/') {
+                result = num1 / num2;
+            } else {
+                return;
+            }
+            
+            // تحديث موقع النقطة A
+            startPoint.moveTo([result, 0], 600);
+        
+            // إزالة السهم السابق إذا كان موجودًا
+            if (currentArrow) {
+                board.removeObject(currentArrow);
+            }
+        
+            // إنشاء سهم جديد لعرض العملية
+            currentArrow = board.create('arrow', [[num1, 0], [result, 0]], {
+                strokeColor: getArrowColor(operation),
+                strokeWidth: 2
+            });
+        };
+        
+        // تحديث مستقيم الأعداد عند تغيير المدخلات
+        num1Input.rendNodeInput.addEventListener('change', updateLine);
+        num2Input.rendNodeInput.addEventListener('change', updateLine);
+        operationInput.rendNodeInput.addEventListener('change', updateLine);
+         */
+
+        /* (function () {
+           var board = JXG.JSXGraph.initBoard('jxgbox', {
+               boundingbox: [-8, 8, 8, -8],
+               keepaspectratio: false,
+               axis: false
+           });
+        
+           var view = board.create('view3d',
+               [[-6, -3], [8, 8],             // 2D box of view
+               [[-5, 5], [-5, 5], [-5, 5]]],  // 3D bounding cube
+               {});
+        
+           // إنشاء النقاط الثلاثية الأبعاد
+           var A = view.create('point3d', [1, 1, 1], { size: 5 });  // Point A
+           var B = view.create('point3d', [3, 1, 2], { size: 5 });  // Point B
+           var C = view.create('point3d', [1, -2, 3], { size: 5 });  // Point C
+        
+           // إنشاء الخطوط لتمثيل المثلث ثلاثي الأبعاد
+           var lineAB = view.create('line3d', [A, B], { strokeColor: 'blue', strokeWidth: 2 });
+           var lineBC = view.create('line3d', [B, C], { strokeColor: 'blue', strokeWidth: 2 });
+           var lineCA = view.create('line3d', [C, A], { strokeColor: 'blue', strokeWidth: 2 });
+        })(); */
+
+        /*
+                                // Intersection of two planes: infinite line
+                                var line3 = view.create('line3d', [
+                                    () => JXG.Math.Geometry.meet3Planes(
+                                        plane1.normal, plane1.d,
+                                        plane2.normal, plane2.d,
+                                        JXG.Math.crossProduct(plane1.normal, plane2.normal), 0),
+                                    () => JXG.Math.Geometry.meetPlanePlane(v11, v12, v21, v22),
+                                ], { strokeColor: '#888888', strokeWidth: 2, strokeOpacity: 0.8 });
+
+                                var p = view.create('point3d', [() => JXG.Math.Geometry.meet3Planes(
+                                        plane1.normal, plane1.d,
+                                        plane2.normal, plane2.d,
+                                        JXG.Math.crossProduct(plane1.normal, plane2.normal), 0)], { 
+        fixed: true });
+        */
+
+
+       var drawMode = null;
+       var points = [];
+       var shapes = [];
+   
+       // دالة لتغيير النمط إلى رسم مضلع
+       document.getElementById('drawPolygon').addEventListener('click', function() {
+           drawMode = 'polygon';
+           points = [];
+           board.containerObj.style.cursor = 'crosshair';
+       });
+   
+       // دالة لتغيير النمط إلى رسم دائرة
+       document.getElementById('drawCircle').addEventListener('click', function() {
+           drawMode = 'circle';
+           points = [];
+           board.containerObj.style.cursor = 'crosshair';
+       });
+   
+       // دالة لتغيير النمط إلى رسم قطعة مستقيمة
+       document.getElementById('drawSegment').addEventListener('click', function() {
+           drawMode = 'segment';
+           points = [];
+           board.containerObj.style.cursor = 'crosshair';
+       });
+   
+       // رسم الأشكال بناءً على النمط المحدد
+       board.on('down', function(event) {
+           if (!drawMode) return;
+   
+           var coords = board.getUsrCoordsOfMouse(event);
+           var point = board.create('point', [coords[0], coords[1]], {
+               name: '',
+               fixed: false,
+               size: 3,
+               face: 'o',
+               strokeColor: '#000'
+           });
+   
+           points.push(point);
+   
+           if (drawMode === 'polygon') {
+               if (points.length > 2) {
+                   shapes.push(board.create('polygon', points, {
+                       borders: {
+                           strokeWidth: 2,
+                           strokeColor: 'blue',
+                           highlightStrokeColor: 'red'
+                       }
+                   }));
+               }
+           } else if (drawMode === 'circle') {
+               if (points.length === 2) {
+                   shapes.push(board.create('circle', [points[0], points[1]], {
+                       strokeColor: 'green',
+                       strokeWidth: 2,
+                       highlightStrokeColor: 'red'
+                   }));
+                   points = [];
+               }
+           } else if (drawMode === 'segment') {
+               if (points.length === 2) {
+                   shapes.push(board.create('segment', [points[0], points[1]], {
+                       strokeColor: 'purple',
+                       strokeWidth: 2,
+                       highlightStrokeColor: 'red'
+                   }));
+                   points = [];
+               }
+           }
+       });
+   
+       // دالة لمسح اللوحة
+       document.getElementById('clearBoard').addEventListener('click', function() {
+           board.suspendUpdate();
+           while (shapes.length) {
+               board.removeObject(shapes.pop());
+           }
+           while (points.length) {
+               board.removeObject(points.pop());
+           }
+           board.unsuspendUpdate();
+       });
+   
+       // تفعيل السحب والإفلات
+       var currentShape = null;
+       board.on('down', function(event) {
+           var clickedObjects = board.getAllUnderMouse(event);
+           if (clickedObjects.length > 0) {
+               currentShape = clickedObjects[0];
+           }
+       });
+   
+       board.on('move', function(event) {
+           if (!currentShape) return;
+   
+           var coords = board.getUsrCoordsOfMouse(event);
+           if (currentShape.elType === 'point') {
+               currentShape.setPosition(JXG.COORDS_BY_USER, coords);
+           } else if (currentShape.elType === 'polygon' || currentShape.elType === 'segment') {
+               currentShape.vertices.forEach(function(vertex) {
+                   vertex.setPosition(JXG.COORDS_BY_USER, [
+                       vertex.X() + coords[0] - vertex.X(),
+                       vertex.Y() + coords[1] - vertex.Y()
+                   ]);
+               });
+           } else if (currentShape.elType === 'circle') {
+               currentShape.center.setPosition(JXG.COORDS_BY_USER, coords);
+               currentShape.radiusPoint.setPosition(JXG.COORDS_BY_USER, [
+                   coords[0] + (currentShape.radiusPoint.X() - currentShape.center.X()),
+                   coords[1] + (currentShape.radiusPoint.Y() - currentShape.center.Y())
+               ]);
+           }
+       });
+   
+       board.on('up', function(event) {
+           currentShape = null;
+       }); 
+
+        /*   (function () {
+              var board = JXG.JSXGraph.initBoard('jxgbox', {
+                  boundingbox: [-10, 10, 10, -10],
+                  axis: true
+              });
+  
+              var points = [];
+              var midpoints = [];
+              var midLine = null;
+  
+              // إنشاء مثلث مع إمكانية وضع نقاط حرة
+              var A = board.create('point', [-4, -4], { name: 'A', size: 4 });
+              var B = board.create('point', [4, -2], { name: 'B', size: 4 });
+              var C = board.create('point', [0, 5], { name: 'C', size: 4 });
+  
+              // إنشاء أضلاع المثلث
+              var AB = board.create('segment', [A, B], { strokeWidth: 2 });
+              var BC = board.create('segment', [B, C], { strokeWidth: 2 });
+              var CA = board.create('segment', [C, A], { strokeWidth: 2 });
+  
+              // إضافة خاصية النقر على الأضلاع لتحديد منتصفها
+              [AB, BC, CA].forEach(function (line, index) {
+                  line.on('down', function (e) {
+                      var mid = board.create('midpoint', [line.point1, line.point2], { size: 3, name: 'M' + (index + 1) });
+                      midpoints.push(mid);
+  
+                      // رسم القطعة المستقيمة بين المنتصفات إذا تم تحديد منتصفات ضلعين
+                      if (midpoints.length === 2) {
+                          if (midLine) {
+                              board.removeObject(midLine); // إزالة الخط السابق إذا كان موجودًا
+                          }
+                          midLine = board.create('segment', [midpoints[0], midpoints[1]], { strokeColor: 'green',dashed:true ,strokeWidth: 2 });
+  
+                          // حساب حالة التوازي والطول
+                          var mainLineLength = midLine.L(); // طول القطعة المستقيمة
+                          var oppositeLineLength = [AB, BC, CA].find(function (l) {
+                              return !midpoints.includes(l.point1) && !midpoints.includes(l.point2);
+                          }).L();
+  
+                          // تحديث المعلومات
+                          document.getElementById('info').innerText =
+                              'طول القطعة المستقيمة: ' + mainLineLength.toFixed(2) +
+                              '\nطول الضلع المقابل: ' + oppositeLineLength.toFixed(2) +
+                              '\nالتوازي: ' + (midLine.getSlope() <= 0.2 ? 'نعم' : 'لا') +
+                              '\nالنسبة: ' + (mainLineLength / oppositeLineLength).toFixed(2);
+                      }
+                  });
+              });
+  
+          })(); */
+
+
+    </script>
+
+</body>
+
+</html>

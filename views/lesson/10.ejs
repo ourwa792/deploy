@@ -1,0 +1,105 @@
+<%- include('../partial/head.ejs') %>
+
+    <!-- <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/jsxgraph/1.3.5/jsxgraph.css" />
+ -->
+    <link rel="stylesheet" href="/css/jsxgraph.css">
+    <script lang="text/javascript" src="/library/jquery.min.js"></script>
+    <script lang="text/javascript" src="/library/jquery-ui.min.js"></script>
+    <script lang="text/javascript" src="/library/jsxgraphcore.js"></script>
+    <style>
+        .jxgbox {
+            width: 100%;
+            height: 600px;
+            position: relative;
+        }
+        .protractor {
+   
+            position: absolute;
+            width: 300px;
+            height: auto;
+            cursor: move;
+        }
+    </style>
+    </head>
+
+    <body class="container">
+        <div id="jxgbox" class="jxgbox container">
+
+        </div>
+        <img src="/image/protractor.svg" id="protractor" class="protractor" alt="Protractor">
+        <button onclick="rotateProtractor(-5)">تدوير لليسار</button>
+        <button onclick="rotateProtractor(5)">تدوير لليمين</button>
+    
+        <script>
+            function placeProtractorInCenter() {
+                var protractor = $("#protractor");
+                var jxgbox = $("#jxgbox");
+                var leftPos = (jxgbox.width() - protractor.width()) / 2;
+                var topPos = (jxgbox.height() - protractor.height()) / 2;
+                protractor.css({ top: topPos + 'px', left: leftPos + 'px' });
+            }
+    
+            $(function() {
+                $("#protractor").draggable({
+                    containment: "#jxgbox"
+                });
+    
+                // ضبط موضع المنقلة داخل اللوحة عند تحميل الصفحة
+                placeProtractorInCenter();
+    
+                // إعادة ضبط موضع المنقلة عند تغيير حجم النافذة
+                $(window).resize(function() {
+                    var protractor = $("#protractor");
+                    var jxgbox = $("#jxgbox");
+    
+                    var newLeftPos = Math.min(Math.max(parseInt(protractor.css('left')), 0), jxgbox.width() - protractor.width());
+                    var newTopPos = Math.min(Math.max(parseInt(protractor.css('top')), 0), jxgbox.height() - protractor.height());
+    
+                    protractor.css({ top: newTopPos + 'px', left: newLeftPos + 'px' });
+                });
+                
+            });
+    
+            var board = JXG.JSXGraph.initBoard('jxgbox', {
+                boundingbox: [-10, 10, 10, -10],
+                axis: true
+            }); console.log(board)
+    
+            var center = board.create('point', [0, 0], {name: 'مركز', fixed: true, showInfobox: false});
+            var pointA = board.create('point', [5, 0], {name: 'A', showInfobox: false});
+            var pointB = board.create('point', [0, 5], {name: 'B', showInfobox: false});
+            var lineA = board.create('line', [center, pointA], {straightFirst: false, straightLast: false});
+            var lineB = board.create('line', [center, pointB], {straightFirst: false, straightLast: false});
+            var angle = board.create('angle', [pointA, center, pointB], {
+                name: 'زاوية AOB',
+                type: 'sector',
+                radius: 2
+            });
+    
+            function updateAngle() {
+                var angleValue = Math.round(JXG.Math.Geometry.trueAngle(center.coords.usrCoords, pointA.coords.usrCoords, pointB.coords.usrCoords));
+                angle.setAttribute({name: angleValue + '°'});
+            }
+    
+            pointA.on('drag', updateAngle);
+            pointB.on('drag', updateAngle);
+            updateAngle();
+    
+            function rotateProtractor(degrees) {
+                var protractor = $("#protractor");
+                var currentRotation = protractor.css('transform');
+                var currentAngle = 0;
+    
+                if (currentRotation !== 'none') {
+                    var values = currentRotation.split('(')[1].split(')')[0].split(',');
+                    var a = values[0];
+                    var b = values[1];
+                    currentAngle = Math.round(Math.atan2(b, a) * (180/Math.PI));
+                }
+    
+                var newAngle = currentAngle + degrees;
+                protractor.css('transform', 'rotate(' + newAngle + 'deg)');
+            }
+        
+        </script>
+    </body>

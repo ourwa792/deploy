@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<script type="text/javascript" src="/library/jsxgraphcore.js"></script>
+
+<body>
+    <div id="jxgbox" style="width: 600px; height: 500px;"></div>
+
+    <script type="text/javascript">
+
+        JXG.Options.label.autoPosition = true;
+        JXG.Options.text.fontSize = 24;
+
+        var board = JXG.JSXGraph.initBoard("jxgbox", { boundingbox: [-5, 5, 5, -5], showCopyright: false, showNavigation: false });
+
+        var p = board.create('point', [-3, -2], { name: 'p' });
+        var q1 = board.create('point', [0, -2], { name: 'q_1' });
+        var q2 = board.create('point', [-1, 0.5], { name: 'q_2' });
+        var l1 = board.create('line', [p, q1], { straightFirst: false });
+        var l2 = board.create('line', [p, q2], { straightFirst: false });
+        var l3 = board.create('line', [q1, q2], { color: 'black' });
+
+        var q3 = board.create('point', [2.5, 2], { visible: false });
+        var l4 = board.create('parallel', [l3, q3], { color: 'black' });
+        var t1 = board.create('intersection', [l4, l1], { name: 't_1' });
+        var t2 = board.create('intersection', [l4, l2], { name: 't_2' });
+
+        var txt1 = board.create('text', [-3, -3, function () { return 'TV(p,q_1,t_1) = ' + (t1.Dist(p) / q1.Dist(p)).toFixed(2); }]);
+        var txt2 = board.create('text', [-3, -4, function () { return 'TV(p,q_2,t_2) = ' + (t2.Dist(p) / q2.Dist(p)).toFixed(2); }]);
+    </script>
+
+</body>
+
+</html>

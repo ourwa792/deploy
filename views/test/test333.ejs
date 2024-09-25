@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tank</title>
+
+    <script src="/library/createjs.js"></script>
+    <script src="/library/zim_min.js"></script>
+
+    <script src="https://zimjs.org/cdn/Box2dWeb-2.1.a.3.min.js"></script>
+    <script type="module" src="/library/zim_physics.js"></script>
+
+</head>
+
+<body>
+
+    <script>
+
+        var width = 1024;
+        var height = 768;
+        var color = light;
+        var outerColor = darker;
+        var assets = ["playsoccer.png", "bottle.png"];
+        //const path = "https://zimjs.org/assets/";
+        const path = "/assets/";
+
+        var frame = new Frame({
+            scaling: FIT, width, height, color: light,
+            outerColor: darker, assets, path,
+        });
+
+        frame.on("ready", function () {
+            let stage = frame.stage;
+            let stageW = frame.width;
+            let stageH = frame.height;
+
+            zog("ready from ZIM Frame"); // logs in console (F12 - choose console);
+
+            var score = new Label({ text: "0", align: "center", size: 150, color:pink }).alp(.5).centerReg()
+            var currentScore = 0;
+
+            // create Physics with tall side borders and no border top
+            var physics = new Physics({ borders: new Boundary(0, -stageH, stageW, stageH * 2) });
+            physics.remove(physics.borderTop);
+
+            // addPhysics(obj, dynamic, contract, shape, friction, linear, angular, density, restitution, maskBits, categoryBits)
+            var ball = frame.asset("playsoccer.png")
+                .siz(120).centerReg().cur()
+                .addPhysics({ shape: "circle", restitution: .6 });
+
+            var bottle = frame.asset("bottle.png")
+                .sca(.4).centerReg().pos(50, 50).cur()
+                .addPhysics({ angular: .8 }); // just slow down spin a little on the bottle
+
+            var min = 250;
+            var max = 450;
+            ball.on("mousedown", function (e) {
+                var upForce = -rand(min, max);
+                let sideForce = (e.stageX - ball.x) * upForce / 150;
+                // x and y force plus where to apply force
+                ball.impulse(sideForce, -300, e.stageX, e.stageY);
+
+                // تأكد من أن النص الموجود في score.text هو رقم
+
+                currentScore += 1;
+                let newNumber = currentScore;
+                console.log(`newNumber: ${newNumber}`);
+
+                // التحقق إذا كان الرقم أولي
+                if (newNumber === 1) {
+                    score.text = `لا، ${newNumber} ليس أولي`; // 1 ليس عددًا أوليًا
+                } else if (newNumber === 2) {
+                    score.text = `نعم، ${newNumber} أولي`; // 2 هو عدد أولي
+                } else {
+                    let isPrime = true;
+                    for (let i = 2; i <= Math.sqrt(newNumber); i++) {
+                        if (newNumber % i === 0) {
+                            isPrime = false;
+                            break; // الخروج من الحلقة عند معرفة أنه ليس أوليًا
+                        }
+                    }
+                    if (isPrime) {
+                        score.text = `نعم، ${newNumber} أولي`;
+                    } else {
+                        score.text = `لا، ${newNumber} ليس أولي`;
+                    }
+                }
+
+                // تحديث المسرح بعد تغيير النص
+                stage.update();
+
+            })
+            // إعادة تعيين النتيجة إذا اصطدمت الكرة بالحد السفلي
+            ball.contact(function (obj, body) {
+                if (body == physics.borderBottom) {
+                    currentScore = 0; // إعادة تعيين currentScore
+                    score.text = "0"; // إعادة تعيين النص إلى "0"
+                    stage.update();
+                }
+            })
+
+            // turn on dragging
+            physics.drag([bottle]); // do not drag ball
+            stage.update(); // this is needed to show any changes
+
+
+        })
+
+
+    </script>
+
+
+</body>
+
+</html>

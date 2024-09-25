@@ -19,7 +19,8 @@
         };
     </script>
     <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script> 
-    </head>
+    
+</head>
 
     <body>
         <div class="container">
@@ -103,9 +104,6 @@
           
           {"html": "You got {totalScore} out of {maxScore} points.</br></br><i>يجب عليك الدراسة بشكل اكبر</i>", "expression": "{totalScore} <= 10"}]}
 
-
-
-
                 Survey.Serializer.addProperty("question", {
                     name: "score:number"
                 });
@@ -142,7 +140,7 @@
                     return { totalScore, correctAnswers, incorrectAnswers };
                 }
 
-                survey.onComplete.add((sender) => {
+                survey.onComplete.add((sender) => { // sender = json survey
                     const { totalScore, correctAnswers, incorrectAnswers } = calculateTotalScore(sender.data);
                     const maxScore = calculateMaxScore(sender.getAllQuestions());
 

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plane</title>
+
+    <style>
+        #myCanvas{
+            background-color: skyblue;
+        }
+        body{
+            margin: 0;
+            overflow: hidden;
+        }
+    </style>
+
+</head>
+<body>
+
+    <canvas id="myCanvas"></canvas>
+
+   <!--  <script type="module">
+    
+    import  {Complex} from 'https://cdn.jsdelivr.net/npm/@mathigon/fermat@1.1.20/+esm' 
+    
+    console.log(Complex)
+    </script>
+ -->
+<script>
+    myCanvas.width = window.innerWidth;
+    myCanvas.height = window.innerHeight;
+
+    const ctx = myCanvas.getContext("2d")
+
+    const center = {
+        x: myCanvas.width/2 ,
+        y: myCanvas.height/2
+    }
+
+    const size = { width:300 , height: 150 }
+
+    class Plane {
+        constructor(center, size) {
+            this.center = center
+            this.size = size
+        }
+
+        #drawPropeller(ctx){
+            const size = this.size.height*0.45;
+            const left = this.center.x - this.size.width*0.4;
+            const middle = this.center.y;
+            const middleBallRadius = size*0.15;
+            const ellipseLongRadius = (size.middleBallRadius*2)/4;
+            const ellipseShortRadius = middleBallRadius*0.7;
+            ctx.beginPath();
+            ctx.fillStyle = "blue";
+            ctx.arc(left,middle,middleBallRadius,0,Math.PI*2)
+            ctx.fill()
+            ctx.beginPath()
+            ctx.fillStyle = "red"
+            ctx.ellipse(left,middle-middleBallRadius-ellipseLongRadius
+            ,ellipseShortRadius, ellipseLongRadius, 0, 0, Math.PI*2)
+            ctx.fill()
+        }
+
+        #drawFrontPart(ctx){
+            const roundness = 12;
+            const left = this.center.x - this.size.width*0.4;
+            const top = this.center.y - this.size.height*0.2;
+            const width = this.size.width*0.4;
+            const height = this.size.height*0.4;
+            ctx.beginPath();
+            ctx.fillStyle = "yellow";
+            ctx.roundRect(left,top,width,height,roundness)
+            ctx.fill()
+            this.#drawPropeller(ctx)
+        }
+
+        draw(ctx){
+            const left = this.center.x - this.size.width/2;
+            const top = this.center.y - this.size.height/2;
+            ctx.rect(left,top,this.size.width,this.size.height)
+            ctx.stroke()
+            this.#drawFrontPart(ctx)
+            this.#drawPropeller(ctx)
+        }
+    }
+
+    const plane = new Plane(center, size)
+    plane.draw(ctx)
+
+</script>
+    
+</body>
+</html>

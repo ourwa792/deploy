@@ -292,6 +292,8 @@ exports.getFeedbackTableData = async (req, res) => {
 //===----==========
 
 exports.getAddVideoLesson = (req, res, next) => {
+  console.log("req.user isAdmin ==>"+req.user.id)
+
   res.render('admin/add-video-lesson', {
     pageTitle: 'إضافة درس فيديو جديد',
     oldInput: { title: '', link: '', description: '', grade: '' },
@@ -303,6 +305,8 @@ exports.getAddVideoLesson = (req, res, next) => {
 
 // الفالديشن من السيرفر صحيحة
 exports.postAddVideoLesson = async (req, res, next) => {
+  // للقيام ربط معرف المستخدم مع الدرس الذي اضافه
+  console.log("req.user isAdmin ==>"+req.user)
   const { title, link, description, grade } = req.body;
   const errors = validationResult(req);
 

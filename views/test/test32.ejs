@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+
+    <script lang="text/javascript" src="/library/createjs.js"> </script>
+    <script lang="text/javascript" src="/library/zim_min.js"> </script>
+    <!--     <script type="module" src="/library/zim_physics.js"></script>
+ -->
+</head>
+
+<body>
+
+    <script>
+        const width = 800;
+        const height = 600;
+
+        const assets = ["car.jpg", 'butterfly.png', "flowers02.jpg",
+            "book1.png", "book2.png", "teacher1.jpg",
+            "rightfish.png", "junko walking.png",
+            "drabstract.png", "city.png"];
+        const path = "/assets/"
+
+        var frame = new Frame({
+            scaling: FIT, width, height, color: pink,
+            progress: new Waiter({
+                backgroundColor: blue, corner: 10
+            }),
+            assets, path
+        });
+
+
+        frame.on("ready", () => {
+
+            const stage = frame.stage;
+            const stageW = frame.width;
+            const stageH = frame.height;
+            /* 
+                        var field = frame.asset('flowers02.jpg').scaleTo(stage, null, 100).center();
+                        var butterfly = new Sprite({
+                            image:'butterfly.png',
+                            cols: 10 ,
+                            rows: 4 ,
+                            //animations:{left:[0,9], leftright:[10,19], right:[20,29], rightleft:[30,39]}
+                        }).run({time:2, loop:true, rewind:true}).centerReg(stage) 
+                        //.animate({props:{regY:20}, loop:true, rewind:true})    
+             
+                        const input = new TextInput().loc(15,15); // adds a default input field to the stage
+                       
+                        input.on('change' ,()=> {
+                            zog(input.text)
+                        }) */
+
+            var city = frame.asset('city.png').scaleTo(stage, null, 100).center();
+            const track = new zim.Rectangle(stageW, 100, "gray").addTo(stage).pos(0, H / 2 + 110);
+
+            const car = new Sprite({
+                image: 'car.jpg', cols: 3, rows: 4,
+
+            }).run({ loop: true, startFrame: 6, endFrame: 8 })
+                .addTo(stage).pos(0, H / 2 + 75);
+
+
+
+            let targetPosition = car.x; // الموضع المستهدف للسيارة
+            const stepForward = 200; // المسافة التي تتحركها السيارة عند الإجابة الصحيحة
+            const finishLine = stageW - 60; // نهاية السباق
+
+            // الأسئلة
+            const questions = [
+                { q: "5 + 3", options: [7, 8, 9], answer: 8 },
+                { q: "10 - 4", options: [5, 6, 7], answer: 6 },
+                { q: "10 + 4", options: [5, 14, 7], answer: 14 },
+                { q: "1 + 4", options: [5, 14, 7], answer: 5 },
+                // يمكنك إضافة المزيد من الأسئلة هنا
+            ];
+
+            let currentQuestionIndex = 0;
+            let questionLabel, optionButtons = [];
+
+            // دالة لعرض السؤال الحالي
+            function displayQuestion() {
+                // إزالة السؤال السابق إن وجد
+                if (questionLabel) {
+                    questionLabel.removeFrom(stage);
+                }
+                // إزالة الأزرار السابقة
+                optionButtons.forEach(button => button.removeFrom(stage));
+                optionButtons = [];
+
+                // عرض السؤال الجديد
+                const question = questions[currentQuestionIndex];
+                questionLabel = new zim.Label({
+                    text: question.q,
+                    size: 30,
+                    color: "black"
+                }).addTo(stage).pos(stageW / 2, 50);
+
+                let xPos = stageW / 2 - 100;
+                question.options.forEach((option, index) => {
+                    const btn = new Button({
+                        label: option.toString(),
+                        width: 60,
+                        height: 60,
+                        backgroundColor: "lightblue"
+                    }).addTo(stage).pos(xPos, 100);
+
+                    // التعامل مع نقر الزر
+                    btn.on("click", () => {
+                        if (option === question.answer) {
+                            targetPosition += stepForward; // تحديد الموضع الجديد للسيارة عند الإجابة الصحيحة
+                            currentQuestionIndex++; // الانتقال إلى السؤال التالي
+                            checkNextQuestion();
+                        } else {
+                            // إذا كانت الإجابة خاطئة، يبقى السؤال نفسه
+                            const pane = new Pane({
+                                backgroundColor: "pink",
+                                shadowColor: "grey",
+                                corner: 35,
+                                width: 500,
+                                height: 150,
+                                content: new Label({ text: "اجابة خاطئة حاول من جديد", italic: true,
+                                 size: 30, color: white }),
+                                //backing: new Rectangle(500, 150, pink),
+                                displayClose: true
+                            }).cur().addTo(stage).center(stage);
+                            pane.on("close", () => {
+                                pane.removeFrom(stage);
+                            });
+                        }
+                    });
+
+                    optionButtons.push(btn);
+                    xPos += 100;
+                });
+            }
+
+            function checkNextQuestion() {
+                if (currentQuestionIndex < questions.length) {
+                    displayQuestion(); // عرض السؤال التالي فقط عند الإجابة الصحيحة
+                } 
+            }
+
+            // عرض السؤال الأول عند بداية اللعبة
+            displayQuestion();
+
+            // حركة السيارة بشكل تدريجي إلى الموضع المستهدف
+            zim.Ticker.add(function () {
+                if (car.x < targetPosition) {
+                    car.x += 2;
+                }
+
+                if (car.x >= finishLine) {
+                    setTimeout(() => {
+                        const pane = new Pane({
+                            corner: 35,
+                            content: new Label({ text: "اجابة خاطئة حاول من جديد", italic: true,
+                            size: 30, color: white }),
+                            width: 500,
+                            height: 150,
+                            content: "أحسنت لقد تجاوزت السباق !",
+                            backing: new Rectangle(500, 150, "lightgreen"),
+                            //displayClose: true
+                        }).addTo(stage).center(stage);
+                        pane.on('close', () => {
+                            pane.removeFrom(stage)
+                        })
+                    }, 1000);
+                }
+
+                stage.update();
+            });
+        })
+    </script>
+
+</body>
+
+</html>
+
+
+<!-- else if (car.x >= finishLine) {
+    // السيارة وصلت إلى خط النهاية، أظهر رسالة التهنئة
+    setTimeout(() => {
+        const pane = new Pane({
+            width: 500,
+            height: 150,
+            content: "Congratulations! You finished the race!",
+            backing: new Rectangle(500, 150, "lightgreen"),
+            displayClose: false
+        }).addTo(stage).center(stage);
+    }, 1000);
+} -->

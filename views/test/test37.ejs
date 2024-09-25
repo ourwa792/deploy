@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>ZIM Physics Example</title>
+        <script type="module" src="https://zimjs.org/cdn/Box2dWeb-2.1.a.3.min.js"></script>
+    </head>
+    
+    <body>
+    <script type="module">
+
+        import zim from "https://zimjs.com/cdn/016/zim_physics";
+
+        const frame = new Frame(FIT, 1024, 768, white, dark);
+        frame.on("ready", function () {
+            const stage = frame.stage;
+            let stageW = frame.width;
+            let stageH = frame.height;
+        
+
+            // إنشاء الكرات مع وحدات كتلة مختلفة
+            const rect = [];
+
+            // تعيين الألوان والأسماء للكرات المختلفة
+            const units = [
+                { unit: "1 mg", density: 0.001, color: "red" },       // ميليغرام
+                { unit: "1 cg", density: 0.01, color: "orange" },     // سنتغرام
+                { unit: "1 dg", density: 0.1, color: "grey" },      // ديسغرام
+                { unit: "1 g", density: 1.0, color: "green" },        // غرام
+                { unit: "1 dag", density: 10.0, color: "blue" },      // ديكاغرام
+                { unit: "1 hg", density: 100.0, color: "black" },    // هيكتوغرام
+                { unit: "1 kg", density: 1000.0, color: "brown" },     // كيلوغرام
+                { unit: "1 mg", density: 0.001, color: "red" },       // ميليغرام
+                { unit: "1 cg", density: 0.01, color: "orange" },     // سنتغرام
+                { unit: "1 dg", density: 0.1, color: "grey" },      // ديسغرام
+                { unit: "1 g", density: 1.0, color: "green" },        // غرام
+                { unit: "1 dag", density: 10.0, color: "blue" },      // ديكاغرام
+                { unit: "1 hg", density: 100.0, color: "black" },     // هيكتوغرام
+                { unit : "1 kg", density: 1000.0, color: "brown" },     // كيلوغرام
+                ];
+
+            const physics = new Physics({
+                gravity: 9.8    
+            });
+            
+            
+             
+            loop(units, (unit, index)=> {
+                const minSize = 10; // الحجم الأدنى للمربعات
+                const maxSize = 70; // الحجم الأقصى للمربعات
+                const minDensity = Math.min(...units.map(unit => unit.density)); // أقل كثافة
+                const maxDensity = Math.max(...units.map(unit => unit.density)); // أكبر كثافة
+                // مقياس جديد لحساب الحجم بشكل يتناسب مع كثافة الوحدة
+                const size = minSize + (maxSize - minSize) * ((Math.log10(unit.density) - Math.log(minDensity)) / (Math.log10(maxDensity) - Math.log10(minDensity)));
+
+
+                const square = new Rectangle(size, size, unit.color)
+                    .centerReg()
+                    .pos(100 + index * 100, 300) // موضع المربعات على المسرح بشكل متباعد
+                    .addPhysics(true, 0, "rectangle", unit.density, .1)
+                    .addTo();
+
+                    rect.push(square); // إضافة المربع إلى المصفوفة
+                square.addTo(); // إضافة المربع إلى المسرح
+
+
+                const label = new Label({
+                    text: unit.unit,
+                    size: size/2,
+                    color: "white",
+                    align: "center",
+                    valign: "center"
+                }).scaleTo(square,90) .centerReg(square); // تمركز الليبل على المربع
+            
+            });
+             rect.forEach(element => {
+                console.log(element.body.GetMass())
+            })  
+
+             const beam = new Rectangle(600, 40, "brown").centerReg().pos(400,650)
+            .addPhysics({dynamic:true,shape: "rectangle",
+                friction: 3,linear: 0.8,
+                 angular: .8,density: 1});
+            
+            
+            const pivot = new Circle(20, "black").centerReg().loc(beam.x,beam.y) //loc(beam.x, beam.y+20)
+            .addPhysics(false); 
+            
+            physics.join({obj1:beam, obj2:pivot, type: "revolute"});
+             
+            physics.debug();    
+            physics.drag([units]);
+            physics.noDrag([beam,pivot]);
+
+            frame.on("resize", ()=> physics.updateDebug())
+            
+/*
+            const control = new Triangle().center().mov(0,-100).drag(); // or animate() or wiggle()
+            const ball = new Circle().center().addPhysics(); 
+            physics.attach(pivot,beam);                 
+
+            let ball = new Circle(50, "green").center(stage);
+                ball.addPhysics();
+                ball.body.ApplyForce({x: -1000, y: -1000},
+                ball.body.GetWorldCenter());  // تطبيق قوة تدفع الكرة نحو اليمين
+                
+                let force = new b2Vec2(-50, 50);  // قوة جديدة لدفع الكائن لأعلى وإلى اليمين
+                
+                zog(force)
+                let ball = new zim.Circle(50, "purple").center(stage);
+                ball.addPhysics();
+                ball.body.ApplyForce(force,GetWorldCenter());  // تطبيق القوة
+                
+                
+                
+                console.log(ball)
+
+
+            */
+ 
+        });
+    </script>
+</body>
+
+</html>

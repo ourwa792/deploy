@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <script type="module">
+
+import zim from "https://zimjs.org/cdn/016/zim.js";
+
+    
+        
+        const assets = ['apple.png', 'rose.png', 'tree10.png'];
+        const path = "/assets/";
+
+        var frame = new Frame({
+            scaling: FIT, width: 1304, height: 868, color: pink,
+            outerColor: dark,
+            progress: new Waiter({
+                backgroundColor: blue, corner: 10
+            }),
+            assets: assets, path: path
+        });
+
+
+
+frame.on("ready", function ready(){
+    var stage = frame.stage;
+    let stageW = frame.width;
+    let stageH = frame.height;
+
+        
+     
+
+        new Blob({
+            points:[[-2.5,-154.3,0,0,-17.6,0,14.7,0,"mirror"],[42.8,-88.3,0,0,-13.4,-7.4,10.7,5.9,"mirror"]
+            ,[114,-102.4,0,0,-8.5,-9.2,10.6,11.5,"mirror"],[95.6,-26.2,0,0,-4.7,-14.2,2.8,8.6,"mirror"],
+            [160.6,11.1,0,0,0,-8.8,0,11.8,"mirror"],[92.3,34.6,0,0,4.9,-11.1,-6.2,13.8,"mirror"],[113.5,107.8,0,0,10.4,-18.4,-10.4,18.4,"mirror"],[34.6,92.3,0,0,11.1,-4.9,-11.1,4.9,"mirror"],[-2.5,153.1,0,0,11.7,0,-14.7,0,"mirror"],[-42.8,88.3,0,0,13.4,7.4,-13.4,-7.4,"mirror"],[-120,110.1,0,0,9.6,12.2,-5.8,-7.3,"mirror"],[-92.3,34.6,0,0,3.7,8.3,-2.4,-5.5,"mirror"],[-161.5,-2.5,0,0,0,14.5,0,-14.6,"mirror"],[-92.3,-34.7,0,0,-2.5,5.6,4.9,-11.1,"mirror"],[-135,-112.3,0,0,-8.5,9.1,6.3,-6.9,"mirror"],[-50.7,-83.5,0,0,-7.7,5.1,15.4,-10.3,"mirror"]]
+            ,color: yellow, interactive:false
+        })//.center()
+
+       
+       /*  
+   const label = new Label({
+   text:"press to edit with TextEditor",
+   italic:true,
+   align:CENTER,
+   font:"verdana"
+})
+   .center()
+   .expand()
+   .tap(()=>{
+      textEditor.show(label);
+   });
+   zog(label)
+
+const textEditor = new TextEditor({
+   colorList:true, // or array of colors
+   optionList:["bold","italic","align"], // or true, or array with any of these
+   sizeList:true, // or array of sizes
+   fontList:true, // or array of fonts
+   live:true, // default
+   scroll:true // default, etc.
+});
+ textEditor.on("update", ()=>{
+     if(label.text !== 'مربع')
+    zog("error")
+else zog("write")
+ }) //zog(label.text) */
+            
+   /* 
+    point:[[4.9,-117.3,0,0,-20,0,22.2,0,"mirror"],
+            [-21.3,-52,0,0,-17.3,-13.5,21.6,16.9,"mirror"]
+            ,[70.3,-71.7,0,0,43.8,-89,-43.8,89],
+            [80.9,76,0,0,-58.8,-51.6,38.1,33.5,"mirror"],
+            [-114.8,80.6,0,0,-42.2,51,42.2,-51,"mirror"],
+            [-149.5,-72.9,0,0,25.8,55.9,-25.8,-55.9,"mirror"],
+            [-73.3,-49.9,0,0,-1.4,6.4,7.1,-31.9],[-90,-112.6,0,0,-23.7,1.8,18.9,-1.4]]}
+   */
+
+
+   const size = 100;
+const roseImage = "rose.png";
+const treeImage = "tree10.png";
+const appleImage = "apple.png";
+
+// إعداد قائمة العناصر القابلة للسحب (وردة، شجرة، وتفاحة)
+const draggableItems = new Tile([
+    new Pic(appleImage).centerReg(),  // التفاحة (لن يتم سحبها)
+    new Pic(roseImage).centerReg(),   // الوردة (قابلة للسحب)
+    new Pic(treeImage).centerReg()    // الشجرة (لن يتم سحبها)
+], 1, 3, 0, 20).pos(0, H*0.7, CENTER, CENTER);
+
+// الوردة قابلة للسحب
+draggableItems.getChildAt(1).drag();
+
+// إنشاء تسلسل الأشجار والورود مع مكان فارغ
+const sequenceItems = new Tile([
+    new Pic(roseImage).centerReg(),   // وردة
+    new Pic(treeImage).centerReg(),   // شجرة
+    new Pic(treeImage).centerReg(),   // شجرة
+    null,                                // مكان فارغ لوردة
+    new Pic(roseImage).centerReg(),   // وردة
+    new Pic(treeImage).centerReg(),   // شجرة
+], 1, 6, 0, 40).pos(0, H*0.4, CENTER, CENTER);
+
+// التأكد من وجود مكان فارغ
+let emptySlotIndex = 3;
+
+// إعداد هدف لاستقبال الوردة في المكان الفارغ
+draggableItems.on("pressup", function(e) {
+    let draggedItem = e.target;
+
+    // التأكد من أن العنصر المسحوب هو الوردة
+    if (draggedItem.image === roseImage) {
+        let emptySlot = sequenceItems.getChildAt(emptySlotIndex);
+
+        // التحقق من قرب الوردة من المكان الفارغ
+        if (draggedItem.hitTestReg(emptySlot)) {
+            // وضع الوردة في المكان الفارغ
+            const point = draggableItems.localToLocal(draggedItem.x, draggedItem.y, sequenceItems);
+            sequenceItems.setChildAt(emptySlotIndex, draggedItem.clone());
+            draggedItem.removeFromParent();
+        } else {
+            // إعادة الوردة إلى مكانها الأصلي في القائمة
+            draggedItem.animate({x:draggedItem.startX, y:draggedItem.startY}, .3);
+        }
+    }
+});
+
+
+
+    })
+
+    </script>
+    
+</body>
+</html>

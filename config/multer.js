@@ -9,9 +9,10 @@ const storage = new CloudinaryStorage({
         let folder = 'educational-resources';
         let format;
         let resource_type = uploadOptions.resource_type;
+        //بناءً على نوع الملف، يتم تحديد التنسيق الصحيح لتخزينه في Cloudinary
 
         if (file.mimetype.startsWith('image')) {
-            format = undefined; // Let Cloudinary handle the image format
+            format = undefined; 
         } else if (file.mimetype === 'application/pdf') {
             format = 'pdf';
         } else if (file.mimetype === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
@@ -24,104 +25,44 @@ const storage = new CloudinaryStorage({
 
         return {
             folder: folder,
-            format: format,
+            format: format,  // تحديد تنسيق الملفات المرفوعة (يمكنك تغييره حسب نوع الملف
             resource_type: resource_type,
-            public_id: file.fieldname + '-' + Date.now(),
+            public_id: file.fieldname + '-' + Date.now(),  // تحديد معرّف فريد للملف (اختياري) تم إنشاء معرف فريد (public ID) لكل ملف يتم رفعه استنادًا إلى اسم الحقل (field name) والطابع الزمني (timestamp) لضمان عدم وجود تضارب في الأسماء.
         };
     },
 });
 
-const upload = multer({ storage: storage,
-    limits: {fileSize: 5 * 1024 * 1024}, // 5MB limit
-    fileFilter: (req, file, cb) => {
+const upload = multer({
+    storage: storage,
+    limits: { fileSize: 5 * 1024 * 1024 }, // 5MB limit
+    fileFilter: (req, file, cb) => { 
         const allowedTypes = ['image/jpg', 'image/png', 'image/gif', 'application/pdf',
             'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
             'application/msword', 'application/vnd.openxmlformats-officedocument.presentationml.presentation',
             'application/vnd.ms-powerpoint'];
 
-        const allowedImageTypes = ["image/jpg","image/png"] ;
-
-        console.log("=====file info : ======", file.mimetype, file.size) ;
-
+        const allowedImageTypes = ["image/jpg", "image/png"];
+        /* 
         if (file.mimetype === 'video/mp4') {
             return cb(new Error('غير مسموح رفع الفيديو بصيغة MP4'));
-        }
+        } */
 
-       /*  if (file.fieldname === 'file') {
+        if (file.fieldname === 'file') {
             if (allowedTypes.includes(file.mimetype)) {
-                if (file.size <= 5 * 1024 * 1024) {
-                     cb(null, true);
-                } else {
-                     cb(new Error('حجم الملف يتجاوز 5MB!'));
-                }
+                return cb(null, true);
             } else {
-                 cb(new Error('تنسيق الملف غير صالح!'));
+                return cb(new Error('تنسيق الملف غير صالح!'));
             }
         } else if (file.fieldname === 'thumbnail') {
             if (allowedImageTypes.includes(file.mimetype)) {
-                if (file.size <= 2 * 1024 * 1024) {
-                     cb(null, true);
-                } else {
-                     cb(new Error('حجم الصورة المصغرة يتجاوز 2MB!'));
-                }
+                return cb(null, true);
             } else {
-                 cb(new Error('تنسيق الصورة المصغرة غير صالح!'));
+                cb(new Error('تنسيق الصورة المصغرة غير صالح!'));
             }
         } else {
-             cb(new Error('حقل غير مدعوم!'));
-        } */
-
-       
-            if (file.fieldname === 'file') {
-                if (allowedTypes.includes(file.mimetype)) {
-                    return cb(null, true);
-                } else {
-                    return cb(new Error('تنسيق الملف غير صالح!'));
-                }
-            } else if (file.fieldname === 'thumbnail') {
-                if (allowedImageTypes.includes(file.mimetype)) {
-                    return cb(null, true);
-                } else {
-                    cb(new Error('تنسيق الصورة المصغرة غير صالح!'));
-                }
-            } else {
-                cb(new Error('حقل غير مدعوم!'));
-            }      
-    }
-})
-
-module.exports = upload
-
-
-
-
-//return cb(new multer.MulterError('LIMIT_UNEXPECTED_FILE', 'حقل غير مدعوم!'));
-
-
-/* if (file.mimetype === 'video/mp4') {
-    return cb(new Error('غير مسموح رفع الفيديو بصيغة MP4'));
-}
-
-if (file.fieldname === 'file') {
-    if (allowedTypes.includes(file.mimetype)) {
-        if (file.size <= 5 * 1024 * 1024) {
-            cb(null, true);
-        } else {
-             cb(new Error('حجم الملف يتجاوز 5MB!'));
+            cb(new Error('حقل غير مدعوم!'));
         }
-    } else {
-         cb(new Error('تنسيق الملف غير صالح!'));
     }
-} else if (file.fieldname === 'thumbnail') {
-    if (allowedImageTypes.includes(file.mimetype)) {
-        if (file.size <= 2 * 1024 * 1024) {
-            cb(null, true);
-        } else {
-             cb(new Error('حجم الصورة المصغرة يتجاوز 2MB!'));
-        }
-    } else {
-         cb(new Error('تنسيق الصورة المصغرة غير صالح!'));
-    }
-} else {
-     cb(new Error('حقل غير مدعوم!'));
-} */
+});
+
+module.exports = upload;

@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3d</title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/polyfill/7.0.0/polyfill.min.js"></script>
+    <script>
+        window.MathJax = {
+            loader: { load: ['input/tex', 'output/chtml', 'input/mml'] },
+            tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script> 
+     
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraph.css" />
+    <script type="text/javascript" charset="UTF-8"
+        src="https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraphcore.js">
+    </script>
+
+   <!--  <script type="module">
+        import JXG from 'https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraphcore.mjs';
+    </script>  ES6 -->
+    <style> 
+        .jxgbox {
+            width: 800px;
+            height: 500px;
+            margin: 20px;
+        }
+        .controls {
+            margin: 20px;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="jxgbox" id="jxgboxconic"></div>  
+    <div class="jxgbox" id="jxgbox"></div>  
+
+    <script>
+
+        (function () {
+		    var board = JXG.JSXGraph.initBoard('jxgboxconic', {
+		        boundingbox: [-8, 8, 8, -8],
+		        keepaspectratio: true,
+		        axis: false
+		    });
+		    var bound = [-5, 5];
+		    var view = board.create('view3d',
+		        [[-6, -3], [8, 8],
+		        [bound, bound, bound]],
+		        {});
+
+		    var s = board.create('slider', [[-7, -6], [5, -6], [-3, 1, 4]], { name: 's' });
+		    var v11 = [0, 1, 0],
+		        v12 = [2, 1, 1],
+		        v21 = [1, 0, 0],
+		        v22 = [2, -1, () => s.Value()];
+
+		    var plane1 = view.create('plane3d', [[1, -1, 1], v11, v12], {
+		        fillColor: 'red', strokeColor: '#888888', strokeOpacity: 0.6, mesh3d: { visible: false }
+		    });
+
+            console.log(plane1.normal)
+
+		    var plane2 = view.create('plane3d', [[2, -1, 1], v21, v22], {
+		        fillColor: 'blue', strokeColor: '#888888', strokeOpacity: 0.6, mesh3d: { visible: false }
+		    });
+
+		    // Intersection of two planes: infinite line
+		    var line3 = view.create('line3d', [
+		        () => JXG.Math.Geometry.meet3Planes(
+		            plane1.normal, plane1.d,
+		            plane2.normal, plane2.d,
+		            JXG.Math.crossProduct(plane1.normal, plane2.normal), 0),
+		        () => JXG.Math.Geometry.meetPlanePlane(v11, v12, v21, v22),
+		    ], { strokeColor: 'black', strokeWidth: 2, strokeOpacity: 0.2 });
+		})();
+
+        
+        var board = JXG.JSXGraph.initBoard('jxgbox', {
+            boundingbox: [-8, 8, 8, -8],
+		        keepaspectratio: true,
+		        axis: false
+        }); 
+
+
+        var view = board.create('view3d',
+		    [[-6, -3], [8, 8],             // 2D box of view
+		    [[-5, 5], [-5, 5], [-5, 5]]],  // 3D bounding cube
+         {
+            // Main axes
+            axesPosition: 'center',
+            xAxis: { visible:true, strokeColor: 'blue', strokeWidth: 3 },
+            yAxis: { visible:true, strokeColor: 'blue', strokeWidth: 3 },
+            zAxis: { visible:true, strokeColor: 'blue', strokeWidth: 3 },
+
+            // المستويات الخلفية  mesh: الاجزاء المكونة للمستوي
+            xPlaneRear: { visible:true, fillColor: 'green',  mesh3d: {visible: false}},
+            yPlaneRear: { visible:true, fillColor: 'yellow',  mesh3d: {visible: false}},
+            zPlaneRear: {visible:true, fillColor: 'red',  mesh3d: {visible: false}},
+            
+            //المستويات الامامية
+            xPlaneFront: { visible: false, fillColor: 'blue' },
+            yPlaneFront: { visible: false, fillColor: 'blue' },
+            zPlaneFront: { visible: false, fillColor: 'blue' },
+
+            // Axes on planes الخلفية
+            xPlaneRearYAxis: {visible:false, strokeColor: 'red'},
+            xPlaneRearZAxis: {visible:false, strokeColor: 'red'},
+
+
+            yPlaneFrontXAxis: {strokeColor: 'blue'},
+            yPlaneFrontZAxis: {strokeColor: 'blue'},
+
+            zPlaneFrontXAxis: {visible: false},
+            zPlaneFrontYAxis: {visible: false}
+        });
+
+
+        var s = board.create("slider", [ [-7,-6], [5,-6], [-3,1,4]], {name: "s"})
+
+            var A = view.create('point3d', [1, ()=> s.Value(), ()=> s.Value()], { size: 5 });  // Point A
+		    var B = view.create('point3d', [()=> s.Value(), 1, ()=> s.Value()], { size: 5 });  // Point B
+		    var C = view.create('point3d', [()=> s.Value(), ()=> s.Value(), 1], { size: 5 });  // Point C
+
+
+        // 3. إنشاء المضلع ثلاثي الأبعاد
+        var polygon3D = view.create('polygon3d', [A,B,C], {
+            strokeColor: '#00F',
+            fillColor: '#AAF',
+            fillOpacity: 0.5
+        });  
+
+        (function(){console.log("hi")})()        
+
+         /*
+        // إعداد نقطة المركز للمخروط
+        const center = view.create('point3d', [0, 0, 0], {visible: true});
+
+        // إعداد شعاع المخروط باستخدام متجه يشير إلى الأعلى
+        const normal = [0, 0, 1]; // متجه عمودي في الاتجاه Z
+
+        // إعداد القاعدة السفلى للمخروط (الدائرة) بنصف قطر ثابت
+        const radius = 2;
+
+        // إنشاء دائرة ثلاثية الأبعاد (قاعدة المخروط)
+        const base = view.create('circle3d', [center, normal, radius], {
+            strokeColor: 'blue',          // لون محيط الدائرة
+            strokeWidth: 2,               // عرض خط محيط الدائرة
+            fillColor: 'lightblue',        // لون ملء الدائرة
+            fillOpacity: 0.6              // شفافية ملء الدائرة
+        });
+
+        // إنشاء نقطة الرأس (قمة المخروط) في الاتجاه العلوي
+        const apex = view.create('point3d', [0, 0, 3], {visible: true});
+
+        // توصيل الرأس مع كل نقطة على الدائرة لإنشاء المخروط
+        const resolution = 40; // عدد النقاط على الدائرة لرسم المخروط
+        for (let i = 1; i <= resolution; i++) {
+            // حساب النقاط على محيط الدائرة
+            const angle = (i * 2 * Math.PI) / resolution;
+            const x = radius * Math.cos(angle);
+            const y = radius * Math.sin(angle);
+            const pointOnBase = view.create('point3d', [x, y, 0], {visible: false});
+
+            // رسم خطوط من القمة إلى النقاط على القاعدة (جوانب المخروط)
+            view.create('line3d', [apex, pointOnBase], {
+                strokeColor: 'red',        // لون جوانب المخروط
+                strokeWidth: 1,            // عرض خطوط الجوانب
+            });
+        }
+
+        var v11 = [0, 2, 1],
+		    v12 = [2, 2, 2],
+	        v21 = [1, 1, 1];
+	        
+
+		var plane1 = view.create('plane3d', [[1, -1, 1], v11, v12], {
+	        fillColor: 'green', strokeColor: '#888888', strokeOpacity: 0.6, mesh3d: { visible: false }
+	    });
+
+        */
+
+        //console.log(JXG.Math.Geometry.intersectionFunction3D(view, plane1, polygon3D))
+
+    //=================================
+
+    /* مثلث قائم   
+      
+        var A = board.create('point', [ 1, 1], { size: 5 });  // Point A
+		var B = board.create('point', [2, 2], { size: 5 });
+
+      
+        let circ = board.create("circle",[A,B]);
+        let s = board.create("segment",[A,B]);
+        
+        let l2 = board.create("perpendicular",[s, B]);
+
+        let C = board.create("intersection",[circ, l2]); // drags entire triangle
+
+        let s1 = board.create("segment",[A,B])
+        let s2 = board.create("segment", [A, C]);
+        let s3 = board.create("segment", [B, C]); */
+
+
+    </script>
+    
+</body>
+</html>

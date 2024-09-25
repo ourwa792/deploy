@@ -1,11 +1,191 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    lesson 1
-</body>
-</html>
+<%- include("../partial/head.ejs") %>
+  <link href="/css/animate.min.css" rel="stylesheet">
+  <style>
+    .header {
+      background-color: #defdb6;
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .header img {
+      width: 60px;
+      height: auto;
+    }
+
+    .learning-box {
+      background-color: #ffebcd;
+      padding: 10px;
+      border-radius: 10px;
+      text-align: center;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .learning-box img {
+      width: 80px;
+      height: auto;
+    }
+
+    .angle-box {
+      background-color: #ffe4e1;
+      padding: 10px;
+      border-radius: 10px;
+      text-align: center;
+      margin-bottom: 20px;
+      transition: transform 0.2s;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .angle-box:hover {
+      transform: scale(1.05);
+    }
+
+    .angle-box img {
+      width: 100px;
+      height: auto;
+    }
+
+    .text-div {
+      background-color: #fafad2;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    ul li {
+      background-color: #e0ffff;
+      margin: 5px 0;
+      padding: 10px;
+      border-radius: 5px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      transition: background-color 0.3s;
+    }
+
+    ul li:hover {
+      background-color: #afeeee;
+    }
+
+    .diagram {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    .diagram div {
+      margin-right: 10px;
+    }
+  </style>
+
+  <script lang="text/javascript" src="/library/typed.js"></script>
+
+  </head>
+
+  <body >
+
+   <!-- ترويسة الصفحة -->
+    <div class="row header animate__animated animate__fadeInDown d-flex align-items-center">
+      <!-- عمود الصورة -->
+      <div class=" col-6 text-start">
+        <img src="<%= lesson.cover %>" style="width: 150%; height: auto;" class="img-fluid" alt="Pencil Icon">
+      </div>
+      <!-- عمود العنوان -->
+      <div class="col-lg-10 text-center">
+        <h1><%= lesson.title %></h1>
+      </div>
+    </div>
+
+
+
+
+    <%- lesson.content %>
+      <!-- النص التمهيدي 
+   <div class="row content-section animate__animated animate__fadeInUp">
+    <div class="col-12">
+      <p>تعلمت أن الزاوية تتشكل من التقاء نصفي مستقيمين، وستتعلم في هذا الدرس بعض أنواع الزوايا وسنستعمل الكوس لتمييز أنواع الزوايا.</p>
+    </div>
+  </div>
+
+  <!-- النص والصورة التوضيحية 
+  <div class="row content-section">
+    <div class="col-md-3">
+      <div class="learning-box animate__animated animate__bounceInLeft">
+        <p id="element"></p>
+        <img src="https://res.cloudinary.com/dg0d0jmtz/image/upload/v1722639160/lesson/%D8%A7%D9%84%D8%B5%D9%81_%D8%A7%D9%84%D8%B1%D8%A7%D8%A8%D8%B9_%D8%A7%D9%86%D9%88%D8%A7%D8%B9_%D8%A7%D9%84%D8%B2%D9%88%D8%A7%D9%8A%D8%A7_omy5ru.png"
+         alt="Girl Icon" class="left-image">
+      </div>
+    </div>
+    <div class="col-md-9">
+      <div class="row">
+        <div class="col-lg angle-box animate__animated animate__zoomIn">
+          <img src="https://via.placeholder.com/100" alt="زاوية حادة">
+          <p>زاوية حادة</p>
+        </div>
+    </div>
+</div>
+</div>
+
+<!-- الشرح 
+<div class="row content-section animate__animated animate__fadeInUp">
+    <div class="col-12">
+      <ul>
+        <li class="animate__animated animate__lightSpeedInRight">أنواع الزوايا (ضلعاها متعامدان)</li>
+        <li class="animate__animated animate__lightSpeedInRight">نسمي نقطة التقاء ضلعي الزاوية: رأس الزاوية</li>
+        <li class="animate__animated animate__lightSpeedInRight">نسمي الزاوية وفق رؤوسها</li>
+        <li class="animate__animated animate__lightSpeedInRight">مثال في الزاوية المجاورة</li>
+        <li class="animate__animated animate__lightSpeedInRight">الرأس: م</li>
+        <li class="animate__animated animate__lightSpeedInRight">اسم الزاوية: س م ع</li>
+        <li class="animate__animated animate__lightSpeedInRight">ضلعا الزاوية: م س و م ع</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- الرسم البياني 
+  <div class="row content-section">
+    <div class="col-12 diagram animate__animated animate__bounceInUp">
+      <div>ع</div>
+      <div>
+        <svg height="80" width="200">
+          <line x1="0" y1="80" x2="100" y2="0" style="stroke:black;stroke-width:2" />م
+          <line x1="0" y1="80" x2="200" y2="80" style="stroke:black;stroke-width:2" />
+        </svg>
+    </div>
+      <div>س</div>
+    </div>
+  </div>
+</div>
+
+
+    <!--  <div class="col-md-6 angle-box animate__animated animate__zoomIn">
+       <img src="https://via.placeholder.com/100" alt="زاوية قائمة">
+       <p>زاوية قائمة</p>
+     </div>
+     <div class="col-md-6 angle-box animate__animated animate__zoomIn">
+       <img src="https://via.placeholder.com/100" alt="زاوية منفرجة">
+       <p>زاوية منفرجة</p>
+     </div>
+     <div class="col-md-6 angle-box animate__animated animate__zoomIn">
+       <img src="https://via.placeholder.com/100" alt="زاوية مستقيمة">
+       <p>زاوية مستقيمة</p>
+     </div> -->
+     
+
+      <script >
+        setTimeout(() => {
+
+          var typed = new Typed('#element', {
+            strings: ["الكوس: أداة هندسية مثلثية الشكل فيها ضلعان متعامدان"],
+            typeSpeed: 30,
+            loop: false
+          });
+        },)
+      </script>
+
+      <%- include('../partial/end.ejs') %>

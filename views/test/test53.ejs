@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://unpkg.com/mathlive/dist/mathlive.min.css">
+
+    <script src="//unpkg.com/mathlive" type="module"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 20px;
+        }
+
+        .exercise-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .fraction-group {
+            margin: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .operator-select {
+            margin: 0 10px;
+            padding: 5px;
+            font-size: 1.2em;
+        }
+
+        .result {
+            margin-top: 30px;
+            font-size: 1.5em;
+            color: green;
+        }
+
+        .fraction {
+            margin: 0 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>مقارنة الكسور</h1>
+    <p>ضع ( &gt; أو &lt; أو = ) في المربع لتتحصل على مقارنة صحيحة.</p>
+    <div class="exercise-container" id="renderer">
+        <!-- التمرين 1 -->
+        <div class="fraction-group">
+            <math-field id="fraction1-1" read-only></math-field>
+            <select id="operator1" class="operator-select">
+                <option value="<">&lt;</option>
+                <option value="=">=</option>
+                <option value=">">&gt;</option>
+            </select>
+            <math-field id="fraction1-2" read-only></math-field>
+        </div>
+        <!-- التمرين 2  &lt;  &gt;  = -->
+        <div class="fraction-group">
+            <math-field id="fraction2-1" read-only></math-field>
+            <select id="operator2" class="operator-select">
+                <option value="<">&lt;</option>
+                <option value="=">=</option>
+                <option value=">">&gt;</option>
+            </select>
+            <math-field id="fraction2-2" read-only></math-field>
+        </div>
+        <!-- التمرين 3 -->
+        <div class="fraction-group">
+            <math-field id="fraction3-1" read-only></math-field>
+            <select id="operator3" class="operator-select">
+                <option value="<">&lt;</option>
+                <option value="=">=</option>
+                <option value=">">&gt;</option>
+            </select>
+            <math-field id="fraction3-2" read-only></math-field>
+        </div>
+        <!-- التمرين 4 -->
+        <div class="fraction-group">
+            <math-field id="fraction4-1" read-only></math-field>
+            <select id="operator4" class="operator-select">
+                <option value="<">&lt;</option>
+                <option value="=">=</option>
+                <option value=">">&gt;</option>
+            </select>
+            <math-field id="fraction4-2" read-only></math-field>
+        </div>
+        <!-- التمرين 5 -->
+        <div class="fraction-group">
+            <math-field id="fraction5-1" read-only></math-field>
+            <select id="operator5" class="operator-select">
+                <option value="<">&lt;</option>
+                <option value="=">=</option>
+                <option value=">">&gt;</option>
+            </select>
+            <math-field id="fraction5-2" read-only></math-field>
+        </div>
+        <button onclick="checkAnswers()">تحقق من الإجابات</button>
+        <div id="result" class="result"></div>
+    </div>
+
+    <script type="module">
+        import {ComputeEngine} from 'https://unpkg.com/@cortex-js/compute-engine?module';
+
+        window.addEventListener('DOMContentLoaded', (event) => {
+            // إعداد MathLive وCompute Engine
+            const ce = new ComputeEngine();
+            const fractions = [
+                ["\\frac{5}{6}", "\\frac{11}{12}"],
+                ["\\frac{6}{7}", "\\frac{7}{9}"],
+                ["\\frac{5}{7}", "\\frac{1}{3}"],
+                ["\\frac{2}{9}", "\\frac{1}{2}"],
+                ["\\frac{3}{8}", "\\frac{4}{11}"],
+            ];
+
+            //const expr = ce.parse("\\frac{1}{3}").N();
+            const expr = ce.parse("\\frac{1}{3}");
+            const EXP = ce.box(expr)
+            console.log(EXP) 
+            
+
+            //console.log(expr.N()); 
+            // ➔ 0.3333333333333333
+
+
+
+            // Render each fraction using MathLive
+            fractions.forEach((pair, index) => {
+                document.getElementById(`fraction${index + 1}-1`).value = pair[0];
+                document.getElementById(`fraction${index + 1}-2`).value = pair[1];
+            });
+        });
+
+        window.checkAnswers = function() {
+            const ce = new ComputeEngine();
+            const fractions = [
+                ["\\frac{5}{6}", "\\frac{11}{12}"],
+                ["\\frac{6}{7}", "\\frac{7}{9}"],
+                ["\\frac{5}{7}", "\\frac{1}{3}"],
+                ["\\frac{2}{9}", "\\frac{1}{2}"],
+                ["\\frac{3}{8}", "\\frac{4}{11}"],
+            ];
+
+            let correct = true;
+            fractions.forEach((pair, index) => {
+                const latex1 = ce.parse(pair[0]);
+                const latex2 = ce.parse(pair[1]);
+
+                const selectedOperator = document.getElementById(`operator${index + 1}`).value;
+             
+    
+                const expr1 = ce.box(latex1).N().valueOf()// parseFloat();
+                const expr2 = ce.box(latex2).N().valueOf()// parseFloat();
+
+                console.log(`expr1 (${pair[0]}) = `, expr1);
+                console.log(`expr2 (${pair[1]}) = `, expr2);
+
+
+                let comparisonResult = false
+                if (selectedOperator === "<") {
+                    comparisonResult = expr1 < expr2;
+                    console.log("comparisonResult "+comparisonResult)
+                } else if (selectedOperator === "=") {
+                    comparisonResult = Math.abs(expr1 - expr2) < 1e-10; // استخدام مقارنة قريبة جدًا بسبب القيم العشرية
+                    console.log("comparisonResult "+comparisonResult)
+
+                } else if (selectedOperator === ">") {
+                    comparisonResult = expr1 > expr2;
+                    console.log("comparisonResult "+comparisonResult)
+
+                }
+                if (!comparisonResult) {
+                    correct = false;
+                }
+            });
+                if (correct) {
+                    document.getElementById('result').textContent = 'كل الإجابات صحيحة!';
+                    document.getElementById('result').style.color = 'green';
+                } else {
+                    document.getElementById('result').textContent = 'هناك إجابات خاطئة، حاول مرة أخرى.';
+                    document.getElementById('result').style.color = 'red';
+                }
+        }
+
+/* 
+        window.addEventListener('DOMContentLoaded', (event) => {
+            const ce = new ComputeEngine.ComputeEngine()
+            //console.log(ce.parse('\\frac{-1.3}{2.4}').evaluate().latex);
+
+            ce.declare({
+                m: { domain: "Numbers", value: 5 },
+                f: { domain: "Functions" },
+                g: { domain: "Functions" },
+                Smallfrac: {
+                    signature: {
+                        domain: "NumericFunctions",
+                        evaluate: (ce, args) => {
+                            const num1 = args[0].valueOf();
+                            const num2 = args[1].valueOf();
+                            console.log(`num1: ${num1}, num2: ${num2}`); // التحقق من القيم
+                            return ce.box(num1 / num2);
+                        },
+                    },
+                },
+            });
+
+            // استخدام صيغة MathJSON لتحديد الدالة والمعاملات
+            const expr = ce.box(["Smallfrac", 10, 2]);
+            const result = expr.evaluate();
+
+            console.log(result); // طباعة النتيجة لتحديد نوعها
+
+            // الوصول إلى قيمة النتيجة بشكل مباشر إذا كانت قيمة عددية
+            if (result.isLiteral) {
+                console.log(result.value); // من المفترض أن تطبع 5
+            } else if (result.isNumber) {
+                console.log(result.valueOf()); // حل بديل لمحاولة الحصول على القيمة
+            } else {
+                console.log("The result is not a literal value or a simple number.");
+            }
+
+
+            /*const exp = ce.box([["ExpandAll", ["Power", ["Multiply", ["Add", "x", 1], 3], 2]]]);
+              console.log(exp.latex)
+              const natg = exp.simplify() 
+      
+              console.log(" "+natg.latex)
+            
+
+            ما تراه عند طباعة التعبير المغلف هو كائن كامل يحتوي على العديد من الخصائص والطرق التي ترتبط بالتعبير الرياضي الذي تم تحليله باستخدام ce.box(). هذه الخصائص توفر الكثير من المعلومات حول حالة التعبير، مثل العمليات (ops)، الرأس (head)، القيم العددية، والدوال التي يمكن تطبيقها.
+
+السبب في طباعة كائن كبير ومعقد هو أن console.log(n) يعرض الكائن بأكمله، بما في ذلك البيانات والطرق الداخلية التي يحتوي عليها.
+
+ما الذي يحدث هنا؟
+عند استدعاء ce.box()، يتم إنشاء تعبير مغلف والذي يحتوي على:
+
+_head: رأس التعبير (في هذه الحالة هو 'Factor').
+_ops: العمليات التي يتم تطبيقها (أي المكونات الفرعية للتعبير مثل "Add", "Multiply", "x", "y").
+_canonical: إذا كان التعبير في شكل قانوني (canonical form).
+خصائص إضافية مثل isCanonical, latex, json, وطرق للتحقق من صحة التعبير أو تبسيطه أو تقييمه.
+حل المشكلة:
+للحصول على التعبير الرياضي النهائي بعد التبسيط أو التحليل (factorization)، يجب استخدام طرق محددة مثل:
+
+latex: للحصول على التعبير بتنسيق LaTeX.
+json: للحصول على التعبير بتنسيق MathJSON.
+simplify(): لتبسيط التعبير.
+التطبيق العملي:
+لتوضيح النتيجة النهائية، قم باستخدام n.latex أو n.json بدلًا من طباعة الكائن بالكامل.
+
+javascript
+Copy code
+const ce = new ComputeEngine();
+let n = ce.box(["Factor", ["Add", ["Multiply", 2, "x"], ["Multiply", 2, "y"]]]).simplify();
+console.log(n.latex);  // النتيجة بتنسيق لاتكس
+console.log(n.json);   // النتيجة بتنسيق JSON
+النتيجة:
+الناتج باستخدام n.latex:
+2
+(
+𝑥
++
+𝑦
+)
+2(x+y)
+الناتج باستخدام n.json:
+json
+Copy code
+["Multiply", 2, ["Add", "x", "y"]]
+الخلاصة:
+ce.box() يغلف التعبير في كائن يمكن التعامل معه باستخدام طرق مختلفة مثل simplify(), evaluate() وغيرها.
+للحصول على النتيجة النهائية بشكل قابل للعرض، يجب استخدام الخصائص مثل latex أو json.
+
+*/
+            
+        //}) 
+
+    </script>
+
+</body>
+
+</html>

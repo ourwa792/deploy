@@ -1,0 +1,706 @@
+<%- include('../partial/head.ejs')%>
+
+    <link href="/css/animate.min.css" rel="stylesheet">
+
+
+    <style>
+        /* Default style for virtual keyboard */
+        math-virtual-keyboard {
+            width: 100%;
+            /* Full width on small screens */
+            max-width: 600px;
+            /* Limit the width on larger screens */
+        }
+
+        /* Custom media query for small mobile screens */
+        @media only screen and (max-width: 600px) {
+            math-virtual-keyboard {
+                font-size: 1.2rem;
+                /* Increase the font size slightly */
+                --key-size: 40px;
+                /* Set smaller key sizes for better fit */
+                --keyboard-height: 300px;
+                /* Reduce keyboard height for smaller screens */
+            }
+        }
+
+        h5 {
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            color: #5c2e03;
+            background-color: pink;
+            font-weight: bold;
+        }
+
+        .header {
+            background-color: #ffe0b2;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            color: #d84315;
+            margin-bottom: 20px;
+        }
+
+        .header img {
+            width: 60px;
+            height: auto;
+        }
+
+        .math-field-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        math-field {
+            width: 100%;
+            font-size: large;
+            border-radius: 10px;
+        }
+
+        .feedback {
+            font-size: 1.3rem;
+            margin-top: 10px;
+            color: #28a745;
+            /* لون الأخضر للإشارة إلى النجاح */
+        }
+
+        .incorrect {
+            color: red;
+        }
+
+        button {
+            background-color: #ffce54;
+            /* ألوان زاهية للأزرار */
+            border: none;
+            color: #fff;
+            padding: 10px 20px;
+            ;
+            margin: 10px;
+            cursor: pointer;
+            font-weight: bold;
+            border-radius: 10px;
+        }
+
+        button:hover {
+            background-color: #ff9f43;
+            /* تغيير لون الأزرار عند التمرير */
+        }
+
+        /* من الضروري استخدامه عند كل تنسيق رياضي لتصبح الشاشات الصغيرة مناسبة ومتجاوبة */
+        .example-box {
+            background-color: #fff3cd;
+            border: 2px solid #ffeb3b;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+            max-width: 100%;
+            /* تأكد أن العرض لا يتجاوز 100% */
+            overflow-x: auto;
+            /* إضافة تمرير أفقي عند الحاجة */
+            white-space: nowrap;
+            /* منع تكسير النص داخل الـ div */
+        }
+
+        .math-equation {
+            overflow-x: auto;
+            display: block;
+            /* عرض المعادلة كـ block */
+            white-space: nowrap;
+            /* منع التفاف النص */
+            max-width: 100%;
+            /* ضمان أن المعادلة لا تتجاوز عرض الحاوية */
+        }
+
+        .example-box:hover {
+            transform: scale(1.2);
+        }
+
+        .math-equation-rtl {
+            direction: rtl;
+            /* لجعل المعادلات تظهر من اليسار إلى اليمين */
+            display: inline-block;
+            /* للتأكد من عرض المعادلة بشكل مضمن */
+        }
+
+        .highlight {
+            color: #d32f2f;
+            font-weight: bold;
+        }
+
+        .question-section {
+            background-color: #dff6e0;
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        p {
+            word-wrap: break-word;
+            max-width: 100%;
+            /* منع تجاوز النص لحدود العنصر */
+        }
+
+        ul {
+            padding-right: 20px;
+            list-style-type: none;
+            /*إزالة العلامات الجانبية */
+        }
+
+        ul li::before {
+            content: "🔹";
+            /* إضافة رمز مخصص للعناصر */
+            margin-left: 5px;
+        }
+
+        ol li label {
+            margin-left: 4px !important;
+        }
+
+        .knowlege-section {
+            background-color: #fff3e0;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }   
+     
+
+
+
+
+
+
+        .table-custom {
+            width: 100%;
+            margin-top: 15px;
+            margin-bottom: 15px;
+            transition: background-color 0.3s ease;
+        }
+
+        .table-custom th,
+        .table-custom td {
+            text-align: center;
+            padding: 8px;
+        }
+
+        .table-custom th {
+            background-color: #ffcc80;
+        }
+
+        .table-custom td {
+            background-color: #fff8e1;
+        }
+
+        .table-custom tbody tr:hover {
+            background-color: #ffe082;
+            /* لون خلفية عند تمرير الماوس */
+        }
+
+        .highlight {
+            background-color: #ffd740;
+            padding: 3px 8px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        .math {
+            font-size: larger;
+        }
+    </style>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/polyfill/7.0.0/polyfill.min.js"></script>
+    <script>
+        window.MathJax = {
+            loader: { load: ['input/tex', 'output/chtml', 'input/mml'] },
+            tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraph.css" />
+    
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script type="text/javascript" charset="UTF-8" src="https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraphcore.js"></script>
+    <script type="text/javascript" src="/library/jsxgraphcore.js"></script>
+
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+
+     
+    <link rel="stylesheet" href="/css/e-learning-js.min.css"/>
+    <link rel="stylesheet" href="/css/lesson.css"/>
+
+
+    </head>
+
+    <body class="container">
+
+        <!-- ترويسة الصفحة -->
+        <div class="row header animate__animated animate__bounceInDown d-flex align-items-center">
+            <!-- عمود الصورة -->
+            <div class=" col-6 text-start">
+                <img src="<%= lesson.cover %>" style="width: 150%; height: auto;" class="img-fluid" alt="cover">
+            </div>
+            <!-- عمود العنوان -->
+            <div class="col-lg-10 text-center">
+                <h1>
+                    <%= lesson.title %>
+                </h1>
+            </div>
+        </div>
+
+<!-- 
+        <div class="row animate__animated animate__fadeInUp">
+            <div class="col-5 math-equation math-equation-rtl">
+
+                <p>
+                    نسب الزاوية 45° : <br>
+
+                    <math xmlns="http://www.w3.org/1998/Math/MathML">
+                        <mrow>
+                            <mi>tan</mi>
+                            <mn>45</mn>
+                            <mo>&#xB0;</mo>
+                            <mo>=</mo>
+                            <msqrt>
+                                <mn>3</mn>
+                            </msqrt>
+                            <mo>و</mo>
+                            <mi>cos</mi>
+                            <mn>45</mn>
+                            <mo>&#xB0;</mo>
+                            <mo>=</mo>
+                            <mfrac>
+                                <mn>1</mn>
+                                <mn>2</mn>
+                            </mfrac>
+                            <mo>و</mo>
+                            <mi>sin</mi>
+                            <mn>45</mn>
+                            <mo>&#xB0;</mo>
+                            <mo>=</mo>
+                            <mfrac>
+                                <msqrt>
+                                    <mn>3</mn>
+                                </msqrt>
+                                <mn>2</mn>
+                            </mfrac>
+                        </mrow>
+                    </math>
+
+                </p>
+
+                <p class="">
+                    نسب الزاوية 30° : <br>
+                    <math xmlns="http://www.w3.org/1998/Math/MathML">
+                        <mrow>
+                            <mi>tan</mi>
+                            <mn>30</mn>
+                            <mo>و</mo>
+                            <mo>=</mo>
+                            <mfrac>
+                                <msqrt>
+                                    <mn>3</mn>
+                                </msqrt>
+                                <mn>3</mn>
+                            </mfrac>
+                            <mo>و</mo>
+                            <mi>cos</mi>
+                            <mn>30</mn>
+                            <mo>و</mo>
+                            <mo>=</mo>
+                            <mfrac>
+                                <msqrt>
+                                    <mn>3</mn>
+                                </msqrt>
+                                <mn>2</mn>
+                            </mfrac>
+                            <mo>و</mo>
+                            <mi>sin</mi>
+                            <mn>30</mn>
+                            <mo>&#xB0;</mo>
+                            <mo>=</mo>
+                            <mfrac>
+                                <mn>1</mn>
+                                <mn>2</mn>
+                            </mfrac>
+                        </mrow>
+                    </math>
+
+                </p>
+
+                <p class="">
+                    نسب الزاوية 60° : <br>
+                    <math xmlns="http://www.w3.org/1998/Math/MathML">
+                        <mrow>
+                            <mi>tan</mi>
+                            <mn>60</mn>
+                            <mo>&#xB0;</mo>
+                            <mo>=</mo>
+                            <msqrt>
+                                <mn>3</mn>
+                            </msqrt>
+                            <mo>و</mo>
+                            <mi>cos</mi>
+                            <mn>60</mn>
+                            <mo>&#xB0;</mo>
+                            <mo>=</mo>
+                            <mfrac>
+                                <mn>1</mn>
+                                <mn>2</mn>
+                            </mfrac>
+                            <mo>و</mo>
+                            <mi>sin</mi>
+                            <mn>60</mn>
+                            <mo>&#xB0;</mo>
+                            <mo>=</mo>
+                            <mfrac>
+                                <msqrt>
+                                    <mn>3</mn>
+                                </msqrt>
+                                <mn>2</mn>
+                            </mfrac>
+                        </mrow>
+                    </math>
+
+                </p>
+
+            </div>
+
+            <div class="col-md-4 d-flex justify-content-between" style="max-width: 100%;">
+                <img src="<%#= lesson.resources[0].url %>" class="img-fluid mb-3 " alt="img">
+                <img src="<%#= lesson.resources[1].url %>" class="img-fluid mb-3 animate__animated animate__zoomIn"
+                    alt="img">
+            </div>
+        </div>
+
+
+
+
+        <div class="col-12 knowledge-section mt-4 animate__animated animate__fadeInLeft">
+            <h2>تعلم</h2>
+
+
+            <p>المثلث القائم الذي قياسا زاويتيه الحادّتين 30° و 60° نسميه المثلث الثلاثيني الستيني. في المثلث ABC القائم
+                في A،
+                وفي حالة B = 30°
+                و C = 60° وجدنا أن
+                <math>
+                    <mi>AC</mi>
+                    <mo>=</mo>
+                    <mi>CO</mi>
+                    <mo>=</mo>
+                    <mfrac>
+                        <mn>1</mn>
+                        <mn>2</mn>
+                    </mfrac>
+                </math>
+
+                <strong style="color: #ff9f43;">أي إذا كان قياس إحدى زوايا مثلث قائم °30 فإن طول الضلع المقابل لهذه
+                    الزاوية يساوي نصف طول الوتر.</strong>
+
+            </p>
+
+            <p class="animate__animated animate__fadeIn">تأمل الشكل المجاور لتطبيق هذه النسب:</p>
+
+            <table class="table table-bordered table-custom animate__animated animate__fadeInUp">
+                <thead>
+                    <tr>
+                        <th>θ̂</th>
+                        <th>30°</th>
+                        <th>45°</th>
+                        <th>60°</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>sin</td>
+                        <td><math class="math">
+                                <mfrac>
+                                    <mn>1</mn>
+                                    <mn>2</mn>
+                                </mfrac>
+                            </math></td>
+                        <td><math class="math">
+                                <mfrac>
+                                    <msqrt>
+                                        <mn>2</mn>
+                                    </msqrt>
+                                    <mn>2</mn>
+                                </mfrac>
+                            </math></td>
+                        <td><math class="math">
+                                <mfrac>
+                                    <msqrt>
+                                        <mn>3</mn>
+                                    </msqrt>
+                                    <mn>2</mn>
+                                </mfrac>
+                            </math></td>
+
+                    </tr>
+                    <tr>
+                        <td>cos</td>
+                        <td><math class="math">
+                                <mfrac>
+                                    <msqrt>
+                                        <mn>3</mn>
+                                    </msqrt>
+                                    <mn>2</mn>
+                                </mfrac>
+                            </math></td>
+                        <td><math class="math">
+                                <mfrac>
+                                    <msqrt>
+                                        <mn>2</mn>
+                                    </msqrt>
+                                    <mn>2</mn>
+                                </mfrac>
+                            </math></td>
+                        <td><math class="math">
+                                <mfrac>
+                                    <mn>1</mn>
+                                    <mn>2</mn>
+                                </mfrac>
+                            </math></td>
+                    </tr>
+                    <tr>
+                        <td>tan</td>
+                        <td><math class="math">
+                                <mfrac>
+                                    <msqrt>
+                                        <mn>3</mn>
+                                    </msqrt>
+                                    <mn>3</mn>
+                                </mfrac>
+                            </math></td>
+                        <td>1</td>
+                        <td><math>
+                                <msqrt>
+                                    <mn>3</mn>
+                                </msqrt>
+                            </math></td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="row">
+                <div class="col-sm-6 mb-3 mb-sm-0">
+                  <div class="card" style="margin-left: 3px;">
+                    <div id="jxgbox" class="card" style="width: 500px; height: 300px;"></div>
+                  </div>
+                </div>
+                <div class="col-sm-6">
+                  <div class="card">
+                    <div class="card-body col-4 col-sm-12">
+                        <div class="card-text text-center" id="info"></div>
+                    </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            <div class="container col-12 question-section col-12 col-sm-12 mt-4"> 
+                <h2>اكتساب معارف</h2>
+                <h5>كيف نحسب طول الوتر بمعرفة طول ضلع قائم و قياس زاوية حادة؟</h5>
+                <p style=" border: 2px solid #5c2e03; border-radius: 20%;"> الضلع التي نعرف طولها, تقابل الزاوية, لذلك نستعمل تعريف الجيب.
+                </p>
+             
+
+                <!-- example-1- 
+                <div class="row">
+
+                    <div class="col-6 col-md-6 col-sm-11 justify-content-between animate__animated animate__bounceInUp">
+                            <p cl style="background-color: #ffcc80;">
+                                مثال:  ABC مثلث قائم في B, 
+                                $ BC= 8cm و \quad \widehat{BAC} = 60° \quad $
+                                احسب الطول AC
+                            </p>
+                            <h5>الحل</h5>
+                            <p >في المثلث ABC القائم في B:
+                                <math-field id="mf1" read-only >
+                                    \sin{ \hat{A}} = \frac{\placeholder[num1]{?}}{\placeholder[den1]{?}}
+                                  = \sin{60°} = \frac{\placeholder[num2]{?}}{AC}
+                                </math-field>
+                                إذاً
+                                <math-field id="mf2" read-only class="math-field-container">
+                                    \frac{ \sqrt { \placeholder[num2]{?}} } { \placeholder[den2]{?} } =
+                                    \frac{8}{AC}
+                                </math-field>
+                                ومنه $ AC = \frac{16}{\sqrt{3}} $
+                            </p>
+                    </div>
+
+                    <div class="col-2 col-md-6 col-sm-11 animate__animated animate__bounceInUp">
+                        <img src="<%= lesson.resources[2].url %>" alt="img">
+                    </div>
+                   
+                </div>
+                <!-- example -1- end 
+                
+                <h5>كيف نحسب طول ضلع قائم بمعرفة طول ضلع الوتر و قياس زاوية حادة؟</h5>
+                <p style=" border: 2px solid #5c2e03; border-radius: 15%;"> الضلع التي نعرف طولها, هي الوتر,ونحن نبحث عن طول الضلع المجاورة للزاوية لذلك نستعمل تعريف التجيب.
+                </p>
+
+                <!-- example -2- 
+                <div class="row">
+
+                    <div class="col-6 col-md-6 col-sm-11 animate__animated animate__bounceInUp">
+                            <p style="background-color: #ffcc80;">مثال:  EFG مثلث قائم في E, 
+                                $ FG= 7.5 cm و \quad \widehat{EFG} = 60° \quad $
+                                 احسب الطول FE
+                            </p>
+                            <h5>الحل</h5>
+                            <p >في المثلث EFG القائم في B:
+                                <math-field id="mf3" read-only class="math-field-container">
+                                    \cos{ \hat{F}} = \frac{\placeholder[num3]{?}}{\placeholder[den3]{?}}
+                                  = \cos{60°} = \frac{EF}{\placeholder[den4]{?}}
+                                </math-field>
+                                إذاً
+                                <math-field id="mf4" read-only class="math-field-container">
+                                    \frac{ \sqrt { \placeholder[num4]{?}} } { \placeholder[den4]{?} } =
+                                    \frac{EF}{75}
+                                </math-field>
+                                ومنه $ AC = \frac{75}{2} $
+                            </p> 
+                    </div>
+
+                    <div class="col-3 col-md-6 col-sm-11 animate__animated animate__bounceInUp">
+                        <img src="<%= lesson.resources[3].url %>" width="190" height="130" class="mb-3 " alt="img">
+                    </div>
+                </div>
+                <!-- example -2- end 
+               
+               
+                <h5>كيف نحسب طول ضلع قائم بمعرفة قياس زاوية حادة وطول الضلع القائم الاخرى؟</h5>
+                <p style=" border: 2px solid #5c2e03; border-radius: 15%;"> الضلع التي نعرف طولها, هي الوتر,ونحن نبحث عن طول الضلع المجاورة للزاوية لذلك نستعمل تعريف التجيب.
+                </p>
+
+                <!-- example -3- 
+
+                <div class="row">
+
+                    <div class="col-6 col-md-6 col-sm-11 animate__animated animate__bounceInUp">
+                            <p style="background-color: #ffcc80;">مثال:  KLM مثلث قائم في M, 
+                                $ KM= 7 \sqrt{3} و \quad \widehat{MKL} = 30° \quad $
+                                 احسب الطول ML
+                            </p>
+                            <h5>الحل</h5>
+                            <p >في المثلث KLM القائم في K:
+                                <math-field id="mf5" read-only class="math-field-container">
+                                    \tan{ \hat{K}} = \frac{\placeholder[num5]{?}}{\placeholder[den5]{?}}
+                                  = \tan{30°} = \frac{ML}{\placeholder[den6]{?} \times \sqrt{ \placeholder[den7]{?}}}
+                                </math-field>
+                                أي أن:
+                                <math-field id="mf6" read-only class="math-field-container">
+                                 \frac{ \placeholder[num6]{?} } { \sqrt { \placeholder[den6]{?}} } = 
+                                    \frac{ML}{7 \times \sqrt{3}}
+                                </math-field>
+                                ومنه $ ML = 7 $
+                            </p> 
+                    </div>
+
+                    <div class="col-3 col-md-6 col-sm-11 animate__animated animate__bounceInUp">
+                        <img src="<%= lesson.resources[4].url %>" class="img-fluid mb-3 " alt="img">
+                    </div>
+                    
+                    
+                </div>
+ -->
+                <!-- example -3- //end -->
+
+
+                <!-- تخقق من فهمك -->
+        
+                <%- lesson.content %>
+
+                    <h2>تحقق من فهمك</h2>
+    
+                    <h5>السؤال الاول</h5>
+                    <p>ABCD مربع طول ضلعه يساوي 1</p>
+
+                    <%- lesson.exercies %>
+
+               <!--  <div class="row">
+                    <div class="col-8">
+
+                        <ol class="word_list questions_5_1">
+                            <li> ما قياس الزاوية BAC?
+                              <ol data-question="1" class="no_list"> 
+                                <li> 
+                                  <input id="option_1_1" data-option="option_1" value="1" type="radio" name="option_1" autocomplete="off"/>
+                                  <label for="option_1_1"><i class="far"></i></label> 30°
+                                </li> 
+                                <li>
+                                  <input id="option_1_2" data-option="option_2" value="2" type="radio" name="option_1" autocomplete="off"/>
+                                  <label for="option_1_2"><i class="far"></i></label>  60°
+                                </li>
+                                 <li>
+                                  <input id="option_1_3" data-option="option_3" value="3" type="radio" name="option_1" autocomplete="off"/>
+                                  <label for="option_1_3"><i class="far"></i></label>  45°
+                                </li>
+                               </ol>
+                            </li>
+        
+                            <li>  أحسب طول قطر المربع AC
+                                <ol data-question="2" class="no_list">
+                                 <li>
+                                    <input id="option_2_1" data-option="option_1" value="1" type="radio" name="option_2" autocomplete="off"/>
+                                    <label for="option_2_1"><i class="far"></i></label> 
+                                     <math><msqrt><mn>2</mn></msqrt></math>
+                                  </li>
+                                  <li>
+                                    <input id="option_2_2" data-option="option_2" value="2" type="radio" name="option_2" autocomplete="off"/>
+                                    <label for="option_2_2"><i class="far"></i></label> 
+                                    <math><mn>2</mn><mo>×</mo><msqrt><mn>3</mn></msqrt></math>
+                                  </li> 
+                                   <li>
+                                    <input id="option_2_3" data-option="option_3" value="3" type="radio" name="option_2" autocomplete="off"/>
+                                    <label for="option_2_3"><i class="far"></i></label> 
+                                    <math><msqrt><mn>5</mn></msqrt></math>
+                                  </li>
+                                 
+                                </ol>
+                            </li>
+        
+                        </ol>
+
+                    </div>
+                    <div class="col-4">
+                        <img src="https://res.cloudinary.com/dg0d0jmtz/image/upload/v1726436838/educational-resources/%D9%86%D8%B3%D8%A8_%D8%B2%D9%88%D8%A7%D9%8A%D8%A7_%D8%B4%D9%87%D9%8A%D8%B1%D8%A95_rx9ytt.png" class="img-fluid mb-3 " alt="img">
+                    </div>
+                </div> -->
+                    <button class="col-3 btn_activities grid12"></button>
+                    <button id="check_answers_5_1">
+                        <span>Check</span>
+                    </button>
+                    <button class="col-3" id="reset_answers_5_1">
+                        <span>Reset</span>
+                    </button>
+                    <button class="col-3" id="answers_5_1">
+                        <span>Answers</span>
+                    </button>
+                    </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-1">
+                    <a href="/" class="btn btn-outline-info mt-5">
+                        <img src="/icon/iconBack.png" class="" width="34" height="34">
+                        <span>الصفحة الرئيسية</span>
+    
+                    </a>
+
+                </div>
+            </div>
+
+
+
+        <!-- إضافة عنصر صوتي -->
+        <audio id="hoverSound" src="/sound/ding.mp3"></audio>
+
+        <script type="text/javascript" src="/library/e-learning-js.min.js"></script>  
+
+        <script defer="true" type="module" src="/js/less_5.js">  </script>
+
+
+        <%- include("../partial/end.ejs") %>

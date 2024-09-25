@@ -16,7 +16,7 @@
     <div class="container-fluid pb-3">
         <div class="d-grid gap-3" style="grid-template-columns: 2fr 1fr;">
             <div class="bg-light border rounded-3 border border-info">
-                <img height="100%" width="100%" src="/image/panner/panner1.png">
+                <img height="100%" width="100%" src="<%= video.thumbnailUrl %>">
             </div>
             <div class="bg-light border rounded-3">
                 <img height="100%" width="100%" src="/image/panner/panner2.jpg">
@@ -103,7 +103,7 @@
                     if (currentTime === quiz.time && !quiz.asked) {
                         showQuiz(quiz);
                         player.pause();
-                    }
+                    } //asked: مؤشر يدل على ما إذا كان السؤال قد تم عرضه بالفعل أم لا. يتم استخدامه لمنع عرض السؤال مرة أخرى.
                 });
             });
 
@@ -140,4 +140,5 @@
 
         });
     </script>
+
 

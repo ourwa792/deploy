@@ -1,0 +1,422 @@
+<!-- <!DOCTYPE html>
+<html lang="ar">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تعليم الرياضيات للأطفال</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        @keyframes wave {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            25% {
+                transform: rotate(-10deg);
+            }
+
+            50% {
+                transform: rotate(10deg);
+            }
+
+            75% {
+                transform: rotate(-10deg);
+            }
+
+            100% {
+                transform: rotate(0deg);
+            }
+        }
+
+        .teacher {
+            position: absolute;
+            top: 50px;
+            left: 20px;
+            width: 100px;
+            height: 150px;
+            animation: wave 2s infinite ease-in-out;
+            /* حركة التلويح */
+        }
+
+        @keyframes zoom {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.5);
+            }
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            direction: rtl;
+            text-align: center;
+            background-color: #f0f0f0;
+            padding: 20px;
+            position: relative;
+        }
+
+        .equation {
+            margin: 20px 0;
+        }
+
+        .box {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            border: 2px solid #000;
+            margin: 0 10px;
+            text-align: center;
+            font-size: 24px;
+            line-height: 50px;
+        }
+
+        .arrow {
+            font-size: 24px;
+            margin: 0 10px;
+        }
+
+        .check-btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        .result {
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .teacher {
+    position: absolute;
+    top: 50px;
+    left: 20px;
+    width: 100px;
+    height: 150px;
+    transition: transform 0.5s ease-in-out; /* تجهيز التحول */
+}
+
+/* تطبيق الحركة عند تمرير الماوس */
+.teacher:hover {
+    transform: scale(1.5); /* تكبير الشخصية عند تمرير الماوس */
+}
+
+        .speech-bubble {
+            position: absolute;
+            top: 20px;
+            left: 130px;
+            width: 200px;
+            padding: 10px;
+            background-color: #fff;
+            border: 2px solid #000;
+            border-radius: 10px;
+            text-align: right;
+            font-size: 16px;
+        }
+
+        .speech-bubble::after {
+            content: '';
+            position: absolute;
+            top: 10px;
+            right: -20px;
+            border-width: 10px;
+            border-style: solid;
+            border-color: transparent transparent transparent #000;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>تعليم الرياضيات للأطفال</h1>
+
+     شخصية المعلم 
+    <img src="https://png.pngtree.com/png-clipart/20230414/original/pngtree-teacher-book-cartoon-white-background-transparent-png-image_9054294.png"
+        alt="المعلم" class="teacher"> <!-- ضع الرابط لصورة المعلم هنا 
+    <div class="speech-bubble">أهلاً! دعونا نتعلم القسمة اليوم!</div>
+
+    <div class="equation">
+        <div class="box" contenteditable="true"></div>
+        <span>=</span>
+        <div class="box" contenteditable="true">٤</div>
+        <span>÷</span>
+        <div class="box" contenteditable="true">٢</div>
+    </div>
+
+    <div class="arrow">↓</div>
+
+    <div class="equation">
+        <div class="box" contenteditable="true">٢</div>
+        <span>=</span>
+        <div class="box" contenteditable="true">٦</div>
+        <span>×</span>
+        <div class="box" contenteditable="true"></div>
+    </div>
+
+    <div class="arrow">↓</div>
+
+    <div class="equation">
+        <div class="box" contenteditable="true"></div>
+        <span>=</span>
+        <div class="box" contenteditable="true">٢</div>
+        <span>×</span>
+        <div class="box" contenteditable="true">١</div>
+    </div>
+
+    <button class="check-btn">تحقق من الإجابة</button>
+
+    <div class="result"></div>
+
+    <script>
+        $(document).ready(function () {
+            $('.check-btn').click(function () {
+                let correct = true;
+                let messages = []; // لتخزين الرسائل التفاعلية
+
+                // القسمة: ٤ ÷ ٢ = ٢
+                if ($('.equation:eq(0) .box:eq(0)').text().trim() !== '٢') {
+                    correct = false;
+                    messages.push('تذكر: ٤ ÷ ٢ يساوي ٢');
+                }
+
+                // الضرب: ٢ × ٣ = ٦
+                if ($('.equation:eq(1) .box:eq(2)').text().trim() !== '٣') {
+                    correct = false;
+                    messages.push('حاول التفكير في العدد الذي يمكن ضربه في ٢ ليعطيك ٦.');
+                }
+
+                // الضرب: ١ × ٢ = ٢
+                if ($('.equation:eq(2) .box:eq(0)').text().trim() !== '٢') {
+                    correct = false;
+                    messages.push('تذكر: ١ × ٢ يساوي ٢.');
+                }
+
+                if (correct) {
+                    $('.result').text('إجاباتك صحيحة!').css('color', 'green');
+                    $('.speech-bubble').text('أحسنت! الإجابات صحيحة.');
+                } else {
+                    $('.result').text('هناك خطأ في الإجابات. حاول مرة أخرى!').css('color', 'red');
+                    $('.speech-bubble').html(messages.join('<br>')); // عرض الرسائل التفاعلية
+                }
+            });
+        });
+
+    </script>
+
+</body>
+
+</html> -->
+<!-- 
+<!DOCTYPE html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sprite Animation</title>
+    <style>
+        canvas {
+            background-color: rgb(191, 210, 182);
+            display: block;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas" width="400" height="400"></canvas>
+
+    <script>
+        const canvas = document.getElementById("canvas")
+        const ctx = canvas.getContext("2d")
+        const canvas_width = canvas.width = 400
+        const canvas_height = canvas.height = 400
+        const playerImag = new Image()
+        playerImag.src = "/image/teachersprite.jpg"
+        const spriteWidth = 188
+        const spriteHeight = 352
+        let framX = 1
+        let gameFrame = 0
+        let staggerFrame = 100 // ابطاء اللعبة بهذا المقدار
+
+
+        function animate() {
+            ctx.clearRect(0,0, canvas_width, canvas_height)
+            ctx.drawImage(playerImag,10,190,framX*spriteWidth, spriteHeight,0,30,canvas_width,canvas_height)
+
+            if (gameFrame % staggerFrame == 0) {
+                
+                if (framX < 4) {
+                    framX ++
+                } else framX = 1
+            }
+
+            gameFrame ++;
+            //requestAnimationFrame(animate)
+        }
+
+        animate()
+
+    </script> -->
+
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sprite Animation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: rgb(191, 210, 182);
+        }
+
+        canvas {
+            display: block;
+            margin: 0 auto;
+            background-color: #fff;
+            border: 2px solid #000;
+        }
+
+        .speech-bubble {
+            margin: 10px auto;
+            padding: 10px;
+            border-radius: 10px;
+            background-color: #fff;
+            width: fit-content;
+            border: 2px solid #000;
+            font-size: 18px;
+        }
+
+        .equation, .arrow, .result {
+            margin: 20px auto;
+            font-size: 24px;
+        }
+
+        .box {
+            display: inline-block;
+            width: 50px;
+            height: 30px;
+            border: 2px solid #000;
+            margin: 0 5px;
+            text-align: center;
+            font-size: 24px;
+            line-height: 30px;
+        }
+
+        .arrow {
+            font-size: 40px;
+        }
+
+        .check-btn {
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .result {
+            font-size: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <canvas id="canvas" width="400" height="400"></canvas>
+    <div class="speech-bubble" id="speechBubble">أهلاً! دعونا نتعلم القسمة اليوم!</div>
+
+    <div class="equation">
+        <div class="box" contenteditable="true"></div>
+        <span>=</span>
+        <div class="box" contenteditable="true">4</div>
+        <span>÷</span>
+        <div class="box" contenteditable="true">2</div>
+    </div>
+
+    <div class="arrow">↓</div>
+
+    <div class="equation">
+        <div class="box" contenteditable="true">2</div>
+        <span>=</span>
+        <div class="box" contenteditable="true">6</div>
+        <span>×</span>
+        <div class="box" contenteditable="true"></div>
+    </div>
+
+    <div class="arrow">↓</div>
+
+    <div class="equation">
+        <div class="box" contenteditable="true"></div>
+        <span>=</span>
+        <div class="box" contenteditable="true">2</div>
+        <span>×</span>
+        <div class="box" contenteditable="true">1</div>
+    </div>
+
+    <button class="check-btn" onclick="checkAnswers()">تحقق من الإجابة</button>
+
+    <div class="result" id="result"></div>
+
+    <script>
+        const canvas = document.getElementById("canvas");
+        const ctx = canvas.getContext("2d");
+        const canvasWidth = canvas.width = 400;
+        const canvasHeight = canvas.height = 400;
+        const playerImage = new Image();
+        playerImage.src = "/image/teachersprite.jpg";
+        const spriteWidth = 188;
+        const spriteHeight = 352;
+        let frameX = 1;
+        let gameFrame = 0;
+        const staggerFrames = 4;
+        const speechBubble = document.getElementById("speechBubble");
+        const result = document.getElementById("result");
+
+        function animate() {
+            ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+            ctx.drawImage(playerImage, frameX * spriteWidth, spriteHeight-150, spriteWidth, spriteHeight, 0, 50, canvasWidth, canvasHeight);
+
+            if (gameFrame % staggerFrames === 0) {
+                frameX = frameX < 4 ? frameX + 1 : 1;
+            }
+
+            gameFrame++;
+            requestAnimationFrame(animate);
+        }
+
+        function checkAnswers() {
+            const boxes = document.querySelectorAll('.box');
+            const answers = [2, 3, 2];  // الإجابات الصحيحة المتوقعة
+            let isCorrect = true;
+
+            boxes.forEach((box, index) => {
+                if (box.textContent.trim() != answers[index]) {
+                    isCorrect = false;
+                }
+            });
+
+            if (isCorrect) {
+                result.textContent = "إجابة صحيحة! ممتاز!";
+                speechBubble.textContent = "أحسنت! استمر في التعلم!";
+                // تشغيل تغذية راجعة إيجابية
+                frameX = 2; // ضبط الإطار لتغذية راجعة إيجابية
+            } else {
+                result.textContent = "إجابة خاطئة! حاول مرة أخرى.";
+                speechBubble.textContent = "لا بأس، يمكنك المحاولة مجددًا!";
+                // تشغيل تغذية راجعة سلبية
+                frameX = 3; // ضبط الإطار لتغذية راجعة سلبية
+            }
+        }
+
+        animate();
+    </script>
+</body>
+</html>

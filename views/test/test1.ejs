@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Educational Math Game</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/addons/p5.sound.min.js"></script>
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        /* styles.css */
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f0f8ff;
+}
+
+#canvas-container {
+    position: relative;
+}
+
+canvas {
+    border: 2px solid #000;
+    width: 100%;
+    height: auto;
+}
+
+.katex {
+    font-size: 24px;
+}
+
+    </style>
+</head>
+<body>
+    <div id="canvas-container"></div>
+    <script>
+      let problems = [];
+let results = [];
+let connections = [];
+let selectedProblem = null;
+let canvas;
+let correctSound, wrongSound;
+
+function preload() {
+    correctSound = loadSound('/sound/rightanswer.mp3');
+    wrongSound = loadSound('/sound/wronganswer.mp3');
+}
+
+function setup() {
+    canvas = createCanvas(windowWidth * 0.9, windowHeight * 0.8);
+    canvas.parent('canvas-container');
+    textAlign(CENTER, CENTER);
+    generateProblemsAndResults();
+    MathJax.typeset();
+}
+
+function draw() {
+    background(240, 248, 255);
+    drawProblems();
+    drawResults();
+    drawConnections();
+
+    // إذا كان هناك عملية مختارة، نرسم خط مؤقت من العملية إلى مؤشر الفأرة
+    if (selectedProblem) {
+        stroke(0);
+        line(selectedProblem.x, selectedProblem.y, mouseX, mouseY);
+    }
+}
+
+function generateProblemsAndResults() {
+    problems = [
+        { text: '\\(2 + 2\\)', answer: 4, x: width * 0.2, y: height * 0.2 },
+        { text: '\\(3 + 5\\)', answer: 8, x: width * 0.2, y: height * 0.4 },
+        { text: '\\(7 - 3\\)', answer: 4, x: width * 0.2, y: height * 0.6 },
+    ];
+    results = [
+        { text: '4', value: 4, x: width * 0.8, y: height * 0.3 },
+        { text: '8', value: 8, x: width * 0.8, y: height * 0.5 },
+        { text: '10', value: 10, x: width * 0.8, y: height * 0.7 },
+    ];
+}
+
+function drawProblems() {
+    for (let problem of problems) {
+        fill(173, 216, 230);
+        rect(problem.x - 40, problem.y - 20, 80, 40);
+        fill(0);
+        createLatexText(problem.text, problem.x, problem.y);
+    }
+}
+
+function drawResults() {
+    for (let result of results) {
+        fill(173, 216, 230);
+        ellipse(result.x, result.y, 80, 80);
+        fill(0);
+        text(result.text, result.x, result.y);
+    }
+}
+
+function drawConnections() {
+    stroke(0);
+    for (let connection of connections) {
+        line(connection.x1, connection.y1, connection.x2, connection.y2);
+    }
+}
+
+function mousePressed() {
+    for (let problem of problems) {
+        if (dist(mouseX, mouseY, problem.x, problem.y) < 40) {
+            selectedProblem = problem;
+            break;
+        }
+    }
+}
+
+function mouseReleased() {
+    if (selectedProblem) {
+        let connected = false;
+        for (let result of results) {
+            if (dist(mouseX, mouseY, result.x, result.y) < 40) {
+                if (selectedProblem.answer === result.value) {
+                    connections.push({
+                        x1: selectedProblem.x,
+                        y1: selectedProblem.y,
+                        x2: result.x,
+                        y2: result.y
+                    });
+                    correctSound.play();
+                    connected = true;
+                }
+                break;
+            }
+        }
+        if (!connected) {
+            wrongSound.play();
+        }
+        selectedProblem = null;
+    }
+}
+
+function createLatexText(latex, x, y) {
+    const div = createDiv();
+    div.position(x - 40, y - 12);
+    div.style('font-size', '24px');
+    div.style('display', 'inline-block');
+    div.id = Math.random().toString(36).substr(2, 9);  // Unique ID
+    div.html(latex);
+    MathJax.typesetPromise([div.elt]).then(() => {
+        div.position(x - div.size().width / 2, y - div.size().height / 2);
+    });
+}
+
+function windowResized() {
+    resizeCanvas(windowWidth * 0.9, windowHeight * 0.8);
+    generateProblemsAndResults();
+}
+
+
+    </script>
+</body>
+</html>

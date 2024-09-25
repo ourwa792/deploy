@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مدرسة القسمة السحرية</title>
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <script src="https://rawgit.com/jeromeetienne/AR.js/master/aframe/build/aframe-ar.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #282c34;
+            color: white;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+        .container {
+            margin-top: 20px;
+        }
+        input[type="text"] {
+            width: 60px;
+            font-size: 24px;
+            text-align: center;
+        }
+        button {
+            font-size: 18px;
+            padding: 10px;
+            margin-top: 10px;
+        }
+        .result {
+            font-size: 20px;
+            color: green;
+            margin-top: 10px;
+        }
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>مدرسة القسمة السحرية</h1>
+    <div class="container">
+        <p>حل المسألة لفتح البوابة السحرية:</p>
+        <p>8 ÷ 2 = <input type="text" id="result1"><button onclick="checkResult(1, 4)">تحقق</button></p>
+        <p id="feedback1" class="result"></p>
+    </div>
+
+    <!-- AR Section -->
+    <a-scene embedded arjs>
+        <!-- جرب استخدام kanji marker -->
+        <a-marker preset="kanji">
+            <a-box position='0 0.5 0' material='color: blue;' visible="false"></a-box>
+        </a-marker>
+        <a-entity camera></a-entity>
+    </a-scene>
+
+    <script>
+        function checkResult(questionNumber, correctAnswer) {
+            const userAnswer = document.getElementById(`result${questionNumber}`).value;
+            const feedback = document.getElementById(`feedback${questionNumber}`);
+            
+            if (parseInt(userAnswer) === correctAnswer) {
+                feedback.textContent = 'صحيح! تم فتح البوابة السحرية!';
+                feedback.classList.remove('error');
+                // إظهار البوابة السحرية (المكعب)
+                document.querySelector('a-box').setAttribute('visible', true);
+            } else {
+                feedback.textContent = 'خطأ! حاول مرة أخرى.';
+                feedback.classList.add('error');
+            }
+        }
+    </script>
+
+</body>
+</html>

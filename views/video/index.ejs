@@ -25,6 +25,8 @@
             height: 100%;
         }
     </style>
+    <script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
+
     </head>
 
     <body class="container border border-info">
@@ -46,7 +48,7 @@
             </div>
 
 
-            <h1>قائمة الفيديوهات</h1>
+            <h1 id="element"></h1>
             <div class="album py-5 bg-light">
                 <div class="container">
                     <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3">
@@ -104,6 +106,13 @@
                 </ul>
             </nav>
 
+            <script>
+                var typed = new Typed('#element', {
+                    strings: ['قائمة الفيديوهات التعليمية'],
+                    typeSpeed: 30,
+                    loop: true
+                })
+            </script>
 
 
             <%- include('../partial/end.ejs') %>

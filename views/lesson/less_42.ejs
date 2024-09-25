@@ -1,0 +1,131 @@
+
+<%- include('../partial/head.ejs') %>
+    <style>
+    .title {
+      font-size: 2.5em;
+      margin-top: 20px;
+      color: #2c3e50;
+    }
+    .description {
+      margin: 20px;
+      font-size: 1.2em;
+      color: #34495e;
+    }
+    .container {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .item {
+      margin: 10px;
+      padding: 20px;
+      border: 2px solid #2980b9;
+      border-radius: 10px;
+      width: 100px;
+      height: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      background-color: #ecf0f1;
+      transition: transform 0.2s;
+    }
+    .item:hover {
+      transform: scale(1.1);
+      background-color: #3498db;
+      color: white;
+    }
+    .feedback {
+      margin-top: 20px;
+      font-size: 1.5em;
+      color: #e74c3c;
+    }
+    .total {
+      font-size: 2em;
+      color: #27ae60;
+    }
+    </style>
+    <link rel="stylesheet" href="/css/confetti.min.css">
+    <script lang="text/javascript" src="/library/confetti.min.js"> </script>
+</head>
+
+<body>
+    <div class="title">العدد 1000</div>
+    <div class="description">استخدام الوحدات والمئات لتكوين العدد 1000</div>
+    <div class="nav">
+        <button onclick="switchExercise('exercise1')">تمرين 1</button>
+        <button onclick="switchExercise('exercise2')">تمرين 2</button>
+    </div>
+
+    <div id="exercise1" class="container active">
+        <div class="item" onclick="increment('exercise1', 100)">+100</div>
+        <div class="item" onclick="increment('exercise1', 10)">+10</div>
+        <div class="item" onclick="increment('exercise1', 1)">+1</div>
+        <div class="item" id="total-exercise1">0</div>
+    </div>
+
+    <div id="exercise2" class="container">
+        <div class="item" onclick="increment('exercise2', 500)">+500</div>
+        <div class="item" onclick="increment('exercise2', 200)">+200</div>
+        <div class="item" onclick="increment('exercise2', 100)">+100</div>
+        <div class="item" id="total-exercise2">0</div>
+    </div>
+
+    <div class="feedback" id="feedback"></div>
+
+
+    <script>
+        let totals = {
+            exercise1: 0,
+            exercise2: 0
+        };
+
+        function switchExercise(exerciseId) {
+            document.querySelectorAll('.container').forEach(container => {
+                container.classList.remove('active');
+            });
+            document.getElementById(exerciseId).classList.add('active');
+            document.getElementById('feedback').innerText = '';
+
+        }
+
+        function increment(exerciseId, value) {
+            totals[exerciseId] += value;
+            updateTotal(exerciseId);
+        }
+
+        function updateTotal(exerciseId) {
+            document.getElementById(`total-${exerciseId}`).innerText = totals[exerciseId];
+            checkTotal(exerciseId);
+        }
+
+        function checkTotal(exerciseId) {
+            const feedback = document.getElementById('feedback');
+            if (totals[exerciseId] === 1000) {
+                feedback.innerText = 'أحسنت! لقد كونت العدد 1000';
+                feedback.style.color = 'green';
+                triggerConfetti();
+            } else if (totals[exerciseId] > 1000) {
+                feedback.innerText = 'المجموع أكبر من 1000، حاول مرة أخرى';
+                feedback.style.color = 'red';
+
+            } else {
+                feedback.innerText = '';
+
+            }
+        }
+
+        function triggerConfetti() {
+            document.createElement('canvas')
+            const canvas = document.createElement('canvas');
+            confetti({
+                canvas,
+                particleCount: 300,
+                spread: 70,
+                origin: { y: 0.6 },
+            })
+        }
+    </script>
+</body>
+
+</html>

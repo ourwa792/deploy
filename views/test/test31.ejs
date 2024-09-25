@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+
+    <script lang="text/javascript" src="/library/createjs.js"> </script>
+    <script lang="text/javascript" src="/library/zim_min.js"> </script>
+    <!--     <script type="module" src="/library/zim_physics.js"></script>
+ -->
+</head>
+
+<body>
+
+    <script>
+        const width = 1024;
+        const height = 868;
+
+        const assets = ["car.jpg", 'butterfly.png', "flowers02.jpg",
+            "drabstract.png", "city.png"];
+        const path = "/assets/"
+
+        var frame = new Frame({
+            scaling: FIT, width, height, color: light, outerColor: dark,
+            progress: new Waiter({
+                backgroundColor: blue, corner: 10
+            }),
+            assets, path
+        });
+
+
+        frame.on("ready", () => {
+
+            const stage = frame.stage;
+            const stageW = frame.width;
+            const stageH = frame.height;
+
+	// REFERENCES for ZIM at https://zimjs.com
+	// see https://zimjs.com/intro.html for an intro example
+	// see https://zimjs.com/learn.html for video and code tutorials
+	// see https://zimjs.com/docs.html for documentation
+	// see https://codepen.io/topic/zim/ for ZIM on CodePen
+	
+	// *** NOTE: ZIM Cat defaults to time in seconds
+	// All previous versions, examples, videos, etc. have time in milliseconds
+	// This can be set back with TIME = "milliseconds" but we suggest you give it a try!
+	// There will be a warning in the console if your animation is not moving ;-)
+
+	// CODE HERE
+	
+	// Here we use ZIM Connectors to connect the dots
+	// This could be used in an e-learning app like we do here https://zimjs.com/elearning
+	
+	var cat = asset().sca(.7).alp(.1).center();
+
+	// used recordPoints() to make then record the points for the Blob 
+	// var blob = new Blob({points:10, controlType:"none"}).loc(cat);
+	// cat.tap(function () {
+	//     blob.recordPoints(true); 
+	// });
+	blob = new Blob({
+		points:[[-35.5,478.7,0,0,0,0,0,0,"none"],
+        [51.2,257.9,0,0,0,0,0,0,"none"],[-15.3,207.7,0,0,0,0,0,0,"none"],
+        [-1.3,-56.7,0,0,0,0,0,0,"none"],[98.1,87.2,0,0,0,0,0,0,"none"]
+        ,[148.5,88.6,0,0,0,0,0,0,"none"],[203.9,-57.4,0,0,0,0,0,0,"none"],
+        [303.4,222.5,0,0,0,0,0,0,"none"],[193,263.5,0,0,0,0,0,0,"none"]
+        ,[193.8,482.5,0,0,0,0,0,0,"none"]]
+	});
+
+	var connectors = new Connectors({
+		points:blob,
+		linear:true,
+		linearOrder:true
+	}).loc(cat);
+
+	var nums = new Container().loc(cat);
+	loop(connectors.points, function (point, i) {
+		var dot = new Circle(12, purple).loc(point[0], point[1], nums).noMouse();
+		new Label({text:(i+1), color:white, valign:CENTER, align:CENTER, size:16}).centerReg(dot)
+	});
+
+	connectors.on("complete", function () {
+		cat.animate({alpha:1});
+		nums.animate({alpha:0});
+		connectors.cache().animate({alpha:.5});
+	});
+	
+
+	stage.update(); // this is needed to show any changes
+
+
+        })
+
+    </script>
+</body>
+
+</html>

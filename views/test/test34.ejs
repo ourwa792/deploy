@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <script lang="text/javascript" src="/library/createjs.js"> </script>
+	<script lang="text/javascript" src="/library/zim_min.js"> </script>
+
+
+	<script type="module" src="/library/zim_physics.js"></script>
+
+    <link rel="stylesheet" href="/css/bootstrap.rtl.min.css">
+
+	<style>
+		body {
+			margin: 0;
+			padding: 0;
+		}
+
+		/* 	 #zim{
+			height: auto;
+			width: 80%;
+		} 
+		 */
+		#zimCanvas {
+			height: auto !important;
+			width: 100% !important;
+		}
+	</style>
+
+</head>
+
+<body>
+
+	<div id="zim" class="col-8 mx-2 my-3"></div>
+	<div style="width: 500px; height: 500px; background-color: rgb(58, 195, 195);">hghghg</div>
+
+    <script type="module">
+        const scaling = "zim";
+		const width = 1024;
+		const height = 768;
+
+		const assets = ["book.png", "book1.png", "book2.png", "drabstract.png"];
+		const path = "/assets/"
+
+        
+		var frame = new Frame({
+			scaling, width, height, color: pink,
+			allowDefault: true, assets, path, progress: new Waiter({
+				backgroundColor: blue, corner: 10
+			})
+
+		}); // see docs for more options and info
+		frame.on("ready", function ready() {
+			var stage = frame.stage;
+			//console.log(stage)
+			var stageW = frame.width;
+			var stageH = frame.height;
+
+			new Pane({
+				content: new Label('إبدأ رحلتك أيها المغامر',70,null,purple).noMouse() ,
+				backgroundColor: blue
+			}).show(startGame)
+
+
+			function startGame() {
+				const board = new Board({
+					backgroundColor: grey,
+					indicatorBorderColor: dark
+				}).center()
+	
+				const player = new Person();
+				board.add(player,3,0)
+				.add(new Tree(), 4, 3)
+				.add(new Tree(), 0, 5)
+				.add(new Tree(), 5, 0)
+	
+				 // إضافة حوار لبدء اللعبة
+				 const dialog = new zim.Dialog({
+					width: 300,
+					height: 140,
+					words: ["اهلا بك في عالم قواسم الاعداد !!", "استعد للبدء"],
+					dialogType: "rectangle",
+					tailType: "triangle",
+					fill: true,
+					font: "Comic Sans MS",
+					size: 18,
+					color: "black",
+					backgroundColor: "lightblue",
+					borderColor: "blue",
+					borderWidth: 2,
+					corner: 55
+				}).pos(50,25).addTo()
+	
+				const correctColors = series(purple, green, red, yellow, blue).shuffle();
+				const target = new Tile(new Circle(20,correctColors),5 ,1 ,10)
+				.pos(30, 30, RIGHT, BOTTOM)			
+	
+				new Label('to pass you need to revale the orbs',40, null, purple)
+				.pos(30,30,LEFT,BOTTOM)//.place()
+	
+				const colors = shuffle(correctColors.array);
+				const positions = [[1,1] , [5,2] , [6,6] , [2,7] , [3,4]];
+				loop(colors, (color, i) => {
+					const cover = new Rectangle(70, 70, silver);
+					const lantern = new Container(cover.width, cover.height)
+					cover.addTo(lantern)
+	
+					lantern.reg(CENTER, lantern.height-30).sca(.5)
+					lantern.cover = cover;
+	
+					lantern.orb = new Orb(cover.width*.3, color[i]);
+	
+					const a = positions[i][0]
+					const b = positions[i][1]
+	
+					board.add(lantern, a, b, "1")
+				}) 
+	
+				const walls = [
+					[2,0] , [2,1],
+					[1,2] , [2,2], [1,3],
+					[3,6] , [4,6], [3,7], [4,7],
+					[4,3] , [5,3], [4,4], [5,4],
+					[4,0] , [5,0], [6,0], [7,0], [7,1], [7,2], [7,3], [7,4],
+					[0,5] , [0,6], [0,7],
+					[5,7] , [6,7], [7,7], [7,6]
+				]
+				loop(walls, point => {
+					const tile = board.getTile(point[0] , point[1]);
+					board.setColor(tile,blue)
+					board.setData(tile,'0') // not walk onit
+				})
+
+				board.addKeys(player, 'arrows', { notData: ['0','1'] } )	
+
+				player.on("moved", function () {
+				if (lantern.square==player.square) {
+					var lastTile = orb.boardTile;
+					orb.animate({alpha:0}, .3, null, function () {
+						board.remove(orb);
+						orbCollect = true; // so when moving is done we know we collected
+						scorer.score+=5;
+						// orb = new Orb(22, [blue, pink, purple], [blue, pink, purple], white, white, false);
+						orb = new Orb({color:[blue,pink,yellow,blue,blue], color2:white});
+						var tile = board.getRandomTile({notData:"0", notItems:[tree, orb, player]}); // not on a 0, tree, orb, person
+						// possibility there is no open tile
+						if (!tile) tile = lastTile;
+						board.add(orb, tile.boardCol, tile.boardRow);
+						stage.update();
+					});
+				}
+				});
+
+				player.on("movingdone", function () {
+					// if at end of move we have not collected orb then reduce score
+					if (!orbCollect) scorer.score--;
+				})
+			}
+
+		})
+
+    </script>
+    
+</body>
+</html>

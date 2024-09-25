@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Document</title>
+
+
+   <script lang="text/javascript" src="/library/createjs.js"> </script>
+   <script lang="text/javascript" src="/library/zim_min.js"> </script>
+   <!--     <script type="module" src="/library/zim_physics.js"></script>
+ -->
+</head>
+
+<body>
+
+   <script>
+      const width = 800;
+      const height = 600;
+
+      const assets = ["car.jpg", 'butterfly.png', "flowers02.jpg",
+         "book1.png", "book2.png", "teacher1.jpg",
+         "rightfish.png", "junko walking.png",
+         "drabstract.png", "city.png", "ant.png"];
+      const path = "/assets/"
+
+      var frame = new Frame({
+         scaling: FIT, width, height, color: light,
+         progress: new Waiter({
+            backgroundColor: blue, corner: 10
+         }),
+         assets, path
+      });
+
+
+      frame.on("ready", () => {
+
+         const stage = frame.stage;
+         const stageW = frame.width;
+         const stageH = frame.height;
+         const stageCenter = stageW / 2;
+
+         zog('fdf')
+         /* 
+                     const mySprite = new Sprite({
+                         image: "junko walking.png", // مسار الـspritesheet
+                         cols: 4,             // عدد الأعمدة
+                         rows: 4,             // عدد الصفوف
+                         animations: {
+                             walk: [0, 3],  // أنيميشن "jump" من الإطار 0 إلى 7
+                             left: [4, 7]  // أنيميشن "run" من الإطار 16 إلى 23
+                         }
+                     }).sca(4.1)
+                         .center()
+                         .run(2, "walk");  // تشغيل أنيميشن "jump" لمدة ثانية واحدة
+         
+                     // تشغيل أنيميشن آخر بعد مدة معينة
+                     setTimeout(function () {
+                         mySprite.run(2, "left");  // تشغيل أنيميشن "run" لمدة ثانية واحدة
+                     }, 2000);
+         
+          // إضافة صورة الطائرة
+          const plane = new Pic("book1.png").centerReg(); // افترض أن الصورة تم تحميلها مسبقًا
+         
+         // إضافة الطائرة إلى المسرح
+         plane.addTo(stage);
+         
+         // التحكم بالطائرة باستخدام لوحة المفاتيح
+         const controller = new MotionController({
+            target: plane,
+            type: "keydown",    // استخدام لوحة المفاتيح للتحكم
+            speed: 10,          // سرعة حركة الطائرة
+            //diagonal: true,     // السماح بالحركة القطرية
+            damp: 0.1,          // تخميد الحركة لتكون سلسة
+            orient: true,       // جعل الطائرة تتجه نحو الاتجاه الذي تتحرك فيه
+            boundary: new Boundary(0, 0, stage.width, stage.height) // حدود حركة الطائرة داخل المسرح
+         }); */
+
+         let antCount;
+         let ants;
+
+
+         function createPath(){
+            return new Squiggle({
+               color: green.darken(.3),
+            })
+            .transformPoints("scaleX", 4);
+         }
+
+         // دالة لتوليد عدد عشوائي من النمل
+         function generateAnts() {
+            antCount = Math.max(Math.floor(Math.random() * 15) , 2); // عدد عشوائي بين 1 و 15
+            zog(antCount)
+
+            if (ants) ants.dispose(); // التخلص من النمل السابق
+
+            const pathData = createPath()
+            const ant = createAnt();
+            ants = new Beads({
+               path: pathData, obj: ant, count: antCount,
+               angle: 0, startPercent: 15, endPercent: 50
+            }).center();
+
+            ants.beads.animate({
+               props: { path: pathData, orient: true },
+               loop: true,
+               time: 15,
+               ease: "linear",
+            });
+            ants.beads.loop(ant => {
+               ant.getChildAt(0).run({ time: rand(.3, .4), loop: true }); 
+            })
+         }
+
+         // دالة لإنشاء سبرايت للنملة
+         function createAnt() {
+            const ant = new Container();
+            new Sprite(new Pic("ant.png"), 4, 1)
+               .sca(-.5, .5)
+               .reg(CENTER, BOTTOM)
+               .addTo(ant);
+            return ant;
+         }
+
+         generateAnts(); // توليد النمل عند بدء اللعبة
+
+         // حقل الإدخال للتحقق من عدد النمل
+         const input = new TextInput({
+            placeholder: "عد النمل...",
+            backgroundColor: "white",
+            corner: 10
+         }).center().pos(100, 460); // موضع الحقل
+
+         // زر التحقق
+         const checkButton = new Button({
+            label: "تحقق",
+            width: 100,
+            height: 60,
+            backgroundColor: "green",
+            rollBackgroundColor: "blue"
+         }).center().pos(450, 450); // موضع الزر
+
+         checkButton.on("click", () => {
+            const userCount = parseInt(input.text); // قراءة العدد الذي أدخله المستخدم
+            if (userCount === antCount) {
+               showSuccess(); // عرض الاحتفال إن كان صحيحاً
+            } else {
+               showFailure(); // عرض رسالة خطأ إن كان خطأً
+            }
+         });
+
+         // دالة لعرض الاحتفال
+         function showSuccess() {
+            const emitter = new Emitter({
+               obj: new Circle(5, "yellow"),
+               life: 2,
+               force: {min: 5, max: 10},
+               angle: {min: 0, max: 360},
+               gravity: -2,
+               fade: true,
+               }).centerReg()
+
+               window.setTimeout(() => {
+                  emitter.pauseEmitter(true);
+                  emitter.dispose();
+                  generateAnts()         
+               }
+               , 2000);
+         }
+
+         // دالة لعرض رسالة خطأ
+         function showFailure() {
+            new Pane({
+               color:white,
+               content: "خطأ! حاول مجدداً.",
+               width: 400,
+               height: 200,
+               corner: 10,
+               backing: new Rectangle(400, 200, "red")
+            }).show().alp(0.8).tap(p => p.hide()); // النقر على الرسالة يخفيها
+         }
+
+      })
+   </script>
+</body>
+
+</html>

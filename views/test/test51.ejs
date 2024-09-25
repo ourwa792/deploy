@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تطبيق تمارين الكسور</title>
+    <script defer src="https://unpkg.com/mathlive"></script>
+    <script defer src="https://unpkg.com/@cortex-js/compute-engine"></script>
+
+    <style>
+        .correct {
+            color: green;
+        }
+        .incorrect {
+            color: red;
+        }
+        math-field {
+            width: 100%;
+            border-radius: 8px;
+            margin: 8px 0;
+        }
+        button {
+            border-radius: 8px;
+            padding: 8px;
+            margin: 8px 0;
+            font-size: 1em;
+            font-weight: bold;
+            font-family: system-ui;
+        }
+        .feedback {
+            font-family: system-ui;
+            font-size: 1.2em;
+            font-weight: bold;
+            padding: 8px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>حل المسائل التالية:</h1>
+
+    <div id="problems-container"></div>
+
+
+    <script type="module">
+        import {ComputeEngine} from 'https://unpkg.com/@cortex-js/compute-engine?module';
+
+        //window.addEventListener('DOMContentLoaded', (event)=>{
+ 
+       
+    const ce = new ComputeEngine();
+
+    const problems = [
+            ce.box(['Add', ['Divide', -7, 5], ['Divide', -3, 5]],{canonical:false}), // -7/5 + -3/5
+            ce.box(['Subtract', ['Divide', 4, 7], ['Divide', 9.1, 7]]), // 4/7 - 9.1/7
+            ce.box(['Add', ['Divide', -4, 3], ['Divide', 5, 3]]), // -4/3 + 5/3
+            ce.box(['Add', ['Divide', 13, -6], ['Divide', -5, 6]]), // 13/-6 + -5/6
+            ce.box(['Subtract', ['Divide', 4, 1.2], ['Divide', 5.3, 1.2], ['Divide', 0.7, 1.2]]), // 4/1.2 - 5.3/1.2 - 0.7/1.2
+            ce.box(['Add', ['Divide', -6, 7], ['Divide', 21.3, 35]]) // -6/7 + 21.3/35
+        ];
+
+       
+        function displayProblems() {
+            const container = document.getElementById('problems-container');
+
+            problems.forEach((problem, index) => {
+                const problemDiv = document.createElement('div');
+                problemDiv.className = 'problem';
+                problemDiv.innerHTML = `
+                    <div>
+                        <math-field read-only>${problem.latex}</math-field>
+                    </div>
+                    <div>
+                        <math-field id="answer-${index}"></math-field>
+                    </div>
+                    <div>
+                        <button onclick="checkAnswer(${index})">تحقق من الإجابة</button>
+                    </div>
+                    <div id="feedback-${index}" class="feedback"></div>
+                `;
+                container.appendChild(problemDiv);
+            });
+        }
+
+        window.checkAnswer = function(index) {
+            const correctAnswerExpr = problems[index] ; // استخدام التعبير الصحيح من القائمة
+
+            console.log('correctAnswerExpr : '+ correctAnswerExpr)
+
+            //console.log('correctAnswerExpr JSON: ', correctAnswerExpr.json);
+
+            const userInput = document.getElementById(`answer-${index}`).getValue('latex');
+            console.log('userInput: in LAtex ', userInput);
+
+            // معالجة وإعداد تعبير المستخدم
+            const userAnswer = ce.parse(userInput).simplify();
+            console.log('userAnswer JSON: ', userAnswer.json);
+            console.log('userAnswer: ', userAnswer); // الاوبجكت كلو
+
+            const feedbackDiv = document.getElementById(`feedback-${index}`);
+
+            if (userAnswer.isEqual(correctAnswerExpr)) {
+                feedbackDiv.textContent = 'إجابة صحيحة!';
+                feedbackDiv.classList.remove('incorrect');
+                feedbackDiv.classList.add('correct');
+            } else {
+                feedbackDiv.textContent = 'إجابة غير صحيحة، حاول مرة أخرى.';
+                feedbackDiv.classList.remove('correct');
+                feedbackDiv.classList.add('incorrect');
+            }
+        };
+
+        window.onload = displayProblems;
+    </script>
+
+
+</body>
+
+</html> -->

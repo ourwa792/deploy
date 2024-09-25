@@ -1,29 +1,11 @@
-const { Lesson, Category, FeedBack } = require("../model/association");
-/* exports.getIndex = async (req, res) => {
-  try {
-    const lesson = await Lesson.findAll({
-      include: [
-        {
-          model: Category,
-          as: "category",
-        },
-      ],
-    });
-    //console.log(lesson); // lesson is array
-    res.render("home", {
-      pageTitle: "home page",
-      lesson,
-        });
-  } catch (error) {
-    console.log(error);
-  }
-}; */
+const { Lesson, Category, FeedBack, Resources } = require("../model/association");
+
 
 exports.getIndex = async (req, res, next) => {
   try {
     //throw new Error('dummmy')
     const page = parseInt(req.query.page) || 1;
-    const pageSize = 2;
+    const pageSize = 6;
 
     const { count, rows } = await Lesson.findAndCountAll({
       limit: pageSize,
@@ -49,14 +31,42 @@ exports.getIndex = async (req, res, next) => {
   }
 };
 
-exports.getLessonById = (req, res, next) => {
-  const lessonId = req.params.id;
-  Lesson.findByPk(lessonId)
-    .then((result) => {
-      res.render("lesson/less_1");
-    })
-    .catch((err) => {});
+exports.getLessonById = async (req, res, next) => {
+  try { 
+    const lessonId = req.params.id;
+    console.log("lessonId==== "+ lessonId)
+    const lesson = await Lesson.findByPk(lessonId,{
+      include: {
+        model: Resources ,
+        attributes: ['title', 'url']
+      }
+    });
+
+    /* let exercies;
+
+    if (lesson.id === 6) {
+       exercies = JSON.stringify(lesson.exercies)
+    } else {
+       exercies = lesson.exercies
+    }
+       
+    */ 
+    let exercies = lesson.exercies  || []
+    let resource = lesson.exercies  || []
+
+    //console.log(lesson.resources[0])
+
+    
+    res.render(`lesson/less_${lesson.id}`, {
+      pageTitle:lesson.title, lesson
+    });
+
+  } catch (error) {
+    console.log(error)
+  }
 };
+
+
 
 exports.getLessonRate = (req, res, next) => {
   const lessonId = req.params.id;

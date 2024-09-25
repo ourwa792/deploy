@@ -1,0 +1,198 @@
+<%- include('../partial/head.ejs') %>
+
+    <link href="/css/animate.min.css" rel="stylesheet">
+ 
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+ 
+     
+    <link rel="stylesheet" href="/css/e-learning-js.min.css"/> 
+    
+    <script type="text/javascript" src="/library/jsxgraphcore.js"></script>
+    <link rel="stylesheet" href="/css/jsxgraph.css">
+     <!-- مخصص للدروس يعيد تعريف جسم الصفحة لتجاوز مشاكل البودي -->
+    <link rel="stylesheet" href="/css/lesson.css">
+
+    <script type="text/javascript" src="/library/e-learning-js.min.js"></script>  
+    <script src="https://cdn.jsdelivr.net/npm/number-to-words"></script>
+
+ 
+<!--      <script type="module" src="https://zimjs.org/cdn/2.1.3/box2d.js"></script>
+
+     <script type="module" src="https://zimjs.org/cdn/2.1.3/box2d_doc.js"></script>
+ -->
+     <style>
+        body{
+            font-size: larger;
+        }
+        #zim1Canvas {
+            width:100% !important;
+            height:50% !important;
+        }
+     </style>
+</head>
+<body >
+
+   
+    <div class="row header animate__animated animate__fadeInDown d-flex align-items-center">
+       
+        <!-- عمود العنوان -->
+         <div class="col-lg-4 col-md-4 col-sm-4">
+             <img src="<%= lesson.cover %>" 
+             class="rounded-2 float-start" style="width: 100%;">
+         </div>
+        
+        <div class="col-lg-8 col-md-8 col-sm-8">
+            <h1 class="text-start">
+                <%= lesson.title  %>
+            </h1>
+            <hr>
+        </div>
+    </div>
+
+    <div class="row container animate__animated animate__fadeInUp">
+            <p class="col-lg-8 col-md-8 col-sm-6 math-equation-rtl">
+                    من منا لم يتعامل مع الاعداد 0,1,2,3,4,5,6,7,8 ...في دراسته أو حياته اليومية وفي هذا الدرس سنتعلم المزيد عنها.
+            </p>
+            <br>
+
+            <div class="col-lg-8 col-md-8 col-sm-6 border-2 border-black card shadow-lg" style="width: 18rem;">
+                <img src="<%= lesson.resources[1].url %>" class="card-img-top" alt="imgg">
+                <div class="card-body">
+                  <p class="card-text">
+                    في الغابات تتساقط الملايين من أوراق الشجر كل عام, التي تشكل الدبال, ويعد سماد طبيعي للأشجار
+                  </p>
+                </div>
+            </div>       
+            
+    </div>
+
+
+    <div class="container">
+        <div class="col-lg-12 col-md-12 col-sm-12 knowledge-section mt-4">
+            <h2>تعلم (الأعداد الطبيعية)</h2>
+        
+            <div class="row">
+                <p class="col-md-6 col-lg-6 col-sm-4">
+                    يعد العدد الطبيعي الأشياء ضمن مجموعة ما. فهو صفر إذا لم يكن لدينا أي شيءٍ, وهو واحدٌ إذا كان لدينا شيءٌ واحد وهكذا...
+                </p>
+    
+                <div class="border-2 border-black col-md-6 col-lg-6 col-sm-4 my-3 img-fluid">
+                    <img src="<%= lesson.resources[0].url %>">
+                </div>
+            </div>
+            
+            <div class="row">
+                <p class="col-12" >
+                    نرمز لمجموعة الاعداد الطبيعية بالرمز N وهي تشمل الأعداد: <br>
+                    {0,1,2,3,4,5,6,7,8,9, ...} <br>
+
+                </p>
+            </div>
+    
+            <div class="jxgbox mt-2" id="jxgbox" style="width: 100%; height: 250px;"> </div>
+            
+            <div id="zim1" class="mt-3"></div>
+
+            <%- lesson.content %>
+
+            <!-- <h5>قيمة العدد حسب منزلته</h5>
+            <p>
+                كل عدد له قيمة حسب منزلته تساعدنا في كتابة و قراءة العدد وإجراء العمليات الحسابية عند استعماله.
+                <br>
+                مثلا في العدد 143288 قيمة العدد 4 هي 40000 لأنه مكتوب في منزلة عشرات الألوف.
+                يمكن كتابة العدد بثلاث صيغ مختلفة:
+                الصيغة العددية (القياسية): 83000050002
+                <br>
+                الصيغة اللفظية: ثلاثة و ثمانون مليار و خمسون الفا واثنان
+                <br>
+            </p> -->
+
+
+            <%- lesson.exercies %>   
+
+            <!--
+            <div class="question-section questions_2_1">
+            <h2>تحقق من فهمك</h2>
+
+            <h5>السؤال الاول</h5>
+            <p>
+                في العدد 525793 يظهر العدد 5 مرتين ما هي قيمته في كل من المرتين
+            </p>       
+                <ul class="grid12 no_list ">
+                    <li>
+                        <span class="bold lesson_color">1.</span>  <input size="8" type="text" autocomplete="off"/>.
+                    </li>
+                    <li>
+                        <span class="bold lesson_color">2.</span>  <input size="8" type="text" autocomplete="off"/>.
+                    </li>
+            
+                </ul>
+                
+                
+                <h2>تدريب</h2>
+
+                <h5>السؤال الاول</h5>
+                <p>
+                    ماقيمة العدد 2 في العدد 1235698743
+
+                    <ul class="grid12 no_list ">
+                        <li>
+                            <span class="bold lesson_color"></span>  <input size="8" type="text" autocomplete="off"/>.
+                        </li>
+                
+                    </ul>
+
+
+
+                </p>
+    
+                <p>
+                    إن متوسط المسافة بين كوكب نبتون والشمس هو 4مليار  503 مليوناً و 444 ألف كيلومتر, اكتب هذا العدد بالصيغة العددية.
+                    <ul class="grid12 no_list ">
+                        <li>
+                            <span class="bold lesson_color"></span>  <input size="9" type="text" autocomplete="off"/>.
+                        </li>
+                
+                    </ul>
+
+
+
+                </p>
+    
+                <div class="btn_activities">
+                    <div id="check_answers_2_1">
+                        <span>Check</span>
+                    </div>
+                    <div id="reset_answers_2_1">
+                        <span>Reset</span>
+                    </div>
+                    <div id="answers_2_1">
+                        <span>Answers</span>
+                    </div>
+                </div>
+
+
+            </div> -->
+                
+            <!--Empieza contenido-->
+             
+        </div>
+
+    </div>
+
+            <div class="row">
+                <div class="col-1">
+                    <a href="/" class="btn btn-outline-info mt-5">
+                        <img src="/icon/iconBack.png" class="" width="34" height="34">
+                        <span>الصفحة الرئيسية</span>
+    
+                    </a>
+
+                </div>
+            </div>
+
+    <script type="module" src="/js/less_8.js"></script>
+    
+<%- include('../partial/end.ejs') %>

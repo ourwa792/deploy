@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JSXGraph Polygon Drawing</title>
+    <script type="text/javascript" src="/library/jsxgraphcore.js"></script>
+    <style>
+        .jxgbox {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+    <button id="resetBoardBtn">إعادة تعيين اللوحة</button>
+    <div id="jxgbox" class="jxgbox" style="width:500px; height:500px;"></div>
+
+    <script>
+        var board = JXG.JSXGraph.initBoard('jxgbox', {
+            boundingbox: [-5, 5, 5, -5],
+            axis: true
+        });
+
+        var points = [];
+        var lines = [];
+        var polygons = [];
+        var polygonComponents = []; // This will store all components of polygons
+
+        // Function to reset the current polygon points
+        function resetPolygon() {
+            points = [];
+            lines = [];
+        }
+
+        // Function to create a polygon from points
+        function createPolygon() {
+            if (points.length > 2) { // Ensure at least 3 points
+                var currentPolygon = board.create('polygon', points, {
+                    borders: { strokeWidth: 3 },
+                    hasInnerPoints: true
+                });
+
+                polygons.push(currentPolygon);
+                polygonComponents.push(currentPolygon);
+
+                // Calculate the centroid manually
+                var centroid = calculateCentroid(points);
+                var areaText = board.create('text', [
+                    centroid[0],
+                    centroid[1],
+                    function() { return 'Area: ' + currentPolygon.Area().toFixed(2); }
+                ]);
+
+                polygonComponents.push(areaText);
+
+                // Reset points for drawing a new polygon
+                resetPolygon();
+            }
+        }
+
+        // Function to calculate the centroid of a polygon
+        function calculateCentroid(points) {
+            var xSum = 0;
+            var ySum = 0;
+            var n = points.length;
+
+            for (var i = 0; i < n; i++) {
+                xSum += points[i].X();
+                ySum += points[i].Y();
+            }
+
+            return [xSum / n, ySum / n];
+        }
+
+        // Function to check if the first point is clicked again to close the polygon
+        function checkFirstPoint(coords) {
+            if (points.length > 2) {
+                var firstPoint = points[0];
+                var distance = JXG.Math.Geometry.distance(coords.usrCoords.slice(1), firstPoint.coords.usrCoords.slice(1));
+                if (distance < 0.2) { // If the point is close enough to the first point
+                    createPolygon();
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        // Function to handle mouse click events on the board
+        function down(e) {
+            var coords = getMouseCoords(e);
+
+            if (!checkFirstPoint(coords)) {
+                var newPoint = board.create('point', [coords.usrCoords[1], coords.usrCoords[2]]);
+                points.push(newPoint);
+                polygonComponents.push(newPoint); // Store the point in the components array
+
+                // Create a line between the last two points
+                if (points.length > 1) {
+                    var newLine = board.create('line', [points[points.length - 2], points[points.length - 1]], {
+                        straightFirst: false,
+                        straightLast: false,
+                        strokeWidth: 2
+                    });
+                    lines.push(newLine);
+                    polygonComponents.push(newLine); // Store the line in the components array
+                }
+            }
+        }
+
+        // Function to get mouse coordinates relative to the board
+        function getMouseCoords(e) {
+            var cPos = board.getCoordsTopLeftCorner(e),
+                absPos = JXG.getPosition(e);
+
+            var dx = absPos[0] - cPos[0];
+            var dy = absPos[1] - cPos[1];
+
+            return new JXG.Coords(JXG.COORDS_BY_SCREEN, [dx, dy], board);
+        }
+
+        // Register the mouse down event on the board
+        board.on('down', down);
+        board.update();
+
+        // Function to reset the board
+        function resetBoard() {
+            // Remove all components of polygons
+            while (polygonComponents.length > 0) {
+                board.removeObject(polygonComponents.pop());
+            }
+
+            // Clear the arrays
+            points = [];
+            lines = [];
+            polygons = [];
+            polygonComponents = [];
+
+            // Re-render the board
+            board.update();
+        }
+
+        // Attach the resetBoard function to the reset button
+        document.getElementById('resetBoardBtn').addEventListener('click', resetBoard);
+    </script>
+</body>
+</html>

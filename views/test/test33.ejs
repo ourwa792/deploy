@@ -1,0 +1,299 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="utf-8" />
+	<title>ZIM Code Creativity!</title>
+
+	<meta name="viewport" content="width=device-width, user-scalable=no" />
+
+	<script lang="text/javascript" src="/library/createjs.js"> </script>
+	<script lang="text/javascript" src="/library/zim_min.js"> </script>
+	<!-- 
+	<script type="module" src="https://zimjs.org/cdn/016/zim_physics" >	</script>
+ -->
+
+	<script type="module" src="/library/zim_physics.js"></script>
+
+	<link rel="stylesheet" href="/css/bootstrap.rtl.min.css">
+
+	<style>
+		body {
+			margin: 0;
+			padding: 0;
+		}
+
+		/* 	 #zim{
+			height: auto;
+			width: 80%;
+		} 
+		 */
+		#zimCanvas {
+			height: auto !important;
+			width: 100% !important;
+		}
+	</style>
+
+</head>
+
+<body>
+
+	<div id="zim" class="container my-3"></div>
+	<div style="width: 500px; height: 500px; background-color: rgb(58, 195, 195);">hghghg</div>
+
+	<script type="module">
+
+		const scaling = "zim";
+		const width = 1024;
+		const height = 768;
+
+		const assets = ["book.png", "book1.png", "book2.png", "drabstract.png"];
+		const path = "/assets/"
+
+		var frame = new Frame({
+			scaling, width, height, color: pink,
+			allowDefault: true, assets, path, progress: new Waiter({
+				backgroundColor: blue, corner: 10
+			})
+
+		}); // see docs for more options and info
+		frame.on("ready", function ready() {
+			var stage = frame.stage;
+			//console.log(stage)
+			var stageW = frame.width;
+			var stageH = frame.height;
+
+			/* new Sprite({
+				image:'drabstract.png',
+				cols: 6, rows: 3
+				
+			})
+			.centerReg()
+			.sca(1.7)
+			.run({
+				time:1.5, loop: true, rewind:false, endFrame : 4
+			}) 
+			
+			const page = new Page(W, H, red, pink).addTo();
+			page.title = new Label("A Page!").loc(100,100,page);
+			page.content = new Circle().center(page);
+			page.nav = new Tabs().pos(0,100,CENTER,BOTTOM,page);
+			
+
+			/* 	const text = new TextInput().loc(100,100)
+			
+			
+			const button = new Button(120, 100, "اضغط هنا", "aqua");
+			button.center().tap(()=> {
+				//zog(text.text)
+				console.log(text.text)
+			}) */
+			/* const svg = `<svg id="character-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+				<circle id="face" cx="50" cy="50" r="40" fill="#FFD700" />
+				<circle id="eye-left" cx="35" cy="40" r="5" fill="#000" />
+				<circle id="eye-right" cx="65" cy="40" r="5" fill="#000" />
+				<path id="mouth" d="M 35 60 Q 50 80 65 60" stroke="#000" stroke-width="5" fill="transparent" />
+			</svg>`;
+
+			const svgContainer = new SVGContainer({
+				svg, group:{ d:"M 35 60 Q 50 80 65 60"} , 
+				splitTypes :true, interactive: false, showControls:false
+			})
+			.center().sca(3); */
+
+			/* const pic = new Pic('book.png')
+			new Book( pic.width*2, pic.height, assets).center() */
+
+			/* 	svgContainer.on("click", ()=> {
+				svgContainer.animate({
+					rotation:360,
+					time:2,
+					loop:true, 
+				})
+			}) */
+
+			/* STYLE = {width:W/2, color:series(blue, pink, yellow, green)};
+			// add anything you want to each of these Pages
+			const page1 = new Page();
+			const page2 = new Page();
+			const page3 = new Page();
+			const page4 = new Page();
+			const pages = [page1, page2, page3, page4];
+			// 0 (default) will show only page 0 at right - like a cover
+			// 1 will show page 0 and page 1 to start - like an open book
+			new Book(W, H, pages, 1).addTo(); */
+
+
+			/* 		const page1 = new Page(W, H);
+					page1.content = new Pic('book.png')
+					new Label("Swipe sideways").center(page1);
+					const page2 = new Page(W, H, red); // makes a gradient
+					const page3 = new Page(W, H, green);
+		
+					new Pages([page1, page2, page3], "slide").addTo(); */
+
+			 /* const words = [
+				"Welcome, Creators!",
+				"To ZIM NFT 01",
+				"We have a new Dialog"
+				];
+
+				STYLE = {lineHeight:35}
+				new Dialog({
+				width:300,
+				height:200,
+				words:words,
+				dialogType:"rectangle",
+				tailType:"line",
+				fill:false,
+				size:30,
+				font:"Comic Sans MS",
+				color:dark,
+				backgroundColor:yellow,
+				borderColor:grey,
+				borderWidth:2,
+				corner:100,
+				padding:50,
+				tailH:RIGHT,
+				tailV:BOTTOM
+				}).pos(10,10,LEFT,TOP);  */
+
+			const points = [
+				[100, 0, 0, 0, 0, -50, 0, 4.5], [98.8, 13.6, 0, 0, 0.8, -4.5, -0.8, 4.6], [95.2, 27.3, 0, 0, 1.6, -4.5, -1.6, 4.4], [89.6, 40.4, 0, 0, 2.2, -4.3, -2.1, 4.2], [82.2, 52.7, 0, 0, 2.8, -4, -2.7, 3.9], [73.3, 63.9, 0, 0, 3.2, -3.6, -3.2, 3.5], [63.2, 73.9, 0, 0, 3.6, -3.1, -3.5, 3.1], [52, 82.6, 0, 0, 3.9, -2.7, -3.9, 2.7], [39.9, 89.8, 0, 0, 4.2, -2.1, -4.2, 2.2], [27, 95.3, 0, 0, 4.4, -1.5, -4.5, 1.5], [13.4, 98.8, 0, 0, 4.6, -0.8, -4.4, 0.8],
+				// [0,100,0,0,4.5,0,-4.5,0], // comment out the middle at bottom so rests a little flatter
+				[-13.6, 98.8, 0, 0, 4.5, 0.8, -4.6, -0.8], [-27.2, 95.3, 0, 0, 4.5, 1.5, -4.4, -1.5], [-40.3, 89.7, 0, 0, 4.3, 2.2, -4.2, -2.1], [-52.6, 82.3, 0, 0, 3.9, 2.7, -3.9, -2.7], [-63.8, 73.5, 0, 0, 3.5, 3.2, -3.6, -3.2], [-73.8, 63.4, 0, 0, 3.1, 3.5, -3.1, -3.6], [-82.5, 52.3, 0, 0, 2.7, 3.9, -2.7, -3.9], [-89.7, 40.2, 0, 0, 2.1, 4.2, -2.1, -4.2], [-95.2, 27.3, 0, 0, 1.5, 4.4, -1.5, -4.4], [-98.8, 13.7, 0, 0, 0.8, 4.6, -0.8, -4.5], [-100, 0, 0, 0, 0, 4.6, 0, -50]]
+
+			/*
+				const physics = new Physics();
+	
+				const floor = new Rectangle(W,180,darker).centerReg().pos(0,0,LEFT,BOTTOM).addPhysics(false); // false for static
+	
+				STYLE = {color:darker};
+				const head = new Blob({
+					interactive:false,
+					points:points,
+					controlType:"none"
+				}).transformPoints("scale", 2).pos(0,floor.height,CENTER,BOTTOM).addPhysics();
+				const earRight = new Triangle(100,100,-1).loc(661, 341).addPhysics() //.place()
+				const earLeft = new Triangle(100,-1,100).loc(362, 341).addPhysics()
+				physics.join(head,earRight);
+				physics.join(head,earLeft);
+				STYLE = {}
+				//new Pic("cat.png").scaleTo(head,60,60).center(head).mov(0,-10);
+				
+				const food = new Container(W,H).addTo(); // important to be stage W, H and at 0, 0
+				const scorer = new Scorer(0).pos(50,50,RIGHT);
+				let testCheck = false;
+				loop(50, (i,t)=>{
+					new Blob({
+						points:rand(5,8), 
+						radius:rand(20,30), 
+						color:[yellow,red,brown], 
+						borderColor:dark,
+						interactive:false,
+						controlType:"none"
+					}).pos(0,50,CENTER,TOP,food).addPhysics();
+					if (i==t-1) testCheck = true;
+				}, null, .05)
+	
+						 physics.drag(); 
+					physics.drag(); 
+	
+				// optional - or perhaps better, add test to see if food contacs wall and do not count it
+				physics.noDrag([head,earRight,earLeft]);
+	
+	
+				// there are sensors in Box2D but we don't need them in this case
+				// we will see if any of the food is still hitting the rectangle - set to alp(1) to see it
+				const sensor = new Rectangle(W, 180, black).alp(0).pos(0,floor.height,LEFT,BOTTOM);
+	
+				interval(.1, ()=>{
+					let count = 0;
+					loop(food, item=>{
+						if (item.hitTestBounds(sensor)) count++;
+					});
+					scorer.score = food.numChildren-count;        
+				});
+	
+				const winPane = new Pane("YAY! THE CAT IS VERY FULL!", purple, white);
+				let delay;
+				F.on("pointerup", ()=>{
+					// wait to see if object falls
+					delay = timeout(2, ()=>{
+						if (testCheck && scorer.score == food.numChildren) winPane.show().mov(0,-30)
+					});
+				});
+				F.on("pointerdown", ()=>{
+					// tricky glitch - clear wait each time object is picked up 
+					// otherwise might be picking up the last object when the timeout happens
+					// and it things the game is done
+					if (delay) delay.clear();
+			}) */
+
+			STYLE = { align: CENTER }
+			new Label("Learn Numbers", 90, "acier", dark).rot(-45).pos(-10, 0).alp(.3)
+
+			const physics = new Physics();
+
+			const floor = new Rectangle(W, 180, green).centerReg().pos(0, 0, LEFT, BOTTOM).addPhysics(false);
+
+			STYLE = { color: darker };
+			const head = new Blob({
+				interactive: false,
+				points: points, // نفس النقاط المستخدمة لرسم الرأس
+				controlType: "none"
+			}).transformPoints("scale", 2).pos(0, floor.height, CENTER, BOTTOM).addPhysics();
+
+			//new Pic("cat.png").scaleTo(head, 60, 60).center(head).mov(0, -10);
+
+			const numbersContainer = new Container(W, H).addTo();
+			const scorer = new Scorer(0).pos(50, 50, RIGHT);
+			let currentNumber = 1;
+
+			loop(10, (i, t) => {
+				const number = i + 1;
+				const blob = new Blob({
+					points: rand(5, 8),
+					radius: rand(30, 50),
+					color: [yellow, red, brown],
+					borderColor: dark,
+					interactive: false,
+					controlType: "none"
+				}).pos(0, 50, CENTER, TOP, numbersContainer).addPhysics();
+
+				new Label(number, 40, "acier", white).center(blob); // إظهار الرقم على كل عنصر
+
+				blob.on("mousedown", () => {
+					if (number === currentNumber) {
+						scorer.score++;
+						currentNumber++;
+						blob.removeFrom(numbersContainer);
+						if (currentNumber > 10) {
+							new Pane("أحسنت!! لقد تعلمت العد الى العشرة", green, white).show().mov(0, -30);
+						}
+					} else {
+						// استخدام تأثير اهتزاز بديل باستخدام زيم
+						blob.animate({
+							props: [{ props: { x: 400, y: 200, scale: 2 } },
+							{ props: { x: 350, y: 200, scale: 1 } },
+							],
+							time: 0.1,
+							ease: "backOut",
+							loopCount: 3
+						});
+					}
+				});
+			}, null, .05);
+
+			physics.drag();
+			physics.noDrag([head]);
+
+
+		
+		})
+
+
+	</script>
+</body>
+
+</html>

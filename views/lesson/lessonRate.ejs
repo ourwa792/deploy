@@ -2,10 +2,10 @@
 
 <link rel="stylesheet" href="/css/survey.css" />
 <link rel="stylesheet" href="/css/toastify.min.css" />
-<script lang="text/javascript" src="/library/jquery.min.js"> </script>
-<script lang="text/javascript" src="/library/survey.jquery.min.js"> </script>
-<script lang="text/javascript" src="/library/survey.jquery.theme.index.min.js"> </script>
-<script lang="text/javascript" src="/library/toastify-js.js"> </script>
+<script src="/library/jquery.min.js"> </script>
+<script src="/library/survey.jquery.min.js"> </script>
+<script src="/library/survey.jquery.theme.index.min.js"> </script>
+<script src="/library/toastify-js.js"> </script>
 
   </head>
 
@@ -39,7 +39,7 @@
             success: function (response) {
                 console.log(response)
                 Toastify({
-                        text: response.message || 'شكراً لك على التقييم',
+                        text: response.message || 'شكراً, لقد تلقينا تقييمك',
                         duration: 3000,
                         close: true,
                         gravity: "top", // `top` or `bottom`

@@ -23,6 +23,7 @@
       height: 100%;
   }
 </style>
+<script src="https://unpkg.com/typed.js@2.1.0/dist/typed.umd.js"></script>
 
   </head>
 
@@ -36,7 +37,7 @@
           </div>
 
           <div class="bg-light border rounded-3">
-            <img height="100%" width="100%" src="image/panner/panner2.jpg">
+            <img height="100%" width="100%" src="image/panner/R.gif">
 
           </div>
         </div>
@@ -44,7 +45,7 @@
 
       <!--   =========================================  -->
 
-      <h1>قائمة الدروس
+      <h1 id="element">
         <% if (error && error.length > 0) { %>
           <div class="alert alert-danger">
             <% error.forEach(function(err) { %>
@@ -62,14 +63,15 @@
               <% lesson.forEach(lesn => { %>
                 <div class="col-sm-4 my-3">
                   <div class="card shadow-sm border-success">
-                    <img src="<%=lesn.cover  %>" class="card-img-top border border-2 rounded-3" alt="image">
+                  <!--  جميع اصور الغلاف بمقاس 650و140-->
+                    <img src="<%= lesn.cover %>" class="card-img-top border border-2 rounded-3 img-fluid" alt="image">
 
                     <div class="card-body border border-2 rounded-3 ">
                       <p class="card-text"> الصف: <%= lesn.grade %>
                       </p>
-                      <p class="card-text">اسم الدرس: <%= lesn.title %>
+                      <p class="card-text"> الدرس: <%= lesn.title %>
                       </p>
-                      <p class="card-text">القسم: <%= lesn.category.name %>
+                      <p class="card-text">الفصل\القسم: <%= lesn.category.name %>
                       </p>
                       <div class="d-flex justify-content-between align-items-center">
 
@@ -90,7 +92,14 @@
           </div>
         </div>
       </div>
+      <script>
+         var typed = new Typed('#element', {
+          strings: ['تصفح قائمة الدروس  '," "],
+          typeSpeed: 21,
+          loop: true
+          });
 
+    </script>
       <%- include('./partial/pagination.ejs') %>
 
         <%- include('./partial/end.ejs') %>

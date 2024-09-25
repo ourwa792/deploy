@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script lang="text/javascript" src="/library/mathcell.js"></script>
+</head>
+<body>
+    <div class="mathcell" style="height: 5in">
+        <script>
+        
+        var parent = document.currentScript.parentNode;
+        
+        var id = generateId();
+        parent.id = id;
+        
+        MathCell( id, [ { type: 'slider', min: -1, max: 1, default: 0,
+                                          name: 'phi', label: '&phi;' } ] );
+        
+        parent.update = function( id ) {
+        
+          var phi = getVariable( id, 'phi' );
+        
+          var c = box( 2, 2, 2, { color: 'rgb(0,255,0)', opacity: .1, axis: [1,0,0] } );
+        
+          var p = plane( 3, 3, { normal: [1,0,0], color: 'gray', opacity: .8, renderOrder: 1 } );
+          rotateObject( p, phi, [0,0,1] );
+        
+          var points = [];
+        
+          for ( var a = 0 ; a < 2*Math.PI ; a += 2*Math.PI/100 )
+            points.push( [ -Math.sin(a)*Math.tan(phi), Math.sin(a), Math.cos(a) ] );
+        
+          var l = line( points, { color: 'red', radius: .05 } );
+        
+          var data = [ c, p, l ];
+        
+          var config = { type: 'threejs', frame: false };
+        
+          evaluate( id, data, config );
+        
+        }
+        
+        parent.update( id );
+        
+        </script>
+        </div>
+    
+</body>
+</html>

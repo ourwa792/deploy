@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fraction Teaching App</title>
+    <link rel="stylesheet" href="https://unpkg.com/mathlive/dist/mathlive.min.css">
+
+    <style>
+        math-field {
+        width: 100%;
+        border-radius: 8px;
+        margin: 8px 0;
+      }
+      button {
+        border-radius: 8px;
+        padding: 8px;
+        margin: 8px 0;
+        font-size: 1em;
+        font-weight: bold;
+        font-family: system-ui;
+      }
+      p {
+        font-family: system-ui;
+        font-size: 1.5em;
+        padding: 8px;
+      }
+      #feedback {
+        font-family: system-ui;
+        font-size: 1.2em;
+        font-weight: bold;
+        display: flex;
+        justify-content: center;
+        padding: 8px; 
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        background: #f0f0f0;
+        height: 40px;
+      }
+    </style>
+</head>
+
+<body>
+   <p>
+    بسط التعبير التالي: 
+    <span id="question"></span>
+   </p>
+
+    <math-field id="mathField"></math-field>
+    <button id="check">تحقق</button>
+
+    <div id="feedback"></div>
+
+    
+    <math-field id="fractionEditor">3 \frac{11}{4}</math-field>
+    <div>
+     <button onclick="fractionEditor.executeCommand(['speak', 'all']);">إدراج كسر</button>
+    </div> 
+
+
+    <script type="module">
+    
+        import { ComputeEngine } from "https://unpkg.com/@cortex-js/compute-engine?module";
+        import {
+          MathfieldElement, renderMathInElement,
+          renderMathInDocument, convertLatexToMarkup 
+        } from "//unpkg.com/mathlive?module";
+        
+
+        const ce = new ComputeEngine();
+        const question = generateRandomQuestion()
+        document.getElementById("question").innerHTML = convertLatexToMarkup(question.latex)
+       
+        let expectedAnswer = question.simplify();
+        console.log('expectedAnswer ' + expectedAnswer);  //تعبير مغلف
+
+        function generateRandomQuestion() {
+            const a = Math.floor(Math.random() * 10) + 1;
+            const b = Math.floor(Math.random() * 10) ;
+            const c = Math.floor(Math.random() * 10) + 1;
+            const d = Math.floor(Math.random() * 10) ;
+            // (ax+b)(cx+d)
+            return ce.box(["Multiply", 
+                ["Add", ["Multiply", a, "x"], b], 
+                ["Add", ["Multiply", c, "x"], d]
+            ]);
+
+        }
+
+        const feedback = document.getElementById("feedback");
+        const check = document.getElementById("check");
+
+        check.addEventListener("click", () =>{
+            // ليس تعبير مغلف 
+            const userAnswer = document.getElementById("mathField").expression;
+            const userAnswerSimplified = userAnswer.simplify()
+            
+            console.log('userAnswer '+ userAnswer)
+            console.log('userAnswerSimplified ' + userAnswerSimplified)
+
+            //const userAnswerBoxed = ce.box(userAnswer).simplify(); // تعبير مغلف يمكن استدعاء دواله مثل تبسيط و تقييم و باقي تعابير ماث لايف
+
+            //const userAnswerBoxed = ce.declare("x", "RealNumbers",[ce.box(userAnswer)]);
+
+            /*     
+            if (!userAnswerBoxed.isValid) {
+                console.error("Invalid expression: ", userAnswerBoxed);
+                feedback.innerText = "Invalid input.";
+                return;
+            }  */
+
+            const result = expectedAnswer.isEqual(userAnswerSimplified, {canonical:true}) ? "CORRECT" : "INcorrect" ;
+            feedback.innerText = result;
+            console.log('result ' + result)
+        })
+
+        window.addEventListener("DOMContentLoaded", ()=> {
+            renderMathInDocument({
+                TeX: {
+                delimiters: {
+                    inline: [
+                    ["$", "$"],
+                    ["\\(", "\\)"],
+                    ],
+                    display: [
+                    ["\\[", "\\]"],
+                    ["$$", "$$"],
+                    ],
+                },
+                },
+            });
+            renderMathInDocument();
+        })
+
+        /* 
+
+        // تعبير MathJSON
+        const expr = ["Add", ["Power", "x", 2], 1];
+
+        // تحويل MathJSON إلى Boxed Expression
+        const boxedExpr = ce.box(expr).latex;
+
+        console.log("latex "+ boxedExpr);  // يجب أن يكون الناتج: "x^2 + 1"
+
+
+         
+        const mathJson = [
+            "Equal",
+            ["Add", ["Power", "x", 2], ["Multiply", 2, "x"], 1],
+            ["Placeholder", {id: "answer"}]
+        ];
+        
+        const expr = ce.box(mathJson);
+
+        // ربط التعبير بصيغة LaTeX مع math-field لعرضه
+        const mathField = document.getElementById('mathField');
+        mathField.setValue(expr.latex);
+       
+        // تحويل LaTeX إلى تعبير MathJSON
+        
+        const expr = ce.parse("\\frac{5}{2}");
+        console.log(expr);
+        // المتغيرات لحفظ مكونات الكسر
+        let wholeNumber = 0;
+        let numerator = 0;
+        let denominator = 1;
+
+        // تحليل القيم حسب نوع التعبير 
+        if (expr.isLiteral && expr.isLiteral()) { // اتربيوت غير صالحة خاطئة
+            wholeNumber = expr.value; // إذا كان عدد صحيح
+        } else if (expr.head === 'Divide') {
+            numerator = expr.op1.value; // البسط
+            denominator = expr.op2.value; // المقام
+        } else if (expr.head === 'Add') {
+            wholeNumber = expr.op1.value; // العدد الصحيح
+            numerator = expr.op2.op1.value; // البسط
+            denominator = expr.op2.op2.value; // المقام
+        }
+
+        console.log(`Whole number: ${wholeNumber}, Numerator: ${numerator}, Denominator: ${denominator}`);
+        
+        */
+        //ce.box(["Equal", lhs, rhs]).evaluate()	Synonym for isEqual()
+
+    </script>
+</body>
+
+</html>
