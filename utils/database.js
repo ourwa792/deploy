@@ -1,8 +1,8 @@
 require('dotenv').config()
-/* const Sequelize = require("sequelize");
+const Sequelize = require("sequelize");
 
 const {Op} = require('sequelize'); 
- 
+/* 
 const seq = new Sequelize("ourwa_mwt", "root", "12345", {
   dialect: "mysql",
   host: "localhost",
