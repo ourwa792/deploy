@@ -27,7 +27,6 @@
         h5 {
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
             color: #5c2e03;
-            background-color: pink;
             font-weight: bold;
         }
 
@@ -247,7 +246,7 @@
             </div>
         </div>
 
-<!-- 
+ 
         <div class="row animate__animated animate__fadeInUp">
             <div class="col-5 math-equation math-equation-rtl">
 
@@ -365,10 +364,13 @@
 
             </div>
 
-            <div class="col-md-4 d-flex justify-content-between" style="max-width: 100%;">
-                <img src="<%#= lesson.resources[0].url %>" class="img-fluid mb-3 " alt="img">
-                <img src="<%#= lesson.resources[1].url %>" class="img-fluid mb-3 animate__animated animate__zoomIn"
-                    alt="img">
+            <div class="col-lg-7 col-md-7 col-sm-12 d-flex style="max-width: 100%;">
+                <div class="card shadow-lg " style="width: 18rem;">
+                    <img src="<%= lesson.resources[1].url %>" class="card-img-top" alt="imgg">
+                </div> 
+                <div class="card shadow-lg " style="width: 18rem;">
+                    <img src="<%= lesson.resources[0].url %>" class="card-img-top" alt="imgg">
+                </div> 
             </div>
         </div>
 
@@ -483,14 +485,14 @@
             </table>
             
             <div class="row">
-                <div class="col-sm-6 mb-3 mb-sm-0">
-                  <div class="card" style="margin-left: 3px;">
-                    <div id="jxgbox" class="card" style="width: 500px; height: 300px;"></div>
+                <div class="col-lg-6 col-md-6 col-sm-12 mb-3 mb-sm-0">
+                  <div class="" style="margin-left: 3px;">
+                    <div id="jxgbox" class="jxgbox" style="width: 400px; height: 300px; max-width: 80%;"></div>
                   </div>
                 </div>
-                <div class="col-sm-6">
+                <div class="col-sm-12">
                   <div class="card">
-                    <div class="card-body col-4 col-sm-12">
+                    <div class="card-body col-sm-12">
                         <div class="card-text text-center" id="info"></div>
                     </div>
                     </div>
@@ -504,9 +506,9 @@
                 <p style=" border: 2px solid #5c2e03; border-radius: 20%;"> الضلع التي نعرف طولها, تقابل الزاوية, لذلك نستعمل تعريف الجيب.
                 </p>
              
+              example-1- 
 
-                <!-- example-1- 
-                <div class="row">
+             <div class="row">
 
                     <div class="col-6 col-md-6 col-sm-11 justify-content-between animate__animated animate__bounceInUp">
                             <p cl style="background-color: #ffcc80;">
@@ -529,33 +531,36 @@
                             </p>
                     </div>
 
-                    <div class="col-2 col-md-6 col-sm-11 animate__animated animate__bounceInUp">
-                        <img src="<%= lesson.resources[2].url %>" alt="img">
+
+                    <div class="col-5 col-md-5 col-sm-12 animate__animated animate__bounceInUp">
+                        <div class="card shadow-lg">
+                            <img src="<%= lesson.resources[2].url %>" class="card-img-top" alt="img">
+                        </div>
                     </div>
                    
                 </div>
-                <!-- example -1- end 
+              <!--   example -1- end  -->
                 
                 <h5>كيف نحسب طول ضلع قائم بمعرفة طول ضلع الوتر و قياس زاوية حادة؟</h5>
                 <p style=" border: 2px solid #5c2e03; border-radius: 15%;"> الضلع التي نعرف طولها, هي الوتر,ونحن نبحث عن طول الضلع المجاورة للزاوية لذلك نستعمل تعريف التجيب.
                 </p>
 
-                <!-- example -2- 
+      <!--  example -2-         -->
                 <div class="row">
 
-                    <div class="col-6 col-md-6 col-sm-11 animate__animated animate__bounceInUp">
-                            <p style="background-color: #ffcc80;">مثال:  EFG مثلث قائم في E, 
+                    <div class="col-8 col-md-8 col-sm-11 animate__animated animate__bounceInUp">
+                            <p style="background-color: #ffcc80;" class="">مثال:  EFG مثلث قائم في E, 
                                 $ FG= 7.5 cm و \quad \widehat{EFG} = 60° \quad $
                                  احسب الطول FE
                             </p>
                             <h5>الحل</h5>
                             <p >في المثلث EFG القائم في B:
-                                <math-field id="mf3" read-only class="math-field-container">
+                                <math-field id="mf3" read-only class="">
                                     \cos{ \hat{F}} = \frac{\placeholder[num3]{?}}{\placeholder[den3]{?}}
                                   = \cos{60°} = \frac{EF}{\placeholder[den4]{?}}
                                 </math-field>
                                 إذاً
-                                <math-field id="mf4" read-only class="math-field-container">
+                                <math-field id="mf4" read-only class="">
                                     \frac{ \sqrt { \placeholder[num4]{?}} } { \placeholder[den4]{?} } =
                                     \frac{EF}{75}
                                 </math-field>
@@ -563,22 +568,26 @@
                             </p> 
                     </div>
 
-                    <div class="col-3 col-md-6 col-sm-11 animate__animated animate__bounceInUp">
-                        <img src="<%= lesson.resources[3].url %>" width="190" height="130" class="mb-3 " alt="img">
+                    <div class="col-4 col-md-4 col-sm-11 animate__animated animate__bounceInUp">
+                        <div class="card shadow-lg " >
+                            <img src="<%= lesson.resources[3].url %>" class="card-img-top" alt="imgg">
+                        </div> 
+
                     </div>
                 </div>
-                <!-- example -2- end 
+
+                   <!-- example -2- end --> 
                
                
                 <h5>كيف نحسب طول ضلع قائم بمعرفة قياس زاوية حادة وطول الضلع القائم الاخرى؟</h5>
                 <p style=" border: 2px solid #5c2e03; border-radius: 15%;"> الضلع التي نعرف طولها, هي الوتر,ونحن نبحث عن طول الضلع المجاورة للزاوية لذلك نستعمل تعريف التجيب.
                 </p>
 
-                <!-- example -3- 
+                <!--   example -3- --> 
 
                 <div class="row">
 
-                    <div class="col-6 col-md-6 col-sm-11 animate__animated animate__bounceInUp">
+                    <div class="col-8 col-md-8 col-sm-11 animate__animated animate__bounceInUp">
                             <p style="background-color: #ffcc80;">مثال:  KLM مثلث قائم في M, 
                                 $ KM= 7 \sqrt{3} و \quad \widehat{MKL} = 30° \quad $
                                  احسب الطول ML
@@ -598,28 +607,33 @@
                             </p> 
                     </div>
 
-                    <div class="col-3 col-md-6 col-sm-11 animate__animated animate__bounceInUp">
-                        <img src="<%= lesson.resources[4].url %>" class="img-fluid mb-3 " alt="img">
+                    <div class="col-4 col-md-4 col-sm-11 animate__animated animate__bounceInUp">
+
+                         <div class="card shadow-lg mb-3" >
+                            <img src="<%= lesson.resources[4].url %>" class="card-img-top" alt="imgg">
+                        </div> 
+
+
                     </div>
                     
                     
                 </div>
- -->
+
                 <!-- example -3- //end -->
 
 
                 <!-- تخقق من فهمك -->
         
-                <%- lesson.content %>
+                <%#- lesson.content %>
 
                     <h2>تحقق من فهمك</h2>
     
                     <h5>السؤال الاول</h5>
                     <p>ABCD مربع طول ضلعه يساوي 1</p>
 
-                    <%- lesson.exercies %>
+                    <%#- lesson.exercies %>
 
-               <!--  <div class="row">
+                 <div class="row">
                     <div class="col-8">
 
                         <ol class="word_list questions_5_1">
@@ -664,20 +678,30 @@
                         </ol>
 
                     </div>
-                    <div class="col-4">
-                        <img src="https://res.cloudinary.com/dg0d0jmtz/image/upload/v1726436838/educational-resources/%D9%86%D8%B3%D8%A8_%D8%B2%D9%88%D8%A7%D9%8A%D8%A7_%D8%B4%D9%87%D9%8A%D8%B1%D8%A95_rx9ytt.png" class="img-fluid mb-3 " alt="img">
-                    </div>
-                </div> -->
-                    <button class="col-3 btn_activities grid12"></button>
-                    <button id="check_answers_5_1">
-                        <span>Check</span>
-                    </button>
-                    <button class="col-3" id="reset_answers_5_1">
-                        <span>Reset</span>
-                    </button>
-                    <button class="col-3" id="answers_5_1">
-                        <span>Answers</span>
-                    </button>
+                    <div class="col-lg-4 col-md-4 col-sm-12">
+                    
+                            <div class="card shadow-lg mb-3" >
+                                <div class="card-img-top">
+                                    <img src="https://res.cloudinary.com/dg0d0jmtz/image/upload/v1726436838/educational-resources/%D9%86%D8%B3%D8%A8_%D8%B2%D9%88%D8%A7%D9%8A%D8%A7_%D8%B4%D9%87%D9%8A%D8%B1%D8%A95_rx9ytt.png" class="img-fluid mb-3 " alt="img">
+
+                                </div>
+                            </div>
+                    
+                    </div> 
+
+                    <div class="container  ">
+
+                        <button class="col-3 btn_activities grid12"></button>
+                        <button id="check_answers_5_1">
+                            <span>Check</span>
+                        </button>
+                        <button class="col-3" id="reset_answers_5_1">
+                            <span>Reset</span>
+                        </button>
+                        <button class="col-3" id="answers_5_1">
+                            <span>Answers</span>
+                        </button>
+
                     </div>
 
             </div>
