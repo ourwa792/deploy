@@ -18,16 +18,19 @@
         <option value="hard">Hard</option>
       </select>
     </div>
-    <div id="quizList">
+    <div id="quizList" class="row">
       <% quizzes.forEach(quiz => { %>
-        <div class="card mb-3">
-          <div class="card-body">
-            <h5 class="card-title"><%= quiz.title %></h5>
-            <p class="card-text">الصعوبة : <%= quiz.difficulty %></p>
-            <p class="card-text">Tag: <%= quiz.tag %></p>
-            <p class="card-text">الدرجة القصوى : <%= quiz.maxScore %></p>
-            <a href="/quiz/take/<%= quiz.id %>" class="btn btn-success"> خذ اختبار</a>
+        <div class="col-12 col-md-6">
+          <div class="card mb-3">
+            <div class="card-body shadow-lg border-success rounded-2">
+              <h5 class="card-title"><%= quiz.title %></h5>
+              <p class="card-text">الصعوبة : <%= quiz.difficulty %></p>
+              <p class="card-text">Tag: <%= quiz.tag %></p>
+              <p class="card-text">الدرجة القصوى : <%= quiz.maxScore %></p>
+              <a href="/quiz/take/<%= quiz.id %>" class="btn btn-success"> خذ اختبار</a>
+            </div>
           </div>
+
         </div>
       <% }); %>
     </div>

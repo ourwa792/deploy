@@ -1,167 +1,1193 @@
+
+
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>درس رياضيات: العدد 1000</title>
-  <link href="https://stackpath.bootstrapcdn.com/bootstrap/5.1.0/css/bootstrap.min.css" rel="stylesheet">
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
-  <style>
-    body {
-      background-color: #f0f8ff;
-      font-family: 'Comic Sans MS', cursive, sans-serif;
-    }
-    .lesson-header {
-      background-color: #fffacd;
-      border-radius: 15px;
-      padding: 10px;
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    .lesson-content {
-      border: 2px solid #ff69b4;
-      border-radius: 15px;
-      padding: 20px;
-      background-color: #fff0f5;
-    }
-    .interactive {
-      cursor: pointer;
-      transition: transform 0.2s;
-    }
-    .interactive:hover {
-      transform: scale(1.1);
-    }
-    .highlight {
-      background-color: #ffe4e1;
-      border-radius: 10px;
-      padding: 5px;
-      display: inline-block;
-      margin: 5px;
-    }
-    .verify {
-      background-color: #ffebcd;
-      border: 2px solid #ff6347;
-      border-radius: 10px;
-      padding: 10px;
-      margin-top: 20px;
-    }
-    .speech-bubble {
-      position: relative;
-      background: #ffebcd;
-      border-radius: .4em;
-      padding: 10px;
-    }
-    .speech-bubble:after {
-      content: '';
-      position: absolute;
-      top: 100%;
-      left: 50%;
-      border-width: 10px;
-      border-style: solid;
-      border-color: #ffebcd transparent transparent transparent;
-      transform: translateX(-50%);
-    }
-  </style>
+  <title>Document</title>
+
+
+   <script type="text/javascript" src="/library/jsxgraphcore.js"></script>
+
 </head>
 <body>
-  <div class="container">
-    <div class="lesson-header">
-      <h1>الدرس 1: العدد 1000</h1>
-    </div>
-    <div class="lesson-content">
-      <div class="row">
-        <div class="col-md-4 text-center">
-          <div class="highlight">
-            <p>سنتعلم مكونات العدد 1000 باستعمال (المئات)</p>
-          </div>
-          <img src="path/to/your/image_of_money.jpg" class="img-fluid interactive" alt="صورة النقود">
-          <p>أدي تسع لوحات أضف لوحة مئة فتصبح لدي ألف</p>
-        </div>
-        <div class="col-md-8">
-          <div class="row mb-3">
-            <div class="col-md-3">
-              <img src="path/to/your/image_of_100_units.jpg" class="img-fluid interactive" alt="100 وحدة">
-            </div>
-            <div class="col-md-3">
-              <p>+</p>
-            </div>
-            <div class="col-md-3">
-              <img src="path/to/your/image_of_100_units.jpg" class="img-fluid interactive" alt="100 وحدة">
-            </div>
-            <div class="col-md-3">
-              <p>=</p>
-            </div>
-          </div>
-          <div class="row mb-3">
-            <div class="col-md-3">
-              <div class="highlight">
-                <p>900</p>
-              </div>
-            </div>
-            <div class="col-md-3">
-              <p>+</p>
-            </div>
-            <div class="col-md-3">
-              <div class="highlight">
-                <p>100</p>
-              </div>
-            </div>
-            <div class="col-md-3">
-              <p>= 1000</p>
-            </div>
-          </div>
-          <div class="verify">
-            <p>عد المئات، ثم اكتب العدد في الفراغ:</p>
-            <div class="row">
-              <div class="col-md-4">
-                <div class="highlight">
-                  <p>......</p>
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div class="highlight">
-                  <p>......</p>
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div class="highlight">
-                  <p>1000</p>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="row mt-4">
-            <div class="col-md-12 text-center">
-              <img id="talking-child" src="path/to/your/child_image.jpg" class="img-fluid interactive" alt="صورة الطفل">
-              <div id="speech-bubble" class="speech-bubble mt-2">
-                <p>عد المئات، ثم اكتب العدد في الفراغ:</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.0/js/bootstrap.min.js"></script>
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      var textElement = document.querySelector("#speech-bubble p");
-      var text = textElement.textContent;
-      textElement.textContent = "";
-      anime({
-        targets: textElement,
-        textContent: [0, text.length],
-        round: 1,
-        easing: 'easeInOutQuad',
-        duration: 3000,
-        update: function(anim) {
-          var progress = Math.round(anim.progress);
-          textElement.textContent = text.substring(0, progress / 100 * text.length);
-        }
-      });
+  <div id="jxgbox" style="width: 600px; height: 500px;"></div>
+  
+  
+<!--     
+  <button class=" btn btn-sml btn-warning my-2" id="polygonModeBtn">مضلع </button>
+  <button class="btn btn-sml btn-warning my-2" id="lineModeBtn"> قطعة مستقيمة</button>
+  <button class="btn btn-sml btn-warning my-2" id="resetBoardBtn"> مسح اللوح</button>
+  <button class="btn btn-sml btn-warning my-2" id="circleModeBtn"> دائرة </button>
+  <button class="btn btn-sml btn-warning my-2" id="toggleInteractionBtn">تبديل وضع
+      التفاعل</button> -->
+
+  <script type="">
+     //import JXG from 'https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraphcore.mjs'; 
+
+  
+/* var brd = JXG.JSXGraph.initBoard("jxgbox1", {
+  boundingbox: [-6, 6, 6, -6],
+  keepaspectratio: true,
+  axis: true,
+}); */
+
+ /*
+مضلع مع قطعة مستقيمة مع دائرة
+شغال
+
+var points = []; // لتخزين النقاط للرسم
+var polygonComponents = []; // لتخزين عناصر الرسم مثل النقاط والخطوط والدائرة
+var drawingMode = 'polygon'; // الوضع الافتراضي هو رسم المضلع
+var interactionMode = false; // وضع التفاعل الافتراضي مغلق
+
+// دالة لإعادة تعيين النقاط الحالية للرسم
+function resetDrawing() {
+  points = [];
+}
+
+// دالة لإنشاء مضلع عندما يكتمل
+function createPolygon() {
+  if (points.length > 2) { // تأكد من وجود 3 نقاط على الأقل
+    var polygon = brd.create('polygon', points, {
+      borders: { strokeWidth: 3 },
+      hasInnerPoints: true,
     });
-  </script>
+    polygonComponents.push(polygon);
+    resetDrawing();
+  }
+}
+
+// دالة لإنشاء قطعة مستقيمة بين نقطتين
+function createLineSegment() {
+  if (points.length === 2) { // تأكد من وجود نقطتين فقط
+    var lineSegment = brd.create('segment', [points[0], points[1]], {
+      strokeWidth: 3,
+    });
+    polygonComponents.push(lineSegment);
+    resetDrawing();
+  }
+}
+
+// دالة لإنشاء دائرة
+function createCircle() {
+  if (points.length === 2) { // تأكد من وجود نقطتين: مركز ونقطة لتحديد نصف القطر
+    var circle = brd.create('circle', [points[0], points[1]], {
+      strokeWidth: 3,
+    });
+    polygonComponents.push(circle);
+    resetDrawing();
+  }
+}
+
+// دالة للتعامل مع النقر على اللوحة
+function down(e) {
+  if (interactionMode) return; // عند تفعيل وضع التفاعل، يتم تعطيل إضافة الأشكال الجديدة
+
+  var coords = getMouseCoords(e);
+  var newPoint = brd.create('point', [coords.usrCoords[1], coords.usrCoords[2]], {visible: true});
+  points.push(newPoint);
+  polygonComponents.push(newPoint);
+
+  // تنفيذ الرسم بناءً على الوضع الحالي
+  if (drawingMode === 'line' && points.length === 2) {
+    createLineSegment(); // رسم القطعة المستقيمة إذا تم تحديد نقطتين
+  } else if (drawingMode === 'polygon' && points.length > 2) {
+    createPolygon(); // رسم المضلع عند تحديد أكثر من نقطتين
+  } else if (drawingMode === 'circle' && points.length === 2) {
+    createCircle(); // رسم الدائرة عند تحديد نقطتين
+  }
+}
+
+// دالة للحصول على إحداثيات الفأرة
+function getMouseCoords(e) {
+  var cPos = brd.getCoordsTopLeftCorner(e),
+      absPos = JXG.getPosition(e);
+
+  var dx = absPos[0] - cPos[0];
+  var dy = absPos[1] - cPos[1];
+
+  return new JXG.Coords(JXG.COORDS_BY_SCREEN, [dx, dy], brd);
+}
+
+// تسجيل حدث النقر على اللوحة
+brd.on('down', down);
+
+// دالة لتبديل وضع التفاعل
+function toggleInteractionMode() {
+  interactionMode = !interactionMode;
+  var modeText = interactionMode ? "Interaction Mode ON" : "Interaction Mode OFF";
+  console.log(modeText); // يمكن استبدال هذا بأسلوب عرض ملائم للمستخدم
+}
+
+// زر لتبديل وضع التفاعل
+document.getElementById('toggleInteractionBtn').addEventListener('click', toggleInteractionMode);
+
+// دالة لإعادة تعيين اللوحة
+function resetBoard() {
+  while (polygonComponents.length > 0) {
+    brd.removeObject(polygonComponents.pop());
+  }
+
+  points = [];
+  polygonComponents = [];
+  brd.update();
+}
+
+// دالة لتغيير وضع الرسم بين مضلع وقطعة مستقيمة ودائرة
+function switchDrawingMode(mode) {
+  drawingMode = mode;
+}
+
+// أزرار لتغيير وضع الرسم
+document.getElementById('polygonModeBtn').addEventListener('click', function() {
+  switchDrawingMode('polygon');
+});
+
+document.getElementById('lineModeBtn').addEventListener('click', function() {
+  switchDrawingMode('line');
+});
+
+document.getElementById('circleModeBtn').addEventListener('click', function() {
+  switchDrawingMode('circle');
+});
+
+// زر إعادة تعيين اللوحة
+document.getElementById('resetBoardBtn').addEventListener('click', resetBoard);
+
+*/
+
+
+
+/* خايس بس شغال
+
+const board = JXG.JSXGraph.initBoard('jxgbox', {
+    boundingbox: [-8, 8, 8, -8],
+    keepaspectratio: true,
+    axis: false
+});
+
+var bound = [-5, 5];
+var view = board.create('view3d',
+    [[-6, -3], [8, 8],
+    [bound, bound, bound]],
+    {
+        xPlaneRear: {visible: false},
+        yPlaneRear: {visible: false}
+    });
+
+var p0, p1, p2, v1, v2,
+    seg1, seg2,
+    plane, coneSurface, cone,
+    eq_cone, eq_cone_plane,
+    intersect2d, curve;
+
+// تعريف المستوى
+p0 = view.create('point3d', [-1, 0, 2], { name: 'p_0' });
+p1 = view.create('point3d', [3, 0, 0], { name: 'p_1' });
+p2 = view.create('point3d', [0, 2, 2], { name: 'p_2' });
+
+// متجهات المستوى
+v1 = () => [p1.X() - p0.X(), p1.Y() - p0.Y(), p1.Z() - p0.Z()];
+v2 = () => [p2.X() - p0.X(), p2.Y() - p0.Y(), p2.Z() - p0.Z()];
+
+plane = view.create('plane3d', [p0, v1, v2, [-Infinity, Infinity], [-Infinity, Infinity]], {
+    fillColor: 'blue', strokeWidth: 1, strokeColor: '#888888', strokeOpacity: 0.6
+});
+
+// تعريف المخروط
+cone = {
+    center: [0, 0, 0], // مركز القاعدة
+    radii: [3, 3],     // نصفا القاعدة في الاتجاهين X و Y
+    height: 5          // الارتفاع
+};
+
+// رسم المخروط باستخدام سطح بارامتري
+coneSurface = view.create('parametricsurface3d', [
+    function (u, v) { return v * Math.cos(u); }, // x
+    function (u, v) { return v * Math.sin(u); }, // y
+    function (u, v) { return cone.height * (1 - v / cone.radii[0]); },
+    [0, 2*Math.PI] , [0, cone.radii[0]]
+  ], {
+    fillColor: '#FFA500',
+    fillOpacity: 0.4,
+    strokeColor: '#FF8C00',
+    strokeWidth: 1
+});
+
+// معادلة المخروط
+eq_cone = (x, y, z) => {
+    let a = cone.radii[0],
+        b = cone.radii[1],
+        c = cone.height;
+    return (x / a) ** 2 + (y / b) ** 2 - (z / c) ** 2;
+};
+
+// معادلة تقاطع المستوى مع المخروط
+eq_cone_plane = (u, v) => {
+    let w = [
+        u * plane.vec1[0] + v * plane.vec2[0] + plane.point.X(),
+        u * plane.vec1[1] + v * plane.vec2[1] + plane.point.Y(),
+        u * plane.vec1[2] + v * plane.vec2[2] + plane.point.Z()
+    ];
+    return eq_cone(w[0], w[1], w[2]);
+};
+
+// إنشاء منحنى 2D غير مرئي للتقاطع
+intersect2d = board.create('implicitcurve', [eq_cone_plane], { visible: false });
+
+// إنشاء منحنى التقاطع 3D
+curve = view.create('curve3d', [[], [], []], { strokeWidth: 2, strokeColor: 'red' });
+curve.updateDataArray = function () {
+    var i, le, u, v, w;
+
+    this.X = [];
+    this.Y = [];
+    this.Z = [];
+    le = intersect2d.numberPoints;
+
+    for (i = 0; i < le; i++) {
+        u = intersect2d.points[i].usrCoords[1];
+        v = intersect2d.points[i].usrCoords[2];
+        w = [
+            u * plane.vec1[0] + v * plane.vec2[0] + plane.point.X(),
+            u * plane.vec1[1] + v * plane.vec2[1] + plane.point.Y(),
+            u * plane.vec1[2] + v * plane.vec2[2] + plane.point.Z()
+        ];
+
+        this.X.push(w[0]);
+        this.Y.push(w[1]);
+        this.Z.push(w[2]);
+    }
+};
+
+// تحديث المنحنى
+curve.updateDataArray();
+board.update();
+
+*/
+
+
+
+/*  هرم مقطعو مو شغال
+// إعداد اللوحة ثلاثية الأبعاد
+const board = JXG.JSXGraph.initBoard('jxgbox', {
+    boundingbox: [-8, 8, 8, -8],
+    axis: false
+});
+
+const view = board.create('view3d', [[-6, -3], [8, 8], [[-5, 5], [-5, 5], [-5, 5]]], {
+    xPlaneRear: { visible: false },
+    yPlaneRear: { visible: false }
+});
+
+// تعريف المستوى
+let p0 = view.create('point3d', [0, 0, 2], { name: 'p_0' });
+let p1 = view.create('point3d', [3, 0, 1], { name: 'p_1' });
+let p2 = view.create('point3d', [0, 3, 1], { name: 'p_2' });
+
+let v1 = () => [p1.X() - p0.X(), p1.Y() - p0.Y(), p1.Z() - p0.Z()];
+let v2 = () => [p2.X() - p0.X(), p2.Y() - p0.Y(), p2.Z() - p0.Z()];
+
+let plane = view.create('plane3d', [p0, v1, v2, [-Infinity, Infinity], [-Infinity, Infinity]], {
+    fillColor: 'blue',
+    strokeWidth: 1,
+    strokeColor: '#888888',
+    strokeOpacity: 0.6
+});
+
+// تعريف رؤوس الهرم
+const apex = view.create('point3d', [0, 0, 5], { name: 'Apex', size: 5 });
+const base1 = view.create('point3d', [-3, -3, 0], { name: 'Base1', size: 5 });
+const base2 = view.create('point3d', [3, -3, 0], { name: 'Base2', size: 5 });
+const base3 = view.create('point3d', [3, 3, 0], { name: 'Base3', size: 5 });
+const base4 = view.create('point3d', [-3, 3, 0], { name: 'Base4', size: 5 });
+
+const faces = [
+    [apex, base1, base2],
+    [apex, base2, base3],
+    [apex, base3, base4],
+    [apex, base4, base1],
+    //[base1, base2, base3, base4] // القاعدة
+];
+
+// دالة تقاطع مستقيم مع مستوى
+function intersectLinePlane(pA, pB, normal, d) {
+    const lineDir = [
+        pB.X() - pA.X(),
+        pB.Y() - pA.Y(),
+        pB.Z() - pA.Z()
+    ];
+    const numerator = -(normal[0] * pA.X() + normal[1] * pA.Y() + normal[2] * pA.Z() + d);
+    const denominator = normal[0] * lineDir[0] + normal[1] * lineDir[1] + normal[2] * lineDir[2];
+
+    if (denominator === 0) return null; // الخط موازي للمستوى
+
+    const t = numerator / denominator;
+    if (t < 0 || t > 1) return null; // النقطة خارج الضلع
+
+    return [
+        pA.X() + t * lineDir[0],
+        pA.Y() + t * lineDir[1],
+        pA.Z() + t * lineDir[2]
+    ];
+}
+
+// معادلات المستوى
+const planeNormal = () => JXG.Math.crossProduct(v1(), v2());
+const planeD = () => {
+    const normal = planeNormal();
+    return -(normal[0] * p0.X() + normal[1] * p0.Y() + normal[2] * p0.Z());
+};
+
+// حساب التقاطع لكل وجه
+function calculateIntersectionPoints() {
+    const intersectionPoints = [];
+    const normal = planeNormal();
+    const d = planeD();
+
+    faces.forEach(face => {
+        for (let i = 0; i < face.length; i++) {
+            const pA = face[i];
+            const pB = face[(i + 1) % face.length];
+            const intersection = intersectLinePlane(pA, pB, normal, d);
+            if (intersection) {
+                intersectionPoints.push(view.create('point3d', intersection, { size: 2, color: 'red' }));
+            }
+        }
+    });
+
+    return intersectionPoints;
+}
+
+// رسم المضلع الناتج عن التقاطع
+let intersectionPolygon;
+function updateIntersection() {
+    // إزالة المضلع السابق
+    if (intersectionPolygon) {
+        board.removeObject(intersectionPolygon);
+    }
+
+    // حساب النقاط الجديدة
+    const points = calculateIntersectionPoints();
+    if (points.length >= 3) {
+        intersectionPolygon = view.create('polygon3d', points, {
+            fillColor: 'red',
+            fillOpacity: 0.4,
+            strokeColor: 'red',
+            strokeWidth: 2
+        });
+    }
+}
+ */
+
+
+
+ /* مكعب شغال مو زابط
+
+ const board = JXG.JSXGraph.initBoard('jxgbox', {
+    boundingbox: [-8, 8, 8, -8],
+    axis: false
+});
+
+const view = board.create('view3d', [[-6, -3], [8, 8], [[-5, 5], [-5, 5], [-5, 5]]], {
+    xPlaneRear: { visible: false },
+    yPlaneRear: { visible: false }
+});
+
+// تعريف المستوى
+const p0 = view.create('point3d', [0, 0, 2], { name: 'p_0' });
+const p1 = view.create('point3d', [3, 0, 1], { name: 'p_1' });
+const p2 = view.create('point3d', [0, 3, 1], { name: 'p_2' });
+
+const v1 = () => [p1.X() - p0.X(), p1.Y() - p0.Y(), p1.Z() - p0.Z()];
+const v2 = () => [p2.X() - p0.X(), p2.Y() - p0.Y(), p2.Z() - p0.Z()];
+
+const plane = view.create('plane3d', [p0, v1, v2, [-Infinity, Infinity], [-Infinity, Infinity]], {
+    fillColor: 'blue',
+    strokeWidth: 1,
+    strokeColor: '#888888',
+    strokeOpacity: 0.6
+});
+
+// تعريف رؤوس المكعب
+const bottom1 = view.create('point3d', [-3, -3, 0], { name: 'Bottom1', size: 5 });
+const bottom2 = view.create('point3d', [3, -3, 0], { name: 'Bottom2', size: 5 });
+const bottom3 = view.create('point3d', [3, 3, 0], { name: 'Bottom3', size: 5 });
+const bottom4 = view.create('point3d', [-3, 3, 0], { name: 'Bottom4', size: 5 });
+
+const top1 = view.create('point3d', [-3, -3, 5], { name: 'Top1', size: 5 });
+const top2 = view.create('point3d', [3, -3, 5], { name: 'Top2', size: 5 });
+const top3 = view.create('point3d', [3, 3, 5], { name: 'Top3', size: 5 });
+const top4 = view.create('point3d', [-3, 3, 5], { name: 'Top4', size: 5 });
+
+
+view.create('polygon3d', [bottom1,bottom2,bottom3,bottom4], {
+    fillColor: 'rgba(255, 165, 0, 0.5)', // اللون والتعبئة
+    strokeColor: '#FF8C00', // اللون الخارجي
+    strokeWidth: 1
+});
+view.create('polygon3d', [top1,top2,top3,top4], {
+  fillColor: 'rgba(255, 165, 0, 0.5)', // اللون والتعبئة
+    strokeColor: '#FF8C00', // اللون الخارجي
+    strokeWidth: 1
+});
+view.create('polygon3d', [top1,top2,bottom2,bottom1], {
+  fillColor: 'rgba(255, 165, 0, 0.5)', // اللون والتعبئة
+    strokeColor: '#FF8C00', // اللون الخارجي
+    strokeWidth: 1
+});
+view.create('polygon3d', [bottom3,bottom4,top4,top3], {
+  fillColor: 'rgba(255, 165, 0, 0.5)', // اللون والتعبئة
+    strokeColor: '#FF8C00', // اللون الخارجي
+    strokeWidth: 1
+});
+view.create('polygon3d', [bottom1,bottom4,top4,top1], {
+  fillColor: 'rgba(255, 165, 0, 0.5)', // اللون والتعبئة
+    strokeColor: '#FF8C00', // اللون الخارجي
+    strokeWidth: 1
+});
+
+
+
+// تعريف وجوه المكعب
+const faces = [
+    [bottom1, bottom2, bottom3, bottom4], // القاعدة السفلية
+    [top1, top2, top3, top4],             // القاعدة العلوية
+    [bottom1, bottom2, top2, top1],       // وجه جانبي
+    [bottom2, bottom3, top3, top2],       // وجه جانبي
+    [bottom3, bottom4, top4, top3],       // وجه جانبي
+    [bottom4, bottom1, top1, top4]        // وجه جانبي
+];
+
+// دالة تقاطع مستقيم مع مستوى
+function intersectLinePlane(pA, pB, normal, d) {
+    const lineDir = [
+        pB.X() - pA.X(),
+        pB.Y() - pA.Y(),
+        pB.Z() - pA.Z()
+    ];
+    const numerator = -(normal[0] * pA.X() + normal[1] * pA.Y() + normal[2] * pA.Z() + d);
+    const denominator = normal[0] * lineDir[0] + normal[1] * lineDir[1] + normal[2] * lineDir[2];
+
+    if (denominator === 0) return null; // الخط موازي للمستوى
+
+    const t = numerator / denominator;
+    if (t < 0 || t > 1) return null; // النقطة خارج الضلع
+
+    return [
+        pA.X() + t * lineDir[0],
+        pA.Y() + t * lineDir[1],
+        pA.Z() + t * lineDir[2]
+    ];
+}
+
+// معادلات المستوى
+const planeNormal = () => JXG.Math.crossProduct(v1(), v2());
+const planeD = () => {
+    const normal = planeNormal();
+    return -(normal[0] * p0.X() + normal[1] * p0.Y() + normal[2] * p0.Z());
+};
+
+// حساب التقاطع لكل وجه
+function calculateIntersectionPoints() {
+    const intersectionPoints = [];
+    const normal = planeNormal();
+    const d = planeD();
+
+    faces.forEach(face => {
+        for (let i = 0; i < face.length; i++) {
+            const pA = face[i];
+            const pB = face[(i + 1) % face.length];
+            const intersection = intersectLinePlane(pA, pB, normal, d);
+
+            if (intersection) {
+                // تحقق من النقاط المكررة
+                const isDuplicate = intersectionPoints.some(p =>
+                    Math.abs(p[0] - intersection[0]) < 1e-6 &&
+                    Math.abs(p[1] - intersection[1]) < 1e-6 &&
+                    Math.abs(p[2] - intersection[2]) < 1e-6
+                );
+                if (!isDuplicate) {
+                    intersectionPoints.push(intersection);
+                }
+            }
+        }
+    });
+
+    return intersectionPoints.map(coords => view.create('point3d', coords, { size: 2, color: 'red' }));
+}
+
+
+// رسم المضلع الناتج عن التقاطع
+let intersectionPolygon;
+function updateIntersection() {
+    // إزالة المضلع السابق
+    if (intersectionPolygon) {
+        board.removeObject(intersectionPolygon);
+    }
+
+    // حساب النقاط الجديدة
+    const points = calculateIntersectionPoints();
+    if (points.length >= 3) {
+        intersectionPolygon = view.create('polygon3d', points, {
+            fillColor: 'red',
+            fillOpacity: 0.4,
+            strokeColor: 'red',
+            strokeWidth: 2
+        });
+    }
+}
+
+// تحديث التقاطع عند تغيير النقاط
+updateIntersection();
+
+*/
+
+/*  اسطوانة شغال
+
+const board = JXG.JSXGraph.initBoard('jxgbox', {
+    boundingbox: [-8, 8, 8, -8],
+    axis: false
+});
+
+const view = board.create('view3d', [[-6, -3], [8, 8], [[-5, 5], [-5, 5], [-5, 5]]], {
+    xPlaneRear: { visible: false },
+    yPlaneRear: { visible: false }
+});
+
+// تعريف المستوى
+const p0 = view.create('point3d', [0, 0, 2], { name: 'p_0' });
+const p1 = view.create('point3d', [3, 0, 1], { name: 'p_1' });
+const p2 = view.create('point3d', [0, 3, 1], { name: 'p_2' });
+
+const v1 = () => [p1.X() - p0.X(), p1.Y() - p0.Y(), p1.Z() - p0.Z()];
+const v2 = () => [p2.X() - p0.X(), p2.Y() - p0.Y(), p2.Z() - p0.Z()];
+
+const plane = view.create('plane3d', [p0, v1, v2, [-Infinity, Infinity], [-Infinity, Infinity]], {
+    fillColor: 'blue',
+    strokeWidth: 1,
+    strokeColor: '#888888',
+    strokeOpacity: 0.6
+});
+
+// تعريف الأسطوانة
+const cylinder = {
+    center: [0, 0, 0], // مركز الأسطوانة
+    radius: 3,         // نصف القطر
+    height: 5          // الارتفاع
+};
+
+// رسم الأسطوانة باستخدام سطح بارامتري
+const cylinderSurface = view.create('parametricsurface3d', [
+    function (u, v) { return cylinder.radius * Math.cos(u); }, // x
+    function (u, v) { return cylinder.radius * Math.sin(u); }, // y
+    function (u, v) { return v; }, // z
+    [0, 2 * Math.PI], [0, cylinder.height]
+], {
+    fillColor: '#FFA500',
+    fillOpacity: 0.4,
+    strokeColor: '#FF8C00',
+    strokeWidth: 1
+});
+
+// معادلة الأسطوانة
+const eq_cylinder = (x, y, z) => {
+    const r = cylinder.radius;
+    return x ** 2 + y ** 2 - r ** 2;
+};
+
+// معادلة تقاطع المستوى مع الأسطوانة
+const eq_cylinder_plane = (u, v) => {
+    const w = [
+        u * plane.vec1[0] + v * plane.vec2[0] + plane.point.X(),
+        u * plane.vec1[1] + v * plane.vec2[1] + plane.point.Y(),
+        u * plane.vec1[2] + v * plane.vec2[2] + plane.point.Z()
+    ];
+    return eq_cylinder(w[0], w[1], w[2]);
+};
+
+// إنشاء منحنى 2D غير مرئي للتقاطع
+const intersect2d = board.create('implicitcurve', [eq_cylinder_plane], { visible: false });
+
+// إنشاء منحنى التقاطع 3D
+const curve = view.create('curve3d', [[], [], []], { strokeWidth: 2, strokeColor: 'red' });
+curve.updateDataArray = function () {
+    let i, le, u, v, w;
+
+    this.X = [];
+    this.Y = [];
+    this.Z = [];
+    le = intersect2d.numberPoints;
+
+    for (i = 0; i < le; i++) {
+        u = intersect2d.points[i].usrCoords[1];
+        v = intersect2d.points[i].usrCoords[2];
+        w = [
+            u * plane.vec1[0] + v * plane.vec2[0] + plane.point.X(),
+            u * plane.vec1[1] + v * plane.vec2[1] + plane.point.Y(),
+            u * plane.vec1[2] + v * plane.vec2[2] + plane.point.Z()
+        ];
+
+        this.X.push(w[0]);
+        this.Y.push(w[1]);
+        this.Z.push(w[2]);
+    }
+};
+
+// تحديث المنحنى
+curve.updateDataArray();
+board.update();
+
+
+
+
+
+*/
+
+  
+
+/*  اسطوانة عمودي المقطع
+
+const board = JXG.JSXGraph.initBoard('jxgbox', {
+    boundingbox: [-8, 8, 8, -8],
+    axis: false
+});
+
+const view = board.create('view3d', [[-6, -3], [8, 8], [[-5, 5], [-5, 5], [-5, 5]]], {
+    xPlaneRear: { visible: false },
+    yPlaneRear: { visible: false }
+});
+
+// تعريف الأسطوانة
+const cylinder = {
+    center: [0, 0, 0], // مركز الأسطوانة
+    radius: 3,         // نصف القطر
+    height: 5          // الارتفاع
+};
+
+// رسم الأسطوانة باستخدام سطح بارامتري
+const cylinderSurface = view.create('parametricsurface3d', [
+    function (u, v) { return cylinder.radius * Math.cos(u); }, // x
+    function (u, v) { return cylinder.radius * Math.sin(u); }, // y
+    function (u, v) { return v; }, // z
+    [0, 2 * Math.PI], [0, cylinder.height]
+], {
+    fillColor: '#FFA500',
+    fillOpacity: 0.4,
+    strokeColor: '#FF8C00',
+    strokeWidth: 1
+});
+
+// معادلة الأسطوانة
+const eq_cylinder = (x, y, z) => {
+    const r = cylinder.radius;
+    return x ** 2 + y ** 2 - r ** 2;
+};
+
+// تعريف المستوى العمودي
+const planeNormal = [1, 0, 0]; // عمودي على المحور X
+const planePoint = view.create('point3d', [0, 0, 2], { name: 'Plane Point' });
+const v1 = () => [0, 1, 0]; // متجه موازي للمستوى
+const v2 = () => [0, 0, 1]; // متجه آخر موازي للمستوى
+
+const plane = view.create('plane3d', [planePoint, v1, v2, [-Infinity, Infinity], [-Infinity, Infinity]], {
+    fillColor: 'blue',
+    strokeWidth: 1,
+    strokeColor: '#888888',
+    strokeOpacity: 0.6
+});
+
+// معادلة تقاطع المستوى مع الأسطوانة
+const eq_cylinder_plane = (u, v) => {
+    const w = [
+        u * v1()[0] + v * v2()[0] + planePoint.X(),
+        u * v1()[1] + v * v2()[1] + planePoint.Y(),
+        u * v1()[2] + v * v2()[2] + planePoint.Z()
+    ];
+    return eq_cylinder(w[0], w[1], w[2]);
+};
+
+// إنشاء منحنى 2D غير مرئي للتقاطع
+const intersect2d = board.create('implicitcurve', [eq_cylinder_plane], { visible: false });
+
+// إنشاء منحنى التقاطع 3D
+const curve = view.create('curve3d', [[], [], []], { strokeWidth: 2, strokeColor: 'red' });
+curve.updateDataArray = function () {
+    let i, le, u, v, w;
+
+    this.X = [];
+    this.Y = [];
+    this.Z = [];
+    le = intersect2d.numberPoints;
+
+    for (i = 0; i < le; i++) {
+        u = intersect2d.points[i].usrCoords[1];
+        v = intersect2d.points[i].usrCoords[2];
+        w = [
+            u * v1()[0] + v * v2()[0] + planePoint.X(),
+            u * v1()[1] + v * v2()[1] + planePoint.Y(),
+            u * v1()[2] + v * v2()[2] + planePoint.Z()
+        ];
+
+        this.X.push(w[0]);
+        this.Y.push(w[1]);
+        this.Z.push(w[2]);
+    }
+};
+
+// تحديث المنحنى
+curve.updateDataArray();
+board.update();
+
+
+*/
+
+
+
+/*  اسطوانة مقطع عمودي
+const board = JXG.JSXGraph.initBoard('jxgbox', {
+    boundingbox: [-8, 8, 8, -8],
+    axis: false
+});
+
+const view = board.create('view3d', [[-6, -3], [8, 8], [[-5, 5], [-5, 5], [-5, 5]]], {
+    xPlaneRear: { visible: false },
+    yPlaneRear: { visible: false }
+});
+
+
+
+const cylinderRadius = 2;
+const cylinderHeight = 5;
+
+
+
+// رسم الأسطوانة ثلاثية الأبعاد
+const cylinder = view.create('parametricsurface3d', [
+    function (u, v) { return cylinderRadius * Math.cos(u); },
+    function (u, v) { return cylinderRadius * Math.sin(u); },
+    function (u, v) { return v; },
+    [0, 2 * Math.PI], [0, cylinderHeight]
+], {
+    fillColor: '#FFA500',
+    fillOpacity: 0.3,
+    strokeColor: '#FF8C00'
+});
+
+// إنشاء سلايدر للتحكم بميل المستوى
+const phiSlider = board.create('slider', [[-4, -2], [2, -2], [0, Math.PI / 4, Math.PI / 2]], {
+    name: 'Tilt (φ)',
+    snapWidth: 0.01
+});
+
+// تعريف المستوى
+const planePoint = view.create('point3d', [0, 0, 2], { size: 5, name: 'Plane Point' });
+const v1 = () => [Math.cos(phiSlider.Value()), Math.sin(phiSlider.Value()), 0];
+const v2 = () => [0, 0, 1];
+
+const plane = view.create('plane3d', [planePoint, v1, v2, [-Infinity, Infinity], [-Infinity, Infinity]], {
+    fillColor: 'blue',
+    fillOpacity: 0.2,
+    strokeWidth: 1,
+    strokeColor: '#333333'
+});
+
+// معادلة الأسطوانة
+const eqCylinder = (x, y, z) => x ** 2 + y ** 2 - cylinderRadius ** 2;
+
+// معادلة تقاطع المستوى مع الأسطوانة
+const eqIntersection = (u, v) => {
+    const w = [
+        u * v1()[0] + v * v2()[0] + planePoint.X(),
+        u * v1()[1] + v * v2()[1] + planePoint.Y(),
+        u * v1()[2] + v * v2()[2] + planePoint.Z()
+    ];
+    return eqCylinder(w[0], w[1], w[2]);
+};
+
+// إنشاء منحنى 2D غير مرئي للتقاطع
+const implicitCurve = board.create('implicitcurve', [eqIntersection], { visible: false });
+
+// إنشاء منحنى 3D للمقطع الناتج
+const curve = view.create('curve3d', [[], [], []], { strokeWidth: 2, strokeColor: 'red' });
+
+curve.updateDataArray = function () {
+    this.X = [];
+    this.Y = [];
+    this.Z = [];
+    const le = implicitCurve.numberPoints;
+
+    for (let i = 0; i < le; i++) {
+        const u = implicitCurve.points[i].usrCoords[1];
+        const v = implicitCurve.points[i].usrCoords[2];
+        const w = [
+            u * v1()[0] + v * v2()[0] + planePoint.X(),
+            u * v1()[1] + v * v2()[1] + planePoint.Y(),
+            u * v1()[2] + v * v2()[2] + planePoint.Z()
+        ];
+        this.X.push(w[0]);
+        this.Y.push(w[1]);
+        this.Z.push(w[2]);
+    }
+};
+
+// تحديث التقاطع عند تغيير السلايدر
+phiSlider.on('drag', function () {
+    curve.updateDataArray();
+    board.update();
+});
+
+// التحديث الأولي
+curve.updateDataArray();
+ */
+
+
+/*  سطح مخروط شغال
+
+const board = JXG.JSXGraph.initBoard('jxgbox', {
+    boundingbox: [-8, 8, 8, -8],
+    axis: false,
+    keepaspectratio: true
+});
+
+const view = board.create('view3d', [[-6, -3], [8, 8], [[-5, 5], [-5, 5], [-5, 5]]], {
+    xPlaneRear: { visible: false },
+    yPlaneRear: { visible: false }
+});
+
+// إنشاء سلايدر للتحكم بدرجة الإفراد
+const unfoldSlider = board.create('slider', [
+    [-6, 7], [2, 7],
+    [0, 0.5, 1] // القيم: 0 (قطاع دائري مفرد)، 1 (مخروط كامل)
+], {
+    name: 'unfold',
+    snapWidth: 0.01
+});
+
+// ثابت المخروط
+const baseRadius = 3; // نصف قطر القاعدة
+const coneHeight = 5; // ارتفاع المخروط
+const slantHeight = Math.sqrt(baseRadius ** 2 + coneHeight ** 2); // الارتفاع المائل للمخروط
+
+// إنشاء السطح الجانبي للمخروط مع التحكم بدرجة الإفراد
+const coneSurface = view.create('parametricsurface3d', [
+    (u, v) => (1 - unfoldSlider.Value()) * slantHeight * v * Math.cos(u) + unfoldSlider.Value() * v * baseRadius * Math.cos(u), // x
+    (u, v) => (1 - unfoldSlider.Value()) * slantHeight * v * Math.sin(u) + unfoldSlider.Value() * v * baseRadius * Math.sin(u), // y
+    (u, v) => unfoldSlider.Value() * v * coneHeight, // z: يعتمد على الارتفاع
+    [0, 2 * Math.PI * (1 - unfoldSlider.Value())], // المجال الخاص بـ u
+    [0, 1]            // المجال الخاص بـ v
+], {
+    fillColor: '#FFA500',
+    fillOpacity: 0.6,
+    strokeColor: '#FF4500',
+    stepsU: 60,
+    stepsV: 60
+});
+
+// تحديث السطح عند تحريك السلايدر
+unfoldSlider.on('drag', function () {
+    coneSurface.updateDataArray();
+});
+
+*/ 
+
+
+/* 
+const board = JXG.JSXGraph.initBoard('jxgbox', {
+    boundingbox: [-8, 8, 8, -8],
+    axis: false,
+    keepaspectratio: true
+});
+const view = board.create('view3d', [[-6, -3], [8, 8], [[-5, 5], [-5, 5], [-5, 5]]], {
+    xPlaneRear: { visible: false },
+    yPlaneRear: { visible: false }
+});
+
+// إنشاء سلايدر للتحكم بدرجة الإفراد
+const unfoldSlider = board.create('slider', [
+    [-6, 7], [2, 7],
+    [0, 0.5, 1] // القيم: 0 (قطاع دائري مفرد)، 1 (مخروط كامل)
+], {
+    name: 'unfold',
+    snapWidth: 0.01
+});
+
+// ثابت المخروط
+const coneHeight = 5; // ارتفاع المخروط
+const slantHeight = 7; // الارتفاع المائل للمخروط (ثابت)
+const coneBaseRadius = () => (unfoldSlider.Value() * slantHeight);
+
+
+// نقطة قمة المخروط
+const coneApex = view.create('point3d', [0, 0, coneHeight], {
+    name: 'Apex',
+    size: 5,
+    color: 'red'
+});
+
+
+// إنشاء القاعدة التفاعلية (دائرة المخروط)
+const coneBase = view.create('circle3d', [
+    [0, 0, 5],              // مركز الدائرة عند قاعدة المخروط
+    [0, 0, 1],              // الاتجاه العمودي
+    coneBaseRadius           // نصف القطر يعتمد على السلايدر
+], {
+    strokeColor: 'blue',
+    fillColor: '#ADD8E6',
+    fillOpacity: 0.6,
+    strokeWidth: 2
+});
+
+
+// إنشاء السطح الجانبي للمخروط مع التحكم بدرجة الإفراد
+const coneSurface = view.create('parametricsurface3d', [
+    (u, v) => v * coneBaseRadius() * Math.cos(u), // x
+    (u, v) => v * coneBaseRadius() * Math.sin(u), // y
+    (u, v) => v * coneHeight,                     // z
+    [0, 2 * Math.PI * unfoldSlider.Value()],      // المجال الخاص بـ u
+    [0, 1]                                       // المجال الخاص بـ v
+], {
+    fillColor: '#FFA500',
+    fillOpacity: 0.6,
+    strokeColor: '#FF4500',
+    stepsU: 60,
+    stepsV: 60
+});
+
+
+// تحديث السطح عند تحريك السلايدر
+unfoldSlider.on('drag', function () {
+    coneSurface.updateDataArray();
+    coneBase.update(); // تحديث القاعدة لتتفاعل مع السطح الجانبي
+
+}); */
+
+
+// ملف: dynamic_cone_surface.js
+const board = JXG.JSXGraph.initBoard('jxgbox', {
+    boundingbox: [-6, 6, 6, -6],
+    axis: true,
+    showNavigation: false,
+    zoom: false,
+});
+
+// نصف القطر للقطاع الجانبي
+const sectorRadius = 4;
+
+// إنشاء شريط تمرير للتحكم في زاوية القطاع
+const slider = board.create('slider', [[-5, 5], [-2, 5], [0, Math.PI / 2, 2 * Math.PI]], {
+    name: 'زاوية القطاع (راديان)',
+    snapWidth: 0.01,
+});
+
+// مركز القطاع الجانبي
+const centerSector = [-3,-3];
+
+// النقاط التي تحدد القطاع الجانبي
+const A = board.create('point', [
+    () => centerSector[0] + sectorRadius * Math.cos(slider.Value()),
+    () => centerSector[1] + sectorRadius * Math.sin(slider.Value())
+], { visible: false });
+
+const B = board.create('point', [
+    () => centerSector[0] + sectorRadius * Math.cos(0),
+    () => centerSector[1] + sectorRadius * Math.sin(0)
+], { visible: false });
+
+// رسم القطاع الجانبي
+const sector = board.create('sector', [[...centerSector], B, A], {
+    strokeColor: 'blue',
+    fillOpacity: 0.3,
+});
+
+// حساب طول القوس ديناميكيًا
+const arcLength = () => slider.Value() * sectorRadius;
+
+// حساب نصف قطر دائرة القاعدة بحيث يطابق طول القوس
+const baseRadius = () => arcLength() / (2 * Math.PI);
+
+// رسم دائرة القاعدة
+const baseCircle = board.create('circle', [[1, 0], baseRadius], {
+    strokeColor: 'red',
+    fillOpacity: 0.2,
+});
+
+// نصوص تعليمية
+board.create('text', [-5.5, 4.5, () => {
+    const length = arcLength();
+    const radius = baseRadius();
+    return `طول القوس = ${length.toFixed(2)}, نصف قطر القاعدة = ${radius.toFixed(2)}`;
+}], { fontSize: 15 });
+
+board.create('text', [-5.5, 3.5, () => {
+    return Math.abs(arcLength() - 2 * Math.PI * baseRadius()) < 0.1
+        ? '✅ طول القوس يطابق محيط القاعدة!'
+        : '❌ هناك اختلاف بين طول القوس ومحيط القاعدة!';
+}], { fontSize: 15 });
+
+
+
+
+
+
+
+
+/*
+(function(){
+               var JSXBoard_b = JXG.JSXGraph.initBoard('jxgbox', {
+                   boundingbox:[-8,8,8,-8],
+                   originX:4, originY:4,
+                   keepaspectratio:false,	axis:true,
+                });
+       
+       
+           
+       let az=JSXBoard_b .create('slider', [[-7,-7],[5,-7],[0,0.54,2*Math.PI]], {style:6, name:'az'});
+      
+       // دوران حول المبدأ بشكل دائري بالنسبة لـu
+       let kierto=JSXBoard_b .create('transform', 
+       [function () {return 0.5*Math.PI-az.Value();}], {type: 'rotate'});
+       
+       let el=JSXBoard_b .create('slider', 
+       [[-7,0],[-7,6],[0,0.44,Math.PI/2]], {style:6, name:'el'});
+       
+       // تناظر مركزي للمبدأ مع u
+       let muunnos=JSXBoard_b .create('transform',
+        [1,0,0,0,-1,0,0,0,-1], {type: 'generic'});
+       // الحصول على x_uu = x_u , y_u= y_uu
+       let skaalaus=JSXBoard_b .create('transform', 
+       [1,0,0,0,1,0,0,0,function () {return Math.sin(el.Value());}], 
+       {type: 'generic'});
+
+       
+       let u=JSXBoard_b .create('point', [2,0], {name:'u', showInfoBox:false, visible:true, size:2});
+       let o=JSXBoard_b .create('point', [0,0], {name:'o', showInfoBox:false, visible:true, size:2});
+       let v=JSXBoard_b .create('point', [0,2], {name:'v', showInfoBox:false, visible:true, size:2});
+       let uv=JSXBoard_b .create('point', 
+       [function () {return u.X()+v.X();}
+       ,function () {return u.Y()+v.Y();}], {name:'uv', showInfoBox:false, visible:true, size:2});
+       
+       let w=JSXBoard_b .create('point', [0,2],
+        {name:'w', showInfoBox:false, visible:true, size:2,color:'blue'});
+       
+        let poly=JSXBoard_b .create('polygon', [o,u,uv,v], {strokeWidth:1, strokeColor:'black', showInfoBox:false, highlight:false,visible:true,color:'blue',borders:{strokecolor:'blue'}, size:2});
+        let uu=JSXBoard_b .create('point', [u,[skaalaus,muunnos,kierto]]
+        , {name:'uu', visible:true, size:2,color:'blue'});
+               
+        let vv=JSXBoard_b .create('point', [v,[kierto,muunnos,skaalaus]],
+         {name:'vv', visible:true, size:2,color:'blue'});
+        
+        let uuvv=JSXBoard_b .create('point', [uv,[kierto,muunnos,skaalaus]],
+         {name:'uvuv',visible:true, size:2,color:'blue'});
+         
+        JSXBoard_b .create('polygon', [poly,[kierto,muunnos,skaalaus]], 
+         {name:'',visible:true, size:2,color:'blue'});
+         
+         let t=JSXBoard_b .create('slider', [[-7,-6], [5, -6],
+          [0,1,Math.PI/2]],{name:'t',snapWidth: 0.01});
+          
+        let ts=JSXBoard_b .create('transform',
+         [function () {return 1/Math.cos(t.Value());},0,0,0,1,0,0,0,1],
+          {type: 'generic'});
+        let ss=JSXBoard_b .create('transform',
+         [function () {return 1/Math.sin(t.Value());},0,0,0,1,0,0,0,1],
+          {type: 'generic'});
+      
+        let ts2=JSXBoard_b .create('transform',
+         [function () {return 1/Math.cos(2*t.Value());},0,0,0,1,0,0,0,1], {type: 'generic'});
+        let ss2=JSXBoard_b .create('transform',
+         [function () {return 1/Math.sin(2*t.Value());},0,0,0,1,0,0,0,1], {type: 'generic'});
+
+        let ut=JSXBoard_b .create('point', [u,[ts,kierto,muunnos,skaalaus]], {name:'ut',visible:true, size:2});
+          
+        /*
+        
+       let vt=JSXBoard_b .create('point', [v,[ts,kierto,muunnos,skaalaus]], {name:'', showInfoBox:false, visible:false, size:2});
+       let wt=JSXBoard_b .create('point', [w,[ss]], {name:'', showInfoBox:false, visible:false, size:2,color:'blue'});
+       
+       
+       let ut2=JSXBoard_b .create('point', [u,[ts2,kierto,muunnos,skaalaus]], {name:'', showInfoBox:false, visible:false, size:2});
+       let vt2=JSXBoard_b .create('point', [v,[ts2,kierto,muunnos,skaalaus]], {name:'', showInfoBox:false, visible:false, size:2});
+       let wt2=JSXBoard_b .create('point', [w,[ss2]], {name:'', showInfoBox:false, visible:false, size:2,color:'blue'});
+       
+       
+       //let a=JSXBoard_b .create('point', [function () {return ;},function () {return ;}], {name:'', showInfoBox:false, visible:true, size:2});
+       
+       let a=JSXBoard_b .create('point', [function () {return uu.X()+ut.X()+wt.X();},function () {return uu.Y()+ut.Y()+wt.Y();}], {name:'', showInfoBox:false, visible:true, size:2});
+       
+       let  b=JSXBoard_b .create('point', [function () {return uuvv.X()+ut.X()+wt.X();},function () {return uuvv.Y()+ut.Y()+wt.Y();}], {name:'', showInfoBox:false, visible:true, size:2});
+       
+       JSXBoard_b .create('polygon', [uu,a,b,uuvv], {strokeWidth:1, strokeColor:'black', showInfoBox:false, highlight:false,visible:true,color:'blue',borders:{strokecolor:'blue'}, size:2});
+       
+       let c=JSXBoard_b .create('point', [function () {return uuvv.X()+vt.X()+wt.X();},function () {return uuvv.Y()+vt.Y()+wt.Y();}], {name:'', showInfoBox:false, visible:true, size:2});
+       
+       let d=JSXBoard_b .create('point', [function () {return vv.X()+vt.X()+wt.X();},function () {return vv.Y()+vt.Y()+wt.Y();}], {name:'', showInfoBox:false, visible:true, size:2});
+       
+       JSXBoard_b .create('polygon', [uuvv,c,d,vv], {strokeWidth:1, strokeColor:'black', showInfoBox:false, highlight:false,visible:true,color:'blue',borders:{strokecolor:'blue'}, size:2});
+       
+       let ma=JSXBoard_b .create('point', [function () {return uu.X()-vt.X()+wt.X();},function () {return uu.Y()-vt.Y()+wt.Y();}], {name:'', showInfoBox:false, visible:true, size:2});
+       
+       let mb=JSXBoard_b .create('point', [function () {return -vt.X()+wt.X();},function () {return -vt.Y()+wt.Y();}], {name:'', showInfoBox:false, visible:true, size:2});
+       
+       JSXBoard_b .create('polygon', [o,mb,ma,uu], {strokeWidth:1, strokeColor:'black', showInfoBox:false, highlight:false,visible:true,color:'blue',borders:{strokecolor:'blue'}, size:2});
+       
+       let mc=JSXBoard_b .create('point', [function () {return vv.X()-ut.X()+wt.X();},function () {return vv.Y()-ut.Y()+wt.Y();}], {name:'', showInfoBox:false, visible:true, size:2});
+       
+       let md=JSXBoard_b .create('point', [function () {return -ut.X()+wt.X();},function () {return -ut.Y()+wt.Y();}], {name:'', showInfoBox:false, visible:true, size:2});
+       
+       JSXBoard_b .create('polygon', [o,md,mc,vv], {strokeWidth:1, strokeColor:'black', showInfoBox:false, highlight:false,visible:true,color:'blue',borders:{strokecolor:'blue'}, size:2});
+       
+       let aa=JSXBoard_b .create('point', [function () {return a.X()+ut2.X()+wt2.X();},function () {return a.Y()+ut2.Y()+wt2.Y();}], {name:'', showInfoBox:false, visible:true, size:2});
+       
+       let bb=JSXBoard_b .create('point', [function () {return b.X()+ut2.X()+wt2.X();},function () {return b.Y()+ut2.Y()+wt2.Y();}], {name:'', showInfoBox:false, visible:true, size:2});
+       
+       JSXBoard_b .create('polygon', [a,aa,bb,b], {strokeWidth:1, strokeColor:'black', showInfoBox:false, highlight:false,visible:true,color:'blue',borders:{strokecolor:'blue'}, size:2});
+
+    })();
+
+*/
+
+/* كسور مع مستطيل 
+
+ var brd142 = JXG.JSXGraph.initBoard('id202062203025', { boundingbox: [0, 8.5, 12, 5.5], showNavigation: false, grid: false, axis: false })
+        brd142.options.point.visible = true; 
+        brd142.options.point.showInfobox = false;
+        brd142.options.point.withLabel = false;
+        brd142.options.point.snapToGrid = true;
+        brd142.options.polygon.vertices.visible = false;
+        brd142.options.polygon.borders.layer = 9;
+        brd142.options.text.fontsize = 20;
+
+        var arrColors142 = ['#3cb371', '#0000ff', '#ff6347'];
+
+        // green rectangle
+        brd142.create('segment', [[1, 6], [9, 6]]);
+        var s1 = brd142.create('segment', [[1, 8], [9, 8]]);
+        for (var q = 0; q < 9; q++)
+        brd142.create('segment', [[1 + q, 6], [1 + q, 8]]);
+    
+    var P1 = brd142.create('glider', [1, 8, s1], { color: arrColors142[0], fixed: false, visible: true });
+    brd142.create('polygon', [brd142.create('point', [1, 6]),
+    brd142.create('point', [1, 8]), 
+    brd142.create('point', [function () { return P1.X(); }, 8]),
+    brd142.create('point', [function () { return P1.X(); }, 6])
+    ], { fillColor: arrColors142[0], borders: { strokeColor: arrColors142[0] } });
+    
+        function com() {
+            brd142.create('text', [9, 6.95,
+             function () { return P1.X() == 3 ? 'OK' : 'NO'; }],
+              { color: arrColors142[0] });
+        } 
+    <input type="button" class="btn-blue" id="bot1" value="Submit" onclick="com();" />
+
+
+*/
+
+
+</script>
+
+
 </body>
 </html>

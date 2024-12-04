@@ -1,0 +1,177 @@
+<%- include('../partial/head.ejs') %>
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"
+        integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+
+    <link href="/css/animate.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="/css/e-learning-js.min.css" />
+
+    <script type="text/javascript" src="/library/jsxgraphcore.js"></script>
+    <link rel="stylesheet" href="/css/jsxgraph.css">
+
+    <script type="text/javascript" src="/library/e-learning-js.min.js"></script>
+
+    <style>
+        .header {
+            background-color: rgb(253, 207, 97);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .learning-box {
+            background-color: #ffebcd;
+            padding: 10px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .learning-box img {
+            width: 80px;
+            height: auto;
+        }
+
+        .angle-box {
+            background-color: #ffe4e1;
+            padding: 10px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+            transition: transform 0.2s;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .angle-box:hover {
+            transform: scale(1.05);
+        }
+
+        .text-div {
+            background-color: #fafad2;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        ul li {
+            background-color: #e0ffff;
+            margin: 5px 0;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s;
+        }
+
+        ul li:hover {
+            background-color: #afeeee;
+        }
+
+
+
+        .table-container {
+            margin: 20px auto;
+            max-width: 800px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        .table {
+            width: 100%;
+            margin-bottom: 0;
+        }
+
+        .table th,
+        .table td {
+            vertical-align: middle;
+            text-align: center;
+        }
+
+        .image-cell {
+            max-width: 100px;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .highlight {
+            background-color: #f0f8ff;
+        }
+    </style>
+
+  
+<body>
+    <div class="row header animate__animated animate__fadeInDown d-flex align-items-center">
+
+        <!-- عمود العنوان -->
+        <div class="col-lg-4 col-md-4 col-sm-4">
+            <img src="<%#= lesson.cover %>" class="rounded-2 float-start" style="width: 100%;">
+        </div>
+
+        <div class="col-lg-8 col-md-8 col-sm-8">
+            <h1 class="text-start">
+                <%= lesson.title %>
+            </h1>
+            <hr>
+        </div>
+    </div>
+
+    
+    <div class="row animate__animated animate__fadeInUp">
+        <div class="col-lg-6 col-md-6 col-sm-12">
+            <p > مقطع مجسم بمستوٍ هو مجموعة النقاط المشتركة بين المجسم و المستوي 
+                <button class="btn btn-warning" data-sound="/sound/" id="btn-1">تعبير شفهي</button>
+            </p>
+            <br>
+            <p>عند الرسم الفراغي يمكن أن تبدو الزوايا و الأطوال غير حقيقية مثلا يظهر المربع في الرسم 
+                الفراغي و كأنه متوازي أضلاع
+            </p>
+
+        </div>
+        <!-- عمود فارغ للـ gap -->
+        <div class="col-md-1"></div>
+        
+        <img src="<%#= lesson.resources[0].url %>" 
+        class="col-lg-4 col-md-4 col-sm-12 border-2 border-black shadow-lg card-body img-fluid">
+        
+
+    </div>
+
+    <div class="row">
+        <div class="col-md-4 col-sm-12">
+            <h5><span class="bg-danger-subtle">تعلم</span></h5> 
+            <h7><span class="bg-danger-subtle">مقطع متوازي مستطيلات بمستوٍ</span></h7> 
+            <ul>
+                <li>مقطع متوازي مستطيلات بمستوٍ يوازي أحد أوجهه هو مستطيل يطابق ذلك الوجه</li>
+                <li>مقطع متوازي مستطيلات بمستوٍ يوازي أحد أحرفه هو مستطيل أحد بعديه يساوي ذلك الحرف</li>
+            </ul>
+        </div>
+        <div class="col-md-8 col-sm-12">
+            $ \dfrac{1}{2} $ 
+        </div>
+
+        <div class="col-md-4 col-sm-12">
+            <h7><span class="bg-danger-subtle">مقطع أسطوانة بمستوٍ</span></h7> 
+            <ul>
+                <li>مقطع أسطوانة بمستوٍ يوازي قاعدتها أو يعامد محورها هو دائرة تطابق القاعدة</li>
+                <li>مقطع أسطوانة بمستوٍ يوازي محورها هو مستطيل أحد بعديه يساوي ارتفاع الاسطوانة </li>
+            </ul>
+        </div>
+    </div>
+
+
+    <script type="module" src="/js/less_29.js"></script>
+
+    </body>
+    </html>

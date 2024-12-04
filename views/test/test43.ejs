@@ -12,6 +12,7 @@
     <div id="jxgbox" style="width: 600px; height: 500px;"></div>
 
     <script type="text/javascript">
+    /*
     (function(){
         var board = JXG.JSXGraph.initBoard('jxgbox', {
                     boundingbox: [-.5, 2.25, 2.5, -.75],
@@ -88,13 +89,14 @@
 
     })()
 
+    */
      //مبرهنة فيثاغورث
-/* 
+
  (function() {
                 var board = JXG.JSXGraph.initBoard('jxgbox', {
                     boundingbox: [-.5, 2.25, 2.5, -.75],
                     keepaspectreatio: true,
-                    axis: false,
+                    axis: true,
                     grid: false,
                     shownavigation: false,
                     showcopyright: false
@@ -127,7 +129,7 @@
                 var p6 = board.create('point',[2,1], {name:' ', fillColor: '#ffffff', strokeColor: '#ffffff',visible:false, fixed:true});
                 var s1 = board.create('polygon',[p0,p1,p2,p3], {name:' ', fillColor: 'none', highlightFillColor: 'none', borders: {strokeColor: '#ffffff'}});
                 var s2 = board.create('polygon',[q2,p4,p5,p6], {name:' ', fillColor: 'none', highlightFillColor: 'none', borders: {strokeColor: '#ffffff'}});
-                //var sl = board.create('glider', [0.25,1,s1.borders[2]], {name:' ', fillColor: '#ffffff', strokeColor: '#ffffff'});                                              
+                var sl = board.create('glider', [0.25,1,s1.borders[2]], {name:' ', fillColor: '#ffffff', strokeColor: '#ffffff'});                                              
                 var sl = board.create('point', [function() { return ll.Value(); },function() { return 1; }], {name:' ', fillColor: '#ffffff', strokeColor: '#ffffff',visible:false});                                              
                 var c1 = board.create('circle',[p3,sl], {name:' ', fillColor: 'none', strokeColor: '#ffffff',visible:false});
                 var c2 = board.create('circle',[p0,c1], {name:' ', fillColor: 'none', strokeColor: '#ffffff',visible:false});
@@ -167,7 +169,7 @@
                 tr.bindTo(p5);
                 tr.bindTo(p6);
                 //board.unsuspendUpdate();
-})(); */
+})(); 
     
     </script>
 

@@ -1,0 +1,522 @@
+<%- include("../partial/head.ejs") %> 
+    <!--  
+    <link rel="stylesheet" href="/css/e-learning-js.min.css" />
+    <script type="text/javascript" src="/library/e-learning-js.min.js"></script>
+    <link rel="stylesheet" href="/css/jsxgraph.css">
+
+    -->
+
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.14.0/themes/base/jquery-ui.css">
+
+    
+    <link rel="stylesheet" href="/css/jsxgraph.css">
+    
+    <style>
+        .header {
+            background-color: #8cf777;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .header img {
+            width: 60px;
+            height: auto;
+        }
+
+        .learning-box {
+            background-color: #ffebcd;
+            padding: 10px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .learning-box img {
+            width: 80px;
+            height: auto;
+        }
+        
+        .angle-box {
+            background-color: #ffe4e1;
+            padding: 10px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+            transition: transform 0.2s;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .angle-box:hover {
+            transform: scale(1.05);
+        }
+        
+        .text-div {
+            background-color: #fafad2;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        ul li {
+            background-color: #e0ffff;
+            margin: 5px 0;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s;
+        }
+
+        ul li:hover {
+            background-color: #afeeee;
+        }
+
+
+
+        .table-container {
+            margin: 20px auto;
+            max-width: 800px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        .table {
+            width: 100%;
+            margin-bottom: 0;
+        }
+
+        .table th,
+        .table td {
+            vertical-align: middle;
+            text-align: center;
+        }
+
+        .image-cell {
+            max-width: 100px;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .highlight {
+            background-color: #f0f8ff;
+        }
+    </style>
+
+    <style>
+      /*   .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            } */
+
+            #sortable-container {
+            display: flex;
+            justify-content: center;
+            overflow-x: auto;
+            width: 100%;
+            max-width: 100%;
+            padding: 10px 0;
+            box-sizing: border-box;
+        }
+
+        #sortable {
+            display: flex;
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            gap: 10px;
+        }
+
+        #sortable li {
+            padding: 10px 15px;
+            font-size: 1.2em;
+            background-color: #e0f7fa;
+            border-radius: 8px;
+            border: 1px solid #00897b;
+            cursor: move;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s, transform 0.2s;
+            white-space: nowrap;
+        }
+
+        #sortable li:hover {
+            background-color: #b2ebf2;
+        }
+
+        .ui-sortable-placeholder {
+            background-color: #80deea;
+            border: dashed 2px #00897b;
+            visibility: visible !important;
+            width: 80px;
+            height: auto;
+        }
+
+        .options {
+            margin: 20px;
+            font-size: 1.2em;
+        }
+            
+            .sortable-list {
+                list-style: none;
+                padding: 0;
+                margin-top: 10px;
+                display: flex;
+                flex-direction: row;
+                /* تغيير الاتجاه إلى أفقي */
+                gap: 10px;
+                /* إضافة مسافة بين العناصر */
+        }
+        
+        .sortable-list li {
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s, transform 0.2s;
+            white-space: nowrap;
+            padding: 8px;
+            background-color: #f1f1f1;
+            border: 1px solid #ccc;
+            cursor: move;
+        }
+
+
+        .ui-sortable-placeholder {
+            background-color: #80deea;
+            border: dashed 2px #00897b;
+            visibility: visible !important;
+            width: 80px;
+            height: auto;
+        }
+
+        .feedback {
+            margin-top: 20px;
+            font-size: 1.4em;
+            font-weight: bold;
+            color: #00796b;
+        }
+        
+
+        button {
+            padding: 10px 20px;
+            font-size: 1em;
+            color: white;
+            background-color: #00796b;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background-color: #004d40;
+        }
+        
+        
+        #zim1Canvas {
+            width: 100% !important;
+            height: 50% !important;
+        }
+    </style>
+
+<style>
+    .exercise-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    } 
+    
+    .fraction-group {
+        margin: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .operator-select {
+        margin: 0 10px;
+        padding: 5px;
+        font-size: 1.2em;
+    }
+
+    .result {
+        margin-top: 30px;
+        font-size: 1.5em;
+        color: green;
+    }
+    
+    .fraction {
+        margin: 0 5px;
+    }
+    </style>
+
+<script src="https://zimjs.org/cdn/Box2dWeb-2.1.a.3.min.js"></script>
+
+<script type="text/javascript" src="/library/jsxgraphcore.js"></script>
+
+
+<script src="/library/jquery.min.js"></script>
+<script src="/library/jquery-ui.min.js"></script>
+<script>
+    $(function() {
+        $("#sortable").sortable({
+            placeholder: "ui-sortable-placeholder",
+            axis: "x",
+            scroll: true,
+            scrollSensitivity: 50,
+            scrollSpeed: 20,
+            start: function(event, ui) {
+                ui.helper.css("opacity", "0.9");
+            },
+            stop: function(event, ui) {
+                ui.item.css("opacity", "1");
+            }
+        });
+
+        $("#sortable").disableSelection();
+    });
+
+    function initializeUnits(units) {
+        const sortableList = $("#sortable");
+        sortableList.empty(); // تفريغ القائمة الحالية
+
+        units.forEach(unit => {
+            sortableList.append(`<li class="ui-state-default">${unit}</li>`);
+        });
+        // الترتيب الصحيح
+        window.unitsAscendingOrder = ['1/8', '4/8', '7/8', '8/8'];
+        window.unitsDescendingOrder = [...unitsAscendingOrder].reverse();
+    }
+
+    function checkOrder() {
+        const selectedOrder = document.querySelector('input[name="order"]:checked').value;
+        const correctOrder = selectedOrder === 'ascending' ? window.unitsAscendingOrder : window.unitsDescendingOrder;
+
+        const units = $("#sortable").children("li").map(function() {
+            return $(this).text().trim();
+        }).get();
+
+        console.log(JSON.stringify(units))
+        console.log(JSON.stringify(correctOrder))
+        const feedback = document.getElementById('sort');
+        if (JSON.stringify(units) === JSON.stringify(correctOrder)) {
+            feedback.textContent = 'ترتيب صحيح! أحسنت!';
+            feedback.style.color = 'green';
+        } else {
+            feedback.textContent = 'ترتيب خاطئ. حاول مرة أخرى.';
+            feedback.style.color = 'red';
+        }
+    }
+
+    $(document).ready(function() {
+        //            الذي سيعرض للمستخدم
+        const defaultUnits = ['1/8', '4/8', '8/8', '7/8'];
+        initializeUnits(defaultUnits);
+    });
+</script>
+
+</head>
+
+<body>
+    
+    <div class="row header animate__animated animate__fadeInDown d-flex align-items-center">
+        
+            <!-- عمود العنوان -->
+            <div class="col-lg-4 col-md-4 col-sm-4">
+                <img src="<%= lesson.cover %>" class="rounded-2 float-start" style="width: 100%;">
+            </div>
+
+            <div class="col-lg-8 col-md-8 col-sm-8">
+                <h1 class="text-start">
+                    <%= lesson.title %>
+                </h1>
+                <hr>
+            </div>
+        </div>
+
+        <div id="zim1" class="mt-3"></div>
+
+
+
+        <h5 class="my-3">مقارنة الكسور</h5>
+        <p>ضع ( &gt; أو &lt; أو = ) في المربع لتتحصل على مقارنة صحيحة.</p>
+        <div class="container col-12 text-center shadow-lg border-3 rounded-3" id="renderer" style="background-color: #d8f1ed;">
+            <!-- التمرين 1 -->
+            <div class="fraction-group ">
+                <math-field class="rounded-2" id="fraction1-1" read-only></math-field>
+                <select id="operator1" class="operator-select rounded-pill form-select-lg ">
+                    <option value="<">&lt;</option>
+                    <option value="=">=</option>
+                    <option value=">">&gt;</option>
+                </select>
+                <math-field id="fraction1-2" read-only></math-field>
+            </div>
+            <!-- التمرين 2  &lt;  &gt;  = -->
+            <div class="fraction-group">
+                <math-field id="fraction2-1" read-only></math-field>
+                <select id="operator2"  class="operator-select rounded-pill form-select-lg ">
+                    <option value="<">&lt;</option>
+                    <option value="=">=</option>
+                    <option value=">">&gt;</option>
+                </select>
+                <math-field id="fraction2-2" read-only></math-field>
+            </div>
+            <!-- التمرين 3 -->
+            <div class="fraction-group">
+                <math-field id="fraction3-1" read-only></math-field>
+                <select id="operator3"  class="operator-select rounded-pill form-select-lg ">
+                    <option value="<">&lt;</option>
+                    <option value="=">=</option>
+                    <option value=">">&gt;</option>
+                </select>
+                <math-field id="fraction3-2" read-only></math-field>
+            </div>
+            <!-- التمرين 4 -->
+            <div class="fraction-group">
+                <math-field id="fraction4-1" read-only></math-field>
+                <select id="operator4"  class="operator-select rounded-pill form-select-lg ">
+                    <option value="<">&lt;</option>
+                    <option value="=">=</option>
+                    <option value=">">&gt;</option>
+                </select>
+                <math-field id="fraction4-2" read-only></math-field>
+            </div>
+            <!-- التمرين 5 -->
+            <div class="fraction-group">
+                <math-field id="fraction5-1" read-only></math-field>
+                <select id="operator5"  class="operator-select rounded-pill form-select-lg ">
+                    <option value="<">&lt;</option>
+                    <option value="=">=</option>
+                    <option value=">">&gt;</option>
+                </select>
+                <math-field id="fraction5-2" read-only></math-field>
+            </div>
+            <!-- التمرين 6 -->
+            <div class="fraction-group">
+                <math-field id="fraction6-1" read-only></math-field>
+                <select id="operator6"  class="operator-select rounded-pill form-select-lg ">
+                    <option value="<">&lt;</option>
+                    <option value="=">=</option>
+                    <option value=">">&gt;</option>
+                </select>
+                <math-field id="fraction6-2" read-only></math-field>
+            </div>
+            <button class="my-3" id="checkAnswers">تحقق من الإجابات</button>
+            <div id="result" class="result"></div>
+            
+            
+        </div>
+        
+        <p class="row container text-center learning-box shadow-lg" style="background-color: #d8f1ed;"> كيف ترتب الكسور التالية تنازلياً ؟
+            $ \frac{3}{11} ، \frac{7}{11} ، \frac{6}{11} $
+            <button class="btn btn-sm btn-warning my-3" style="background-color: #8cf777;" data-sound="/sound/less22-1.mp3" id="btn1">                    
+                تحدّث</button>
+        </p>
+
+        <div class="row col-12 text-center learning-box shadow-lg" style="background-color: #d8f1ed;">
+
+            <h5>-1-تمرين</h5>
+            <p>قم بترتيب الكسور التالية تنازلياً.</p>
+
+     
+            <div class="options">
+                <label>
+                    <input type="radio" name="order" value="ascending" checked> ترتيب تصاعدي
+                </label>
+                <label style="margin-left: 20px;">
+                    <input type="radio" name="order" value="descending"> ترتيب تنازلي
+                </label>
+            </div>
+
+
+                <div id="sortable-container">
+                    <ul id="sortable">
+                        <!-- سيتم تعبئة الوحدات ديناميكيا هنا -->
+                    </ul>
+                </div>
+
+                <button onclick="checkOrder()">تحقق من الترتيب</button>
+
+                <div id="sort" class="feedback"></div>
+
+        </div> 
+
+
+        <div class="col-12 learning-box shadow-lg" style="background-color: #d8f1ed">
+            <h5 class="text-center">-2-تمرين</h5>
+            <p class="text-center" >
+                لون أجزاءً لتحصل على كسر أكبر من $ \frac{4}{8} $
+            </p>
+            <div id="jxgbox" class="jxgbox col-lg-6 col-md-6 col-sm-12 "
+                style="aspect-ratio: 1/1; max-width: 90%;margin:10px; direction: ltr;" lang="en">
+            </div>
+
+            </div>
+            
+            <div class="col-12 learning-box shadow-lg" style="background-color: #d8f1ed">
+                <h5 class="text-center">-3-تمرين</h5>
+                <p class="text-center" >
+                    اكتب الكسور الدالة على الأجزاء الملونة              
+                </p>
+
+                <div class="row">
+                    <div class="my-3 col-3">    
+                        <img src="<%= lesson.resources[0].url %>" class="img-fluid mb-3"> 
+                        <math-field read-only id="mf1">
+                         \frac{\placeholder[n1]{?}}{\placeholder[d1]{?}}
+                        </math-field>
+                    </div>   
+    
+                    <div class="my-3 col-3">                              
+                        <img src="<%= lesson.resources[1].url %>" class="img-fluid mb-3">
+                        <math-field read-only id="mf2">
+                         \frac{\placeholder[n2]{?}}{\placeholder[d2]{?}}
+                        </math-field>
+                    </div>  
+    
+                    <div class="my-3 col-3">                              
+                        <img src="<%= lesson.resources[2].url %>" class="img-fluid mb-3">
+                        <math-field read-only id="mf3">
+                         \frac{\placeholder[n3]{?}}{\placeholder[d3]{?}}
+                        </math-field>
+                    </div> 
+    
+                    <div class="my-3 col-3 ">           
+                        <img src="<%= lesson.resources[3].url %>" class="img-fluid mb-3">
+                        <math-field read-only id="mf4">
+                         \frac{\placeholder[n4]{?}}{\placeholder[d4]{?}}
+                        </math-field>                   
+                    </div>    
+                
+    
+                </div>
+
+            </div>
+            
+
+        
+
+
+        <script type="module" src="/js/less_22.js"></script>
+
+
+        <div class="row">
+            <div class="col-1">
+                <a href="/" class="btn btn-outline-info mt-5">
+                    <img src="/icon/iconBack.png" class="" width="34" height="34">
+                    <span>الصفحة الرئيسية</span>
+
+                </a>
+
+            </div>
+        </div>

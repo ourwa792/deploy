@@ -1,18 +1,85 @@
 <script src="https://www.desmos.com/api/v1.9/calculator.js?apiKey=dcb31709b452b1cf9dc26972add0fda6"></script>
 </head>
+
 <body>
 
-    <div id="geometry" style="width: 600px; height: 400px;"></div>
+  <div id="geometry" style="width: 600px; height: 400px;"></div>
 
-    <script>
-   /*      var elt = document.getElementById('calculator');
-        var calculator = Desmos.GraphingCalculator(elt); */
+  <script>
+    var elt = document.getElementById('geometry');
+    var calculator = Desmos.GraphingCalculator(elt);
 
-        var elt = document.getElementById('geometry');
-        var geometry = Desmos.Geometry(elt);
+    //calculator.setExpression({ id: 'line1', latex: 'y=2x', color: '#ff0000' });
+    /* calculator.setExpression({
+    id: 'point1',
+    latex: '(1,2)',
+    label: 'نقطة',
+    showLabel: true,
+    pointStyle: Desmos.Styles.POINT, // نمط النقطة
+    pointSize: 9, // حجم النقطة
+    pointOpacity: 0.9 // الشفافية
+    }); */
+    /* 
+            calculator.setExpression({
+              id: 'circle1',
+                latex: 'x^2 + y^2 = 1',
+                fillOpacity: 0.4 // شفافية التظليل
+            }); 
+    // تعيين شريحة للتحكم في قيمة m
+    calculator.setExpression({
+      id: 'm',
+      latex: 'm=2',
+      sliderBounds: { min: 1, max: 10, step: 1 } // حدود الشريحة
+    });
+    
+    /* // إضافة جدول بيانات
+    calculator.setExpression({
+      type: 'table',
+      columns: [
+        { latex: 'x', values: ['1', '2', '3', '4', '5'] },
+        { latex: 'y', values: ['1', '4', '9', '16', '25'] },
+        { latex: 'x^2', color: Desmos.Colors.BLUE }
+      ]
+    }); 
+    
+    calculator.setExpression({
+        id: 'line2',
+        latex: 'y=mx',
+        color: '#00ff00' // لون الخط الأخضر
+      }); */
 
-        var state = geometry.getState();
-        console.log(JSON.stringify(state))
+    /*         var elt = document.getElementById('geometry');
+            var geometry = Desmos.Geometry(elt);
+    
+            var state = geometry.getState();
+            console.log(JSON.stringify(state)) */
 
-    </script>
-   
+  /*   calculator.setExpression({ id: 'a-slider', latex: 'a=1' });
+    var a = calculator.HelperExpression({ latex: 'a' });
+
+    calculator.setExpression({ id: 'list', latex: 'L=[1, 2, 3]' });
+    var L = calculator.HelperExpression({ latex: 'L' }); */
+
+    calculator.setExpression({ id: 'circle', latex: '(x)^2 + (y)^2 = 25' });
+
+        // Define draggable points A and B on the circle
+        calculator.setExpression({ id: 'pointA', latex: '(5 * cos(\\theta_1), 5 * sin(\\theta_1))', showLabel: true, label: 'A' });
+        calculator.setExpression({ id: 'pointB', latex: '(5 * cos(\\theta_2), 5 * sin(\\theta_2))', showLabel: true, label: 'B' });
+
+        // Central angle (theta) between points A and B
+        calculator.setExpression({
+            id: 'centralAngle',
+            latex: '\\theta = \\arccos(\\cos(\\theta_1 - \\theta_2))',
+            showLabel: true,
+            label: 'Central Angle'
+        });
+
+        // Add lines connecting the center of the circle to the points A and B
+        calculator.setExpression({ id: 'radiusA', latex: 'y = (5 * sin(\\theta_1) / (5 * cos(\\theta_1))) * (x - 0)' });
+        calculator.setExpression({ id: 'radiusB', latex: 'y = (5 * sin(\\theta_2) / (5 * cos(\\theta_2))) * (x - 0)' });
+
+        // Add sliders to dynamically adjust the positions of points A and B
+        calculator.setExpression({ id: 'sliderTheta1', latex: '\\theta_1 = 0', sliderBounds: { min: 0, max: 2 * Math.PI } });
+        calculator.setExpression({ id: 'sliderTheta2', latex: '\\theta_2 = \\frac{\\pi}{3}', sliderBounds: { min: 0, max: 2 * Math.PI } });
+
+  </script>

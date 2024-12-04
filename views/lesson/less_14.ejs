@@ -1,0 +1,232 @@
+<%- include('../partial/head.ejs') %>
+
+
+<link href="/css/animate.min.css" rel="stylesheet">
+  
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+ 
+<link rel="stylesheet" href="/css/e-learning-js.min.css"/> 
+
+<link rel="stylesheet" href="/css/jsxgraph.css">
+
+<link rel="stylesheet" href="/css/lesson.css"/>
+
+<script type="text/javascript" src="/library/e-learning-js.min.js"></script>
+<script type="text/javascript" src="/library/jsxgraphcore.js"></script> 
+
+</head>
+
+
+<body >
+
+        <div class="row header animate__animated animate__fadeInDown d-flex align-items-center text-bg-info ">
+           
+            <!-- عمود العنوان -->
+             <div class="col-lg-4 col-md-4 col-sm-6">
+                 <img src="<%= lesson.cover %>" 
+                 class="rounded-2 float-start" style="width: 100%;">
+             </div>
+            
+            <div class="col-lg-8 col-md-8 col-sm-8">
+                <h1 class="text-start">
+                    <%= lesson.title  %>
+                </h1>
+                <hr>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                <p> فن: <br>
+                    متوازي الأضلاع شكل هندسي يستخدم أحياناً 
+                    لتصميم زخارف هندسية جميلة عند رصفها بطريقة معينة. فيمكننا تغطية المساحات الفارغة بتصميمات هندسية مميزة.
+                </p>
+                <p> <span class="bg-danger-subtle"> تعلم ان مساحة المستطيل = الطول × العرض. </span>
+
+                    <ul class="grid12 no_list questions_2_1"> أحسب مساحة المستطيل التالي:
+
+                        <li>
+                            <span class="bold lesson_color"></span> A= <input size="8" type="text" autocomplete="off"/>
+                        </li>
+                    </ul>
+                    <div class="btn_activities">
+                        <div id="check_answers_2_1">
+                            <span>Check</span>
+                        </div>
+                        <div id="reset_answers_2_1">
+                            <span>Reset</span>
+                        </div>
+                        <div id="answers_2_1">
+                            <span>Answers</span>
+                        </div>
+                    </div>
+
+
+                </p>
+                    
+            </div> 
+    
+            <div class="col-lg-4 col-md-4 col-sm-12">
+                <div class="card border-info mb-2 float-end shadow-lg">
+                    <img src="<%= lesson.resources[0].url %>" class="img-fluid">
+                    <div class="card-text text-center">الطول × العرض</div>
+                </div>
+            </div>   
+    
+        </div>
+    
+        <div class="col-12 knowledge-section mt-4 animate__animated animate__fadeInLeft bg-info-subtle" >
+
+            <div class="row">
+                <div class="col-lg-8 col-md-8 col-sm-12">
+                    <h5><span style="background-color: rgb(246, 229, 218);"><strong>تعلم</strong></span></h5> 
+                    <br>
+                    البعد بين ضلعين متقابلين في متوازي الأضلاع هو ارتفاع له
+                    <br>
+                    إذن ارتفاع متوازي الأضلاع المجاور يساوي 5
+                    <button class="btn btn-warning col-lg-2 col-md-2 col-sm-2" id="btn1" data-sound="/sound/less-14-1.mp3" >
+                        أسمع
+                    </button>
+               
+                </div>
+
+                <div class="col-lg-4 col-md-4 col-sm-12">
+                    <div class="card border-info mb-2 float-end shadow-lg">
+                        <img src="<%= lesson.resources[1].url %>" class="img-fluid">
+                        <div class="card-text text-center">ارتفاع متوازي الأضلاع </div>
+                    </div>
+                </div>                 
+            </div>
+
+            <div class="row">
+                <h5><span style="background-color: rgb(246, 229, 218);"><strong>هل يمكن تغيير شكل متوازي الأضلاع إلى مستطيل ؟</strong></span></h5> 
+                <br><br>
+                <div class="card border-info mb-2 shadow-lg w-75">
+                    <img src="<%= lesson.resources[2].url %>" class="img-fluid">
+                    <div class="card-text text-center"> 
+                        إذا أجرينا عملية القص و اللصق كما في الشكل سيكون جوابنا نعم
+                    </div>
+                </div>
+                
+            </div>
+            
+            <div id="jxgbox" class="jxgbox d-flex justify-content-center col-lg-8 col-md-8 col-sm-12 " 
+                style="width: 650px; height: 400px; max-width: 95%;margin:10px;" dir="ltr">
+            </div>
+
+            <div class="row">
+
+                <%#- lesson.content %>
+
+                <h5><span style="background-color: rgb(246, 229, 218);"><strong>
+                    هل طرأ تغيير على مساحة متوازي الأضلاع؟
+                    <strong></span>
+                    <br>
+                </h5>
+
+                    <p>
+                        <button class="btn btn-warning col-lg-2 col-md-2 col-sm-2" id="btn2" data-sound="/sound/less-14-2.mp3" >
+                            أسمع
+                        </button>
+                         الجواب لا.
+                    </p>
+                <h5><span style="background-color: rgb(246, 229, 218);"><strong>
+                    ما العلاقة بين مساحة المستطيل ومساحة متوازي الأضلاع؟
+                    <strong></span>
+                    <br>
+                </h5> 
+
+                <p> 
+                    <button class="btn btn-warning col-lg-2 col-md-2 col-sm-2" id="btn3" data-sound="/sound/less-14-3.mp3" >
+                        أسمع
+                    </button>
+                      إن عرض المستطيل هو ارتفاع لمتوازي الأضلاع، وطول المستطيل هو طول ضلع لمتوازي الأضلاع،
+                </p>
+                <br>
+                <p class="bg-danger-subtle">      
+                    <button class="btn btn-warning col-lg-2 col-md-2 col-sm-2" id="btn4" data-sound="/sound/less-14-4.mp3" >
+                        أسمع
+                    </button>             
+                    مساحة متوازي الأضلاع = طول الضلع × الارتفاع المتعلق بها
+                </p>
+            </div>
+
+            <p class="example-box">أحسب مساحة متوازي أضلاع طول ضلعه 10cm, والارتفاع المتعلق بها 7cm.</p>
+            <p>
+                مساحة متوازي الأضلاع = طول الضلع × الارتفاع المتعلق بها
+                = 7 × 10 = 70
+            </p>
+        
+        </div> 
+    
+    
+        <div class="container question-section col-12 col-sm-12 mt-4">
+            <h2>تحقق من فهمك</h2>
+            <p>أحسب مساحة متوازي الأضلاع لكل ممايأتي</p>
+            <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                    <div class="card border-info mb-2 float-end shadow-lg">
+                        <img src="<%= lesson.resources[3].url %>" class="img-fluid">
+                        <div class="card-text text-center">
+                            <ul class="grid12 no_list questions_1"> الشكل -1-
+
+                                <li>
+                                    <span class="bold lesson_color"></span> A= <input size="8" type="text" autocomplete="off"/>
+                                </li>
+                            </ul>
+                            <div class="btn_activities">
+                                <div id="check_answers_1">
+                                    <span>Check</span>
+                                </div>
+                                <div id="reset_answers_1">
+                                    <span>Reset</span>
+                                </div>
+                                <div id="answers_1">
+                                    <span>Answers</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12">
+                    <div class="card border-info mb-2 float-end shadow-lg">
+                        <img src="<%= lesson.resources[4].url %>" class="img-fluid">
+                        <div class="card-text text-center">
+                            <ul class="grid12 no_list questions_2"> الشكل -2-
+
+                                <li>
+                                    <span class="bold lesson_color"></span> A= <input size="8" type="text" autocomplete="off"/>
+                                </li>
+                            </ul>
+                            <div class="btn_activities">
+                                <div id="check_answers_2">
+                                    <span>Check</span>
+                                </div>
+                                <div id="reset_answers_2">
+                                    <span>Reset</span>
+                                </div>
+                                <div id="answers_2">
+                                    <span>Answers</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <div class="row">
+            <div class="col-1">
+                <a href="/" class="btn btn-outline-info mt-5">
+                    <img src="/icon/iconBack.png" class="" width="34" height="34">
+                    <span>الصفحة الرئيسية</span>
+    
+                </a>
+    
+            </div>
+        </div>
+
+    <script type="module" src="/js/less_14.js"></script>
+
+<%- include("../partial/end.ejs") %>

@@ -11,8 +11,9 @@
 
         <script type="module">
 
-            const title = String.raw` <%= lesson.title %>`;
-            const url = String.raw` <%= lesson.cover.url %> `
+      
+            let dev_url ='http://localhost:3000' ;
+            let prod_url ='https://deploy-kewv.onrender.com'
 
 
             import zim from "https://zimjs.org/cdn/016/zim_game.js";
@@ -42,106 +43,6 @@
                 let stageW = frame.width;
                 let stageH = frame.height;
 
-
-                /*   new Poly(200, 5, .6, pink).center();
-                
-                  const cp = new ColorPicker()
-                   .show() // use show() and hide() with ColorPicker. As of ZIM ZIM 01 can also use pos(), loc(), center(), etc.
-                   .change(()=>{
-                      zog(cp.selectedColor); // #ffcc99, etc. after pressing OK
-                      zog(cp.selectedAlpha); // 0-1
-                   }); */
-
-                /* 
-                const text1 = new Label({text:"", backgroundColor:white}).pos(100,100);
-                const text2 = new Label({text:"", backgroundColor:white}).pos(100,200);
-                
-                // create a new Keyboard and pass in the labels as an array
-                // or if just one label, then pass in the label
-                const keyboard = new Keyboard([text1, text2]);
-                
-                // if just the letter is needed use the keydown event
-                keyboard.on("keydown", e=>{
-                   zog(e.letter);
-                });
-                
-                // create events to capture a mousedown on the labels
-                const text1Event = text1.on("mousedown", activate);
-                const text2Event = text2.on("mousedown", activate);
-                function activate(e) {
-                   keyboard.show();
-                   // remove the events when keyboard is active
-                   text1.off("mousedown", text1Event);
-                   text2.off("mousedown", text2Event);
-                }
-                keyboard.show(); // optionally show the keyboard to start
-                
-                // add back the events to show the keyboard
-                keyboard.on("close", ()=>{
-                   text1.on("mousedown", text1Event);
-                   text2.on("mousedown", text2Event);
-                }); */
-
-                /*
-                
-                    var page1 = new Page(stageW, stageH, orange, green);
-                        new Circle(200,dark).center(page1)
-                        page1.icon = frame.makeIcon().sca(2.5).center(page1);
-                        page1.backing;
-                        new Label("swipe").pos(85,85,RIGHT,BOTTOM,page1);
-                        new Triangle(40,40,40,dark).alp(.2).rot(90).loc(975, 665, page1);
-                        new Triangle(40,40,40,dark).alp(.2).rot(180).loc(890, 715, page1);
-                
-                    var page2 = new Page(stageW, stageH, blue, pink);
-                        page2.icon = frame.makeIcon().pos(50,50,RIGHT,BOTTOM,page2);
-                        new Label({text:"presenting, at last,\n\nZIM Page()...", align:CENTER}).center(page2);
-                
-                    var page3 = new Page(stageW, stageH, white, yellow);
-                        page3.icon = frame.makeIcon().pos(50,50,RIGHT,BOTTOM,page3);
-                        new Label("it's just a container with a rectangle backing...").center(page3);
-                
-                    var page4 = new Page(stageW, stageH, pink, white, false, );
-                        page4.icon = frame.makeIcon().pos(50,50,RIGHT,BOTTOM,page4);
-                        new Label("but now we know what to use with ZIM Pages()")
-                            .center(page4);
-                
-                    var page5 = new Page(stageW, stageH, pink, yellow);
-                        page5.icon = frame.makeIcon().pos(50,50,RIGHT,BOTTOM,page5);
-                        new Label({
-                            text:"and Pages() has new transitions... can you tell?",
-                            color:light,
-                            backgroundColor:dark
-                        }).center(page5);
-                
-                    
-                
-                    var pages = new Pages([
-                        {page:page1, swipe:[page5,page2,page5,page2]},
-                        {page:page2, swipe:[page1,page3,page1,page3]},
-                        {page:page3, swipe:[page2,page4,page2,page4]},
-                        {page:page4, swipe:[page3,page5,page3,page5]},
-                        {page:page5, swipe:[page4,page1,page4,page1]}
-                    ], "bubbleZIM", .5, [
-                        [page2, page3, "pixelZIM"],
-                        [page3, page2, "pixelZIM"],
-                        [page3, page4, "fan"],
-                        [page4, page3, "fan"],
-                        [page4, page5, "explodeDark"],
-                        [page5, page4, "explodeZIM"],
-                        [page1, page5, "lineLight"],
-                        [page5, page1, "lineDark"],
-                    ]).addTo();
-                
-                    loop(pages.pages, function (page) {
-                        page.page.icon.tap(function () {
-                            zgo("https://zimjs.com", "_blank");
-                        });
-                    });
-                
-                
-                    stage.update()
-                
-                    */
 
                 const sound1 = new Aud({ file: "/sound/anmat.mp3", volume: .8, loop: false });
                 const sound2 = new Aud({ file: "/sound/anmat2.mp3", volume: .8, loop: false });
@@ -699,7 +600,20 @@
                         rightSound.play()
                         roseCollided = true
                     }
-                })
+                });
+
+                new Button({
+                label: "الصفحة الرئيسية",
+                width: 220,
+                height: 60,
+                backgroundColor: "purple",
+                rollBackgroundColor: "MediumOrchid",
+                borderWidth: 8,
+                borderColor: "violet",
+                gradient: .3,
+                corner: 10
+            }).loc(350, 300, page9)
+            .tap(() => zgo(`${dev_url}`, "_blank"))            
 
 
              

@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>مقطع طولي لاسطوانة</title>
+  <style>
+  </style>
+  <script lang="text/javascript" src="/library/mathcell.js"></script>
+
+</head>
+
+<body>
+
+  <!--    <div class="mathcell" style="height: 5in">
+        <script>
+        
+        var parent = document.currentScript.parentNode;
+        
+        var id = generateId();
+        parent.id = id;
+        
+        // إنشاء شريط تمرير لتحديد زاوية المستوى
+        MathCell( id, [ { type: 'slider', min: -Math.PI, max: Math.PI, default: 0,
+                                          name: 'phi', label: '&phi;' } ] );
+        
+        parent.update = function( id ) {
+        
+          // استرداد زاوية الدوران phi
+          var phi = getVariable( id, 'phi' );
+        
+          // نقطة ومستوى يمثلان المستوى
+          var p0 = [0, 0, 0]; // نقطة على المستوى
+          var v1 = [Math.cos(phi), 0, Math.sin(phi)]; // متجه موازي للمستوى
+          var v2 = [0, 1, 0]; // متجه عمودي على الأول
+        
+          // تعريف معادلة السطح (أسطوانة)
+          var f = function(x, y, z) {
+            return x * x + z * z - 1; // معادلة أسطوانة
+          };
+        
+          // إنشاء النقاط لمنحنى التقاطع
+          var points = [];
+          for (var u = -2; u <= 2; u += 0.1) {
+            for (var v = -2; v <= 2; v += 0.1) {
+              var w = [
+                p0[0] + u * v1[0] + v * v2[0],
+                p0[1] + u * v1[1] + v * v2[1],
+                p0[2] + u * v1[2] + v * v2[2],
+              ];
+              if (Math.abs(f(w[0], w[1], w[2])) < 0.05) { // تحقق من شرط التقاطع
+                points.push(w);
+              }
+            }
+          }
+        
+          // إنشاء خط تقاطع
+          var l = line(points, { color: 'red', radius: 0.05 });
+        
+          var p = plane( 3, 3, { normal: [1,0,0], color: 'gray', opacity: .8, renderOrder: 1 } );
+          rotateObject( p, phi, [0,0,1] );
+        
+
+          // رسم الأسطوانة
+          var c = cylinder(1, 6, { color: 'rgb(0,255,0)', opacity: 0.5, axis: [0, 1, 0] });
+        
+          // تجميع العناصر
+          var data = [l,p, c];
+        
+          // إعداد العرض ثلاثي الأبعاد
+          var config = { type: 'threejs', frame: false };
+        
+          // تحديث العرض
+          evaluate(id, data, config);
+        };
+        
+        parent.update(id);
+        
+        </script>
+        </div>
+         -->
+
+
+  <!--          مقطع مكعب بدون مستو
+ -->
+  <!--    <div class="mathcell" style="height: 5in">
+            <script>
+            
+            var parent = document.currentScript.parentNode;
+            
+            var id = generateId();
+            parent.id = id;
+            
+            // إعداد شريط تمرير لتحديد زاوية المستوى
+            MathCell( id, [ { type: 'slider', min: -Math.PI / 2, max: Math.PI / 2, default: 0,
+                                              name: 'phi', label: '&phi;' } ] );
+            
+            parent.update = function( id ) {
+            
+              // استرداد زاوية الدوران phi
+              var phi = getVariable( id, 'phi' );
+            
+              // إعداد نقطة ومستوى لتحديد المستوى
+              var p0 = [0, 0, 0]; // نقطة على المستوى
+              var v1 = [Math.cos(phi), 0, Math.sin(phi)]; // متجه موازي للمستوى
+              var v2 = [0, 1, 0]; // متجه عمودي على v1
+            
+              // تعريف المكعب
+              var cubeSize = 2;
+              var cube = box(cubeSize, cubeSize, cubeSize, { center: [0, 0, 0], color: 'rgb(0,255,0)', opacity: 0.5 });
+            
+              // تحديد أوجه المكعب
+              var faces = [
+                { normal: [1, 0, 0], d: cubeSize / 2 },   // وجه أمامي
+                { normal: [-1, 0, 0], d: cubeSize / 2 },  // وجه خلفي
+                { normal: [0, 1, 0], d: cubeSize / 2 },   // وجه علوي
+                { normal: [0, -1, 0], d: cubeSize / 2 },  // وجه سفلي
+                { normal: [0, 0, 1], d: cubeSize / 2 },   // وجه يميني
+                { normal: [0, 0, -1], d: cubeSize / 2 }   // وجه يساري
+              ];
+            
+              // إنشاء نقاط التقاطع لكل وجه
+              var intersectionPoints = [];
+              for (var u = -cubeSize / 2; u <= cubeSize / 2; u += 0.1) {
+                for (var v = -cubeSize / 2; v <= cubeSize / 2; v += 0.1) {
+                  // حساب w(u, v) للمستوى
+                  var w = [
+                    p0[0] + u * v1[0] + v * v2[0],
+                    p0[1] + u * v1[1] + v * v2[1],
+                    p0[2] + u * v1[2] + v * v2[2],
+                  ];
+            
+                  // تحقق من تقاطع w مع حدود المكعب
+                  for (var face of faces) {
+                    var d = face.d;
+                    var normal = face.normal;
+                    if (Math.abs(normal[0] * w[0] + normal[1] * w[1] + normal[2] * w[2] - d) < 0.05) {
+                      intersectionPoints.push(w);
+                    }
+                  }
+                }
+              }
+            
+              // إنشاء الخطوط الناتجة عن التقاطع
+              var l = line(intersectionPoints, { color: 'red', radius: 0.05 });
+            
+              // إضافة مستوى يحوي المقطع الناتج
+              var containingPlane = plane(4, 4, {
+                center: [0, 0, 0],  // مطابقة مركز المستوى لمركز المقطع
+                normal: v1,          // الناظم يطابق اتجاه المستوى
+                color: 'rgba(0,0,255,0.3)', // لون المستوى أزرق شفاف
+                opacity: 0.3
+              });
+            
+              // تجميع العناصر للعرض
+              var data = [cube, l, containingPlane];
+            
+              // إعداد العرض ثلاثي الأبعاد
+              var config = { type: 'threejs', frame: false };
+            
+              // تحديث العرض
+              evaluate(id, data, config);
+            };
+            
+            parent.update(id);
+            
+            </script>
+            </div> -->
+
+
+  <!-- 
+            <div class="mathcell" style="height: 5in">
+              <script>
+              
+              var parent = document.currentScript.parentNode;
+              
+              var id = generateId();
+              parent.id = id;
+              
+              MathCell( id, [ { type: 'slider', min: -Math.PI / 4, max: Math.PI / 4, default: 0,
+                                                name: 'phi', label: '&phi;' } ] );
+              
+              parent.update = function( id ) {
+              
+                var phi = getVariable( id, 'phi' );
+      
+                // تعريف المكعب
+                var cube = box( 2, 2, 2, { color: 'rgb(0,255,0)', opacity: 0.2, center: [0, 0, 0] });
+              
+                // تعريف المستوى القاطع
+                var planeNormal = [Math.cos(phi), Math.sin(phi), 0]; // ناظم المستوى يعتمد على زاوية phi
+                var cuttingPlane = plane( 4, 4, { normal: planeNormal, color: 'gray', opacity: 0.8 });
+              
+                // نقاط التقاطع بين المستوى وأوجه المكعب
+                var points = [];
+                for (var x = -1; x <= 1; x += 0.1) {
+                    for (var y = -1; y <= 1; y += 0.1) {
+                        var z = -x * Math.tan(phi); // معادلة المستوى
+                        if (z >= -1 && z <= 1) {   // تحقق من أن النقطة داخل حدود المكعب
+                            points.push([x, y, z]);
+                        }
+                    }
+                }
+      
+                // تحويل النقاط لتتماشى مع المستوى القاطع
+                var rotatedPoints = points.map(pt => {
+                    var x = pt[0];
+                    var y = pt[1];
+                    var z = pt[2];
+                    var rotatedX = x * Math.cos(phi) - z * Math.sin(phi);
+                    var rotatedZ = x * Math.sin(phi) + z * Math.cos(phi);
+                    return [rotatedX, y, rotatedZ];
+                });
+              
+                // رسم المنحنى الناتج عن التقاطع
+                var intersectionLine = line(rotatedPoints, { color: 'red', radius: 0.05 });
+              
+                // تجميع العناصر للعرض
+                var data = [cube, cuttingPlane, intersectionLine];
+              
+                // إعداد العرض ثلاثي الأبعاد
+                var config = { type: 'threejs', frame: false };
+              
+                evaluate( id, data, config );
+              
+              }
+              
+              parent.update( id );
+              
+              </script>
+          </div> 
+
+  -->
+
+  <!-- ماشي حالو -->
+  <div class="mathcell" style="height: 5in">
+    <script>
+
+      var parent = document.currentScript.parentNode;
+
+      var id = generateId();
+      parent.id = id;
+
+      // شريط تمرير للتحكم بزاوية المستوى
+      MathCell(id, [{ type: 'slider', min: -Math.PI / 2, max: Math.PI / 2, default: 0, name: 'phi', label: '&phi;' }]);
+
+      parent.update = function (id) {
+
+        var phi = getVariable(id, 'phi');
+
+        // رسم الإسطوانة
+        var c = cylinder(1, 6, {
+          color: 'rgb(0,255,0)', opacity: .7, axis: [1, 0, 0],
+          //rotation: { axis: [0,0,1], angle: .01 }
+        });
+
+        // معادلة بارامترية لنقاط التقاطع
+        var intersectionCurve = parametric(
+          t => {
+            var y = Math.sin(t);          // زاوية الإسطوانة
+            var z = Math.cos(t);          // زاوية الإسطوانة
+            var x = -y * Math.tan(phi);   // حساب x بناءً على معادلة المستوى
+            return [x, y, z];
+          },
+          [0, 2 * Math.PI, 50],          // النطاق (من 0 إلى 2π)
+          { color: 'red', radius: 0.05 }  // إعدادات الخط
+        );
+
+        // حساب النقاط الرئيسية للتقاطع لرسمها بشكل مميز
+        var points = [];
+        for (var t = 0; t <= 2 * Math.PI; t += Math.PI / 4) { // نقاط عند زوايا محددة
+          var y = Math.sin(t);
+          var z = Math.cos(t);
+          var x = -y * Math.tan(phi);
+          points.push([x, y, z]);
+        }
+
+        // رسم النقاط بتحديد مميز
+        var intersectionPoints = points.map(pt =>
+          point(pt, { size: 0.1, color: 'blue', opacity: 1 })
+        );
+
+        // رسم المستوى القاطع
+        var plane = isosurface(
+          (x, y, z) => x * Math.cos(phi) + y * Math.sin(phi),
+          [-1.5, 1.5], [-1.5, 1.5], [-1.5, 1.5],
+          {
+            level: 0, color: 'yellow', opacity: 0.5,
+            //rotation: { axis: [0,0,1], angle: .01 }
+          }
+        );
+
+        // تجميع العناصر للعرض
+        var data = [c, plane, intersectionCurve, ...intersectionPoints];
+
+        // إعداد العرض ثلاثي الأبعاد
+        var config = {
+          type: 'threejs',
+          animate: true,
+          frame: false,
+          viewpoint: [1, -1, 1]
+        };
+
+        evaluate(id, data, config);
+
+      }
+
+      parent.update(id);
+
+    </script>
+  </div>
+
+
+  <div class="mathcell" style="width: 6in; height: 5in">
+    <script>
+
+      var parent = document.currentScript.parentNode;
+
+      var id = generateId();
+      parent.id = id;
+
+      MathCell(id, []);
+
+      parent.update = function (id) {
+
+        var p1 = '[ 4*Math.cos(t), 4*Math.sin(t), 4*Math.cos(t/5) ]';
+        var p2 = '[ 4*Math.cos(t-1), 4*Math.sin(t-1), 4*Math.cos(t/5) ]';
+        var p3 = '[ 4*Math.cos(t-2), 4*Math.sin(t-2), 4*Math.cos(t/5) ]';
+        var p4 = '[ 4*Math.cos(t-3), 4*Math.sin(t-3), 4*Math.cos(t/5) ]';
+        var p5 = '[ 4*Math.cos(t-4), 4*Math.sin(t-4), 4*Math.cos(t/5) ]';
+        var p6 = '[ 2*Math.cos(2*t), 2*Math.sin(2*t), 2*Math.cos(t) ]';
+        var p7 = '[ -2*Math.cos(2*t), -2*Math.sin(2*t), -2*Math.cos(t) ]';
+
+        var data = [sphere(.5, { translation: { path: p1 }, color: 'red' }),
+        sphere(.5, { translation: { path: p2 }, color: 'yellow' }),
+        sphere(.5, { translation: { path: p3 }, color: 'lime' }),
+        sphere(.5, { translation: { path: p4 }, color: 'cyan' }),
+        sphere(.5, { translation: { path: p5 }, color: 'blue' }),
+        sphere(.5, { translation: { path: p6 }, color: 'magenta' }),
+        sphere(.5, { translation: { path: p7 }, color: 'purple' })];
+
+        var config = {
+          type: 'threejs', xMin: -5, xMax: 5, yMin: -5, yMax: 5, zMin: -5, zMax: 5,
+          axesLabels: false, viewpoint: [1, 0, 0],
+          animate: true, animateOnInteraction: true
+        };
+
+        evaluate(id, data, config);
+
+      }
+
+      parent.update(id);
+
+    </script>
+  </div>
+
+  <!-- cylinder -->
+
+
+
+
+
+
+  <!-- cone -->
+  <div class="mathcell" style="width: 6in; height: 5in">
+    <script>
+
+      var parent = document.currentScript.parentNode;
+
+      // إنشاء واجهة التحكم
+      var id = generateId();
+      parent.id = id;
+
+      // عناصر التحكم: زاوية المستوى وموقعه
+      MathCell(id, [
+        { type: 'slider', name: 'angle', label: 'زاوية المستوى:', min: -90, max: 90, step: 1, value: 0 },
+        { type: 'slider', name: 'position', label: 'موقع المستوى:', min: -5, max: 5, step: 0.1, value: 0 }
+      ]);
+
+      // تحديث العرض بناءً على التفاعل
+      parent.update = function (id) {
+        var angle = getVariable(id, 'angle');
+        var position = getVariable(id, 'position');
+
+        // زاوية الدوران لمستوى القص
+        var rad = angle * Math.PI / 180;
+        var normal = [Math.sin(rad), Math.cos(rad), 0];
+
+        // تعريف الهرم باستخدام parametric
+        var pyramid = parametric(
+          (u, v) => {
+            var base = 5; // عرض القاعدة
+            var height = 5; // ارتفاع الهرم
+            var x = (1 - u) * base * Math.cos(v);
+            var y = (1 - u) * base * Math.sin(v);
+            var z = u * height;
+            return [x, y, z];
+          },
+          [0, 1], [0, 2 * Math.PI],
+          { colormap: 'cool', opacity: 0.8 }
+        );
+
+        // إضافة مستوى القص
+        var cuttingPlane = parametric(
+          (u, v) => {
+            return [
+              u,
+              v,
+              position // الموقع العمودي للمستوى
+            ];
+          },
+          [-5, 5], [-5, 5],
+          { color: 'red', opacity: 0.5 }
+        );
+
+        // الإعدادات النهائية للمشهد
+        var config = { type: 'threejs', frame: true };
+
+        evaluate(id, [pyramid, cuttingPlane], config);
+      };
+
+      // استدعاء التحديث الأولي
+      parent.update(id);
+
+    </script>
+  </div>
+
+
+
+  <div class="mathcell" style="width: 8in; height: 8in">
+    <script>
+
+      var parent = document.currentScript.parentNode;
+
+      // إنشاء واجهة التحكم
+      var id = generateId();
+      parent.id = id;
+
+      // عناصر التحكم: زاوية المستوى وموقعه
+      MathCell(id, [
+        { type: 'slider', name: 'angle', label: 'زاوية المستوى:', min: -90, max: 90, step: 1, value: 0 },
+        { type: 'slider', name: 'position', label: 'موقع المستوى:', min: -5, max: 5, step: 0.1, value: 0 },
+        { type: 'checkbox', name: 'challenge', label: 'تفعيل التحدي: دائرة' }
+      ]);
+
+      // تحديث العرض بناءً على التفاعل
+      parent.update = function (id) {
+        var angle = getVariable(id, 'angle');
+        var position = getVariable(id, 'position');
+        var challenge = getVariable(id, 'challenge');
+
+        // زاوية الدوران للمستوى
+        var rad = angle * Math.PI / 180;
+        var normal = [Math.sin(rad), Math.cos(rad), 0];
+
+        // تعريف الهرم باستخدام parametric
+        var pyramid = parametric(
+          (u, v) => {
+            var base = 5; // عرض القاعدة
+            var height = 5; // ارتفاع الهرم
+            var x = (1 - u) * base * Math.cos(v);
+            var y = (1 - u) * base * Math.sin(v);
+            var z = u * height;
+            return [x, y, z];
+          },
+          [0, 1], [0, 2 * Math.PI],
+          { colormap: 'cool', opacity: 0.8 }
+        );
+
+        // حساب نقاط التقاطع بين المستوى والهرم
+        var intersections = [];
+        for (var u = 0; u <= 1; u += 0.01) {
+          for (var v = 0; v <= 2 * Math.PI; v += 0.1) {
+            var base = 5;
+            var height = 5;
+            var x = (1 - u) * base * Math.cos(v);
+            var y = (1 - u) * base * Math.sin(v);
+            var z = u * height;
+
+            // معادلة المستوى
+            if (Math.abs(normal[0] * x + normal[1] * y + normal[2] * z - position) < 0.1) {
+              intersections.push([x, y, z]);
+            }
+          }
+        }
+
+        // إضافة مستوى القص
+        var cuttingPlane = parametric(
+          (u, v) => {
+            return [u, v, position];
+          },
+          [-5, 5], [-5, 5],
+          { color: 'red', opacity: 0.5 }
+        );
+
+        // إضافة خطوط المقطع
+        var sectionLines = line(intersections, { color: 'blue', thickness: 2 });
+
+        // التحدي التفاعلي
+        if (challenge && Math.abs(angle) < 1 && Math.abs(position) < 0.5) {
+          alert('أحسنت! حصلت على مقطع دائري.');
+        }
+
+        // الإعدادات النهائية للمشهد
+        var config = { type: 'threejs', frame: true };
+
+        evaluate(id, [pyramid, cuttingPlane, sectionLines], config);
+      };
+
+      // استدعاء التحديث الأولي
+      parent.update(id);
+
+    </script>
+  </div>
+
+
+  <!--  -->
+
+
+  <div class="mathcell" style="width: 6in; height: 6in">
+    <script>
+
+      var parent = document.currentScript.parentNode;
+
+      var id = generateId();
+      parent.id = id;
+
+      MathCell(id, [{ type: 'checkbox', name: 'clip', label: 'Show cross section:' }]);
+
+      parent.update = function (id) {
+
+        var clip = getVariable(id, 'clip');
+        /* 
+          var s = parametric( (u,v) => [ ( 7 + Math.cos( u/3 - 2*v ) + 2*Math.cos( u/3 + v ) ) * Math.sin(u),
+                                         ( 7 + Math.cos( u/3 - 2*v ) + 2*Math.cos( u/3 + v ) ) * Math.cos(u), 
+                                         Math.sin( u/3 - 2*v ) + 2*Math.sin( u/3 + v ) ],
+                              [-Math.PI,Math.PI], [-Math.PI,Math.PI], { colormap: 'cool' } );
+                              
+                              var s = parametric(
+        (u, v) => {
+          var base = 5; // عرض القاعدة
+          var height = 5; // ارتفاع الهرم
+          var x = (1 - u) * base * Math.cos(v);
+          var y = (1 - u) * base * Math.sin(v);
+          var z = u * height;
+          return [x, y, z];
+        },
+        [0, 1], [0, 2 * Math.PI],
+        { colormap: 'cool', opacity: 0.8 }
+      );
+      
+      */
+
+        var s = cone(1, 2, { colormap: 'cool', opacity: 0.8, rotation: { axis: [0, 0, 1], angle: .01 } })
+        var p = plane(5, 5, { normal: [0, 0, 5], color: 'gray', opacity: .3, renderOrder: 1 });
+        var data = [s, p];
+
+        //rotateObject(s, .01,[0,0,1])
+
+        var config = { type: 'threejs', frame: true, animate: true };
+
+        if (clip) config.clippingPlane = { vector: [0, 0, 5], distance: 0 }
+
+        evaluate(id, data, config);
+      }
+
+      parent.update(id);
+
+    </script>
+  </div>
+
+
+  <!-- هرم ع أساس -->
+
+
+
+  <div class="mathcell" style="width: 6in; height: 6in">
+    <script>
+    var parent = document.currentScript.parentNode;
+    var id = generateId();
+    parent.id = id;
+    
+    // إضافة منزلق للتحكم بارتفاع المقطع
+    MathCell(id, [
+      { type: 'slider', name: 'c', label: 'Cut Height:', min: 0, max: 5, value: 2 }
+    ]);
+    
+    parent.update = function(id) {
+      var c = getVariable(id, 'c'); // قيمة ارتفاع المستوى القاطع
+    
+      var h = 5; // ارتفاع الهرم
+      var baseSize = 2; // نصف طول قاعدة الهرم
+      
+      // القاعدة الأصلية
+      var base = parametric(
+        (u, v) => [baseSize * u, baseSize * v, 0],
+        [-1, 1], [-1, 1],
+        { color: 'blue', opacity: 0.6 }
+      );
+    
+      // المستوى القاطع
+      var cutBase = parametric(
+        (u, v) => [(baseSize * u * c / h), (baseSize * v * c / h), c],
+        [-1, 1], [-1, 1],
+        { color: 'red', opacity: 0.6 }
+      );
+    
+      // الأضلاع
+      var edges = [
+        line([[0, 0, h], [-baseSize, -baseSize, 0]], { color: 'green' }),
+        line([[0, 0, h], [-baseSize, baseSize, 0]], { color: 'green' }),
+        line([[0, 0, h], [baseSize, -baseSize, 0]], { color: 'green' }),
+        line([[0, 0, h], [baseSize, baseSize, 0]], { color: 'green' })
+      ];
+    
+      // الأضلاع إلى المقطع
+      var cutEdges = [
+        line([[-baseSize * c / h, -baseSize * c / h, c], [-baseSize, -baseSize, 0]], { color: 'gray' }),
+        line([[-baseSize * c / h, baseSize * c / h, c], [-baseSize, baseSize, 0]], { color: 'gray' }),
+        line([[baseSize * c / h, -baseSize * c / h, c], [baseSize, -baseSize, 0]], { color: 'gray' }),
+        line([[baseSize * c / h, baseSize * c / h, c], [baseSize, baseSize, 0]], { color: 'gray' })
+      ];
+    
+      var config = { type: 'threejs', frame: true };
+    
+      evaluate(id, [base, cutBase, ...edges, ...cutEdges], config);
+    };
+    
+    parent.update(id);
+    </script>
+    </div>
+    
+    
+
+
+
+</body>
+
+</html>

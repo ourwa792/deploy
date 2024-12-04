@@ -23,6 +23,7 @@
 
     [<span id="outputID">Change JSXGraph construction.</span>]
     <button onclick="show();">Show/hide additional elements!</button>
+    <button id="rotateButton">تدوير</button>
 
     <script>
 
@@ -32,25 +33,6 @@
             axis: true,
             //gride: true, showNavigation: true
         });
-        /*
-                var view = board.create('view3d',
-                    [
-                        [-6, -3],
-                        [8, 8], // 2D box of view
-                        [
-                            [-5, 5],
-                            [-5, 5],
-                            [-5, 5]
-                        ]
-                    ], // 3D bounding cube
-                    {});
-        
-                // Point A (free point)                       
-                var p = view.create('point3d', [1, 1, 2], { size: 5, name: 'A' });
-        
-                view.create('line3d', [p, [1, 0, 0], [0, () => -p.X() - 5]], { dash: 1 });
-                view.create('line3d', [p, [0, 1, 0], [0, () => -p.Y() - 5]], { dash: 1 });
-                view.create('line3d', [p, [0, 0, 1], [0, () => -p.Z() - 5]], { dash: 1 }) */
 
 
         /*  // إنشاء نقطة وخط على اللوحة
@@ -83,11 +65,14 @@
   */
 
 
+        //فيثاغورث      
+
         /*  var board = JXG.JSXGraph.initBoard('jxgbox', {boundingbox: [-6, 2, 5, -2],
             axis: true ,
-            keepAspectRatio:true}); */
+            keepAspectRatio:true}); 
 
-        /*  var p = board.create('point',[-1,-1],{name:"A"});
+
+         var p = board.create('point',[-1,-1],{name:"A"});
          var q = board.create('point',[0,0],{name:"B"});
  
          var circle1 = board.create("circle",[p,q],{strokeColor:"red", strokeWidth:4});
@@ -218,72 +203,6 @@
                           useMathJax: true
                       })
                   });  */
-        /* var isPlaying = false;
-    var starttime = 0;
-    var timeElapsed = 0;
-    var requestId = 0;
-
-    // تعريف أبعاد المستطيل
-    var x1 = 1, y1 = 1, x2 = 4, y2 = 3;
-    var perimeter = 2 * ((x2 - x1) + (y2 - y1)); // محيط المستطيل
-
-    // النقطة المتحركة حول المستطيل
-    var p = board.create('point', [
-        function() {
-            var d = (timeElapsed % perimeter) / perimeter; // نسبة المسافة المقطوعة على المحيط
-            if (d < (x2 - x1) / perimeter) {
-                return x1 + d * perimeter;
-            } else if (d < (x2 - x1 + y2 - y1) / perimeter) {
-                return x2;
-            } else if (d < (2 * (x2 - x1) + y2 - y1) / perimeter) {
-                return x2 - (d - (x2 - x1 + y2 - y1) / perimeter) * perimeter;
-            } else {
-                return x1;
-            }
-        },
-        function() {
-            var d = (timeElapsed % perimeter) / perimeter; // نسبة المسافة المقطوعة على المحيط
-            if (d < (x2 - x1) / perimeter) {
-                return y1;
-            } else if (d < (x2 - x1 + y2 - y1) / perimeter) {
-                return y1 + (d - (x2 - x1) / perimeter) * perimeter;
-            } else if (d < (2 * (x2 - x1) + y2 - y1) / perimeter) {
-                return y2;
-            } else {
-                return y2 - (d - (2 * (x2 - x1) + y2 - y1) / perimeter) * perimeter;
-            }
-        }
-    ], { trace: true });
-
-    // دالة تشغيل الرسوم المتحركة
-    function playing() {
-        timeElapsed = (Date.now() - starttime) / 1000;
-        board.update();
-        requestId = window.requestAnimationFrame(playing);
-    }
-
-    // دالة بدء الرسوم المتحركة
-    function play() {
-        if (!isPlaying) {
-            starttime = Date.now();
-            isPlaying = true;
-            playing();
-        }
-    }
-
-    // دالة إعادة تعيين الرسوم المتحركة
-    function resetAnimation() {
-        if (requestId) {
-            window.cancelAnimationFrame(requestId);
-        }
-        timeElapsed = 0;
-        isPlaying = false;
-        board.update();
-    }
-
-    // بدء الرسوم المتحركة عند تحميل الصفحة
-    play(); */
-
         // Create the reflexed traingle of two 
 
         /* const input = [
@@ -477,8 +396,9 @@
         }
     */
     
- /* Create an arc out of three free points
-    var A = board.create('point', [2, 4], {name:"A"});
+  // Create an arc out of three free points
+  /*
+  var A = board.create('point', [2, 4], {name:"A"});
     var C = board.create('point', [3, 2.0], {name:"C"});
     const c = board.create('circle', [C,A])
     var G = board.create('glider', [c], {name:"G"});
@@ -491,119 +411,35 @@
     var segment3 = board.create('line', [A,L], { straightFirst: false, straightLast: false })    
     var segment4 = board.create('line', [G,L], { straightFirst: false, straightLast: false })    
 
-    var arc_ = board.create('arc', [L,A,G], {strokeColor:'red',  selection: 'auto', visible: true})
+    var arc_ = board.create('arc', [A,G,L], {strokeColor:'red',  selection: 'auto', visible: true})
 
     board.create('text',[-2,2,function(){return 'الزاوية المركزية: ' + Math.round(arc.Value('degrees'))}]) 
     board.create('text',[2,2,function(){return 'الزاوية المحيطية: ' + Math.round(arc_.Value('degrees'))}]) 
- */
+ 
+*/
+// إنشاء لوحة
+var board = JXG.JSXGraph.initBoard('jxgbox', {boundingbox: [-5, 5, 5, -5], axis: true});
 
- /*  // Create a circle
- var center = board.create('point', [0, 0], { name: 'O', fixed: true });
-  var radiusPoint = board.create('point', [3, 0], { name: 'R', visible: false });
-  var circle = board.create('circle', [center, radiusPoint]);
+// إنشاء مثلث قابل للتحويل
+var p1 = board.create('point', [1, 1], {name: 'A', size: 2});
+var p2 = board.create('point', [3, 1], {name: 'B', size: 2});
+var p3 = board.create('point', [2, 3], {name: 'C', size: 2});
+var O = board.create('point', [0, 0], {name: 'O', size: 2});
+var triangle = board.create('polygon', [p1, p2, p3], {borders: {strokeColor: 'blue'}});
 
-  // Create points on the circle
-  var A = board.create('glider', [2, 2, circle], { name: 'A' });
-  var B = board.create('glider', [-2, 2, circle], { name: 'B' });
-  var C = board.create('glider', [2, -2, circle], { name: 'C' });
+// إضافة شريط تمرير للتحكم بزوايا الدوران
+let rotationSlider = board.create('slider', [[-4, -4], [4, -4], [0,1,3]], {
+    name: 'زاوية الدوران',
+    snapWidth: 1
+});
 
-   // إنشاء نقاط على المماس
-   var D = board.create('glider', [4, 0, circle], { name: 'D' });
-   var E = board.create('glider', [-4, 0, circle], { name: 'E' });
+let rotationTransform = board.create('transform', [function(){
+    return rotationSlider.Value() 
+}, 0],{ type: 'translate' });
 
-  // Create chords
-  var oB = board.create('line', [B,center], { straightFirst: false, straightLast: false });
-  var oA = board.create('line', [A,center], { straightFirst: false, straightLast: false });
-  var chordBC = board.create('line', [B, C], { straightFirst: false, straightLast: false });
-  var chordCA = board.create('line', [C, A], { straightFirst: false, straightLast: false });
+// Apply the rotation to the triangle (this can be applied on drag or any other event)
+rotationTransform.bindTo([p1,p2,p3]);
 
-  var tangent1 = board.create('tangent', [D, circle])
-  var tangent2 = board.create('tangent', [E, circle])
-  
-  // Create central angle
-  var centralAngle = board.create('angle', [B, center, A], {
-    name: '&alpha;',
-    radius: 0.5,
-    fillColor: 'yellow',
-    withLabel: true,
-  });
-
-  // Create inscribed angle
-  var inscribedAngle = board.create('angle', [B, C, A], {
-    name: '&beta;',
-    radius: 0.5,
-    fillColor: 'lightblue',
-    withLabel: true,
-  });
-
-  // إنشاء زاوية مماسية 1
-  var tangentAngle1 = board.create('angle', [B, D, A], { 
-    name: '&gamma;<sub>1</sub>',
-    radius: 0.5,
-    fillColor: 'purple',
-    withLabel: true
-  });
-
-  // إنشاء زاوية مماسية 2
-  var tangentAngle2 = board.create('angle', [B, E, A], {
-    name: '&gamma;<sub>2</sub>',
-    radius: 0.5,
-    fillColor: 'purple', // لون مختلف للزاوية المماسية الثانية
-    withLabel: true
-  });
-
-
-  // Function to ensure angle is within [0, 180]
-  function ensureMinorAngle(angle) {
-    angle = angle * 180 / Math.PI;
-    if (angle < 0) angle += 360;
-    if (angle > 180) angle = 360 - angle;
-    return angle;
-  }
-
-  // Display angle measures in degrees (outside the angle, normalized to [0, 180])
-  var centralAngleText = board.create('text', [
-    () => center.X() + 0.3,
-    () => center.Y() + 0.3,
-    () => ensureMinorAngle(centralAngle.Value()).toFixed(2) + '&deg;'
-  ]);
-
-  var inscribedAngleText = board.create('text', [
-    () => C.X() + 0.3,
-    () => C.Y() - 0.3,
-    () => ensureMinorAngle(inscribedAngle.Value()).toFixed(2) + '&deg;' // استخدام inscribedAngle.Value() هنا
-  ]);
-
-  
-  var tangentAngle1Text = board.create('text', [
-    () => D.X() + 0.3,
-    () => D.Y() + 0.3,
-    () => ensureMinorAngle(tangentAngle1.Value()).toFixed(2) + '&deg'
-  ]);
-
-  var tangentAngle2Text = board.create('text', [
-    () => E.X() - 0.3,
-    () => E.Y() + 0.3,
-    () => ensureMinorAngle(tangentAngle2.Value()).toFixed(2) + '&deg'
-  ]);
-
-  // Add instructions
-  var instructions = board.create('text', [
-    -4,
-    4,
-    'اسحب النقاط A و B و C على الدائرة لاستكشاف العلاقة بين الزوايا المركزية والمحيطية.'
-  ]); 
- */
-
- var board = JXG.JSXGraph.initBoard('jxgbox', {boundingbox: [-5, 2, 5, -2],keepAspectRatio:true, showCopyright:false, showNavigation:false });
- var p = board.create('point',[-2,0],{name:"A"});
- var q = board.create('point',[1,1.5],{name:"B"});
- var r = board.create('point',[1,-1],{name:"C"});
- var line1 = board.create('line',[p,q]);
- var line2 = board.create('line',[p,r]);
- var angle1 = board.create('angle',["C", "A", "B"], {radius:2});
- var angle2 = board.create('angle',[line2,line1,-1,-1], {radius:1,color:'green'});
- var angle3 = board.create('angle',[line2,line1,1,-1], {radius:1,color:'pink'});
 
 
     </script>

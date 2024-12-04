@@ -1,0 +1,142 @@
+<%- include('../partial/head.ejs') %>
+
+
+<link href="/css/animate.min.css" rel="stylesheet">
+  
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+ 
+<link rel="stylesheet" href="/css/jsxgraph.css">
+
+<link rel="stylesheet" href="/css/lesson.css"/>
+
+<script type="text/javascript" src="/library/jsxgraphcore.js"></script> 
+
+</head>
+
+<body style="margin: 0; padding: 0;">
+
+<div class="container">
+    <div class="row header animate__animated animate__fadeInDown d-flex align-items-center bg-warning">
+       
+        <!-- عمود العنوان -->
+         <div class="col-lg-4 col-md-4 col-sm-6">
+             <img src="<%= lesson.cover %>" 
+             class="rounded-2 float-start" style="width: 100%;">
+         </div>
+        
+        <div class="col-lg-8 col-md-8 col-sm-8">
+            <h1 class="text-start">
+                <%= lesson.title  %>
+            </h1>
+            <hr>
+        </div>
+    </div>
+    <div class="row">
+
+        <div class="col-lg-6 col-md-6 col-sm-12">
+            <p> سنقوم بإعطاء النشر معنى هندسي, من خلال تقسيم مساحة هذا المستطيل إلى 4 مستطيلات وفق الابعاد المدونة عليه 
+            </p>
+                
+        </div> 
+
+        <div class="col-lg-4 col-md-4 col-sm-12">
+            <div class="card border-info mb-2 float-end shadow-lg">
+                <img src="<%= lesson.resources[0].url %>" class="img-fluid">
+                <div class="card-text text-center">(c+d)(a+b)</div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="col-12 knowledge-section mt-4 animate__animated animate__fadeInLeft bg-info-subtle" >
+        <h3>تعلم</h3>
+
+        <%#- lesson.content %>
+        <!-- بداية المحتوى -->
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-12">
+                <h5><span style="background-color: rgb(246, 229, 218);"><strong>
+                    نشر (c+d)(a+b)
+                </strong></span></h5> <br>
+                <p> $ (a+b)×(c+d) $ <br> $ = a(c+d) + b(c+d) $ <br> 
+                    $ = a×c + a×d + b×c + b×d $ <br>
+                    $ = ac + ad + bc + bd $
+                </p>
+                <h5><span style="background-color: rgb(246, 229, 218);"><strong>
+                    توضيح هندسي:
+                </strong></span></h5> <br>
+                <p> في الشكل المرافق مساحة المستطيل ABCD تساوي مجموع مساحات المستطيلات الاربعة الملونة  </p>
+
+            </div>
+
+            <div id="jxgbox" class="jxgbox col-lg-8 col-md-8 col-sm-12 text-center" 
+            style="width: 650px; height: 400px; max-width: 95%;margin:10px;" dir="ltr">
+            </div>
+
+        </div>
+        <p class="example-box">مثال:
+            نشر واختصار
+            $ (x+5)(2x+1)=x(2x+1)+5(2x+1)=x × 2x + x × 1 +5×2x +5×1 =
+                2x^2+(1+10)x +5 = 2x^2+11x+5
+            $
+        </p>
+
+        <h5>كيف ننشر عبارة من الصيغة $ a-b(c+d) $</h5>
+        <p class="example-box"> مثال: يرمز $x$ إلى عدد.
+            أنشر ثم أنجز ناتج $ A=2-3(x+5) $
+       
+            <button class="btn btn-warning col-lg-2 col-md-2 col-sm-2" id="btn3" data-sound="/sound/less-13-1.mp3" >
+                أسمع
+            </button>
+        </p>
+        <div id="ex1"></div>
+
+        <h5>كيف ننشر عبارة من الصيغة $ (a-b)(c+d) $</h5>
+        <p class="example-box"> مثال: يرمز $x$ إلى عدد.
+            أنشر ثم أنجز ناتج $ A=(x-2)(2x+5) $
+        
+            <button class="btn btn-warning col-lg-2 col-md-2 col-sm-2" id="btn2" data-sound="/sound/less-13-2.mp3" >
+                أسمع
+            </button>
+
+        </p>
+        <div class="math-equation" id="ex2"></div>
+
+        <h5>كيف ننشر عبارة من الصيغة $ (a-b)(c-d) $</h5>
+        <p class="example-box"> مثال: يرمز $x$ إلى عدد.
+            أنشر ثم أنجز ناتج $ A=(x-1)(x-2) $
+        </p>
+        <div class="math-equation" id="ex3"></div>
+
+        
+        <h5>اكتب عبارة داخل القوسين ليتم   نشرها</h5>
+        <math-field class="mathfield">
+<!--             \mathrm{Factor}(2a+ab)
+ -->        </math-field>
+        <p class="example-box m-3 latex"></p>
+
+    </div>
+ 
+    <!-- end of content -->
+    <div class="container question-section col-12 col-sm-12 mt-4">
+        <h2>تحقق من فهمك</h2>
+
+        <h5>السؤال الاول</h5>
+        <p>أنشر ثم اختزل كلاً من العبارتين</p>
+        <div id="q1"></div>
+
+        <h5>السؤال الثاني</h5>
+        <p>أنشر ثم اختزل كلاً من العبارات</p>
+        <div id="q2"></div>
+    </div>
+    
+    
+            <a href="/" class="btn-sm btn-outline-info mt-5">
+                <span>الصفحة الرئيسية</span>
+            </a>
+   
+</div>
+    <script type="module" src="/js/less_13.js"></script>
+<%- include("../partial/end.ejs") %>

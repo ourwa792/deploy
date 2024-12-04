@@ -1,0 +1,479 @@
+<%- include('../partial/head.ejs') %>
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"
+        integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+
+    <link href="/css/animate.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="/css/e-learning-js.min.css" />
+
+    <script type="text/javascript" src="/library/jsxgraphcore.js"></script>
+    <link rel="stylesheet" href="/css/jsxgraph.css">
+
+    <script type="text/javascript" src="/library/e-learning-js.min.js"></script>
+
+    <style>
+        .header {
+            background-color: pink;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .learning-box {
+            background-color: #ffebcd;
+            padding: 10px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .learning-box img {
+            width: 80px;
+            height: auto;
+        }
+
+        .angle-box {
+            background-color: #ffe4e1;
+            padding: 10px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+            transition: transform 0.2s;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .angle-box:hover {
+            transform: scale(1.05);
+        }
+
+        .text-div {
+            background-color: #fafad2;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        ul li {
+            background-color: #e0ffff;
+            margin: 5px 0;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s;
+        }
+
+        ul li:hover {
+            background-color: #afeeee;
+        }
+
+
+
+        .table-container {
+            margin: 20px auto;
+            max-width: 800px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        .table {
+            width: 100%;
+            margin-bottom: 0;
+        }
+
+        .table th,
+        .table td {
+            vertical-align: middle;
+            text-align: center;
+        }
+
+        .image-cell {
+            max-width: 100px;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .highlight {
+            background-color: #f0f8ff;
+        }
+    </style>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/polyfill/7.0.0/polyfill.min.js"></script>
+    <script>
+        window.MathJax = {
+            loader: { load: ['input/tex', 'output/chtml', 'input/mml'] },
+            tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script> 
+
+    
+<body>
+    <div class="row header animate__animated animate__fadeInDown d-flex align-items-center">
+
+        <!-- عمود العنوان -->
+        <div class="col-lg-4 col-md-4 col-sm-4">
+            <img src="<%= lesson.cover %>" class="rounded-2 float-start" style="width: 100%;">
+        </div>
+
+        <div class="col-lg-8 col-md-8 col-sm-8">
+            <h1 class="text-start">
+                <%= lesson.title %>
+            </h1>
+            <hr>
+        </div>
+    </div>
+
+    <div class="row container animate__animated animate__fadeInUp">
+        <p class="col-lg-6 col-md-6 col-sm-6 ">
+            عندما ننظر إلى لوحة فسيفساء أو إلى سجادة أو حتى رصيف، نجد الكثير من الأشكال التي تتكرر هنا
+            وهناك مع تغيّر في المكان و الاتجاه، لتعطي في النهاية تناسقاً جميلاً للمنظر العام
+        </p>
+        <!-- عمود فارغ للـ gap -->
+        <div class="col-lg-1"></div>
+
+        <div class="col-lg-4 col-md-4 col-sm-12 border-2 border-black card shadow-lg" style="width: 18rem;">
+            <img src="<%= lesson.resources[0].url %>" class="card-img-top" alt="imgg">
+            <div class="card-text">
+                تساعد التناظرات الهندسية المعماريين و المزخرفين في أداء عملهم بشكل أسهل
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row my-4">
+        <div class="learning-box col-lg-6 col-sm-12">
+            <h5>تعلم:</h5>
+            <p>
+                نقول ان الشكلين متناظران بالنسبة إلى النقطة O إذا أمكن
+                تطبيق أحدهما على الآخر بدوران نصف دورة حول O.
+            </p>
+            <p>
+                نسمي O مركز التناظر و في هذه الحالة يكون كل منهما نظير الآخر بالنسبة للنقطة O
+            </p>
+        </div>
+
+        <!-- عمود فارغ للـ gap -->
+        <div class="col-lg-1"></div>
+
+        <div class="col-lg-4 col-md-4 col-sm-12 border-2 border-black card shadow-lg float-end"
+            style="width: 18rem;">
+            <img src="<%= lesson.resources[1].url %>" class="card-img-top" alt="imgg">
+           
+        </div>
+
+    </div>
+
+    
+    <div class="col-12 justify-content-center align-items-center">
+        <div class="container table-container">
+            <h5> <span style="color: rgb(248, 126, 126);">خاصة</spancolor> </h5>
+            <p style="color: red; font-weight: bold;">
+                التناظر المركزي يحافظ على الأشكال اي: المساحات و الزوايا و الأطوال و الوقوع على استقامة واحدة.
+                ولكنه يعكس الاتجاه
+            
+                <button class="btn btn-warning my-3" data-sound="/sound/less-25.mp3" id="btn2">
+                    تعبير شفهي
+                </button>  
+            </p>    
+        </div>
+
+        <div class="row container table-container animate__bounce">
+            <p > مثال: 
+                <br>
+                شبها المنحرف 'ABCD, A'B'C'D
+                متناظران بالنسبة للنقطة O
+                <ul>
+                    <li>$ AD = A'D' = 1cm $ و $ AB = A'B' = 3cm $</li>
+                    <li>النقاط C,M,D على استقامة واحدة والنقاط 'C' , D', M -النظائر- كذلك على استقامة واحدة </li>
+                    <li>$ \widehat{C} = \widehat{C'} و \widehat{A} = \widehat{A'} $</li>
+                </ul>
+            </p>
+        </div>
+
+        <div class="container">
+            <div id="box" class=" jxgbox w-75 h-75"
+                style="aspect-ratio: 1/1; max-width: 100%;margin:10px" dir="ltr">
+            </div>
+
+        </div>
+
+        <div class="row container table-container animate__bounce">
+            <h5>تدرب</h5>
+            <p class=" angle-box">الشكلان ABCD , A'B'C'D' متناظران بالنسبة للنقطة O
+                <ul class="grid12 no_list questions_1">
+                    <li>
+                        <span class="bold lesson_color">1.</span> 
+                        أحسب C'B' =
+                        <input size="8" type="text"
+                            autocomplete="off" /> و C'D' =
+                        <input size="8" type="text"
+                            autocomplete="off" /> 
+                      
+                    </li>
+                    <li>
+                        <span class="bold lesson_color">2.</span> 
+                        قياس الزاوية C' = 
+                        <input size="8" type="text"
+                            autocomplete="off" /> و D' =
+                        <input size="8" type="text"
+                            autocomplete="off" />
+                    </li>
+                    <li>
+                        <span class="bold lesson_color">3.</span> 
+                        أذكر ثلاث نقاط تقع على استقامة واحدة
+                        <input size="8" type="text"
+                            autocomplete="off" /> و
+                        <input size="8" type="text"
+                            autocomplete="off" /> و
+                        <input size="8" type="text"
+                            autocomplete="off" /> و
+                    </li>
+                    <li>
+                        <span class="bold lesson_color">4.</span> 
+                        حدد في الشكل A'B'C'D' المستقيم الموازي لـ C'D'
+                        <input size="8" type="text"
+                            autocomplete="off" /> 
+                   
+                    </li>
+                 
+                </ul>
+
+            </p>     
+            <div class="btn_activities">
+                <div id="check_answers_1">
+                    <span>Check</span>
+                </div>
+                <div id="reset_answers_1">
+                    <span>Reset</span>
+                </div>
+                <div id="answers_1">
+                    <span>Answers</span>
+                </div>
+            </div>
+
+            <div id="jxgbox" class=" jxgbox col-lg-10 col-md-10 col-sm-12 h-50"
+                style="aspect-ratio: 1/1; max-width: 100%;margin:10px" dir="ltr">
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="">
+                <a href="/" class="btn btn-outline-info mt-5">
+                    <img src="/icon/iconBack.png" class="" width="34" height="34">
+                    <span>الصفحة الرئيسية</span>
+    
+                </a>
+    
+            </div>
+        </div>
+
+    </div>
+
+    <script type="module">  
+
+        window.addEventListener("DOMContentLoaded", () => {
+            MathJax.typesetPromise().catch(function (err) {
+            console.error("MathJax failed to render:", err);
+        })
+
+        var brd = JXG.JSXGraph.initBoard("box", {
+            boundingbox: [-4, 4, 4, -4],
+            keepaspectratio: true,
+            axis: true,
+        });
+
+        var tape = brd.create('tapemeasure', [[1, 2], [3.5, 2]], { name: 'مسطرة', fontSize: 20, label: "مسطرة" });
+        
+        let points = [ 
+            brd.create("point", [-3,3], {name: "A", color:"blue"}),
+            brd.create("point", [1,3], {name: "B", color:"blue"}),
+            brd.create("point", [-1,1], {name: "C", color:"blue"}),
+            brd.create("point", [-2,1], {name: "M", color:"green"}),
+            brd.create("point", [-3,1], {name: "D", color:"blue"}),
+        ];
+
+        const poly = brd.create("polygon", points, {name: "ABCD"});
+        brd.create('smartlabel', [poly], {
+            unit: 'cm^2',
+            measure: 'area',
+            prefix: '   A = ',
+            cssClass: 'smart-label-pure smart-label-polygon',
+            highlightCssClass: 'smart-label-pure smart-label-polygon',
+        });
+
+        let s1 = brd.create("segment", [poly.vertices[0], poly.vertices[1]])
+
+        const O = brd.create("point", [0,0], {name: "O", color: "grey"})
+
+        brd.create('smartlabel', [s1], {unit: "cm", measure:"length", prefix:'AB = '})
+
+        let mirrorPoints = [];
+
+        points.forEach((point) => {
+
+            let mirrorPoint = brd.create('mirrorelement', [point, O], { name: point.name + "'" });
+
+            mirrorPoints.push(mirrorPoint); // إضافة النقطة المنعكسة إلى المصفوفة    
+            brd.create('button', [3,3, 'ارسم الشكل', function() {
+
+                var mirrPoly = brd.create('polygon', mirrorPoints, { borders: { strokeColor: 'red' } });
+                brd.create('smartlabel', [mirrPoly], {
+                    unit: ' cm^2 ',
+                    measure: 'area',
+                    prefix: 'A = ',
+                    cssClass: 'smart-label-pure smart-label-polygon',
+                    highlightCssClass: 'smart-label-pure smart-label-polygon',
+                });
+                
+                let s2 = brd.create("segment", [mirrPoly.vertices[0], mirrPoly.vertices[1]]);
+                brd.create('smartlabel', [s2], {unit: "cm", measure:"length", prefix:"'A'B' = "})
+                
+                brd.create('nonreflexangle', [mirrPoly.vertices[1], mirrPoly.vertices[2], mirrPoly.vertices[3]], {
+                    radius: .3,
+                    fillColor: 'red',
+                    name: function(){
+                        return JXG.Math.Geometry.trueAngle(mirrPoly.vertices[1], mirrPoly.vertices[2], mirrPoly.vertices[3])
+                        .toFixed(1) + '°';
+                    },
+                });
+        
+            }]);
+        });       
+        
+        brd.create('nonreflexangle', [poly.vertices[1], poly.vertices[2], poly.vertices[3]], {
+            radius: .3,
+            name: function(){
+                return JXG.Math.Geometry.trueAngle(poly.vertices[1], poly.vertices[2], poly.vertices[3])
+                .toFixed(1) + '°';
+            },
+        });
+        
+
+
+        createMultipleChoice({
+            questions_html: '.questions_1',
+            check_button: '#check_answers_1',
+            reset_button: '#reset_answers_1',
+            answer_button: '#answers_1',
+            answers: [
+                ['5'],['3'],
+                ['90'],['135'],
+                ['C','N'],['O'],['N','C'],
+                ['MF', 'FM']
+            ]
+        });
+
+        var board = JXG.JSXGraph.initBoard("jxgbox", {
+            boundingbox: [-8, 8, 8, -8],
+            keepaspectratio: true,
+            axis: true,
+        });
+
+        var tape = board.create('tapemeasure', [[-4, 5], [.5, 5]], { name: 'مسطرة', fontSize: 20, label: "مسطرة" });
+        
+        let boardPoints = [ 
+            board.create("point", [-4,4], {name: "A", color:"blue"}),
+            board.create("point", [-1,4], {name: "B", color:"blue"}),
+            board.create("point", [-1,1], {name: "C", color:"blue"}),
+            board.create("point", [-6,1], {name: "D", color:"blue"}),
+            board.create("point", [-7,2], {name: "E", color:"blue"}),
+        ];
+
+        board.create('nonreflexangle', [boardPoints[2], boardPoints[3], boardPoints[4]], {
+            radius: .4,
+            fillColor: 'red',
+            name: function(){
+                return JXG.Math.Geometry.trueAngle(boardPoints[2], boardPoints[3], boardPoints[4])
+                .toFixed(1) + '°';
+            },
+        });
+        board.create('nonreflexangle', [boardPoints[1], boardPoints[2], boardPoints[3]], {
+            radius: .4,
+            fillColor: 'red',
+            name: function(){
+                return JXG.Math.Geometry.trueAngle(boardPoints[1], boardPoints[2], boardPoints[3])
+                .toFixed(1) + '°';
+            },
+        }); 
+
+        const poly2 = board.create("polygon", boardPoints, {name: "$ABCD$"});
+        let DC = board.create('segment', [poly2.vertices[2], poly2.vertices[3], 5],{name:"DC"});
+        board.create('smartlabel', [DC], {unit: 'cm', measure: 'length', prefix: 'DC = ', useMathJax: true});
+        
+        let BC = board.create('segment', [poly2.vertices[1], poly2.vertices[2], 3],{name:"DC"});
+        board.create('smartlabel', [BC], {unit: 'cm', measure: 'length', prefix: 'BC = ', useMathJax: true});
+
+        const O2 = board.create("point", [0,0], {name: "O", color: "grey"})
+
+        // mirrorPoly -2-
+
+        let mirrorPoints2 = [];
+
+        boardPoints.forEach((point) => {
+         let mirrorPoint = board.create('mirrorelement', [point, O2], { name: point.name + "'" });
+         mirrorPoints2.push(mirrorPoint); // إضافة النقطة المنعكسة إلى المصفوفة    
+                
+            board.create('button', [5,2, `<p> {C'} = ? </p>`, function() {
+                    board.create('nonreflexangle', [mirrPoly2.vertices[1], mirrPoly2.vertices[2], mirrPoly2.vertices[3]], {
+                        radius: .3,
+                        fillColor: 'red',
+                        name: function(){
+                            return JXG.Math.Geometry.trueAngle(mirrPoly2.vertices[1], mirrPoly2.vertices[2], mirrPoly2.vertices[3])
+                            .toFixed(1) + '°';
+                        },
+                    }); 
+            }]);
+            board.create('button', [5,4, `<p> {D'} = ? </p>`, function() {
+                
+                board.create('nonreflexangle', [mirrPoly2.vertices[2], mirrPoly2.vertices[3], mirrPoly2.vertices[4]], {
+                    radius: .3,
+                    fillColor: 'red',
+                    name: function(){
+                        return JXG.Math.Geometry.trueAngle(mirrPoly2.vertices[2], mirrPoly2.vertices[3], mirrPoly2.vertices[4])
+                        .toFixed(1) + '°';
+                    },
+                }); 
+            }]);
+        });  
+
+        var mirrPoly2 = board.create('polygon', mirrorPoints2, { borders: { strokeColor: 'red' } });
+        
+        ///////
+        const buttons = document.querySelectorAll("button"); // تحديد جميع الأزرار
+        buttons.forEach(btn => {
+            const audio = new Audio(btn.getAttribute("data-sound"));
+            btn.addEventListener("click", e => {
+                if (!audio.playing) {
+                audio.play();
+                btn.disabled = true;  // تعطيل الزر أثناء تشغيل الصوت
+
+                audio.onended = () => {
+                    btn.disabled = false;
+                };
+                }
+            });
+
+        })            
+        
+    })
+
+    </script>
+
+
+
+    <%- include("../partial/end.ejs")%>

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>البوابة</title>
+</head>
+<body>
+    
+
+    <script>
+
+
+        // SCALING OPTIONS
+        // scaling can have values as follows with full being the default
+        // "fit"	sets canvas and stage to dimensions and scales to fit inside window size
+        // "outside"	sets canvas and stage to dimensions and scales to fit outside window size
+        // "full"	sets stage to window size with no scaling
+        // "tagID"	add canvas to HTML tag of ID - set to dimensions if provided - no scaling
+        
+        var scaling = "fit"; // this will resize to fit inside the screen dimensions
+        var width = 1024;
+        var height = 768;
+        
+        // as of ZIM 5.5.0 you do not need to put zim before ZIM functions and classes
+        var frame = new Frame(scaling, width, height);
+        frame.on("ready", function() {
+    zog("ready from ZIM Frame"); // logs in console (F12 - choose console)
+    
+    var stage = frame.stage;
+    var stageW = frame.width;
+    var stageH = frame.height;
+    frame.outerColor = "#444";
+    frame.color = "#ddd";
+    
+    // see http://zimjs.com/code/learn.html for video and code tutorials
+    // see http://zimjs.com/code/docs.html for documentation
+    // see http://zimjs.com/code/bits.html for 64 Interactive Media techniques
+    
+	var waiter = new Waiter({color:frame.blue, corner:0}).show();
+    
+    frame.loadAssets([
+		"researchbuilding.jpg", "jungle.jpg", "space.jpg", "icon.png",
+		"powerup.mp3", "zap.mp3", "street.mp3", "jungle.mp3"
+	]);
+    frame.on("complete", function() {
+        
+        waiter.hide();
+		var mobileCheck = mobile();
+        
+		// CREATE LANDS
+		var lands = new Container(stageW, stageH).addTo(stage);
+		var space = frame.asset("space.jpg")
+        .scaleTo({boundObj:lands, type:"biggest"})
+        .center(lands);
+        var jungle = frame.asset("jungle.jpg")
+        .scaleTo({boundObj:lands, type:"biggest"})
+        .center(lands)
+        .alp(0);
+		var researchBuilding = frame.asset("researchbuilding.jpg")
+        .scaleTo({boundObj:lands, type:"biggest"})
+        .center(lands);
+        
+		// CREATE PORTAL
+		var portalObject = new Circle(118, frame.faint, frame.pink, 16, true)
+        .addTo(stage)
+        .pos(580, 470)
+        .alp(0);
+		var portal = new Portal(portalObject, lands);
+        
+        
+        
+        
+        
+		// MOBILE AND SOUNDS
+		// The rest of this is to handle the fade in and most of it is the sounds!
+		// unfortunately, mobile needs two versions of the sounds due to a gap in the loop
+		// so it looks like a lot of code...
+        
+		var streetS = frame.asset("street.mp3");
+		var jungleS = frame.asset("jungle.mp3");
+		var streetSound, jungleSound, streetSound2, jungleSound2;
+        
+		// for mobile, use tap to start
+		if (mobileCheck) {
+            var button = new Button({
+                width:150,
+				height:150,
+				label:"TAP",
+				color:frame.blue,
+				corner:75
+			}).centerReg(stage).pos(portalObject.x, portalObject.y);
+			button.on("mousedown", function(){
+                button.removeFrom(stage);
+				startPortal();
+				streetSound = streetS.play({loop:-1});
+				jungleSound = jungleS.play({loop:-1, volume:0});
+				// double sounds are used due to gap in loop on mobile
+				streetSound2 = streetS.play({loop:-1, offset:10000});
+				jungleSound2 = jungleS.play({loop:-1, offset:10000, volume:0});
+			}, null, true);
+		} else {
+            // delay the animation - could have used wait on animations and waitCall to start the powerUp
+			timeout(1000, startPortal);
+			streetSound = streetS.play({loop:-1});
+			jungleSound = jungleS.play({loop:-1, volume:0});
+		}
+		function startPortal() {
+            frame.asset("powerup.mp3").play();
+			jungle.animate({alpha:1}, 1000);
+			portalObject
+            .animate({alpha:1}, 1000)
+            .animate({obj:{rotation:"360"}, time:70000, ease:"linear", loop:true, override:false}); // note relative rotation
+		}
+        
+		// the enter event is only being used to handle sounds
+		portal.on("enter", function() {
+            frame.asset("zap.mp3").play();
+			if (portal.currentLand == jungle) {
+                animate(jungleSound, {volume:1}, 500);
+				animate(streetSound, {volume:0}, 500);
+				if (mobileCheck) { // double sounds are used due to gap in loop on mobile
+					animate(jungleSound2, {volume:1}, 500);
+					animate(streetSound2, {volume:0}, 500);
+				}
+			} else if (portal.currentLand == space) {
+                animate(jungleSound, {volume:0}, 500);
+				if (mobileCheck) animate(jungleSound2, {volume:0}, 500);
+			} else {
+                animate(streetSound, {volume:1}, 500);
+				if (mobileCheck) animate(streetSound2, {volume:1}, 500);
+			}
+		});
+        
+		// use enabled to turn on and off portal
+		// timeout(1000, function() {portal.enabled = false; portalObject.pauseAnimate(true);});
+		// timeout(5000, function() {portal.enabled = true; portalObject.pauseAnimate(false);});
+        
+        
+		// ICON AND TITLE
+        
+		var icon = frame.asset("icon.png").addTo(stage).pos(14, 14);
+		icon.cursor = "pointer";
+		icon.on("click", function() {zgo("http://zimjs.com");});
+        
+		new Label({
+            text:"ZIM PORTAL",
+			size:20,
+			color:frame.white,
+			backing:new Rectangle(135,30,frame.black).alp(.1)
+		}).addTo(stage).alp(1).ske(10).pos(106, 39);
+        
+        stage.update();
+    }); // assets loaded
+    
+}); // end of ready
+
+</script>
+
+
+</body>
+</html>

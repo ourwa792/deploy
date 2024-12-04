@@ -1,0 +1,114 @@
+
+
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>رسم المضلع باستخدام JSXGraph</title>
+    <script src="/library/jsxgraphcore.js"></script>
+<style>
+    #jxgbox {
+        width: 500px;
+        height: 500px;
+        border: 1px solid black;
+    }
+    #controls {
+        margin-top: 10px;
+    }
+    #controls input {
+        width: 50px;
+        margin-right: 5px;
+    }
+</style>
+</head>
+<body>
+   
+    <div id="jxgbox" class="jxgbox"></div>
+    <div id="controls">
+        <input type="number" id="x-coordinate" placeholder="X" step="0.1">
+        <input type="number" id="y-coordinate" placeholder="Y" step="0.1">
+        <input type="text" id="point-name" placeholder="التسمية">
+        <button id="add-point-btn">إضافة نقطة</button>
+        <button id="reset-btn">إعادة ضبط اللوحة</button>
+    </div>
+    <div id="angle-info" style="margin-top: 10px;"></div>
+
+    <script>
+        // إعداد اللوحة
+        const board = JXG.JSXGraph.initBoard('jxgbox', {
+            boundingbox: [-10, 10, 10, -10],
+            axis: true
+        });
+
+        // قائمة لتخزين النقاط والمضلعات
+        let points = [];
+        let polygon;
+
+        // وظيفة لإضافة نقطة جديدة
+        document.getElementById('add-point-btn').addEventListener('click', () => {
+            // قراءة الإحداثيات من حقول الإدخال
+            const x = parseFloat(document.getElementById('x-coordinate').value);
+            const y = parseFloat(document.getElementById('y-coordinate').value);
+            const name = document.getElementById('point-name').value || '';
+
+            // التحقق من صحة الإدخال
+            if (isNaN(x) || isNaN(y)) {
+                alert('يرجى إدخال إحداثيات صحيحة.');
+                return;
+            }
+
+            // إضافة النقطة إلى اللوحة والقائمة
+            const point = board.create('point', [x, y], { name: name });
+            points.push(point);
+
+            // إذا كانت هناك ثلاث نقاط أو أكثر، ارسم المضلع
+            if (points.length > 2) {
+                // قم بإزالة المضلع القديم إذا كان موجودًا
+                if (polygon) {
+                    board.removeObject(polygon);
+                }
+                // رسم المضلع الجديد
+                polygon = board.create('polygon', points);
+
+                // إذا كان المضلع مثلثًا، احسب الزاوية عند النقطة الثانية
+                if (points.length === 3) {
+                    const angle = board.create('angle', [points[0], points[1], points[2]], {
+                        name: '',
+                        type: 'sector',
+                        radius: 1
+                    });
+                    const angleDegree = JXG.Math.Geometry.trueAngle(points[0], points[1], points[2]).toFixed(1);
+                    document.getElementById('angle-info').innerText = `قياس الزاوية عند النقطة الثانية: ${angleDegree}°`;
+                }
+            }
+
+            // إعادة تعيين حقول الإدخال
+            document.getElementById('x-coordinate').value = '';
+            document.getElementById('y-coordinate').value = '';
+            document.getElementById('point-name').value = '';
+        });
+
+        // وظيفة لإعادة ضبط اللوحة
+        document.getElementById('reset-btn').addEventListener('click', () => {
+            // إزالة جميع النقاط والمضلعات من اللوحة
+            points.forEach(point => board.removeObject(point));
+            if (polygon) {
+                board.removeObject(polygon);
+            }
+
+            // إعادة تعيين قائمة النقاط والمضلع
+            points = [];
+            polygon = undefined;
+
+            // إعادة تعيين حقول الإدخال
+            document.getElementById('x-coordinate').value = '';
+            document.getElementById('y-coordinate').value = '';
+            document.getElementById('point-name').value = '';
+
+            // إعادة تعيين معلومات الزاوية
+            document.getElementById('angle-info').innerText = '';
+        });
+    </script>
+</body>
+</html>

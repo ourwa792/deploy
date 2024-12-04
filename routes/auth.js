@@ -7,6 +7,7 @@ const { guestRout, protectedRoute } = require("../middleware/authMiddleWare");
 const { check, body } = require("express-validator");
 
 route.get("/register", guestRout, authController.getSign);
+
 route.post(
   "/register",
   guestRout,

@@ -1,245 +1,314 @@
-<!DOCTYPE >
-<html lang="ar" dir="rtl">
+<!DOCTYPE html>
+<html lang="en">
 
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>تمثيل الكسور والأعداد الكسرية</title>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
 
-        <link rel="stylesheet" href="https://unpkg.com/mathlive/dist/mathlive.core.css">
+    <link rel="stylesheet" href="/css/jsxgraph.css">
 
-        <style>
-            body {
-                font-family: Arial, sans-serif;
-                margin: 20px;
-                text-align: center;
+    <script type="text/javascript" src="/library/jsxgraphcore.js"></script>
+
+</head>
+
+<body>
+
+    <div id="jxgbox" style="width: 450px; height: 300px;"></div>
+    <button onclick="showTranslation()">اظهار الانسحاب</button>
+
+
+    <script> 
+    
+    JXG.Options.text.useMathJax = true;
+
+     var board = JXG.JSXGraph.initBoard('jxgbox', {
+            boundingbox: [-5, 5, 5, -5],
+           axis: true,
+            
+            keepaspectratio: true
+        });
+
+       /*  const input = [
+            0, 0,   // point P(x, y)
+            0, 20,  // point Q(x, y)
+            -8, 4,  // point A(x, y)
+            -2, 6,  // point B(x, y)
+            -5, 15, // point C(x, y)
+            3, 17,  // point A'(x, y)
+            8, 10,  // point B'(x, y)
+            6,4 ]
+    
+            let a = board.create('line', [[input[0], input[1]], [input[2], input[3]]], {
+                name: 'a',
+                withLabel: true,
+                label: {offset: [10, 0], fontSize: 16, align: 'middle'},
+                fixed: true,
+                strokeWidth: 3
+            })
+    
+            let A = board.create('point', [input[4], input[5]], {
+                name: "A",
+                label: {offset: [10,-5], fontSize: 16},
+                fixed: true,
+                snapToGrid: true
+            })
+    
+            let B = board.create("point", [input[6], input[7]], {
+                name: 'B',
+                label: {offset: [0,15], fontSize:15},
+                fixed: true,
+                snapToGrid: true
+            })
+    
+            let C = board.create('point', [input[8], input[9]], {
+                name: '\\(C\\)',
+                label: {offset: [0, 15], fontSize: 16},
+                fixed: true,
+                snapToGrid: true
+            });
+    
+            let ABC = board.create('polygon', [A,B,C], {
+                borders:{strokeWidth: 2}
+            })
+            // traingle A'B'C'
+            let A1 = board.create('point', [input[10], input[11]], {
+            name: '\\(A\'\\)',
+            label: {offset: [10, 0], fontSize: 16},
+            snapToGrid: true
+             });
+             let B1 = board.create('point', [input[12], input[13]], {
+            name: '\\(B\'\\)',
+            label: {offset: [10, 0], fontSize: 16},
+            snapToGrid: true
+            });
+            let C1 = board.create('point', [input[14], input[15]], {
+            name: '\\(C\'\\)',
+            label: {offset: [10, 0], fontSize: 16},
+            snapToGrid: true
+            });
+            let A1B1C1 = board.create('polygon', [A1, B1, C1], {
+            borders: {strokeWidth: 2}
+            });
+    
+            let opt;
+            let ABCref = board.create('reflection', [ABC,a], {
+                fillColor: "#cc3ccc",
+                borders: {strokeWidth: 1, strokeColor:"#cc3ccc"},
+                vertices: {size:1, strokeColor:"#cc3ccc", fillColor:"#cc3ccc"},
+                visible: () => {return !opt}
+            })
+    
+            let output = function() {
+                return [
+                    A1.X(), A1.Y(), B1.X(), B1.Y(), C1.X(), C1.Y()
+                ]
+            } */
+    
+        /*     A1.on('up', function(e){
+                document.getElementById('outputID').innerHTML = output()
+            })
+            B1.on('up', function(){
+                document.getElementById('outputID').innerHTML = output()
+            })
+            C1.on('up', function(){
+                document.getElementById('outputID').innerHTML = output()
+            }) */
+    
+           /*  let show = function(){
+                opt = !opt;
+                board.update()
+            } */
+
+            /* 
+                cone
+            */
+
+            var a = board.create('point', [0,3], {name: 'A', color: 'blue'});
+            var o = board.create('point', [0, -1], {name: 'O', color: 'red'});
+            
+            var ellipse = board.create('ellipse', [[4,-1],[-4,-1] , [1,0]], {
+                visible:false,
+                strokeColor: 'red',
+                strokeWidth:3,
+                fillColor: 'blue',     
+                fillOpacity: 0.5
+            });
+            
+            var b = board.create('glider', [4, 1, ellipse], {name: 'B', color: 'blue', trace:true});
+
+            board.create('segment', [a,b], {
+                trace: true,
+                strokeColor: 'green',
+                strokeWidth: 2
+            });
+            board.create('segment', [a,o], {
+                strokeColor: 'black',
+                strokeWidth: 1
+            });
+     
+            let az=board .create('slider', [[-4,-4],[5,-4],[0,0.54,2*Math.PI]], {style:6, name:'az'});
+
+            let kierto=board .create('transform', 
+            [function () {return 2*Math.PI-az.Value();}], {type: 'rotate'});
+            
+            board.create("point", [b, kierto], {trace:true})
+            
+    </script>
+
+
+<div id="jx" class="jxgbox" style="width: 750px; height: 700px;"></div>
+    
+<script>
+     board = JXG.JSXGraph.initBoard('jx', {boundingbox:[-1.5,2,8,-3], keepaspectratio:true, axis:true});
+   /*  var N = board.create('slider', [[0,1.5],[3,1.5],[1,3,40]], {name:'n',snapWidth:1});
+    var circ = board.create('circle',[[4,-1.5],1],{strokeWidth:1, strokecolor:'black', strokeWidth:2, fillColor:'#0055ff13'});
+    
+    var c = board.create('curve', [[0],[0]],{strokecolor:'red', strokeWidth:2}); 
+    c.updateDataArray = function() {
+            var r = 1, n = Math.floor(N.Value()), 
+                x = [0], y = [0],
+                phi = Math.PI/n,
+                h = r*Math.cos(phi),
+                s = r*Math.sin(phi),
+                i, j, 
+                px = 0, py = 0, sgn = 1, 
+                d = 10, 
+                dt = phi/d, 
+                pt;
+                
+            for (i=0;i<n;i++) {
+                for (j=-d;j<=d;j++) {
+                    pt = dt*j;
+                    x.push(px+r*Math.sin(pt));
+                    y.push(sgn*r*Math.cos(pt)-(sgn-1)*h*0.5);
+                }
+                px += s;
+                sgn *= (-1);
             }
+            x.push((n-1)*s);
+            y.push(h+(sgn-1)*h*0.5);
+            this.dataX = x;
+            this.dataY = y;
+        } */
 
-            #visualization {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                margin-top: 20px;
-                flex-wrap: wrap;
+    /* var c2 = board.create('curve', [[0],[0]],{strokecolor:'red', strokeWidth:1}); 
+    c2.updateDataArray = function() {
+            var r = 1, n = Math.floor(N.Value()), 
+                px = circ.midpoint.X(), py = circ.midpoint.Y(),  
+                x = [px], y = [py],
+                phi = Math.PI/n,
+                s = r*Math.sin(phi),
+                i, j, 
+                d = 16, 
+                dt = phi/d, 
+                pt = Math.PI*0.5+phi;
+                
+            for (i=0;i<n;i++) {
+                for (j=-d;j<=d;j++) {
+                    x.push(px+r*Math.cos(pt));
+                    y.push(py+r*Math.sin(pt));
+                    pt -= dt;
+                }
+                x.push(px);
+                y.push(py);
+                pt += dt;
             }
+            this.dataX = x;
+            this.dataY = y;
+        }
+ */
+        //board.update();
 
-            .circle-container {
-                position: relative;
-                margin: 10px;
-            }
-
-            canvas {
-                display: block;
-                margin: 0 auto;
-                border: 1px solid #ddd;
-                background-color: white;
-            }
-
-            .label {
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
-                font-size: 1.2em;
-                font-weight: bold;
-                color: blue;
-                text-align: center;
-            }
-        </style>
-    </head>
-
-    <body>
-
-        <h1>تمثيل الكسور والأعداد الكسرية</h1>
-        <p>أدخل كسرًا أو عددًا كسريًا:</p>
-        <math-field id="fractionInput"></math-field>
-        <button id="visualizeButton">عرض التمثيل البصري</button>
-
-        <div id="visualization"></div>
-        <div id="formulas">
-            <p>إليك بعض الأمثلة:</p>
-            <p>صيغة في داخل النص: \(a^2 + b^2 = c^2\)</p>
-            <p>صيغة في داخل النص: \(a^2 + b^2 = c^2\)</p>
-            <p>صيغة بشكل عرضي:</p>
-            <p>\[\frac{-b \pm \sqrt{b^2 - 4ac}}{2a}\]</p>
-            <p>\[\frac{-b \pm \sqrt{b^2 - 4ac}}{2a}\]</p>
-            <p>\[\frac{-3}{-5} + \sqrt{2^7}\]</p>
-        </div>
-
-
-        <script type="module">
-            import { ComputeEngine } from 'https://unpkg.com/@cortex-js/compute-engine?module';
-
-            import { MathfieldElement, renderMathInDocument } from '//unpkg.com/mathlive?module';
-
-
-            const ce = new ComputeEngine();
-
-            document.addEventListener('DOMContentLoaded', () => {
-                renderMathInDocument({
-                    TeX: {
-                        delimiters: {
-                            inline: [
-                                ['$', '$'],
-                                ['\\(', '\\)'],
-                            ],
-                            display: [
-                                ['\\[', '\\]'],
-                                ['$$', '$$'],
-                            ],
-                        },
-                    },
-                });
-
-                renderMathInDocument(); // Render LaTeX in the document
+        const slider = board.create('slider', [[-5, 5], [-2, 5], [4, 6, 40]], {
+                name: 'عدد القطاعات',
+                snapWidth: 1
             });
 
-            document.getElementById('visualizeButton').addEventListener('click', visualizeFraction);
+            // دائرة
+            const r = 5; // نصف القطر
+            const circle = board.create('circle', [[0, 0], r], {
+                strokeWidth: 2,
+                strokeColor: 'black',
+                fillOpacity: 0.1
+            });
 
-            function extractValues() {
-                const mf = document.getElementById('fractionInput');
-                const expr = mf.expression;
-                console.log('expr :', expr);
+            // القطاعات
+            let sectors = [];
 
-                const numerator = ce.box(['Numerator', expr], { canonical: false }).evaluate({ canonical: false }).value;
-                const denominator = ce.box(['Denominator', expr], { canonical: false }).evaluate({ canonical: false }).value;
+            const updateSectors = () => {
+                // إزالة القطاعات القديمة
+                sectors.forEach(sector => board.removeObject(sector));
+                sectors = [];
 
-                console.log('numerator :', numerator);
-                console.log('denominator :', denominator);
+                const n = Math.floor(slider.Value()); // عدد القطاعات
+                const phi = 2 * Math.PI / n; // الزاوية لكل قطاع
+                const center = [0, 0];
 
-                return { numerator, denominator };
-            }
+                // إنشاء القطاعات
+                for (let i = 0; i < n; i++) {
+                    const angle1 = i * phi;
+                    const angle2 = (i + 1) * phi;
 
-            function drawCircle(ctx, filledParts, totalParts) {
-                let startAngle = -0.5 * Math.PI;
-                const anglePerPart = (2 * Math.PI) / totalParts;
+                    const p1 = board.create('point', [
+                        center[0] + r * Math.cos(angle1),
+                        center[1] + r * Math.sin(angle1)
+                    ], { visible: false });
 
-                for (let i = 0; i < totalParts; i++) {
-                    const endAngle = startAngle + anglePerPart;
+                    const p2 = board.create('point', [
+                        center[0] + r * Math.cos(angle2),
+                        center[1] + r * Math.sin(angle2)
+                    ], { visible: false });
 
-                    ctx.beginPath();
-                    ctx.moveTo(75, 75);
-                    ctx.arc(75, 75, 70, startAngle, endAngle);
+                    const centerPoint = board.create('point', center, { visible: false });
 
-                    ctx.fillStyle = i < filledParts ? "lightgreen" : "lightgray";
-                    ctx.fill();
-                    ctx.strokeStyle = "black";
-                    ctx.stroke();
-                    ctx.closePath();
+                    const sector = board.create('sector', [centerPoint, p1, p2], {
+                        fillColor: (i % 2 === 0) ? 'orange' : 'lightblue',
+                        fillOpacity: 0.6,
+                        strokeColor: 'black',
+                        strokeWidth: 1
+                    });
 
-                    startAngle = endAngle;
+                    sectors.push(sector);
                 }
-            }
+            };
 
-            function visualizeFraction() {
-                const { numerator, denominator } = extractValues();
+            // ترتيب القطاعات لإظهار المستطيل
+            const arrangeSectors = () => {
+                const n = Math.floor(slider.Value());
+                const phi = 2 * Math.PI / n;
 
-                const visualization = document.getElementById('visualization');
-                visualization.innerHTML = '';
+                // إزالة القطاعات القديمة
+                sectors.forEach(sector => board.removeObject(sector));
+                sectors = [];
 
-                const whole = Math.floor(numerator / denominator);
-                const fractionNumerator = numerator % denominator;
+                for (let i = 0; i < n; i++) {
+                    const angle = i * phi;
+                    const xBase = i % 2 === 0 ? i * (2 * Math.PI * r / n) : i * (2 * Math.PI * r / n);
+                    const yBase = i % 2 === 0 ? r : -r;
 
-                for (let i = 0; i < whole; i++) {
-                    const container = document.createElement('div');
-                    container.className = 'circle-container';
+                    const p1 = board.create('point', [xBase, yBase], { visible: false });
+                    const p2 = board.create('point', [xBase + (2 * Math.PI * r / n), yBase], { visible: false });
 
-                    const canvas = document.createElement('canvas');
-                    canvas.width = 150;
-                    canvas.height = 150;
-                    const ctx = canvas.getContext('2d');
+                    const sector = board.create('polygon', [p1, p2], {
+                        fillColor: (i % 2 === 0) ? 'orange' : 'lightblue',
+                        fillOpacity: 0.6,
+                        strokeColor: 'black',
+                        strokeWidth: 1
+                    });
 
-                    drawCircle(ctx, 1, 1);
-
-                    const label = document.createElement('div');
-                    label.className = 'label';
-                    label.textContent = `1`;
-
-                    container.appendChild(canvas);
-                    container.appendChild(label);
-                    visualization.appendChild(container);
+                    sectors.push(sector);
                 }
+            };
 
-                if (fractionNumerator > 0) {
-                    const container = document.createElement('div');
-                    container.className = 'circle-container';
+            // رسم القطاعات الأولية
+            slider.on('drag', () => {
+                updateSectors();
+                arrangeSectors();
+            });
 
-                    const canvas = document.createElement('canvas');
-                    canvas.width = 150;
-                    canvas.height = 150;
-                    const ctx = canvas.getContext('2d');
+</script>
 
-                    drawCircle(ctx, fractionNumerator, denominator);
-
-                    const label = document.createElement('div');
-                    label.className = 'label';
-                    label.innerHTML = `\\(\\frac{${fractionNumerator}}{${denominator}}\\)`;
-
-                    container.appendChild(canvas);
-                    container.appendChild(label);
-                    visualization.appendChild(container);
-
-                    // Re-render the LaTeX formula inside the label داخل الدوائر
-                    renderMathInDocument();
-                }
-            }
-
-
-        </script>
-
-    </body>
+</body>
 
 </html>
-
-
-
-<!-- 
-
-  <script type="module">
-
-            const userInput = ["Add", ["Multiply", 2, 3], ["Divide", 10, 2]];
-
-            try {
-                // تحويل التعبير إلى تعبير مغلف
-                const boxedExpr = ce.box(userInput);
-
-                // تقييم التعبير للحصول على النتيجة العددية
-                const result = boxedExpr.evaluate();
-                console.log('Evaluated Result:', result.N().value);  // الناتج: 11
-
-                // تبسيط التعبير
-                const simplifiedExpr = boxedExpr.simplify();
-                console.log('Simplified Expression:', simplifiedExpr.latex);  // قد لا يكون هناك تبسيط إضافي، لكن يتم عرضه كـ LaTeX
-
-                // يمكنك أيضًا مقارنة التعبير مع تعبير آخر (مثال: "6 + 5")
-                const isEqual = boxedExpr.isSame(ce.box(["Add", 6, 5]).canonical);
-                console.log('Is Equal to "6 + 5"?', isEqual ? 'Yes' : 'No');  // الناتج: Yes
-
-            } catch (error) {
-                console.error('Error processing user input:', error);
-            }
-
-
-
-            function extractValues() {
-                //const mf = document.getElementById('mathField');
-                const mf = new MathfieldElement()
-                // الحصول على التعبير الرياضي من الحقل بدون تبسيط
-                const expr = mf.expression;  // يتم الحصول على التعبير كما أدخله المستخدم
-
-                // استخراج البسط والمقام بدون تبسيط
-                const numerator = ce.box(['Numerator', expr], { canonical: false })
-                .evaluate({ canonical: false }).value;
-                const denominator = ce.box(['Denominator', expr], { canonical: false })
-                .evaluate({ canonical: false }).value;
-
-                // عرض النتائج
-                document.getElementById('output').innerText =
-                    `Numerator: ${numerator}, Denominator: ${denominator}`;
-            }
-
-
-        </script>
-
--->
-

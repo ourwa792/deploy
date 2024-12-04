@@ -1,0 +1,520 @@
+<%- include('../partial/head.ejs') %>
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"
+        integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+
+    <link href="/css/animate.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="/css/e-learning-js.min.css" />
+
+    <script type="text/javascript" src="/library/jsxgraphcore.js"></script>
+    <link rel="stylesheet" href="/css/jsxgraph.css">
+
+    <script type="text/javascript" src="/library/e-learning-js.min.js"></script>
+
+    <style>
+        .header {
+            background-color: rgb(147, 255, 117);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .learning-box {
+            background-color: #ffebcd;
+            padding: 10px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .learning-box img {
+            width: 80px;
+            height: auto;
+        }
+
+        .angle-box {
+            background-color: #ffe4e1;
+            padding: 10px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+            transition: transform 0.2s;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .angle-box:hover {
+            transform: scale(1.05);
+        }
+
+        .text-div {
+            background-color: #fafad2;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        ul li {
+            background-color: #e0ffff;
+            margin: 5px 0;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s;
+        }
+
+        ul li:hover {
+            background-color: #afeeee;
+        }
+
+
+
+        .table-container {
+            margin: 20px auto;
+            max-width: 800px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        .table {
+            width: 100%;
+            margin-bottom: 0;
+        }
+
+        .table th,
+        .table td {
+            vertical-align: middle;
+            text-align: center;
+        }
+
+        .image-cell {
+            max-width: 100px;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .highlight {
+            background-color: #f0f8ff;
+        }
+    </style>
+
+<!-- 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/polyfill/7.0.0/polyfill.min.js"></script>
+    <script>
+        window.MathJax = {
+            loader: { load: ['input/tex', 'output/chtml', 'input/mml'] },
+            tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script> 
+ -->
+    
+<body>
+    <div class="row header animate__animated animate__fadeInDown d-flex align-items-center">
+
+        <!-- عمود العنوان -->
+        <div class="col-lg-4 col-md-4 col-sm-4">
+            <img src="<%= lesson.cover %>" class="rounded-2 float-start" style="width: 100%;">
+        </div>
+
+        <div class="col-lg-8 col-md-8 col-sm-8">
+            <h1 class="text-start">
+                <%= lesson.title %>
+            </h1>
+            <hr>
+        </div>
+    </div>
+
+    
+    <div class="row container animate__animated animate__fadeInUp">
+        <div class="col-lg-6 col-md-6 col-md-12">
+            <p > فن: <br>
+                يستعمل الرسامون الانسحاب في أعمالهم الفنية أحياناً لتسهيل عملية الرسم وعدم ارتكاب أخطاء
+            </p>
+    
+            <p>
+                فمثلاً في الرسم الجانبي يرسم الرسام السمكة -1- ثم ينسخها عدة مرات.
+                ثم يعدا عليها لتنتج السمكة رقم -2-  وينسخها عدة مرات وكذلك السمكة رقم -3-
+            </p>
+
+        </div>
+        <!-- عمود فارغ للـ gap -->
+        <div class="col-lg-1"></div>
+        
+        <div class="col-lg-4 col-md-4 col-sm-12 border-2 border-black shadow-lg">
+            <img src="<%= lesson.resources[0].url %>" class="card-img-top" alt="imgg">
+        </div>
+
+    </div>
+
+
+    <div class="row my-4">
+        <div class="bg-light border-1 rounded-2 col-lg-6 col-sm-12">
+            <h5>تعلم:</h5>
+            <p>
+                إزاحة شكل من مكان لآخر يسمى انسحاباً.
+                مثال:
+            </p>
+            <p>
+                الشكل -2- هو انسحاب للشكل -1- ونقول عندئذٍ: إن الشكل -2- صورة الشكل -1- وفق انسحاب.
+                <br>
+                الشكل -3- لا ينتج عن الشكل -1- وفق انسحاب.
+            </p>
+        </div>
+
+        <!-- عمود فارغ للـ gap -->
+        <div class="col-lg-1"></div>
+
+        <div class="col-lg-4 col-md-4 col-sm-12 border-2 border-black card shadow-lg float-end"
+            style="width: 18rem;">
+            <img src="<%= lesson.resources[1].url %>" class="card-img-top" alt="imgg">
+           
+        </div>
+
+    </div>
+
+
+    <div class=" justify-content-center align-content-center">
+        <h5>تحقق من فهمك</h5>
+        <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-12 ">
+
+                <ul class="number_list select_activity questions_3_1">
+                        <li data-question='1'>في الشكل المجاور حدد الأشكال التي هي صورة الشكل -1- وفق انسحاب
+                            <br>
+                            <div data-option='1'>2,4</div>
+                            <div data-option='2'>2,9,10</div>
+                            <div data-option='3'>6,7,8,9</div>
+                            <div data-option='4'>2,6,7,8</div>
+                        </li>                  
+                                       
+                </ul>
+                <div class="btn_activities grid13">
+                        <div id="check_answers_3_1">
+                            <span>Check</span>
+                        </div>
+                        <div id="reset_answers_3_1">
+                            <span>Reset</span>
+                        </div>
+                        <div id="answers_3_1">
+                            <span>Answers</span>
+                        </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-3 border-black card shadow-lg float-end">
+                <img src="<%= lesson.resources[2].url %>" class="img-fluid" alt="imgg">
+    
+            </div>
+
+        </div>
+
+        <div class="container table-container">
+            <h5> <span style="color: rgb(248, 126, 126);">انسحاب شكل على الشبكة</span> </h5>
+            <p>
+                قم بتحريك الشكل نحو اليمين 3 وحدات و نحو الأسفل 3 وحدات
+
+            </p>    
+        </div>
+
+        <div class="container">
+            <div id="box" class=" jxgbox w-75 mx-auto"
+                style="aspect-ratio: 1/1; max-width: 450px; max-height: 450px;" dir="ltr">
+            </div>
+
+        </div>
+
+        <div class="container table-container">
+            <h5> <span style="color: rgb(248, 126, 126);">انسحاب مضلع على الشبكة</span> </h5>
+            <p> لإيجاد صورة مضلع وفق انسحاب نوجد صور رؤوسه وفق هذا الانسحاب ثم نصل بين النقاط الناتجة
+                مثال:
+            </p>    
+            <p>
+                لإيجاد صورة المثلث وفق انسحاب 6 وحدات لليسار في الشكل المجاور 
+                نجري انسحاباً لليسار لكل من النقاط A,B,C
+            </p>
+        </div>
+
+        <div class="container">
+            <div id="box2" class=" jxgbox w-100 mx-auto col-lg-6 col-md-6 col-sm-12"
+                style="aspect-ratio: 1/1; max-width: 600px; max-height: 500px;" dir="ltr">
+            </div>
+
+        </div>
+
+        <div class="col-12 justify-content-center align-items-center">
+            <div class="container">
+                <h5>تدريب-1-</h5>
+                <p>
+                    ارسم صورة الشكل الأول وفق انسحاب 3 درجات نحو اليسار
+                    <br>
+                    ارسم صورة الشكل الثاني وفق انسحاب 5 درجات نحو الأسفل
+
+                </p>
+            </div>
+            <div id="box3" class=" jxgbox w-100 mx-auto col-lg-8 col-md-8 col-sm-12 m-auto"
+                style="aspect-ratio: 1/1; max-width: 100%; max-height: 500px;" dir="ltr">
+            </div>
+
+            <div class="container table-container">
+                <p>كيف تنشئ صورة شكل وفق انسحاب؟
+                    <button class="btn btn-sm btn-info my-3" data-sound="/sound/less-27.mp3" id="btn2">
+                        تعبير شفهي
+                    </button>              
+                </p>
+            </div>
+
+            <div class="container table-container">
+                <h5>تدريب-2-</h5>
+                <p> حدد كل شكل ينتج عن الآخر وفق انسحاب</p>
+
+                <img class="card img-fluid" src="<%= lesson.resources[3].url %>">
+
+                <p class="questions_9_1">
+                           
+                    الشكل-2-       
+                    <select data-position="question_9_2" class="input_select" autocomplete="off">
+                        <option value="" selected></option>
+                        <option value="1">الشكل4</option>
+                        <option value="2">الشكل5</option>
+                        <option value="3">الشكل6</option>
+               
+                    </select>.<br/>
+                   
+                    الشكل-3-
+                    <select data-position="question_9_3" class="input_select" autocomplete="off">
+                        <option value="" selected></option>
+                        <option value="1">الشكل4</option>
+                        <option value="2">الشكل5</option>
+                        <option value="3">الشكل6</option>
+                    
+                    </select> <br/>
+                  
+
+                    <div class="btn_activities grid12">
+                        <div id="check_answers_9_1">
+                            <span>Check</span>
+                        </div>
+                        <div id="reset_answers_9_1">
+                            <span>Reset</span>
+                        </div>
+                        <div id="answers_9_1">
+                            <span>Answers</span>
+                        </div>
+                    </div>
+
+            </div>
+
+        </div>
+
+        
+        <div class="row">
+            <div class="">
+                <a href="/" class="btn btn-outline-info mt-5">
+                    <img src="/icon/iconBack.png" class="" width="34" height="34">
+                    <span>الصفحة الرئيسية</span>
+    
+                </a>
+    
+            </div>
+        </div>
+
+    </div>
+
+
+    <script>
+        window.addEventListener("DOMContentLoaded", ()=> {
+        
+            createSelect ({
+                questions_html: '.questions_3_1',
+                check_button: '#check_answers_3_1',
+                reset_button: '#reset_answers_3_1',
+                answer_button: '#answers_3_1',
+                answers: [4]
+            });
+
+            // board -1-
+
+            var board1 = JXG.JSXGraph.initBoard("box", {
+                boundingbox: [-4, 4, 4, -4],
+                keepaspectratio: true,
+                axis: true,
+            });
+
+            var img1 = board1.create('image', [
+            '/image/انسحاب.png', // رابط الصورة
+            [-3,2], // إحداثيات الزاوية السفلى اليسرى
+            [1, 1]  //حجم الصورة (عرض وارتفاع)
+            ], {});
+            var img2 = board1.create('image', [
+            '/image/انسحاب.png', // رابط الصورة
+            [-3,2], // إحداثيات الزاوية السفلى اليسرى
+            [1, 1]  //حجم الصورة (عرض وارتفاع)
+            ], {});
+            board1.create('image', [
+            '/image/انسحاب.png', // رابط الصورة
+            [-3,2], // إحداثيات الزاوية السفلى اليسرى
+            [1, 1]  //حجم الصورة (عرض وارتفاع)
+            ], {});
+
+            const pointArrow1 = board1.create("point", [-2.5,2.5], {visible: false, trace:true})
+            const pointArrow2 = board1.create("point", [-2.5,2.5], {visible: false, trace:true})
+
+            board1.create("button", [2,3, "تحرك لليمين 3 خطوات", ()=> {
+                img1.moveTo([0,2], 3000)
+                pointArrow1.moveTo([.5,2.5], 3000)
+            }]);
+
+            board1.create("button", [-2,-3, "تحرك للأسفل 3 خطوات", ()=> {
+                img2.moveTo([-3,-1], 3000)
+                pointArrow2.moveTo([-2.5, -.5], 3000)
+            }]);
+
+
+            // -board 2-
+
+            var board2 = JXG.JSXGraph.initBoard("box2", {
+                boundingbox: [-5, 5, 5, -5],
+                keepaspectratio: true,
+                axis: true,
+            });
+
+            var A = board2.create('point', [-1, 2], {name: 'A', size: 3, color: 'blue'});
+            var B = board2.create('point', [-5, 0], {name: 'B', size: 3, color: 'blue'});
+            var C = board2.create('point', [-4, 3], {name: 'C', size: 3, color: 'blue'});
+
+            // المضلع الأساسي
+            var polygon = board2.create('polygon', [A, B, C], {
+                borders: {strokeColor: 'blue', strokeWidth:2}
+            });
+
+            var s1 = board2.create('slider', [[-2, -2], [2, -2], [0, 2, 7]], { name: 'انسحاب لليسار' });
+            var translateTransform = board2.create('transform', [function () { return s1.Value(); } ,0],
+            {type: 'translate'});
+
+            //translateTransform.bindTo([B, C, A]); 
+
+
+             var A2 = board2.create('point', [A, translateTransform], {name: 'A\'', size: 3, color: 'red'});
+            var B2 = board2.create('point', [B, translateTransform], {name: 'B\'', size: 3, color: 'red'});
+            var C2 = board2.create('point', [C, translateTransform], {name: 'C\'', size: 3, color: 'red'});
+
+            // المضلع المنسحب
+            var transformedPolygon = board2.create('polygon', [A2, B2, C2], {
+                borders: {strokeColor: 'red', strokeWidth:2, dash: 2}
+            }); 
+            
+
+            board2.create('arrow', [A, A2], {strokeColor: "green", dash: 2});
+            board2.create('arrow', [B, B2], {strokeColor: "green", dash: 2});
+            board2.create('arrow', [C, C2], {strokeColor: "green", dash: 2}); 
+
+            // board -3-
+
+            var board3 = JXG.JSXGraph.initBoard("box3", {
+                boundingbox: [-10, 10, 10, -10],
+                keepaspectratio: true,
+                axis: true,
+            });
+            var AA = board3.create("point", [10,0], {name:"A", size: 3, color: 'blue'});
+            var BB = board3.create('point', [15, 0], {name: 'B', size: 3, color: 'blue'});
+            var CC = board3.create('point', [18, 4], {name: 'C', size: 3, color: 'blue'});
+            var DD = board3.create('point', [12, 8], {name: 'D', size: 3, color: 'blue'});
+            var EE = board3.create('point', [10, 4], {name: 'E', size: 3, color: 'blue'});
+
+            var AAA = board3.create("point", [-15,6], {name:"A", size: 3, color: 'blue'});
+            var BBB = board3.create('point', [-10, 0], {name: 'B', size: 3, color: 'blue'});
+            var CCC = board3.create('point', [-5, 2], {name: 'C', size: 3, color: 'blue'});
+            var DDD = board3.create('point', [-10, 8], {name: 'D', size: 3, color: 'blue'});
+
+            // المضلع الأساسي
+            var polygon1 = board3.create('polygon', [AA, BB, CC, DD, EE], {
+                fillColor: "blue",
+                borders: {strokeColor: 'blue', strokeWidth:2}
+            });
+            // المضلع الأساسي
+            var polygon1 = board3.create('polygon', [AAA, BBB, CCC, DDD], {
+                fillColor: "blue",
+                borders: {strokeColor: 'blue', strokeWidth:2}
+            });
+
+            var slider1 = board3.create('slider', [[10, -5], [15, -5], [0, .5, 3]], { name: 'انسحاب لليسار' });
+            var slider2 = board3.create('slider', [[-5, 7], [1, 7], [0, 1, 5]], { name: 'انسحاب للأسفل' });
+           
+            var translateTransform1 = board3.create('transform', [function () { return -slider1.Value(); },0],
+            {type: 'translate'});
+            var translateTransform2 = board3.create('transform', [0,function () { return -slider2.Value(); }],
+            {type: 'translate'});
+
+            var AA2 = board3.create('point', [AA, translateTransform1], {name: 'A\'', size: 3, color: 'red'});
+            var BB2 = board3.create('point', [BB, translateTransform1], {name: 'B\'', size: 3, color: 'red'});
+            var CC2 = board3.create('point', [CC, translateTransform1], {name: 'C\'', size: 3, color: 'red'});
+            var DD2 = board3.create('point', [DD, translateTransform1], {name: 'D\'', size: 3, color: 'red'});
+            var EE2 = board3.create('point', [EE, translateTransform1], {name: 'E\'', size: 3, color: 'red'});
+           
+            var AA3 = board3.create('point', [AAA, translateTransform2], {name: 'A\'', size: 3, color: 'red'});
+            var BB3 = board3.create('point', [BBB, translateTransform2], {name: 'B\'', size: 3, color: 'red'});
+            var CC3 = board3.create('point', [CCC, translateTransform2], {name: 'C\'', size: 3, color: 'red'});
+            var DD3 = board3.create('point', [DDD, translateTransform2], {name: 'D\'', size: 3, color: 'red'});
+
+            // المضلع المنسحب
+            board3.create('polygon', [AA2, BB2, CC2, DD2, EE2], {
+                borders: {strokeColor: 'red', strokeWidth:2, dash: 2}
+            }); 
+            board3.create('polygon', [AA3, BB3, CC3, DD3], {
+                borders: {strokeColor: 'red', strokeWidth:2, dash: 2}
+            }); 
+
+            // extra
+            board3.create("polygon", [[15,-2], [10, -2], [8,-4],[10,-6], [15,-6]], {
+                snapToGrid:true,borders: false,withLines:false, fillColor: "grey"
+            })
+
+            // extra
+            board3.create("polygon", [[-5,-2], [-10, -2], [-14,-4],[-10,-6]], {
+                snapToGrid:true,borders: false,withLines:false, fillColor: "grey"
+            });
+
+
+            //////
+            createAccordionSelect ({
+                questions_html: '.questions_9_1',
+                check_button: '#check_answers_9_1',
+                reset_button: '#reset_answers_9_1',
+                answer_button: '#answers_9_1',
+                answers: [2, 1]
+            });
+            const buttons = document.querySelectorAll("button"); // تحديد جميع الأزرار
+
+            buttons.forEach(btn => {
+                const audio = new Audio(btn.getAttribute("data-sound"));
+                btn.addEventListener("click", e => {
+                    if (!audio.playing) {
+                    audio.play();
+                    btn.disabled = true;  // تعطيل الزر أثناء تشغيل الصوت
+
+                    audio.onended = () => {
+                        btn.disabled = false;
+                    };
+                    }
+                });
+
+            })
+    })
+
+    </script>
+
+<%- include("../partial/end.ejs")%>

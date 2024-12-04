@@ -43,7 +43,8 @@
     <div class="jxgbox" id="jxgbox"></div>  
 
     <script>
-
+   
+/*
         (function () {
 		    var board = JXG.JSXGraph.initBoard('jxgboxconic', {
 		        boundingbox: [-8, 8, 8, -8],
@@ -82,7 +83,7 @@
 		    ], { strokeColor: 'black', strokeWidth: 2, strokeOpacity: 0.2 });
 		})();
 
-        
+*/    
         var board = JXG.JSXGraph.initBoard('jxgbox', {
             boundingbox: [-8, 8, 8, -8],
 		        keepaspectratio: true,
@@ -123,21 +124,45 @@
         });
 
 
-        var s = board.create("slider", [ [-7,-6], [5,-6], [-3,1,4]], {name: "s"})
+        /* var s = board.create("slider", [ [-7,-6], [5,-6], [-3,1,4]], {name: "s"})
 
-            var A = view.create('point3d', [1, ()=> s.Value(), ()=> s.Value()], { size: 5 });  // Point A
-		    var B = view.create('point3d', [()=> s.Value(), 1, ()=> s.Value()], { size: 5 });  // Point B
-		    var C = view.create('point3d', [()=> s.Value(), ()=> s.Value(), 1], { size: 5 });  // Point C
+        var A = view.create('point3d', [1, ()=> s.Value(), ()=> s.Value()], { size: 5 });  // Point A
+	    var B = view.create('point3d', [()=> s.Value(), 1, ()=> s.Value()], { size: 5 });  // Point B
+	    var C = view.create('point3d', [()=> s.Value(), ()=> s.Value(), 1], { size: 5 });  // Point C
+ 
 
-
-        // 3. إنشاء المضلع ثلاثي الأبعاد
         var polygon3D = view.create('polygon3d', [A,B,C], {
             strokeColor: '#00F',
             fillColor: '#AAF',
             fillOpacity: 0.5
-        });  
+        }); 
+*/
 
-        (function(){console.log("hi")})()        
+        var p1 = view.create('point3d', [0,0,0], { name:'A', size: 5 });
+		var p2 = view.create('point3d', [3,0,0], { name:'B', size: 5 });
+		var p3 = view.create('point3d', [0,3,0], { name:'C', size: 5 });
+		var p4 = view.create('point3d', [0,0,3], { name:'D', size: 5 });
+		var p5 = view.create('point3d', [3,3,0], { name:'E', size: 5 });
+		var p6 = view.create('point3d', [0,3,3], { name:'F', size: 5 });
+		var p7 = view.create('point3d', [3,0,3], { name:'G', size: 5 });
+		var p8 = view.create('point3d', [3,3,3], { name:'H', size: 5 });
+
+		view.create("polygon3d", [p1,p2,p5,p3,p1], {fillColor:"blue",  fillOpacity: 0.1 })
+		view.create("polygon3d", [p1,p2,p7,p4,p1], {fillColor:"blue",  fillOpacity: 0.1 })
+		view.create("polygon3d", [p1,p3,p6,p4,p1], {fillColor:"blue",  fillOpacity: 0.1 })
+		view.create("polygon3d", [p5,p2,p7,p8,p5], {fillColor:"blue",  fillOpacity: 0.1 })
+		view.create("polygon3d", [p7,p4,p6,p8,p7], {fillColor:"blue",  fillOpacity: 0.1 })
+
+		var s = board.create("slider", [ [-7,-6], [5,-6], [0,0,3]], {name: "s"})
+
+		var c1 = view.create('point3d', [0,0,()=> -s.Value()], { name:'C', size: 5 , visible:true});
+
+        var e = view.create('point3d', [()=>s.Value(),0,()=>-s.Value()], { name:'E', size: 5 , visible:true});
+
+		var f = view.create('point3d', [0,3,3], { name:'F', size: 5 , visible:true});
+		var h = view.create('point3d', [3,3,3], { name:'H', size: 5 , visible:true});
+
+
 
          /*
         // إعداد نقطة المركز للمخروط

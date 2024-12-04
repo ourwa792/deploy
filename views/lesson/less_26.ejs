@@ -1,0 +1,540 @@
+<%- include('../partial/head.ejs') %>
+
+
+    <link href="/css/animate.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="/css/e-learning-js.min.css" />
+
+    <script type="text/javascript" src="/library/jsxgraphcore.js"></script>
+    <link rel="stylesheet" href="/css/jsxgraph.css">
+
+
+    <style>
+        .header {
+            background-color: pink;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .learning-box {
+            background-color: #ffebcd;
+            padding: 10px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .learning-box img {
+            width: 80px;
+            height: auto;
+        }
+
+        .angle-box {
+            background-color: #ffe4e1;
+            padding: 10px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+            transition: transform 0.2s;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .angle-box:hover {
+            transform: scale(1.05);
+        }
+
+        .text-div {
+            background-color: #fafad2;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        ul li {
+            background-color: #e0ffff;
+            margin: 5px 0;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s;
+        }
+
+        ul li:hover {
+            background-color: #afeeee;
+        }
+
+
+
+        .table-container {
+            margin: 20px auto;
+            max-width: 800px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        .table {
+            width: 100%;
+            margin-bottom: 0;
+        }
+
+        .table th,
+        .table td {
+            vertical-align: middle;
+            text-align: center;
+        }
+
+        .image-cell {
+            max-width: 100px;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .highlight {
+            background-color: #f0f8ff;
+        }
+    </style>
+    
+<body>
+    <div class="row header animate__animated animate__fadeInDown d-flex align-items-center">
+
+        <!-- عمود العنوان -->
+        <div class="col-lg-4 col-md-4 col-sm-4">
+            <img src="<%= lesson.cover %>" class="rounded-2 float-start" style="width: 100%;">
+        </div>
+
+        <div class="col-lg-8 col-md-8 col-sm-8">
+            <h1 class="text-start">
+                <%= lesson.title %>
+            </h1>
+            <hr>
+        </div>
+    </div>
+
+    <div class="row container animate__animated animate__fadeInUp">
+        <p class="col-lg-6 col-md-6 col-sm-6 ">
+            تعرفنا في الدرس السابق على الأشكال المتناظرة بالنسبة لنقطة، والأن سوف نتعلم إيجاد نظير
+            نقطة، مستقيم، قطعة مستقيمة، دائرة بالنسبة إلى نقطة.
+        </p>
+        <!-- عمود فارغ للـ gap -->
+        <div class="col-lg-1"></div>
+
+        <div class="col-lg-4 col-md-4 col-sm-12 border-2 border-black card shadow-lg">
+            <img src="<%= lesson.resources[0].url %>" class="card-img-top" alt="imgg">
+            <div class="card-text">
+                تساعد التناظرات الهندسية المعماريين و المزخرفين في أداء عملهم بشكل أسهل
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row my-4">
+        <div class=" col-lg-6 col-sm-12">
+            <h5>تعلم:</h5>
+            <p>
+                <button class="btn btn-info my-3" data-sound="/sound/less-26.mp3" id="btn2">
+                    تعبير شفهي
+                </button>    
+                <ul>
+                    <li>نظير النقطة A هي النقطة A' التي تجعل O منتصف القطعة المستقيمة AA'</li>
+                    <li>نظير مستقيم هو مستقيم يوازيه</li>
+                    <li>نظير قطعة مستقيمة هي قطعة مستقيمة توازيها وتساويها طولاً</li>
+                    <li>نظير دائرة  هي دائرة مركزها نظير الأصلية وأنصاف أقطارهما متساوية</li>
+                
+                </ul>
+
+            </p>
+           
+        </div>
+
+
+        <div class="col-lg-6 col-md-6 col-sm-12 border-2 border-black float-end"
+      >
+            <img src="<%= lesson.resources[1].url %>" class="card img-fluid" alt="imgg">
+           
+        </div>
+
+        
+    </div>
+    
+    <div class="d-flex flex-row justify-content-center align-items-center">
+        <div id="box1" class=" jxgbox col-lg-10 col-md-10 col-sm-12 mx-auto"
+                style="aspect-ratio: 1/1; max-width: 100%; max-height: 560px;" dir="ltr">
+        </div>
+    </div>
+    
+    <div class="col-12 justify-content-center align-items-center">
+        <div class="container table-container">
+            <h5> <span style="color: rgb(248, 126, 126);">طريقة إنشاء نظير شكل</span> </h5>
+            <p style="color: red; font-weight: bold;">
+                <ul>
+                    <li>نختار بعض النقاط منه وبصورة خاصة رؤوسه</li>
+                    <li>ننشئ نظائر هذه النقاط </li>
+                    <li>نصل بين النظائر بترتيب مماثل للنقاط الأصلية</li>
+                </ul>
+
+            </p>    
+        </div>
+
+        <div class="row container table-container animate__bounce">
+            <p > مثال: 
+                <br>
+                الشكل المرسوم جانباً مؤلف من مثلث ABC ونصف دائرة قطرهاBC
+                ومركزها I
+                انشئ نظير هذا الشكل بالنسبة للنقطةO
+                من خلال الضغط على النقاط لرسم نظائرها
+            </p>
+        </div>
+
+        <div class="d-flex flex-row justify-content-center align-items-center">
+            <div id="box2" class=" jxgbox col-lg-10 col-md-10 col-sm-12 mx-auto"
+                    style="aspect-ratio: 1/1; max-width: 100%; max-height: 560px;" dir="ltr">
+            </div>
+        </div>
+
+        <div class="row container table-container animate__bounce">
+            <p > 
+                في الشكل المجاور:
+                <br>
+                BC = 2 , AB = 4, AE = 2, DE = 3
+                انشئ نظير هذا الشكل بالنسبة للنقطة D.
+            </p>
+        </div>
+
+        <div class="d-flex flex-row justify-content-center align-items-center">
+            <div id="box3" class=" jxgbox col-lg-10 col-md-10 col-sm-12 mx-auto"
+                    style="aspect-ratio: 1/1; max-width: 100%; max-height: 560px;" dir="ltr">
+            </div>
+        </div>
+
+        
+        <div class="row container table-container animate__bounce">
+            <h5>تدرب</h5>
+            <p>حدد نطائر النقاط A,B,C
+                بالنسبة للنقطة O
+            </p>
+        </div>
+
+        <div class="d-flex flex-row justify-content-center align-items-center">
+                
+            <div id="box4" class=" jxgbox col-lg-6 col-md-6 col-sm-12 mx-auto"
+                style="aspect-ratio: 1/1; max-width: 100%; max-height: 520px;" dir="ltr">
+            </div>
+            
+        </div>
+
+        <div class="row container table-container animate__backInDown">
+            <h5>تدرب</h5>
+            <p>انشئ نظير الدائرة التي مركزها O بالنسبة للنقطة O'</p>
+        </div>
+
+        <div class="d-flex flex-row justify-content-center align-items-center">
+            <div id="box5" class="jxgbox col-11 mx-auto"style="aspect-ratio: 1/1; max-width: 100%; max-height: 520px;" dir="ltr">
+
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="">
+                <a href="/" class="btn btn-outline-info mt-5">
+                    <img src="/icon/iconBack.png" class="" width="34" height="34">
+                    <span>الصفحة الرئيسية</span>
+    
+                </a>
+    
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        window.addEventListener("DOMContentLoaded", () => {
+
+        var brd1 = JXG.JSXGraph.initBoard("box1", {
+            boundingbox: [-4, 4, 4, -4],
+            keepaspectratio: true,
+            axis: true,
+        });
+
+        var a = brd1.create("point", [0,2], {name:"A", color:"black"})
+        var b = brd1.create("point", [-1,0], {name:"B", color:"black"})
+        var c = brd1.create("point", [-4,3], {name:"C", color:"black"})
+        var d = brd1.create("point", [-2,2], {name:"D", color:"black"})
+        var e = brd1.create("point", [-4,0], {name:"E", color:"black"})
+        var h = brd1.create("point", [-4,2], {name:"H", color:"black"})
+        var o = brd1.create("point", [0,0], {name:"O", Color:"grey"})
+
+
+        var line = brd1.create("line", [a,b], {strokeColor:"green"})
+        
+        var segment = brd1.create("segment", [c,d]);
+        brd1.create('text', [
+            function() { return (c.X() + d.X()) / 2; },  // الموقع الأفقي للنص (منتصف القطعة)
+            function() { return (c.Y() + d.Y()) / 2 + 0.5; },  // الموقع العمودي للنص (فوق القطعة قليلاً)
+            function() { return segment.L().toFixed(2); }  // محتوى النص
+        ], {
+            anchorX: 'middle',
+            anchorY: 'bottom',
+            fontSize: 16,
+            strokeColor: 'blue'
+        });
+
+
+        var circle = brd1.create("circle", [e,h], {strokeColor:"red"});
+
+
+        var r = brd1.create("segment", [e,h], {dash:2, strokeColor:"red"})
+        brd1.create('text', [
+            function() { return (e.X() + h.X()) / 2; },  // الموقع الأفقي للنص (منتصف القطعة)
+            function() { return (e.Y() + h.Y()) / 2 + 0.5; },  // الموقع العمودي للنص (فوق القطعة قليلاً)
+            function() { return  r.L().toFixed(2); }  // محتوى النص
+        ], {
+            anchorX: 'middle',
+            anchorY: 'bottom',
+            fontSize: 16,
+            strokeColor: 'blue'
+        });
+
+
+        brd1.create("mirrorelement",[line,o], {strokeColor:"green"})
+        brd1.create("mirrorelement",[a,o],{name:"A'" , Color:"black"})
+        brd1.create("mirrorelement",[b,o], {name:"B'", Color:"black"})
+
+        var dd = brd1.create("mirrorelement",[d,o],{name:"D'" , Color:"black"})
+        var cc = brd1.create("mirrorelement",[c,o], {name:"C'", Color:"black"})
+        let ddcc = brd1.create("segment",[dd,cc])
+      
+        brd1.create("mirrorelement", [circle,o], {strokeColor:"red", name:"E'"})
+        var hh = brd1.create("mirrorelement",[h,o],{name:"H'" , Color:"black"})
+        var ee = brd1.create("mirrorelement",[e,o],{name:"E'" , Color:"black"})
+        
+        let eehh = brd1.create("segment",[ee, hh], {strokeColor:"red", dash:2})
+
+        let text1 = brd1.create('text', [
+            function() { return (ee.X() + hh.X()) / 2; },  // الموقع الأفقي للنص (منتصف القطعة)
+            function() { return (ee.Y() + hh.Y()) / 2 + 0.5; },  // الموقع العمودي للنص (فوق القطعة قليلاً)
+            function() { return eehh.L().toFixed(2); }  // محتوى النص
+        ], {
+            anchorX: 'middle',
+            anchorY: 'bottom',
+            fontSize: 16,
+            strokeColor: 'red'
+        });
+        let text2 = brd1.create('text', [
+            function() { return (cc.X() + dd.X()) / 2; },  // الموقع الأفقي للنص (منتصف القطعة)
+            function() { return (cc.Y() + dd.Y()) / 2 + 0.5; },  // الموقع العمودي للنص (فوق القطعة قليلاً)
+            function() { return ddcc.L().toFixed(2); }  // محتوى النص
+        ], {
+            anchorX: 'middle',
+            anchorY: 'bottom',
+            fontSize: 16,
+            strokeColor: 'blue'
+        });
+
+        // board-2-
+
+        var brd2 = JXG.JSXGraph.initBoard("box2", {
+            boundingbox: [-4, 4, 4, -4],
+            keepaspectratio: true,
+            axis: true,
+        });
+
+        var mirr = brd2.create('point', [0,0], { color: '#aaaaaa', name:"O" });
+
+        // إنشاء مجموعة من النقاط
+        var points = [
+            brd2.create('point', [-1, 1], { name: "A" }),
+            brd2.create('point', [-2, 3], { name: "B" }),
+            brd2.create('point', [-4.4, 1], { name: "C" }),
+        ];
+
+        var a = brd2.create('semicircle', [points[2], points[1]], {strokeColor:"red", strokeWidth:2});
+        var poly = brd2.create("polygon",points, {fillColor: "blue"})
+        var unvisibleBC = brd2.create("segment", [points[1], points[2]], {visible:false})
+        var midpointOfCircle = brd2.create("glider",  [a.midpoint.X(), a.midpoint.Y(),unvisibleBC],
+         {color:"green", name:"I"});
+
+         let ismidpointOfCircleClicked = false;
+         midpointOfCircle.on("click", ()=> {
+            if(!ismidpointOfCircleClicked) {
+                let ii = brd2.create("mirrorelement", [midpointOfCircle, mirr], {name:" I' "})
+                brd2.create('segment', [ii, midpointOfCircle], { dash: 3, opacity:.5 });
+            }
+
+             ismidpointOfCircleClicked = true
+         })
+
+        let mirrorPoints = [];
+
+        points.forEach((point) => {
+            point.on("mousedown", () => {
+                // التحقق مما إذا كانت النقطة المنعكسة موجودة بالفعل
+                if (!mirrorPoints.some(p => p.name === point.name + "'")) { 
+                    // إنشاء النقطة المنعكسة
+                    let mirrorPoint = brd2.create('mirrorelement', [point, mirr], { name: point.name + "'" });
+                    brd2.create('segment',[mirrorPoint,point],{dash:3, opacity:0.4});
+                    mirrorPoints.push(mirrorPoint); // إضافة النقطة المنعكسة إلى المصفوفة
+
+                    // إنشاء الزر فقط بعد اكتمال النقاط المنعكسة
+                    if (mirrorPoints.length === points.length) {
+                        brd2.create('button', [1, 2, 'ارسم الشكل', function() {
+                           brd2.create('polygon', mirrorPoints, { borders: { strokeColor: 'red' } });
+                            brd2.create("mirrorelement", [a, mirr]) 
+                        }]);
+                    }
+                }
+            });
+        });
+
+        // board -3-
+
+        
+        var brd3 = JXG.JSXGraph.initBoard("box3", {
+            boundingbox: [-4, 4, 4, -4],
+            keepaspectratio: true,
+            axis: true,
+        });
+
+        var mirr2 = brd3.create('point', [-1,0], { color: '#aaaaaa', name:"O" });
+
+        // إنشاء مجموعة من النقاط
+        var points3 = [
+            brd3.create('point', [-4, -2], { name: "A", color: "blue" }),
+            brd3.create('point', [-4, 0], { name: "E",  color: "blue" }),
+            brd3.create('point', [-1, 0], { name: "D",  color: "blue" }),
+            brd3.create('point', [-1.72, -1], { name: "C",  color: "blue" }),
+            brd3.create('point', [0, -2], { name: "B",  color: "blue" }),
+        ];        
+            
+        brd3.create('nonreflexangle', [points3[3], points3[4], points3[0]], {radius: 1,
+            name: function(){
+                return JXG.Math.Geometry.trueAngle(points3[3], points3[4], points3[0])
+                        .toFixed(1) + '°';
+            },
+        }); 
+
+        var AEDCB = brd3.create("polygon", points3)
+
+        let mirrorPointsboard3 = [];
+
+        points3.forEach((point) => {
+            point.on("mousedown", () => {
+
+                if (!mirrorPointsboard3.some(p => p.name === point.name + "'")) { 
+
+                    let mirrorPoint = brd3.create('mirrorelement', [point, mirr2], { name: point.name + "'" });
+                    brd3.create('segment',[mirrorPoint,point],{dash:3, opacity:0.4});
+                    mirrorPointsboard3.push(mirrorPoint); // إضافة النقطة المنعكسة إلى المصفوفة
+
+                    if (mirrorPointsboard3.length === points3.length) {
+                        brd3.create('button', [4, 2, 'ارسم الشكل', function() {
+                            brd3.create('polygon', mirrorPointsboard3, { borders: { strokeColor: 'red' }, fillColor: "green" });
+                        }]);
+                    }
+                }
+            });
+        }); 
+
+
+        // box -4-
+
+        
+        var brd4 = JXG.JSXGraph.initBoard("box4", {
+            boundingbox: [-4, 4, 4, -4],
+            keepaspectratio: true,
+            axis: true,
+        });
+
+        var brd4O = brd4.create("point", [0,0], {name:"O", color: "black"})
+
+        let isClickedA, isClickedB, isClickedC= false;
+
+        var A = brd4.create("point", [1,1], {color: "black"})
+        var B= brd4.create("point", [2,-2], {color: "black"})
+        var C = brd4.create("point", [-1,-2], {color: "black"})
+
+        
+        function makeSymmetric(point, isClickedVar) {
+            if (!isClickedVar.value) {
+                var Symmetric = brd4.create('mirrorpoint', [point, brd4O]);
+                brd4.create("segment", [point, Symmetric], {dash: 3, strokeColor: "red"});
+                isClickedVar.value = true;
+            }
+        }
+
+        // توصيل كل نقطة بمستمع الحدث المناسب مع المتغير المناسب للتتبع
+        A.on("mousedown", () => makeSymmetric(A, {value: isClickedA}));
+        B.on("mousedown", () => makeSymmetric(B, {value: isClickedB}));
+        C.on("mousedown", () => makeSymmetric(C, {value: isClickedC}));
+
+        // board -5-
+
+        var brd5 = JXG.JSXGraph.initBoard("box5", {
+            boundingbox: [-5, 5, 6, -5],
+            keepaspectratio: true,
+            axis: true
+        });
+
+        let o1 = brd5.create("point", [6,-2], {name:"O", color:"blue"})
+        let h1 = brd5.create("point", [6,0], {name:"O'", color:"red"})
+        let c1 = brd5.create("circle", [o1,h1], {strokeColor:"black", name:"O"})
+
+        brd5.create("button", [6,-3, "ارسم الشكل" ,()=> {
+            var newCircle = brd5.create("mirrorelement", [c1, h1]);
+        }]);
+
+
+        let o2 = brd5.create("point", [0,-2], {name:"O", color:"blue"})
+        let c2 = brd5.create("circle", [o2, 2], {strokeColor:"black", name:"O"})
+        let h2 = brd5.create("point", [-1,1], {name:"O'", color:"red"})
+
+        brd5.create("button", [0,-3, "ارسم الشكل" ,()=> {
+            brd5.create("mirrorelement", [c2, h2]);
+        }])
+
+        brd5.create("button", [6,-3, "ارسم الشكل" ,()=> {
+            var newCircle = brd5.create("mirrorelement", [c1, h1]);
+        }]);
+
+
+        let o3 = brd5.create("point", [-5,-2], {name:"O", color:"blue"})
+        let c3 = brd5.create("circle", [o3, 2], {strokeColor:"black", name:"O"})
+        let h3 = brd5.create("point", [-6,-1], {name:"O'", color:"red"})
+
+        brd5.create("button", [-5,-3, "ارسم الشكل" ,()=> {
+            brd5.create("mirrorelement", [c3, h3]);
+        }])
+  
+        const buttons = document.querySelectorAll("button"); // تحديد جميع الأزرار
+        buttons.forEach(btn => {
+            const audio = new Audio(btn.getAttribute("data-sound"));
+            btn.addEventListener("click", e => {
+                if (!audio.playing) {
+                audio.play();
+                btn.disabled = true;  // تعطيل الزر أثناء تشغيل الصوت
+
+                audio.onended = () => {
+                    btn.disabled = false;
+                };
+                }
+            });
+
+        })        
+
+    })
+
+    </script>
+
+    <%- include("../partial/end.ejs")%>

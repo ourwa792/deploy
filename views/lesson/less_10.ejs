@@ -1,114 +1,469 @@
+<%- include('../partial/head.ejs') %>
+
+<link href="/css/animate.min.css" rel="stylesheet">
+ 
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
 
 
-<!DOCTYPE html>
-<html lang="ar">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>رسم المضلع باستخدام JSXGraph</title>
-    <script src="/library/jsxgraphcore.js"></script>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/jsplumb@2.15.6/css/jsplumbtoolkit-defaults.min.css">
+
+<!-- إدراج مكتبة jsPlumb -->
+<script src="https://cdn.jsdelivr.net/npm/jsplumb@2.15.6/dist/js/jsplumb.min.js"></script>
+
+
+<link rel="stylesheet" href="https://unpkg.com/mathlive/dist/mathlive.min.css">
+ 
+<link rel="stylesheet" href="/css/e-learning-js.min.css"/> 
+
+<script type="text/javascript" src="/library/jsxgraphcore.js"></script>
+<link rel="stylesheet" href="/css/jsxgraph.css">
+ <!-- مخصص للدروس يعيد تعريف جسم الصفحة لتجاوز مشاكل البودي -->
+<link rel="stylesheet" href="/css/lesson.css">
+
+<script type="text/javascript" src="/library/e-learning-js.min.js"></script>  
+
 <style>
     #jxgbox {
-        width: 500px;
-        height: 500px;
+        max-width: 100%;
+        height: 130px;
         border: 1px solid black;
+        direction: ltr;
+        
     }
-    #controls {
-        margin-top: 10px;
+    body{
+            font-size: larger;
+        }
+    .table-custom {
+        border: 2px solid #d18fd1;
+        width: 100%;
     }
-    #controls input {
-        width: 50px;
-        margin-right: 5px;
+    .table-custom th, .table-custom td {
+        border: 1px solid #d18fd1;
+        text-align: center;
+        width: 50%;
     }
+    .highlighted-text {
+        background-color: #f7d7d7;
+        padding: 5px;
+        border-radius: 5px;
+    }
+    .arrow {
+        font-size: 1.5rem;
+        color: orange;
+    }
+    image{
+        border: 2px solid #5aea1c;
+    }
+
+    /* توصيل */
+    .matching-container {
+            position: relative;
+            width: 100%;
+            max-width: 1200px;
+            margin: auto;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    }
+    .matching-item {
+            padding: 15px;
+            background-color: #ffffff;
+            border: 2px solid #ddd;
+            cursor: pointer;
+            text-align: center;
+            border-radius: 5px;
+            transition: background-color 0.3s ease;
+            margin-bottom: 20px;
+    }.matching-item img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 7px;
+            max-height: 300px;
+            object-fit: contain;
+        }
+        .correct {
+            background-color: #c8e6c9 !important;
+            animation: correctAnimation 1s ease-in-out;
+        }
+        .wrong {
+            background-color: #ffcdd2 !important;
+            animation: wrongAnimation 1s ease-in-out;
+        }
+        @keyframes correctAnimation {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+        @keyframes wrongAnimation {
+            0% { transform: scale(1); }
+            50% { transform: scale(0.95); }
+            100% { transform: scale(1); }
+        }.feedback {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            padding: 10px;
+            background-color: #333;
+            color: white;
+            border-radius: 5px;
+            display: none;
+        }
+
+        /* زيادة التباعد الأفقي بين الأعمدة */
+        .offset-space {
+            margin-left: 70px;
+        }
+
+        @media (max-width: 768px) {
+            .matching-container {
+                padding: 10px;
+            }
+            .matching-item {
+                margin-bottom: 15px;
+            }
+            .offset-space {
+                margin-left: 0;
+            }
+        }
 </style>
+
 </head>
+
 <body>
-   
-    <div id="jxgbox" class="jxgbox"></div>
-    <div id="controls">
-        <input type="number" id="x-coordinate" placeholder="X" step="0.1">
-        <input type="number" id="y-coordinate" placeholder="Y" step="0.1">
-        <input type="text" id="point-name" placeholder="التسمية">
-        <button id="add-point-btn">إضافة نقطة</button>
-        <button id="reset-btn">إعادة ضبط اللوحة</button>
+
+    <div class="row header animate__animated animate__fadeInDown d-flex align-items-center">
+       
+        <!-- عمود العنوان -->
+         <div class="col-lg-4 col-md-4 col-sm-6">
+             <img src="<%= lesson.cover %>" 
+             class="rounded-2 float-start" style="width: 100%;">
+         </div>
+        
+        <div class="col-lg-8 col-md-8 col-sm-8">
+            <h1 class="text-start">
+                <%= lesson.title  %>
+            </h1>
+            <hr>
+        </div>
     </div>
-    <div id="angle-info" style="margin-top: 10px;"></div>
 
-    <script>
-        // إعداد اللوحة
-        const board = JXG.JSXGraph.initBoard('jxgbox', {
-            boundingbox: [-10, 10, 10, -10],
-            axis: true
-        });
 
-        // قائمة لتخزين النقاط والمضلعات
-        let points = [];
-        let polygon;
+    <div class="container animate__animated animate__fadeInUp">
+        <div class="row">
+            <!-- العمود الأيسر (النص، مستقيم الأعداد، والقائمة) -->
+            <div class="col-lg-8 col-md-8 col-sm-12">
+                <p>
+                    تَعلَّمتَ سابقاً أنَّه توجد أعداد موجبة وأعداد سالبة، نستعملها للتعبير عن الارتفاع والانخفاض، أو الربح والخسارة... ومثَّلتَها على مستقيم الأعداد، وسَمَّيتَها مجموعة الأعداد الصحيحة، نرمز لها بالرمز Z.
+                </p>
+                <br> <br>
+                <!-- مستقيم الأعداد (صورة مستقيم الأعداد) -->
+                <img src="<%= lesson.resources[2].url %>" alt="number line" class="img-fluid mb-3 mx-2 my-2">
+                <br><br>
+                <!-- قائمة النقاط -->
+                <ul class="example-box">
+                    <li>كل عدد موجب تماماً هو عدد أكبر من الصفر.</li>
+                    <li>كل عدد سالب تماماً هو عدد أصغر من الصفر.</li>
+                    <li>العدد صفر هو أصغر من أي عدد موجب تماماً وأكبر من أي عدد سالب تماماً.</li>
+                    <li>العدد الموجب تماماً هو أكبر من أي عدد سالب تماماً.</li>
+                    <li>تزداد قيمة الأعداد الصحيحة على مستقيم الأعداد عندما ننتقل على اليسار إلى اليمين.</li>
+                </ul>
+            </div>
+    
+            <!-- العمود الأيمن (الصورتين واحدة فوق الأخرى) -->
+            <div class="col-lg-4 col-md-4 col-sm-12 d-flex flex-column align-items-center">
+                <div class="card shadow-lg mb-3" style="width: 18rem;">
+                    <img src="<%= lesson.resources[1].url %>" class="card-img-top" alt="imgg">
+                </div>       
+                <div class="card shadow-lg" style="width: 18rem;">
+                    <img src="<%= lesson.resources[0].url %>" class="card-img-top" alt="imgg">
+                </div>       
+            </div>
+        </div>
+    </div>
+    
+    
+    <div class="container">
+        <div class="col-lg-12 col-md-12 col-sm-12 knowledge-section mt-4">
+            <h2>تعلم </h2>
+            <h5>الجمع</h5>
 
-        // وظيفة لإضافة نقطة جديدة
-        document.getElementById('add-point-btn').addEventListener('click', () => {
-            // قراءة الإحداثيات من حقول الإدخال
-            const x = parseFloat(document.getElementById('x-coordinate').value);
-            const y = parseFloat(document.getElementById('y-coordinate').value);
-            const name = document.getElementById('point-name').value || '';
+            <p>
+              على محور الأعداد نقول ان عددين متعاكسين اذا وقع الصفر (المبدأ) في منتصف القطعة المستقيمة الواصلة بينهما. 
+            </p>
+            <p>
+                ولكل عدد على المحور معاكس نحصل عليه بتغيير اشارة هذا العدد ومعاكس العدد 0 هو 0
+            </p>
 
-            // التحقق من صحة الإدخال
-            if (isNaN(x) || isNaN(y)) {
-                alert('يرجى إدخال إحداثيات صحيحة.');
-                return;
-            }
+            <p>
+                بإمكانك جمع عددين صحيحين على مستقيم الأعداد:
+                <br>
+                حدد العدد الأول ثم انتقل لليمين لجمع عدد موجب و لليسار لجمع عدد سالب. 
+            </p>
+            <img src="<%= lesson.resources[3].url %>" alt="number line" class="container rounded-2 img-fluid mb-3 mx-2 my-2">
 
-            // إضافة النقطة إلى اللوحة والقائمة
-            const point = board.create('point', [x, y], { name: name });
-            points.push(point);
+            
 
-            // إذا كانت هناك ثلاث نقاط أو أكثر، ارسم المضلع
-            if (points.length > 2) {
-                // قم بإزالة المضلع القديم إذا كان موجودًا
-                if (polygon) {
-                    board.removeObject(polygon);
-                }
-                // رسم المضلع الجديد
-                polygon = board.create('polygon', points);
+            <h5>قاعدة</h5>     
+            <!-- محتوى -->
 
-                // إذا كان المضلع مثلثًا، احسب الزاوية عند النقطة الثانية
-                if (points.length === 3) {
-                    const angle = board.create('angle', [points[0], points[1], points[2]], {
-                        name: '',
-                        type: 'sector',
-                        radius: 1
-                    });
-                    const angleDegree = JXG.Math.Geometry.trueAngle(points[0], points[1], points[2]).toFixed(1);
-                    document.getElementById('angle-info').innerText = `قياس الزاوية عند النقطة الثانية: ${angleDegree}°`;
-                }
-            }
+            <%- lesson.content %>
 
-            // إعادة تعيين حقول الإدخال
-            document.getElementById('x-coordinate').value = '';
-            document.getElementById('y-coordinate').value = '';
-            document.getElementById('point-name').value = '';
-        });
+        <!--    <p>
+                <ul class="example-box">
+                    <li>عندما نجمع عددين  من اشارة واحدة نجمع بعديهما عن الصفر ثم نلافق بالناتج الاشارة المشتركة</li>
+                    <li>عندما نجمع عددين من اشارتين مختلفتين نطرح بعد اقربهما عن الصفر من بعد الاخر ثم نرفق بالناتج اشارة الابعد</li>
+                </ul>
+                
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-12 example-box math-equation-ltr">
+                        (+8)+(-11) = -3 
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-12 example-box math-equation-ltr" >
+                        (-13)+(-5) = -18 
+                    </div>
+                </div>
+            </p>   
+            
+            <div class="container mt-5">
+                <h5 >الكتابة المختزلة لعملية الجمع:</h5>
+                <ul class="">
+                    <li>يمكن الاستغناء عن الأقواس وإشارة عملية الجمع.</li>
+                    <li>يمكن الاستغناء عن إشارة (+) عند كتابة الأعداد الموجبة.</li>
+                    <li>أو بعد إشارة (=) أو بداية عملية حسابية.</li>
+                </ul>
+        
+                <div class="row">
+                    <div class="col-lg-6">
+                        <table class="table table-custom mt-4 text-end">
+                            <thead>
+                                <tr>
+                                    <th>الكتابة المختزلة</th>
+                                    <th>العملية</th>
+                                </tr>
+                            </thead>
+                            <tbody dir="ltr">
+                                <tr>
+                                    <td>-5 + 8</td>
+                                    <td>(-5) + (+8)</td>
+                                </tr>
+                                <tr>
+                                    <td>-15 - 3</td>
+                                    <td>(-15) + (-3)</td>
+                                </tr>
+                                <tr>
+                                    <td>9 - 11</td>
+                                    <td>(+9) + (-11)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+        
+                    <div class="col-lg-6 example-box math-equation-ltr">
+                        <p class="arrow">➔ -5 + 8 = 3</p>
+                        <p class="arrow">➔ -15 - 3 = -18</p>
+                        <p class="arrow">➔ 9 - 11 = -2</p>
+                    </div>
+                </div>
+        
+                <h5 class="mt-4">أمثلة:</h5>
+        
+                    <p><span class="highlighted-text">الجمع عملية تبديلية</span> إذا كان a, b عددان، فإن a + b = b + a</p>
+                    <p><span class="highlighted-text">خاصة 1:</span> إذا كانت a + b + c ثلاثة أعداد، فإن a + b + c = (a + b) + c = a + (b + c)</p>
+                    <p><span class="highlighted-text">خاصة 2:</span> الجمع عملية تجميعية أي أننا نستطيع إجراء عملية الجمع وفق أي ترتيب.</p>
 
-        // وظيفة لإعادة ضبط اللوحة
-        document.getElementById('reset-btn').addEventListener('click', () => {
-            // إزالة جميع النقاط والمضلعات من اللوحة
-            points.forEach(point => board.removeObject(point));
-            if (polygon) {
-                board.removeObject(polygon);
-            }
+            </div>
 
-            // إعادة تعيين قائمة النقاط والمضلع
-            points = [];
-            polygon = undefined;
+            <h5>الطرح</h5>
 
-            // إعادة تعيين حقول الإدخال
-            document.getElementById('x-coordinate').value = '';
-            document.getElementById('y-coordinate').value = '';
-            document.getElementById('point-name').value = '';
+            <p>
+             باستخدام مستقيم الاعداد:         
+            </p>
+            <p>
+            حدد العدد الأول ثم انتقل لليمين لطرح عدد سالب وإلى اليسار لطرح عدد موجب.          
+            </p>
+        -->
 
-            // إعادة تعيين معلومات الزاوية
-            document.getElementById('angle-info').innerText = '';
-        });
-    </script>
-</body>
-</html>
+          
+            <img src="<%= lesson.resources[4].url %>" alt="number line" class="container rounded-2 img-fluid border-2 mb-3 mx-2 my-2">
+
+            <h3>حاول بنفسك</h3>
+            
+            <div class="container row">
+                <div id="jxgbox" class="jxgbox my-1">      </div>
+                <div class=" input-group my-2"> 
+                    <label class="form-text" for="inputValue">ادخل رقماً</label>
+                    <input class="form-control" type="number" id="inputValue" value="1">
+                    
+                    <label for="operation">اختر العملية</label>
+                    <select class="form-control" id="operation">
+                        <option value="جمع">جمع</option>
+                        <option value="طرح">طرح</option>
+                       <!--  <option value="multiply">Multiply</option>
+                        <option value="divide">Divide</option> -->
+                    </select>
+                
+                    <button class="btn btn-warning" id="operationClick">نفذ العملية</button>
+                </div>
+
+            </div>
+        
+            <h5>الطرح</h5> 
+                
+            <p class="highlighted-text">
+                قاعدة:
+                <br>
+                لطرح عدد من اخر نجمع المطروح مع معاكس المطروح منه
+                <br>
+                الطرح ليس عملية تبديلية وليس عملية تجميعية
+            </p> 
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-12 example-box math-equation-ltr">
+                       <div class="row">
+                           8-(+2) = 8 + (-2) = 6 
+                       </div>
+                       <div class="row">
+                           -1-(+5)-(-7) = -1 + (-5) + (+7) =+1
+                       </div>
+                       <div class="row">
+                           7-(+5)+(-20) = 7 + (-5) + (-20) = -18 
+                       </div>
+
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-12 example-box math-equation-ltr" >
+                        <div class="row">
+                            (-2)-(-7)=(-2)+(+7) = +5
+                        </div>
+                        <div class="row">
+                            34-(-6)=34+(+6)=40
+                        </div>
+                        <div class="row">
+                            0-(-17)=0+(+17)=+17
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- الاسئلة -->
+
+        <%- lesson.exercies %>
+
+       <!--  <div class="col-lg-12 col-md-12 col-sm-12 question-section questions_2_1">
+            <h2>تدرب</h2>
+
+            <h5>السؤال الاول</h5>
+            <p>
+                ارتفع مصعد من الطابق الارضي بمقدار 4 طوابق. اكتب العدد الصحيح الدال على مكان وجود المصعد
+
+                <ul class="grid12 no_list ">
+                    <li>
+                        <span class="bold lesson_color"></span>  <input size="8" type="text" autocomplete="off"/>.
+                    </li>
+            
+                </ul>
+
+            </p>
+            <h5>السؤال الثاني</h5>
+            <p>
+                غطست غواصة 25 متراً عن سطح البحر اكتب العدد الصحيح الدال على ارتفاع الغواصة عن سطح البحر
+                <ul class="grid12 no_list ">
+                    <li>
+                        <span class="bold lesson_color"></span>  <input dir="auto" size="8" type="text" autocomplete="off"/>.
+                    </li>
+            
+                </ul>
+                
+            </p> 
+
+
+            <div class="btn_activities">
+                <div id="check_answers_2_1">
+                    <span>Check</span>
+                </div>
+                <div id="reset_answers_2_1">
+                    <span>Reset</span>
+                </div>
+                <div id="answers_2_1">
+                    <span>Answers</span>
+                </div>
+            </div>
+
+            <h5>السؤال الثالث</h5>
+            <p>أوجد ناتج مايلي</p>
+
+            <div dir="ltr" id="problem-container">
+              
+            </div>
+
+            <h5>السؤال الرابع</h5>
+            <p>صل بين كل عبارة مع صيغتها المختزلة</p>
+
+
+            <div class="container-fluid" dir="auto">
+                <div class="matching-container row justify-content-center">
+                    <div class="col-lg-4 col-md-5 col-12 mb-4">
+                        <div class="matching-item" id="q1">
+                            (+9)-(+3)
+                        </div>
+                        <div class="matching-item" id="q2">
+                            (-4)-(-7)
+                        </div>
+                        <div class="matching-item" id="q3">
+                            (-6)-(+2)
+                        </div>
+                        <div class="matching-item" id="q4">
+                            (+9)-(-3)
+                        </div>
+                        <div class="matching-item" id="q5">
+                            (+6)-(-2)
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-5 col-12 offset-space">
+                        <div class="matching-item" id="a1">
+                            -6-2
+                        </div>
+                        <div class="matching-item" id="a2">
+                            -4+7
+                        </div>
+                        <div class="matching-item" id="a3">
+                            9-3
+                        </div>
+                        <div class="matching-item" id="a4">
+                            6+2
+                        </div>
+                        <div class="matching-item" id="a5">
+                            9+3
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="feedback" class="feedback"></div>
+
+
+        </div> -->
+    </div>    
+
+
+    <div class="row">
+        <div class="col-1">
+            <a href="/" class="btn btn-outline-info mt-5">
+                <img src="/icon/iconBack.png" class="" width="34" height="34">
+                <span>الصفحة الرئيسية</span>
+
+            </a>
+
+        </div>
+    </div>
+ 
+
+
+
+
+    <script type="module" src="/js/less_10.js"></script>
+
+<%- include('../partial/end.ejs') %>

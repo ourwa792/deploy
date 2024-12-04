@@ -1,0 +1,458 @@
+<%- include("../partial/head.ejs") %>
+
+
+  <link href="/css/animate.min.css" rel="stylesheet">
+
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"
+    integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="/css/e-learning-js.min.css" />
+  <script type="text/javascript" src="/library/e-learning-js.min.js"></script>
+
+  <link rel="stylesheet" href="/css/jsxgraph.css">
+
+  <script type="text/javascript" src="/library/jsxgraphcore.js"></script>
+
+  <script lang="text/javascript" src="/library/typed.js"></script>
+
+  <style>
+    .header {
+      background-color: #defdb6;
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .header img {
+      width: 60px;
+      height: auto;
+    }
+
+    .learning-box {
+      background-color: #ffebcd;
+      padding: 10px;
+      border-radius: 10px;
+      text-align: center;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .learning-box img {
+      width: 80px;
+      height: auto;
+    }
+
+    .angle-box {
+      background-color: #ffe4e1;
+      padding: 10px;
+      border-radius: 10px;
+      text-align: center;
+      margin-bottom: 20px;
+      transition: transform 0.2s;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .angle-box:hover {
+      transform: scale(1.05);
+    }
+
+    .text-div {
+      background-color: #fafad2;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    ul li {
+      background-color: #e0ffff;
+      margin: 5px 0;
+      padding: 10px;
+      border-radius: 5px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      transition: background-color 0.3s;
+    }
+
+    ul li:hover {
+      background-color: #afeeee;
+    }
+
+
+
+    .table-container {
+      margin: 20px auto;
+      max-width: 800px;
+      background-color: #ffffff;
+      border-radius: 10px;
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+    }
+
+    .table {
+      width: 100%;
+      margin-bottom: 0;
+    }
+
+    .table th,
+    .table td {
+      vertical-align: middle;
+      text-align: center;
+    }
+
+    .image-cell {
+      max-width: 100px;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    .highlight {
+      background-color: #f0f8ff;
+    }
+  </style>
+
+  </head>
+
+  <body>
+
+    <div class="row header animate__animated animate__fadeInDown d-flex align-items-center">
+
+      <!-- عمود العنوان -->
+      <div class="col-lg-4 col-md-4 col-sm-4">
+        <img src="<%= lesson.cover %>" class="rounded-2 float-start" style="width: 100%;">
+      </div>
+
+      <div class="col-lg-8 col-md-8 col-sm-8">
+        <h1 class="text-start">
+          <%= lesson.title %>
+        </h1>
+        <hr>
+      </div>
+    </div>
+
+    <%#- lesson.content %>
+      <!--      النص التمهيدي -->
+      <div class="row content-section animate__animated animate__fadeInUp">
+        <div class="col-lg-8 col-md-8 col-sm-12">
+          <p>كنت قد تعرفت سابقاً على علامات العد و التمثيل البياني بالصور ، ستتعلم اليوم كيف قراءة و تمثيل المخطط
+            البياني بالأعمدة</p>
+        </div>
+
+        <div class="col-lg-4 col-md-4 col-sm-12">
+          <div class="card border-info mb-2 float-end">
+            <img src="<%= lesson.resources[0].url %>" class="img-fluid">
+
+            <p class="card-text mx-2 my-2">سوف تتعلم إنشاء تمثيل بياني بالأعمدة</p>
+          </div>
+        </div>
+
+      </div>
+
+      <!--    النص والصورة التوضيحية  -->
+      <div class="row content-section">
+
+        <div class="col-lg-4 col-md-4 animate__animated animate__zoomIn">
+          <div class="card border-info animate__animated animate__bounceInLeft">
+            <p id="element"></p>
+            <img src="<%= lesson.resources[1].url %>" alt="" class="img-fluid">
+          </div>
+
+        </div>
+      </div>
+
+
+      <div style="overflow-x: auto;" class="container table-container">
+       
+        <h5 class="text-center mb-4">إنشاء تمثيل بياني باستعمال الأعمدة</h5>
+        <p>يظهر الجدول التالي عدد الواجبات الأسبوعية لبعض المواد الدراسية لطلاب الصف الثالث
+          <button class="btn btn-warning " data-sound="/sound/less-3-1.mp3" id="btn2"> أسمع</button>
+
+        </p>
+        
+
+        <table class="table table-bordered table-striped">
+          <thead>
+            <tr class="table-warning">
+              <th scope="col">اللغة العربية</th>
+              <th scope="col">الموسيقا</th>
+              <th scope="col">العلوم</th>
+              <th scope="col">الرياضيات</th>
+              <th scope="col">الرياضة</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>8 </td>
+              <td> 1</td>
+              <td> 3</td>
+              <td> 4</td>
+              <td> 2</td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+
+    <!-- lesson.content -->
+    <%- lesson.content %>
+
+    <!--   <div class="container">
+
+        <ul class="number_list select_activity questions_3_1">
+          <p>كم الفرق بين عدد واجبات العلوم و عدد واجبات الموسيقا</p>
+
+          <li data-question='1'>
+            <div data-option='1'>1</div>
+            <div data-option='2'>2</div>
+            <div data-option='3'>3</div>
+          </li>
+          <p>كم يزيد عدد واجبات اللغة العربية على واجبات الرياضيات</p>
+
+          <li data-question='2'>
+            <div data-option='1'>4</div>
+            <div data-option='2'>2</div>
+            <div data-option='3'>3</div>
+          </li>
+          <p>ما مجموع عدد الواجبات الاسبوعية للمواد الدراسية السابقة</p>
+
+          <li data-question='3'>
+            <div data-option='1'>14</div>
+            <div data-option='2'>21</div>
+            <div data-option='3'>18</div>
+          </li>
+        </ul>
+
+        <div class="btn_activities grid13">
+          <div id="check_answers_3_1">
+            <span>Check</span>
+          </div>
+          <div id="reset_answers_3_1">
+            <span>Reset</span>
+          </div>
+          <div id="answers_3_1">
+            <span>Answers</span>
+          </div>
+        </div>
+
+      </div>
+ -->
+
+
+      <div class="container">
+        <h1 class="bg-success-subtle">تعلم مخطط الأعمدة</h1>
+        <div id="jxgbox" class="jxgbox col-lg-8 col-md-8 col-sm-12"
+          style="aspect-ratio: 1/1; max-width: 90%;margin:10px;box-shadow: 3px 5px;">
+        </div>
+      </div>
+
+      <div class="container my-4">
+        <div id="inputs" style="width: 100%;" class=" justify-content-between text-center"></div>
+      </div>
+
+      <div class="container">
+        <h5 class="bg-primary-subtle"> انشئ مخططاً بنفسك </h5>
+        <div id="jxgbox2" class="jxgbox col-lg-8 col-md-8 col-sm-12"
+          style="aspect-ratio: 1/1; max-width: 90%;margin:10px;box-shadow: 3px 5px;">
+        </div>
+
+        <div>
+
+          <label for="dataInput">أدخل بيانات المخطط التي تريد رسمه</label>
+          <input type="text" id="dataInput" placeholder="مثل: 4,2,-1,3,6,7,2">
+     
+          <button id="updateChart">تحديث المخطط</button>
+        </div>
+
+      </div>
+
+      <!-- lesson.exercies -->
+      <%- lesson.exercies %>
+
+     <!--  <div class="container border-2 border-black rounded-3 my-3">
+
+        <ul class="number_list select_activity questions_1">
+          <p>ما المادة التي عدد واجباتها الأسبوعية أقل؟</p>
+          <li data-question='1'>
+            <div data-option='1'>الموسيقا</div>
+            <div data-option='2'>اللغة العربية</div>
+            <div data-option='3'>العلوم</div>
+          </li>
+
+          <p>ما المادة التي عدد واجباتها الأسبوعية أكثر؟</p>
+
+          <li data-question='2'>
+            <div data-option='1'>الرياضيات</div>
+            <div data-option='2'>اللغة العربية</div>
+            <div data-option='3'>الموسيقا</div>
+          </li>
+
+        </ul>
+
+        <div class="btn_activities grid13">
+          <div id="check_answers_1">
+            <span>Check</span>
+          </div>
+          <div id="reset_answers_1">
+            <span>Reset</span>
+          </div>
+          <div id="answers_1">
+            <span>Answers</span>
+          </div>
+        </div>
+
+      </div> -->
+
+
+      <script>
+        //import { JSXGraph } from 'https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraphcore.mjs';
+
+        window.addEventListener("DOMContentLoaded", () => {
+
+          const board = JXG.JSXGraph.initBoard('jxgbox', {
+            boundingbox: [-1, 10, 10, -1],
+            axis: true
+          });
+
+          // البيانات الافتراضية للمخطط
+          let dataValues = [8, 1, 3, 4, 2];
+          let chart = createChart(dataValues); // إنشاء المخطط لأول مرة
+
+          // دالة لإنشاء المخطط
+          function createChart(data) {
+            return board.create('chart', [data], {
+              chartStyle: 'bar',
+              width: .88,
+              colorArray: ['#8E1B77', '#BE1679', '#DC1765', '#DA2130', '#DB311B'],
+              labels: ["اللغة العربية", "الموسيقا", "العلوم", "الرياضيات", "الرياضة"],
+              label: { fontSize: 16, display: 'internal' }
+            });
+          }
+
+          // وظيفة لتحديث المخطط
+          function updateChart(newData) {
+            board.removeObject(chart); // حذف المخطط الحالي
+            chart = createChart(newData); // إنشاء المخطط من جديد مع البيانات الجديدة
+            board.update();
+          }
+
+          // عناصر الإدخال لتحديث البيانات
+          dataValues.forEach((value, index) => {
+            const input = document.createElement('input');
+            input.type = 'number';
+            input.value = value;
+            input.addEventListener('change', (e) => {
+              dataValues[index] = parseFloat(e.target.value);
+              updateChart(dataValues);
+            });
+            document.getElementById('inputs').appendChild(input);
+          });
+
+
+          createSelect({
+            questions_html: '.questions_3_1',
+            check_button: '#check_answers_3_1',
+            reset_button: '#reset_answers_3_1',
+            answer_button: '#answers_3_1',
+            answers: [2, 1, 3]
+          });
+
+
+          createSelect({
+            questions_html: '.questions_1',
+            check_button: '#check_answers_1',
+            reset_button: '#reset_answers_1',
+            answer_button: '#answers_1',
+            answers: [1, 2]
+          });
+
+          setTimeout(() => {
+
+            var typed = new Typed('#element', {
+              strings: ["سنقوم بتمثيل عدد الواجبات التالية بيانياً"],
+              typeSpeed: 30,
+              loop: false
+            });
+          }, 2000)
+
+          // board -2-
+          var board1 = JXG.JSXGraph.initBoard('jxgbox2', { boundingbox: [-0.5, 8, 9, -2], axis: true });
+          var chart1;
+
+          document.addEventListener("click", function updateChart1() {
+            var dataInput = document.getElementById('dataInput').value;
+            //var chartType = document.getElementById('chartType').value;
+            var dataArr = dataInput.split(',').map(function (item) {
+              return parseFloat(item);
+            });
+
+            if (chart1) {
+              board1.removeObject(chart1);
+
+            }
+
+            var chartOptions = {
+              chartStyle: "bar",
+              width: 0.8,
+              labels: dataArr,
+              colorArray: ['#8E1B77', '#BE1679', '#DC1765', '#DA2130', '#DB311B', '#DF4917', '#E36317', '#E87F1A', '#F1B112', '#FCF302', '#C1E212'],
+              label: { fontSize: 16, display: 'internal', anchorX: 'left', rotate: 90 }
+            };
+
+           /*  if (chartType === 'pie') {
+              chartOptions.center = [5, 2];
+              chartOptions.fillOpacity = 0.9;
+              chartOptions.strokeColor = '#ffffff';
+              chartOptions.strokeWidth = 6;
+              chartOptions.highlightBySize = true;
+              chartOptions.highlightOnSector = true;
+            } */
+
+            chart1 = board1.create('chart', dataArr, chartOptions);
+          })
+          
+          /* 
+          const buttons = document.querySelectorAll("button"); // تحديد جميع الأزرار
+          buttons.forEach(btn => {
+              const audio = new Audio(btn.getAttribute("data-sound"));
+              btn.addEventListener("click", e => {
+                  if (!audio.playing) {
+                      audio.play();
+                      btn.disabled = true;  // تعطيل الزر أثناء تشغيل الصوت
+
+                      audio.onended = () => {
+                          btn.disabled = false;
+                      };
+                  }
+              });
+
+              Object.defineProperty(audio, 'playing', {
+                  get: function () {
+                      return !this.paused && !this.ended;
+                  }
+              });
+          }); */
+
+        })
+      </script>
+
+      <div class="row">
+        <div class="col-1">
+          <a href="/" class="btn btn-outline-info mt-5">
+            <img src="/icon/iconBack.png" class="" width="34" height="34">
+            <span>الصفحة الرئيسية</span>
+
+          </a>
+
+        </div>
+      </div>
+
+<%- include('../partial/end.ejs') %>

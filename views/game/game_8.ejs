@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+
+
+    <!-- 	<script src="/library/createjs.js"></script>
+    <script src="/library/zim_min.js"></script> -->
+
+    <!--     <script src="https://zimjs.org/cdn/Box2dWeb-2.1.a.3.min.js"></script>
+         <script type="module" src="/library/zim_physics.js"></script>
+         <script type="module" src="https://zimjs.com/cdn/016/zim_test"> </script> -->
+</head>
+
+<body>
+
+
+    <script type="module">
+        import zim from "https://zimjs.com/cdn/016/zim_physics";
+
+        var width = 1024;
+        var height = 768;
+
+        const assets = ["butterfly.png", "flowers02.jpg"];
+        const path = "/assets/"
+
+        var frame = new Frame({
+            scaling: FIT, width, height, color: grey,
+            outerColor: darker,
+            progress: new Waiter({
+                backgroundColor: blue, corner: 10
+            }),
+            assets, path
+        });
+
+
+        frame.on("ready", () => {
+
+            const stage = frame.stage;
+            const stageW = frame.width;
+            const stageH = frame.height;
+
+
+            
+new Label("اولويات العمليات", 50, null, light).pos(0,100,CENTER,TOP);
+	
+	const text = series("الأقواس", "القوى", "الضرب", "القسمة", "الجمع", "الطرح");
+	
+	STYLE = {borderWidth:1}
+	const words = new Tile(new Label({
+		text:text, 
+		size:40, 
+		color:darker,
+		align:CENTER,
+		valign:CENTER,
+		backing:new Rectangle(400,60,green)
+	}), 1, 6, 0, 5);
+	
+	const scrambler = new Scrambler({
+		tile:words, 
+		time:2,
+		num:4
+	}).center().mov(0,30);
+	
+	const emitter = new Emitter({
+		obj:new Poly({min:50,max:100}, [5,6,7], .6, [purple,white,yellow]),
+		startPaused:true
+	}).center();
+	
+	scrambler.on("complete", ()=>{
+		emitter.spurt(40);
+		scrambler.scramble(2,3,4);
+	});
+	
+	new Label("رتب العمليات الحسابية", 25, null, light).alp(.6).pos(0,70,CENTER,BOTTOM)
+	
+	
+	frame.madeWith().pos(40,40,RIGHT,BOTTOM);
+	 
+	//createGreet(50,50);
+	
+    stage.update(); // needed to view changes
+      
+})
+    </script>
+</body>
+
+</html>

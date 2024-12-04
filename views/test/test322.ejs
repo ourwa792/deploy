@@ -19,7 +19,7 @@
         var height = 868;
         var color = light;
         var outerColor = darker;
-        var assets = ['anmat.png'];
+        var assets = ['one.png', 'tow.png', 'fawaki.png'];
         //const path = "https://zimjs.org/assets/";
         const path = "/assets/";
 
@@ -35,70 +35,53 @@
             let stageH = frame.height;
 
 
-           /*  
-           const pods = new Tile(new Circle(40, [pink, yellow, green, blue, red, orange, black, white]), 6, 8, 5, 5)
-           .center().cur()
-            //.drag({onTop:false})
-            .drag({all: true})
+            //import zim from "https://zimjs.org/cdn/00/zim";
 
-            pods.on("mousedown", e => {
-                console.log(e);
-                //e.target.dispose();
-                //stage.update()
-                
-            }) */
+	
+	// made a quick path here https://zimjs.com/paths and copied the point data
+	const points = [[-41.1,165.4,0,0,-28.2,105.9,28.2,-105.9],[147.7,32.8,0,0,-57,18.7,120.9,-39.7,"straight"],[145,-141.5,0,0,105.2,26.4,-54.8,-13.8,"straight"],[21.3,-102.4,0,0,18,-31.7,-34.8,61.3],[114.7,-36.3,0,0,-72.1,13.1,72.1,-13.1],[426.1,-60.3,0,0,-94.8,-34.1,94.8,34.1]];
+	
+	const path = new Squiggle({
+		points:points,
+		interactive:false, // remove or set to true to allow user to change with path
+		thickness:1,		
+		color:grey
+	})
+		.transformPoints("scale", 1.8)
+		.center();
+	
+	let label;
+	const plane = new Container()
+		.addTo()
+		.animate({
+			time:4,
+			props:{path:path},
+			startPaused:false, // remove or set to true to not animate but only drag		
+			drag:true, // optional
+			call:()=>{
+				label = new Label("drag plane", 30, null, yellow).pos(100, 0, RIGHT, CENTER);
+			}
+		});	
+	new Emoji("✈️", 100)
+		.centerReg(plane)
+		.rot(45);
+	
+	// remove instructions if press on plane
+	plane.on("mousedown", e=>{
+		if (label) {
+			label.removeFrom();
+			e.remove(); // remove event
+		}
+	});
+	
+	frame.madeWith().pos(40,40,RIGHT,BOTTOM);
+	
+	  
+    stage.update(); // needed to view changes
+	
 
-            // onMobile --> frame.on("resize", ()=> stage.update())
-
-           /*  const label = new Label({
-            text:"press to edit with TextEditor",
-            italic:true,
-            align:CENTER,
-            font:"verdana"
-            })
-            .center()
-            .expand()
-            .tap(()=>{
-                textEditor.show(label);
-            });
-
-            zog(label)
-
-            const textEditor = new TextEditor({
-            colorList:true, // or array of colors
-            optionList:["bold","italic","align"], // or true, or array with any of these
-            sizeList:true, // or array of sizes
-            fontList:true, // or array of fonts
-            live:true, // default
-            scroll:true // default, etc.
-            }); */
-
-            /* const studentSprite = new Sprite({
-                image: "anmat.png",
-                cols: 6,
-                rows: 1,
-                animations: { right: [20,29], left: [0,9], down: [30,39], up: [10,19] }
-            }).centerReg(stage).run({
-                loop:true, time:3,
-            }) */
-
-            
-        
-            const tile = new Tile({
-                obj: new Blob({
-                    color:(red, blue),
-                    controlType:"free", // free will be default control type (rather than "straight")
-                    points:
-                    [[-100,-100,0,0,0,0,0,0,"none"],[100,-100,0,0,0,0,0,0,"none"]
-                    ,[100,100,0,0,0,0,0,0,"none"],[-100,100,0,0,0,0,0,0,"none"]]
-                }).sca(.5)
-                ,
-                cols:10, rows:1,
-                spacingH:15, spacingV:30,
-                valign:CENTER
-            }).center();
-        
         })
+
     </script>
 
 

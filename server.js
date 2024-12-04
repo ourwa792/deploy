@@ -20,8 +20,10 @@ const sequelize = require('./utils/database').seq
 
 var store = new SequelizeStore({
     db: sequelize,
-    tableName: 'sessionMWT'
-})
+    tableName: 'sessionMWT',
+    //expiration: 3 * 3600000, // مدة الجلسة 2 ساعة
+    //checkExpirationInterval: 30 * 60 * 1000, // تحقق كل 15 دقيقة
+  })
 
 const app = express();
 const server = http.createServer(app);
@@ -40,9 +42,15 @@ const sessionMiddleware = session({
   secret: process.env.SESSION_SECRET,
   resave: false ,
   saveUninitialized: false,
-  cookie: { maxAge: 3600000 }, // 1-h
-  store: store
-})
+  cookie: {
+    maxAge: 4 * 3600000, // 2-h
+    httpOnly:false, 
+    sameSite: "lax",
+    //secure:false 
+  },
+  store: store, 
+  
+});
 
 
 // استخدام Helmet لتحسين الأمان
@@ -55,13 +63,17 @@ const sessionMiddleware = session({
     },
   }),
 ) */
-app.use(sessionMiddleware)
-
 // استخدام compression لتحسين الأداء
 //app.use(compression());
 
 
+app.use(sessionMiddleware)
+
+
 store.sync({alter:true})
+.then(() => console.log("==Session store synced=="))
+.catch((err) => console.error("Session store error:", err));
+
 
 const corsOption = {
   origin: "*", // يلي بدو يبعت ريكويست
@@ -83,6 +95,9 @@ const resourceRoutes = require('./routes/resources');
 const quizRout = require('./routes/quiz')
 const wolframRoutes = require('./routes/wolfram');
 const boardRout = require('./routes/board');
+const gameRout = require("./routes/game")
+
+const mobileRout = require("./routes/mobile")
 
 
 app.set('view engine', 'ejs')
@@ -142,10 +157,11 @@ app.use((req, res, next) => {
 
 
 app.use((req, res, next) => {
-  //console.log('====Cookies:====', req.headers.cookie);
+  console.log('====Cookies:====', req.headers.cookie);
   // تحقق إذا كان هناك مستخدم مسجل في الجلسة
   if (!req.session.user) {
     console.log('no user in session')
+    console.log('جلسة جديدة تم إنشاؤها');
     return next(); // إذا لم يكن هناك مستخدم، انتقل إلى الميدل وير التالي
   }
   
@@ -154,16 +170,18 @@ app.use((req, res, next) => {
     .then(user => {
       //console.log(user)
       if (!user) {
+        
         return next(); // إذا لم يتم العثور على المستخدم، انتقل إلى الميدل وير التالي
       }
       // تخزين كائن المستخدم في req.user ليكون متاحاً في المعالجات اللاحقة
       req.user = user;
-      next(); // انتقل إلى الميدل وير التالي
+      next(); 
     })
     .catch(err => {
       next(new Error(err)); // في حالة حدوث خطأ، إرسال الخطأ إلى معالج الأخطاء
     });
 }); 
+
 
 
 app.use(authRout)
@@ -175,6 +193,9 @@ app.use('/resources', resourceRoutes)
 app.use('/wolfram', wolframRoutes);
 app.use('/quiz', quizRout)
 app.use(boardRout)
+app.use(gameRout)
+
+app.use("/mobile", mobileRout)
 
 
 app.get('/error', (req, res, next) => {
@@ -188,6 +209,13 @@ app.use((req, res, next) => {
   console.log(`====Request Method=======: ${req.method}`);
   next();
 });
+
+app.use((req, res, next) => {
+  console.log("===Session ID:====", req.sessionID);
+  console.log("===Session data:====", req.session);
+  next();
+});
+
 
 
 
@@ -246,8 +274,14 @@ io.on('connection', (socket) => {
 });
 
 
+app.get("/test:id",(req,res)=>{
+  id = req.params.id;
+  res.render(`test/test${id}`, {pageTitle:`test${id}`})
+})
+
+
 // معالج لجميع المسارات غير الموجودة (لإنشاء خطأ 404)
-/*  app.use((req, res, next) => {
+app.use((req, res, next) => {
   const err = new Error('الصفحة غير موجودة');
   err.status = 404;
   next(err);
@@ -255,7 +289,7 @@ io.on('connection', (socket) => {
 
 
 // معالج اخطاء موحد
- app.use((err, req, res, next) => {
+app.use((err, req, res, next) => {
   if(!err.status) {
     err.status = 500 ;
     err.message = 'الصفحة غير موجودة'
@@ -265,14 +299,7 @@ io.on('connection', (socket) => {
     pageTitle: 'ERROR-page'
   });
 }); 
- */
-app.get("/test:id",(req,res)=>{
-  id = req.params.id;
-  res.render(`test/test${id}`, {pageTitle:`test${id}`})
-})
 
-app.get('/api/greet', function(req, res){
-  res.json({message: 'Hello from server!'});
-})
+
 
 server.listen(port, db.Database)

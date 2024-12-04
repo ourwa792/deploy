@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>أحجية</title>
+
+    <script src="/library/createjs.js"></script>
+    <script src="/library/zim_min.js"></script>
+
+</head>
+<body>
+
+    <script>
+        const assets = ['scramble.png'];
+        const path = "/assets/"
+
+        var frame = new Frame({
+            scaling: FIT,
+            width: 1024, height: 768, color: yellow,
+            outerColor: dark,
+            progress: new Waiter({
+                backgroundColor: blue, corner: 10
+            }),
+            assets: assets, path: path
+        });
+        frame.on("ready", () => {
+
+            const stage = frame.stage;
+            const stageW = frame.width;
+            const stageH = frame.height;
+
+            var thumbs = [];
+            var cols = 3;
+            var rows = 3;
+
+            var image = asset('scramble.png')
+            var w = image.width/cols ;
+            var h = image.height/rows ;
+
+            loop(rows, function(r){
+                loop(cols, function(c){
+                    thumbs.push(new Bitmap(image, w, h, c*w, r*h))
+                })
+            });
+
+            var tile = new Tile(thumbs, cols, rows, 0, 0, true)
+
+            var picture = new Scrambler(tile).center();
+            picture.on("complete", function(){
+                image.centerReg().animate({
+                    props: {rotation: 720},
+                    time: 2,
+                    ease: 'backInOut',
+                    call: function(){
+                        image.bot().drag({boundary: stage, onTop: false})
+                    }
+                });
+                picture.removeFrom();
+                stage.update()
+            }); 
+        })
+
+
+    </script>
+    
+</body>
+</html>

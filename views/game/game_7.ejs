@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ما هذا الشكل</title>
+
+
+
+    <!-- 	<script src="/library/createjs.js"></script>
+    <script src="/library/zim_min.js"></script> -->
+
+    <!--     <script src="https://zimjs.org/cdn/Box2dWeb-2.1.a.3.min.js"></script>
+         <script type="module" src="/library/zim_physics.js"></script>
+         <script type="module" src="https://zimjs.com/cdn/016/zim_test"> </script> -->
+</head>
+
+<body>
+
+
+    <script type="module">
+        import zim from "https://zimjs.com/cdn/016/zim_physics";
+
+        var width = 1024;
+        var height = 768;
+
+        const assets = ["butterfly.png","flowers02.jpg"];
+        const path = "/assets/"
+
+        var frame = new Frame({
+            scaling: FIT, width, height, color: grey,
+            outerColor: darker,
+            progress: new Waiter({
+                backgroundColor: blue, corner: 10
+            }),
+            assets, path
+        });
+
+
+        frame.on("ready", () => {
+
+            const stage = frame.stage;
+            const stageW = frame.width;
+            const stageH = frame.height;
+
+            const titlesArray = ["دائرة", "مربع", "مثلث", "مستطيل", "بيضوي"];
+
+        const titles = new Container().pos(300, 130);
+        makeTitles();
+
+        function makeTitles() {
+            shuffle(titlesArray);
+            let label;
+            loop(titlesArray, function(title, i) {
+                label = new Label(title, 40, "Courier", "#DDD", "#FFF")
+                    .centerReg(titles)
+                    .expand()
+                    .loc(null, i * 100);
+                label.startX = label.x;
+                label.startY = label.y;
+            });
+        }
+
+        titles.drag();
+
+        const s = {};
+        s["دائرة"] = new Circle(40, "#acd241");
+        s["مربع"] = new Rectangle(70, 70, "#888");
+        s["مربع"].centerReg({add:false});
+        s["مستطيل"] = new Rectangle(90, 50, "#50c4b7");
+        s["مستطيل"].centerReg({add:false});
+        s["مثلث"] = new Triangle(80, 80, 80, "#e472c4");
+        s["بيضوي"] = new Circle(30, "#f58e25");
+        s["بيضوي"].scaleX = 1.5;
+
+        const shapes = new Container().pos(700, 130).bot();
+        makeShapes();
+
+        function makeShapes() {
+            shuffle(titlesArray);
+            loop(titlesArray, function(title, i) {
+                const shape = s[title];
+                if (shape) {
+                    shape.title = title;
+                    shape.loc(null, i * 100, shapes);
+                }
+            });
+        }
+
+        titles.on("pressup", function(e) {
+            const title = e.target;
+            const status = loop(shapes, function(shape, i) {
+                if (shape.hitTestBounds(title)) {
+                    if (title.text == shape.title) {
+                        title.removeFrom();
+                        shape.removeFrom();
+                        S.update();
+                        if (shapes.numChildren == 0) {
+                            message.show();
+                        }
+                        return "hitting";
+                    }
+                }
+            });
+            if (status != "hitting") title.animate({x:title.startX, y:title.startY}, .7);
+        });
+
+        const message = new Pane("عمل رائع!");
+        message.on("close", function() {
+            makeTitles();
+            makeShapes();
+            S.update();
+        });
+
+        })
+
+        </script>
+        </body>
+        </html>

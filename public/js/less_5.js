@@ -62,14 +62,14 @@ window.addEventListener("DOMContentLoaded", () => {
 
         // Display trigonometric ratios on the board
         document.getElementById('info').innerHTML = `
-            <strong>النسب المثلثية للزاوية A:</strong><br>
-            sin(A) = \\(\\dfrac{${BC.toFixed(2)}}{${AB.toFixed(2)}}\\) = sin(${angleADeg+'°'}) = ${sinA}  <br>
-            cos(A) = \\(\\dfrac{${AC.toFixed(2)}}{${AB.toFixed(2)}}\\) = cos(${angleADeg+'°'}) = ${cosA} <br>
-            tan(A) = \\(\\dfrac{${BC.toFixed(2)}}{${AC.toFixed(2)}}\\) = tan(${angleADeg+'°'})= ${tanA}<br><hr/>
-            <strong>النسب المثلثية للزاوية B:</strong><br>
-            sin(B) = \\(\\dfrac{${AC.toFixed(2)}}{${AB.toFixed(2)}}\\) = sin${angleBDeg+'°'} = ${sinB}  <br>
-            cos(B) = \\(\\dfrac{${BC.toFixed(2)}}{${AB.toFixed(2)}}\\) = cos${angleBDeg+'°'} = ${cosB}  <br>
-         tan(B) = \\(\\dfrac{${AC.toFixed(2)}}{${BC.toFixed(2)}}\\) =  tan${angleBDeg+'°'} = ${tanB} <br>
+            <strong>النسب المثلثية للزاوية A:</strong>
+            <p> sin(A) = \\(\\dfrac{${BC.toFixed(2)}}{${AB.toFixed(2)}}\\) = sin(${angleADeg+'°'}) = ${sinA}  </p>
+            <p> cos(A) = \\(\\dfrac{${AC.toFixed(2)}}{${AB.toFixed(2)}}\\) = cos(${angleADeg+'°'}) = ${cosA} </p>
+            <p> tan(A) = \\(\\dfrac{${BC.toFixed(2)}}{${AC.toFixed(2)}}\\) = tan(${angleADeg+'°'})= ${tanA} </p><hr/>
+            <strong>النسب المثلثية للزاوية B:</strong>
+            <p> sin(B) = \\(\\dfrac{${AC.toFixed(2)}}{${AB.toFixed(2)}}\\) = sin(${angleBDeg+'°'}) = ${sinB}  </p>
+            <p> cos(B) = \\(\\dfrac{${BC.toFixed(2)}}{${AB.toFixed(2)}}\\) = cos(${angleBDeg+'°'}) = ${cosB}  </p>
+         <p> tan(B) = \\(\\dfrac{${AC.toFixed(2)}}{${BC.toFixed(2)}}\\) =  tan(${angleBDeg+'°'}) = ${tanB} </p><br>
         `;
         //MathJax.typeset()
         const info = document.getElementById("info")

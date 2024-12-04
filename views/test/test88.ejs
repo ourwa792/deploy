@@ -9,7 +9,9 @@
 
     <script type="module">
 
-import zim from "https://zimjs.org/cdn/016/zim.js";
+//import zim from "https://zimjs.org/cdn/016/zim.js";
+import zim from "https://zimjs.com/cdn/016/zim_physics";
+import "https://zimjs.com/explore/canvas-latex.js"
 
     
         
@@ -17,7 +19,7 @@ import zim from "https://zimjs.org/cdn/016/zim.js";
         const path = "/assets/";
 
         var frame = new Frame({
-            scaling: FIT, width: 1304, height: 868, color: pink,
+            scaling: FIT, width: 1024, height: 768, color: pink,
             outerColor: dark,
             progress: new Waiter({
                 backgroundColor: blue, corner: 10
@@ -32,7 +34,7 @@ frame.on("ready", function ready(){
     let stageW = frame.width;
     let stageH = frame.height;
 
-        
+zog(CanvasLatex)        
      
 
         new Blob({
@@ -42,34 +44,6 @@ frame.on("ready", function ready(){
             ,color: yellow, interactive:false
         })//.center()
 
-       
-       /*  
-   const label = new Label({
-   text:"press to edit with TextEditor",
-   italic:true,
-   align:CENTER,
-   font:"verdana"
-})
-   .center()
-   .expand()
-   .tap(()=>{
-      textEditor.show(label);
-   });
-   zog(label)
-
-const textEditor = new TextEditor({
-   colorList:true, // or array of colors
-   optionList:["bold","italic","align"], // or true, or array with any of these
-   sizeList:true, // or array of sizes
-   fontList:true, // or array of fonts
-   live:true, // default
-   scroll:true // default, etc.
-});
- textEditor.on("update", ()=>{
-     if(label.text !== 'مربع')
-    zog("error")
-else zog("write")
- }) //zog(label.text) */
             
    /* 
     point:[[4.9,-117.3,0,0,-20,0,22.2,0,"mirror"],
@@ -81,56 +55,107 @@ else zog("write")
             [-73.3,-49.9,0,0,-1.4,6.4,7.1,-31.9],[-90,-112.6,0,0,-23.7,1.8,18.9,-1.4]]}
    */
 
+    // إعداد عالم الفيزياء مع الجاذبية
+    const physics = new Physics({
+        gravity: 9.8
+    });
 
-   const size = 100;
-const roseImage = "rose.png";
-const treeImage = "tree10.png";
-const appleImage = "apple.png";
+    // إنشاء الميزان
+    const beam = new Rectangle(600, 20, "brown").centerReg().pos(400,650).addPhysics({
+        dynamic: true,
+        shape: "rectangle",
+        friction: 0.5,
+        linear: 0.5,
+        angular: 0.8,
+        density: 1
+    }).addTo(stage);
 
-// إعداد قائمة العناصر القابلة للسحب (وردة، شجرة، وتفاحة)
-const draggableItems = new Tile([
-    new Pic(appleImage).centerReg(),  // التفاحة (لن يتم سحبها)
-    new Pic(roseImage).centerReg(),   // الوردة (قابلة للسحب)
-    new Pic(treeImage).centerReg()    // الشجرة (لن يتم سحبها)
-], 1, 3, 0, 20).pos(0, H*0.7, CENTER, CENTER);
+    const pivot = new Circle(15, "black").centerReg().loc(beam.x,beam.y)/* pos(stageW / 2, stageH / 2 + 10) */.addPhysics(false).addTo(stage);
+    physics.join({ obj1: beam, obj2: pivot, type: "revolute" });
 
-// الوردة قابلة للسحب
-draggableItems.getChildAt(1).drag();
 
-// إنشاء تسلسل الأشجار والورود مع مكان فارغ
-const sequenceItems = new Tile([
-    new Pic(roseImage).centerReg(),   // وردة
-    new Pic(treeImage).centerReg(),   // شجرة
-    new Pic(treeImage).centerReg(),   // شجرة
-    null,                                // مكان فارغ لوردة
-    new Pic(roseImage).centerReg(),   // وردة
-    new Pic(treeImage).centerReg(),   // شجرة
-], 1, 6, 0, 40).pos(0, H*0.4, CENTER, CENTER);
+var options = {
+  displayMode: true,
+  debugBounds: false,
+  strict: false
+};
 
-// التأكد من وجود مكان فارغ
-let emptySlotIndex = 3;
+/* var equation = new CanvasLatex.default(`
+    ax^2+bx+c+a^{(a^{3a}+3\\times4)}a^{a^a_a}_{a^a_a}\\\\
+    1+\\sqrt[3]{2}+\\sqrt[1923^234]{2^{2}}
+`, options); */
+var half = new CanvasLatex.default(`\\frac{1}{2}`, options)
+var quart1 = new CanvasLatex.default(`\\frac{2}{8}`, options)
+var quart2 = new CanvasLatex.default(`\\frac{1}{4}`, options)
+var thmn = new CanvasLatex.default(`\\frac{1}{8}`, options)
+//zimify(equation);
 
-// إعداد هدف لاستقبال الوردة في المكان الفارغ
-draggableItems.on("pressup", function(e) {
-    let draggedItem = e.target;
+//equation.sca(1.5).center().expand(0).drag({all:true});
 
-    // التأكد من أن العنصر المسحوب هو الوردة
-    if (draggedItem.image === roseImage) {
-        let emptySlot = sequenceItems.getChildAt(emptySlotIndex);
 
-        // التحقق من قرب الوردة من المكان الفارغ
-        if (draggedItem.hitTestReg(emptySlot)) {
-            // وضع الوردة في المكان الفارغ
-            const point = draggableItems.localToLocal(draggedItem.x, draggedItem.y, sequenceItems);
-            sequenceItems.setChildAt(emptySlotIndex, draggedItem.clone());
-            draggedItem.removeFromParent();
+    const weights = [
+        { equation: "\\frac{1}{8}", density: 0.125, color: "red" },
+        { equation: "\\frac{2}{8}", density: 0.25, color: "black" },
+        { equation: "\\frac{1}{4}", density: 0.25, color: "orange" },
+        { equation: "\\frac{1}{2}", density: 0.5, color: "yellow" },
+        { equation: "1", density: 1.0, color: "green" },
+        { equation: "2", density: 2.0, color: "blue" }
+    ];
+
+    // دالة لإنشاء الكتل وإضافتها للمسرح
+    weights.forEach((weight, index) => {
+        const square = new Rectangle(80, 80, weight.color)
+            .centerReg()
+            .pos(100 + index * 100, 100) // وضع الكتل بشكل أفقي على المسرح
+            .addPhysics({
+                dynamic: true,
+                shape: "rectangle",
+                density: weight.density
+            })
+            .addTo(stage);
+
+            var eq = new CanvasLatex.default(weight.equation, options)
+            .scaleTo(square,80)
+
+
+
+
+        /*  new Label({
+            text: weight.equation,
+            size: 20,
+            color: "white"
+        }).centerReg(square)//.scaleTo(90,square); */
+
+        // تفعيل خاصية السحب للكتل
+        square.drag();
+    });
+
+    physics.drag();
+
+
+    // زر للتحقق من التوازن
+ /*    const checkButton = new Button({
+        label: "تحقق من التوازن",
+        width: 200,
+        height: 60,
+        backgroundColor: "green",
+        color: "white"
+    }).pos(stageW / 2 - 100, stageH - 120).addTo(stage);
+
+    // دالة للتحقق من توازن الكتل على الجهتين
+    checkButton.on("click", () => {
+        const beamAngle = Math.abs(beam.rotation); // زاوية الميل
+        if (beamAngle < 5) { // زاوية الميل لتقييم التوازن
+            balanceLabel.text = "الميزان متوازن! الكسور متساوية.";
+            balanceLabel.color = "green";
         } else {
-            // إعادة الوردة إلى مكانها الأصلي في القائمة
-            draggedItem.animate({x:draggedItem.startX, y:draggedItem.startY}, .3);
+            balanceLabel.text = "الميزان غير متوازن. حاول تعديل الكسور.";
+            balanceLabel.color = "red";
         }
-    }
-});
+    }); */
 
+    // عرض حدود الفيزياء لمراقبة التوازن بشكل أفضل
+    //physics.debug();
 
 
     })

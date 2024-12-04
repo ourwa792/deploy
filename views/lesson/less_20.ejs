@@ -1,0 +1,597 @@
+<%- include("../partial/head.ejs") %>
+
+
+    <link href="/css/animate.min.css" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"
+        integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="/css/e-learning-js.min.css" />
+    <script type="text/javascript" src="/library/e-learning-js.min.js"></script>
+
+    <link rel="stylesheet" href="/css/jsxgraph.css">
+
+    <script type="text/javascript" src="/library/jsxgraphcore.js"></script>
+
+    <script lang="text/javascript" src="/library/typed.js"></script>
+
+    <style>
+        .header {
+            background-color: #defdb6;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .header img {
+            width: 60px;
+            height: auto;
+        }
+
+        .learning-box {
+            background-color: #ffebcd;
+            padding: 10px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .learning-box img {
+            width: 80px;
+            height: auto;
+        }
+
+        .angle-box {
+            background-color: #ffe4e1;
+            padding: 10px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+            transition: transform 0.2s;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .angle-box:hover {
+            transform: scale(1.05);
+        }
+
+        .text-div {
+            background-color: #fafad2;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        ul li {
+            background-color: #e0ffff;
+            margin: 5px 0;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s;
+        }
+
+        ul li:hover {
+            background-color: #afeeee;
+        }
+
+
+
+        .table-container {
+            margin: 20px auto;
+            max-width: 800px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        .table {
+            width: 100%;
+            margin-bottom: 0;
+        }
+
+        .table th,
+        .table td {
+            vertical-align: middle;
+            text-align: center;
+        }
+
+        .image-cell {
+            max-width: 100px;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .highlight {
+            background-color: #f0f8ff;
+        }
+    </style>
+
+    </head>
+
+    <body>
+
+        <div class="row header animate__animated animate__fadeInDown d-flex align-items-center">
+
+            <!-- عمود العنوان -->
+            <div class="col-lg-4 col-md-4 col-sm-4">
+                <img src="<%= lesson.cover %>" class="rounded-2 float-start" style="width: 100%;">
+            </div>
+
+            <div class="col-lg-8 col-md-8 col-sm-8">
+                <h1 class="text-start">
+                    <%= lesson.title %>
+                </h1>
+                <hr>
+            </div>
+        </div>
+
+        <%#- lesson.content %>
+            <!--      النص التمهيدي -->
+            <div class="row content-section animate__animated animate__fadeInUp">
+                <div class="col-lg-8 col-md-8 col-sm-12">
+                    <p id="element">
+                        تعلمت سابقاً أنَّ المستوي الإحداثي يتعين بمحورين أفقي وشاقولي وكل نقطة في المستوي لها إحداثيات وعينتها على الشبكة.
+                    </p>
+
+                </div>
+
+                <div class="col-lg-4 col-md-4 col-sm-12">
+                    <div class="card border-info mb-2 float-end">
+                        <img src="<%= lesson.resources[0].url %>" class="img-fluid">
+
+                        <p class="card-text mx-2 my-2">
+                        يستخدم المهندسون في برج المراقبة المستوي الإحداثي لتحديد موقع السفينة في البحر     
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+
+            <div style="overflow-x: auto;" class="container table-container">
+                <h5 class="text-center mb-4"> تعلم:</h5>
+         
+                <%- lesson.content %>
+            <!--  <ul>
+                    <li>
+                        <button class="btn btn-warning " data-sound="/sound/less-20-1.mp3" id="btn1">
+                            أسمع
+                        </button>
+                        المحور الأفقي والمحور الشاقولي هما مستقيما اعداد متعامدان يتقاطعان في مبدأ الأحداثيات</li>
+                    <li>
+                        نسمي المحور الأفقي محور الفواصل ونرمز Ox</li>
+                    <li>
+                        نسمي المحور الشاقولي محور الفواصل ونرمز Oy
+                        <button class="btn btn-warning " data-sound="/sound/less-20-2.mp3" id="btn4">
+                            أسمع
+                        </button>
+                    
+                    </li>
+                    <li>
+                        محورا الفواصل والتراتيب يشكلان معاً معلم مستوي ويسمى مستوي الإحداثيات
+                    </li>
+                </ul>                    
+            -->
+            </div>
+
+  
+
+            <div class="row  content-section">
+
+                <div class=" col-lg-8 col-md-8 col-sm-12 animate__animated animate__zoomIn">
+                    <p class="angle-box">
+                        يقسم المحوران المستوي إلى 4 أرباع : الأول،  الثاني، الثالث، و الرابع
+                        <br>
+                         الإحداثي x يقع على محور الفواصل ويسمى فاصلة النقطة و الإحداثي y يقع على محور التراتيب ويسمى ترتيب النقطة
+                        ونكتب M(x,y)
+                    </p>
+                </div>
+
+                <div class="col-lg-4 col-md-4 animate__animated animate__zoomIn">
+                    <div class="card border-info animate__animated animate__bounceInLeft">
+                        <img src="<%= lesson.resources[1].url %>" class="img-fluid">
+                    </div>
+
+                </div>
+          
+
+            </div>
+
+
+
+            <div class="container">
+                <h3 class="angle-box w-50 d-flex justify-content-center align-items-center"
+                >  تعلم الأرباع في المستوي </h3>
+                
+                <div id="jxgbox" class="jxgbox col-lg-8 col-md-8 col-sm-12"
+                    style="aspect-ratio: 1/1; max-width: 90%;margin:10px; direction: ltr;" lang="en">
+                </div>
+            </div>
+
+
+            <div class=" col-lg-6 col-md-6 col-sm-12 d-flex justify-content-center align-items-center my-5">
+                <div class="card border-info mb-2 text-center">
+                    <p class="  card-text mx-2 my-2"> حاول أن تحل  </p>
+                    <img src="<%= lesson.resources[2].url %>" class="img-fluid text-center">
+                </div>
+            </div>
+
+
+            <div class=" col-8">
+                <!-- exercies -->
+                <%- lesson.exercies %>
+                <!-- 
+                <ul class="number_list select_activity questions_2">
+                    <p>  نقطة لها فاصلة a </p>
+
+                    <li data-question='1'>
+                        <div data-option='1'>b</div>
+                        <div data-option='2'>c</div>
+                        <div data-option='3'>d</div>
+                    </li>
+
+                    <p> نقطة لها ترتيب b </p>
+                    <li data-question='2'>
+                        <div data-option='1'>o</div>
+                        <div data-option='2'>c</div>
+                        <div data-option='3'>d</div>
+                    </li>
+
+                    <p> نقطتين فاصلتاهما موجبتين تماماً </p>
+                    <li data-question='3'>
+                        <div data-option='1'>a,c</div>
+                        <div data-option='2'>c,d</div>
+                        <div data-option='3'>a,b<div>
+                    </li>
+
+                    <p> نقطة ترتيبها سالب تماماً </p>
+                    <li data-question='4'>
+                        <div data-option='1'>b</div>
+                        <div data-option='2'>d</div>
+                        <div data-option='3'>c</div>
+                    </li>
+
+                    <p> نقطة ترتيبهاو فاصلتها سالب تماماً </p>
+                    <li data-question='5'>
+                        <div data-option='1'>b</div>
+                        <div data-option='2'>c</div>
+                        <div data-option='3'>d</div>
+                    </li>
+
+
+                </ul>
+            -->
+                <div class="btn_activities grid13">
+                    <div id="check_answers_2">
+                        <span>Check</span>
+                    </div>
+                    <div id="reset_answers_2">
+                        <span>Reset</span>
+                    </div>
+                    <div id="answers_2">
+                        <span>Answers</span>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div style="overflow-x: auto;" class="container table-container justify-content-center align-items-center">
+
+                <h5 class="text-center mb-4"> حل التمرين التالي </h5>
+                <p>عيّن على المعلم النقاط التالية: a,b,c,d,e</p>
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr class="table-warning">
+                            <th scope="col">النقطة </th>
+                            <th scope="col">a</th>
+                            <th scope="col">b</th>
+                            <th scope="col">c</th>
+                            <th scope="col">d</th>
+                            <th scope="col">e</th>
+                       
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr dir="ltr" lang="en">
+                            <td> الفاصلة</td>
+                            <td>+2</td>
+                            <td> -2</td>
+                            <td> 0</td>
+                            <td> -1</td>
+                            <td> -2</td>
+                    
+                        </tr>
+                        <tr dir="ltr" lang="en">
+                            <td> التراتيب</td>
+                            <td>+3</td>
+                            <td> +3</td>
+                            <td> -3</td>
+                            <td> -2</td>
+                            <td> -1</td>
+                    
+                        </tr>
+
+                    </tbody>
+                </table>
+                
+                <div id="jxgbox2" class="jxgbox col-lg-7 col-md-7 col-sm-12 shadow-lg"
+                    style="aspect-ratio: 1/1; max-width: 90%;margin:10px; direction: ltr;" lang="en">
+                </div>
+
+            </div>            
+
+
+            <script >
+             window.addEventListener("DOMContentLoaded", () => {
+                // إعداد لوحة JSXGraph الأولى
+                var board = JXG.JSXGraph.initBoard("jxgbox", {
+                  boundingbox: [-10, 10, 10, -10],
+                  axis: true,
+                });
+              
+                // تقسيم المستوي إلى أربعة أرباع بألوان مختلفة
+                board.create(
+                  "polygon",
+                  [
+                    [0, 0],
+                    [10, 0],
+                    [10, 10],
+                    [0, 10],
+                  ],
+                  { fillColor: "#f0c4c4", highlight: false }
+                ); // الربع الأول
+                board.create(
+                  "polygon",
+                  [
+                    [0, 0],
+                    [-10, 0],
+                    [-10, 10],
+                    [0, 10],
+                  ],
+                  { fillColor: "#c4e3f0", highlight: false }
+                ); // الربع الثاني
+                board.create(
+                  "polygon",
+                  [
+                    [0, 0],
+                    [-10, 0],
+                    [-10, -10],
+                    [0, -10],
+                  ],
+                  { fillColor: "#d1f0c4", highlight: false }
+                ); // الربع الثالث
+                board.create(
+                  "polygon",
+                  [
+                    [0, 0],
+                    [10, 0],
+                    [10, -10],
+                    [0, -10],
+                  ],
+                  { fillColor: "#f0e4c4", highlight: false }
+                ); // الربع الرابع
+              
+                var infoText = board.create(
+                  "text",
+                  [-9, -9, "انقر على اللوحة لتحديد نقطة."],
+                  {
+                    fontSize: 20,
+                    anchorX: "left",
+                    color: "black",
+                  }
+                );
+              
+                board.create("text", [8, 6, "الربع الأول"], {
+                  fontSize: 16,
+                  anchorX: "center",
+                  color: "orange",
+                });
+                board.create("text", [-9, 9, "الربع الثاني"], {
+                  fontSize: 16,
+                  anchorX: "center",
+                  color: "green",
+                });
+                board.create("text", [-9, -6, "الربع الثالث"], {
+                  fontSize: 16,
+                  anchorX: "center",
+                  color: "gold",
+                });
+                board.create("text", [8, -6, "الربع الرابع"], {
+                  fontSize: 16,
+                  anchorX: "center",
+                  color: "red",
+                });
+              
+                const successSound = new Audio("/sound/rightanswer.mp3");
+                const challenges = [
+                  { description: "حدد نقطة في الربع الأول", check: (x, y) => x > 0 && y > 0 },
+                  {
+                    description: "حدد نقطة في الربع الثاني",
+                    check: (x, y) => x < 0 && y > 0,
+                  },
+                  {
+                    description: "حدد نقطة في الربع الثالث",
+                    check: (x, y) => x < 0 && y < 0,
+                  },
+                  {
+                    description: "حدد نقطة في الربع الرابع",
+                    check: (x, y) => x > 0 && y < 0,
+                  },
+                ];
+              
+                let currentChallenge = 0;
+              
+                board.on("down", function (e) {
+                  if (currentChallenge >= challenges.length) {
+                    infoText.setText("تهانينا! لقد أكملت جميع التحديات.");
+                    successSound.play();
+                    return;
+                  }
+              
+                  var coords = board.getCoordsTopLeftCorner(e),
+                    absPos = JXG.getPosition(e),
+                    dx = absPos[0] - coords[0],
+                    dy = absPos[1] - coords[1],
+                    boardCoords = new JXG.Coords(JXG.COORDS_BY_SCREEN, [dx, dy], board);
+              
+                  var x = parseFloat(boardCoords.usrCoords[1].toFixed(2));
+                  var y = parseFloat(boardCoords.usrCoords[2].toFixed(2));
+              
+                  board.create("point", [x, y], {
+                    name: "(" + x + ", " + y + ")",
+                    size: 4,
+                    color: "blue",
+                  });
+              
+                  const challenge = challenges[currentChallenge];
+                  if (challenge.check(x, y)) {
+                    infoText.setText(
+                      `الإحداثيات: (${x}, ${y}) <br> ممتاز! ${challenge.description} تم تحقيقه.`
+                    );
+                    successSound.play();
+              
+                    currentChallenge++;
+                    if (currentChallenge < challenges.length) {
+                      infoText.setText(challenges[currentChallenge].description);
+                    }
+                  } else {
+                    infoText.setText(
+                      `الإحداثيات: (${x}, ${y}) <br> حاول مرة أخرى في: ${challenge.description}.`
+                    );
+                  }
+                });
+              
+                // إعداد اللوحة الثانية خارج حدث 'down' للوحة الأولى
+                var board1 = JXG.JSXGraph.initBoard("jxgbox2", {
+                  boundingbox: [-10, 10, 10, -10],
+                  axis: true,
+                });
+              
+                var feedbackText = board1.create("text", [-9, -9, "حدد النقطة عند (3, 2)"], {
+                  fontSize: 18,
+                  anchorX: "left",
+                  color: "black",
+                });
+              
+                const targetPoints = [
+                  { x: 2, y: 3, description: "حدد النقطة عند (3, 2)" },
+                  { x: -2, y: 3, description: "حدد النقطة عند (3, 2-)" },
+                  { x: 0, y: -3, description: "(0, -3)" },
+                  { x: -1, y: -2, description: "(-1, -2)" },
+                  { x: -2, y: -1, description: "(-2, -1)" },
+                ];
+              
+                let currentTargetIndex = 0;
+              
+                function checkPoint(x, y) {
+                  const target = targetPoints[currentTargetIndex];
+                  const tolerance = 0.7;
+              
+                  if (
+                    Math.abs(x - target.x) <= tolerance &&
+                    Math.abs(y - target.y) <= tolerance
+                  ) {
+                    feedbackText.setText(
+                      `ممتاز! تم تحديد النقطة (${target.x}, ${target.y}) بنجاح.`
+                    );
+                    successSound
+                      .play()
+                      .catch((error) => console.error("تعذر تشغيل الصوت:", error));
+              
+                    currentTargetIndex++;
+                    if (currentTargetIndex < targetPoints.length) {
+                      feedbackText.setText(targetPoints[currentTargetIndex].description);
+                    } else {
+                      feedbackText.setText("تهانينا! لقد أكملت جميع التحديات.", {
+                        fontSize: 20,
+                        color: "green"
+                      });
+                    }
+                  } else {
+                    feedbackText.setText(
+                      `حاول مرة أخرى! النقطة ليست بالقرب من (${target.x}, ${target.y}).`
+                    , {fontSize:20, color: "red"});
+                  }
+                }
+              
+                board1.on("down", function (e) {
+                  var coords = board1.getCoordsTopLeftCorner(e),
+                    absPos = JXG.getPosition(e),
+                    dx = absPos[0] - coords[0],
+                    dy = absPos[1] - coords[1],
+                    boardCoords = new JXG.Coords(JXG.COORDS_BY_SCREEN, [dx, dy], board1);
+              
+                  var x = parseFloat(boardCoords.usrCoords[1].toFixed(2));
+                  var y = parseFloat(boardCoords.usrCoords[2].toFixed(2));
+              
+                  board1.create("point", [x, y], {
+                    name: "(" + x + ", " + y + ")",
+                    size: 4,
+                    color: "green",
+                  });
+              
+                  checkPoint(x, y);
+                });
+              
+                //           //
+                createSelect({
+                  questions_html: ".questions_2",
+                  check_button: "#check_answers_2",
+                  reset_button: "#reset_answers_2",
+                  answer_button: "#answers_2",
+                  answers: [1, 1, 3, 2, 2],
+                });
+              
+                const buttons = document.querySelectorAll("button"); // تحديد جميع الأزرار
+              
+                buttons.forEach((btn) => {
+                  // إنشاء صوت خاص لكل زر بناءً على الـ data-sound الخاص به
+                  const audio = new Audio(btn.getAttribute("data-sound"));
+              
+                  btn.addEventListener("click", (e) => {
+                    if (!audio.playing) {
+                      audio.play();
+                      btn.disabled = true; // تعطيل الزر أثناء تشغيل الصوت
+              
+                      audio.onended = () => {
+                        btn.disabled = false;
+                      };
+                    }
+                  });
+              
+                  Object.defineProperty(audio, "playing", {
+                    get: function () {
+                      return !this.paused && !this.ended;
+                    },
+                  });
+                });
+              });
+               </script>
+
+
+            <div class="row">
+                <div class="col-1">
+                    <a href="/" class="btn btn-outline-info mt-5">
+                        <img src="/icon/iconBack.png" class="" width="34" height="34">
+                        <span>الصفحة الرئيسية</span>
+
+                    </a>
+
+                </div>
+            </div>
+
+            <%- include('../partial/end.ejs') %>

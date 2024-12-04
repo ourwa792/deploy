@@ -5,6 +5,8 @@ const bcrypt = require("bcryptjs");
 const multer = require('multer')
 const upload = require('../config/videoMulter')
 
+const {gameNames} = require("./gameName")
+
 
 exports.getDashboard = (req, res, next) => {
   User.findAll()
@@ -12,6 +14,7 @@ exports.getDashboard = (req, res, next) => {
       res.render('admin/dashboard', {
         pageTitle: 'لوحة القيادة',
         students: students,
+        gameNames
       });
     })
     .catch(err => {
@@ -26,7 +29,8 @@ exports.getStudents = (req, res, next) => {
     .then(students => {
       res.render('admin/students', {
         pageTitle: 'قائمة الطلاب',
-        students: students
+        students: students,
+        gameNames
       });
     })
     .catch(err => {
@@ -157,6 +161,7 @@ exports.postDeleteStudent = (req, res, next) => {
 
 exports.getStudentFeedbacks = (req, res) => {
   res.render('admin/studentFeedbacks', {
+    gameNames,
     pageTitle: 'تقييمات الطلاب'
   });
 };

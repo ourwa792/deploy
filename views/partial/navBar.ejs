@@ -226,12 +226,30 @@
               </ul>
             </div>
 
-            <li>
+
+            <div class="btn-group">
+              <button type="button" class="btn custom-dropdown-btn d-flex flex-column" data-bs-toggle="dropdown" aria-expanded="false">
+                <img src="/icon/iconGame.png" class="bi mx-3" width="34" height="34">
+                  العاب تعليمية  
+              </button>
+
+              <ul class="dropdown-menu dropdown-menu-end custom-dropdown-menu">
+                <% gameNames.forEach((gameName, index) => { %>
+                  <li>
+                    <a href="/game/<%= index + 1 %>" class="dropdown-item container text-start">
+                      <%= gameName %>
+                    </a>
+                  </li>
+                <% }) %>
+              </ul>
+            </div>
+
+        <!--     <li>
               <a href="/board" class="nav-link">
                 <img src="/icon/iconGame.png" class="bi d-block mx-auto mb-1" width="34" height="34">
                 ألعاب تعليمية
               </a>
-            </li>
+            </li> -->
           <% } %>
         </ul>
         <div class="d-flex align-items-center ms-auto text-end">
@@ -243,8 +261,8 @@
     </div>
   </div>
 
-  <div class="px-3 py-2 border rounded-3 my-3 border border-secondary">
-    <div class="container d-flex flex-wrap align-items-center justify-content-center">
+  <div class="px-3 py-sm-2 border rounded-3 my-3 border border-secondary">
+    <div class="container-sm d-sm-flex flex-wrap align-items-center justify-content-center">
       <div class="text-end">
         <% if (user) { %>
           <a class="btn btn-light text-dark me-2 nav-link" href="/logout">Log-out</a>

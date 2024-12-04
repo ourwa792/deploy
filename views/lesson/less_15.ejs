@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> <%- lesson.title %> </title>
+
+<!-- 
+    <script lang="text/javascript" src="/library/createjs.js"> </script>
+    <script lang="text/javascript" src="/library/zim_min.js"> </script>
+ -->
+</head>
+
+<body>
+
+    <script type="module">
+
+        import zim from "https://zimjs.org/cdn/016/zim_game.js";
+
+        let dev_url ='http://localhost:3000' ;
+        let prod_url ='https://deploy-kewv.onrender.com'
+
+        const scaling = FIT;
+        const width = 1240;
+        const height = 868;
+
+        const assets = ["one.png", "tow.png", "elephant.png", "drabstract.png", "nature17.jpg",
+           "1.png", "2.png", "school.jpg", "gazal.png", "one-tow.png" ,
+           "bird.png", "cat.png", "dog2.png"];
+        const path = "/assets/";
+
+        var frame = new Frame({
+            scaling,
+            width,
+            height,
+            outerColor: dark,
+            color: light,
+            allowDefault: true,
+            assets,
+            path,
+            progress: new Waiter({ backgroundColor: green, corner: 10 }),
+        });
+
+        frame.on("ready", function ready() {
+            var stage = frame.stage;
+            let stageW = frame.width;
+            let stageH = frame.height;
+
+            const rightSound = new Aud({file: "/sound/rightanswer.mp3", volume: .8, loop: false,
+                maxNum: 1,          // يسمح بتشغيل نسخة واحدة من الصوت فقط
+                interrupt: "any"    // يقطع الصوت الحالي ويبدأ من جديد إذا تم النقر عليه مرة أخرى
+            }) 
+
+            var page1 = new Page(stageW, stageH, orange, green);
+            asset("school.jpg").sca(.22).centerReg(page1);
+
+            asset("one-tow.png").sca(.71).loc(400,200,page1)
+
+            new Label("اسحب").pos(85, 85, RIGHT, BOTTOM, page1);
+            new Triangle(40, 40, 40, red).alp(2).rot(90).loc(975, 665, page1);
+            new Triangle(40, 40, 40, red).alp(2).rot(180).loc(890, 715, page1);
+
+            const teacher = new Sprite({
+                image: "drabstract.png",
+                cols: 6,
+                rows: 3,
+            }).sca(3).loc(100,250,page1)
+
+            teacher.run({
+                loop: true,
+                time: 2.3,
+                waitedCall: .4,
+                rewind: true,
+                rewindWait: .3
+            })
+
+            const words = ["مرحباً يا شاطر", "سنتعلم اليوم درساً جميلاً", "كيف نكتب العدد ١",
+                "وكيف نكتب العدد ٢" , "هل أنت مستعد ؟" , "قم بالسحب لأعلى أو لليمين"
+            ]
+
+            let questionDialog = new Dialog({
+                width: 300,
+                height: 170,
+                words: words ,
+                dialogType: "oval",
+                borderWidth: 3,
+                size: 40,
+                font: "Comic Sans MS",
+                color: dark,
+                corner: 70,
+                tailH: LEFT,
+                tailV: BOTTOM
+            }).loc(270, 100, page1)  
+
+
+
+            // page -2-
+            var page2 = new Page(stageW, stageH, blue, pink);
+
+            const sound1 = new Aud({ file: "/sound/less-15-1.mp3", volume: .8, loop: false });
+            const pic = new Pic("one.png").sca(1.4).drag().center(page2);
+
+            const lab = new Label({
+                text: "أتعلم",
+                align: RIGHT,
+                size: 100,
+                backgroundBorderColor: red,
+                color: white,
+                rollColor: red,
+                bold: true,
+                italic: true
+            }).loc(700, 100, page2);
+            
+            new Emoji("\ud83d\udd2c", 100).loc(800, 100, page2);
+
+            new Button({
+                label: "اسمع الصوت",
+                width: 160,
+                height: 60,
+                backgroundColor: "purple",
+                rollBackgroundColor: "MediumOrchid",
+                borderWidth: 8,
+                borderColor: "violet",
+                gradient: .3,
+                corner: 10
+            }).loc(900, 400, page2)
+                .tap(() => sound1.play())
+            
+            const elephant = new Sprite({
+               image: "elephant.png",
+               cols: 3,
+               rows: 3,
+               animations: {
+                startFrame: 1 ,
+                endFrame: 4
+            }
+            }).sca(2.5).loc(70,150,page2);
+   
+            elephant.run({
+               loop:true,
+               time: 2.3,
+               waitedCall: .4 ,
+               rewind: true,
+               rewindWait: .3
+           });
+
+
+
+            // page -3-
+            var page3 = new Page(stageW, stageH, white, yellow);
+            
+            new Pic("tow.png").sca(2).drag().center(page3);
+            new Label({
+                text: "أتعلم",
+                align: RIGHT,
+                size: 100,
+                backgroundBorderColor: red,
+                color: blue,
+                rollColor: red,
+                bold: true,
+                italic: true
+            }).loc(700, 100, page3);
+            new Emoji("\ud83d\udd2c", 100).loc(800, 100, page3);
+
+            const sound2 = new Aud({ file: "/sound/less-15-2.mp3", volume: .8, loop: false });
+
+            new Button({
+                label: "اسمع الصوت",
+                width: 160,
+                height: 60,
+                backgroundColor: "purple",
+                rollBackgroundColor: "MediumOrchid",
+                borderWidth: 8,
+                borderColor: "violet",
+                gradient: .3,
+                corner: 10
+            }).loc(900, 400, page3)
+                .tap(() => sound2.play())
+
+            const gazal1 = new Sprite({
+                image: "gazal.png",
+                cols: 3,
+                rows: 3,
+                animations: {
+                    general: [0, 2],
+                    correct: []
+                }
+            }).sca(2.4).loc(100, 350, page3)
+
+            gazal1
+            .run({
+                  loop: true,
+                  label: "general",
+                  time: 2.3,
+                  waitedCall: .5,
+                  rewind: true,
+                  rewindWait: .4
+                })
+
+            const gazal2 = new Sprite({
+                image: "gazal.png",
+                cols: 3,
+                rows: 3, 
+                animations: {
+                    general: [0, 2],
+                }
+            }).sca(2.4).loc(750, 460, page3)
+            .run({  loop: true,
+                    label: "general",
+                    time: 2,
+                    waitedCall: .4,
+                    rewind: true,
+                    rewindWait: .3
+            })
+
+
+
+            // page -4-
+            var page4 = new Page(stageW, stageH, pink, white, false,);
+            //page4.icon = frame.makeIcon().pos(50, 50, RIGHT, BOTTOM, page4);
+            new Pic("school.jpg").centerReg(page4)
+
+            const teacher2 = new Sprite({
+                image: "drabstract.png",
+                cols: 6,
+                rows: 3,
+            }).sca(3).loc(100, 180, page4)
+            .run({
+                    loop: true,
+                    time: 2.3,
+                    waitedCall: .4,
+                    rewind: true,
+                    rewindWait: .3
+                })
+                
+            new Dialog({
+                words: "صل النقاط المرقمة لتكتب الرقم ١"  ,
+                width: 280,
+                height: 120,
+                dialogType: "oval",
+                borderWidth: 3,
+                size: 30,
+                font: "Comic Sans MS",
+                color: dark,
+                corner: 60,
+                tailH: LEFT,
+                tailV: BOTTOM
+            }).loc(270,90, page4) 
+            
+            var one = asset("1.png").sca(2).alp(.2).loc(610, 100, page4);
+
+            var blob = new Blob({
+                points:[[18, 207.7,0,0,0,0,0,0,"none"],
+                [18, 478.7,0,0,0,0,0,0,"none"],]
+            });
+
+            var connectors = new Connectors({
+                points:blob,
+                linear:true,
+                linearOrder:true
+            }).loc(540, -70,page4);
+
+            var nums = new Container().loc(540, -70, page4);
+            loop(connectors.points, function (point, i) {
+                var dot = new Circle(20, green).loc(point[0], point[1], nums).noMouse();
+                new Label({text:(i+1), color:white, valign:CENTER, align:CENTER, size:16}).centerReg(dot)
+            });            
+
+            connectors.on("complete", function () {
+                rightSound.play();
+                one.animate({alpha:1});
+                nums.animate({alpha:0});
+                connectors.cache().animate({alpha:.5});
+            });            
+
+
+
+            // page -5-    
+            var page5 = new Page(stageW, stageH, pink, yellow);
+
+            new Pic("school.jpg").centerReg(page5)
+
+            new Sprite({
+                image: "drabstract.png",
+                cols: 6,
+                rows: 3,
+            })
+            .sca(3).loc(100,210, page5)
+            .run({
+                    loop: true,
+                    time: 2.3,
+                    waitedCall: .4,
+                    rewind: true,
+                    rewindWait: .3
+                })
+
+            
+            new Dialog({
+                words: "صل بين النقاط المرقمة لتكتب الرقم ٢ " ,
+                width: 200,
+                height: 140,
+                dialogType: "oval",
+                borderWidth: 3,
+                size: 30,
+                font: "Comic Sans MS",
+                color: dark,
+                corner: 50,
+                tailH: LEFT,
+                tailV: BOTTOM
+            }).loc(260,90, page5) 
+            
+            var tow = asset("2.png").sca(2).alp(.2).loc(610, 100, page5);
+
+            var squiggle = new Squiggle({
+                points:[[146.8,17.7,0,0,0,0,0,0,"none"]
+                ,[2.3,45.4,0,0,22.9,-48.1,-30.2,63.3,"straight"],[98.6,247.1,0,0,0,0,0,0,"none"]]
+            });
+
+            var connectors2 = new Connectors({
+                points:squiggle,
+                linear:true,
+                linearWrap: false , // تعطيل التوصيل من آخر نقطة إلى أول نقطة
+                linearOrder:true
+            }).loc(440, 170,page5);
+
+            var nums2 = new Container().loc(440, 170, page5);
+
+            loop(connectors2.points, function (point, i) {
+                var dot = new Circle(20, green).loc(point[0], point[1], nums2).noMouse();
+                new Label({text:(i+1), color:white, valign:CENTER, align:CENTER, size:16}).centerReg(dot)
+            });            
+
+            connectors2.on("complete", function () {
+                rightSound.play();
+                tow.animate({alpha:1});
+                nums.animate({alpha:0});
+                connectors2.cache().animate({alpha:.5});
+            });            
+      
+
+
+            // page -6-
+            var page6 = new Page(stageW, stageH);
+            
+            asset("nature17.jpg").sca(2).center(page6)
+
+            new Sprite({
+                image: "cat.png",
+                cols: 2,
+                rows: 2,
+                spacingY: 16,
+            })
+            .sca(1.2).loc(600, 500, page6)
+            .run({
+                    loop: true,
+                    time: .6,
+                    waitedCall: .4,
+                    rewind: true,
+                    rewindWait: .3
+                })
+            
+            new Sprite({
+                image: "cat.png",
+                cols: 2,
+                rows: 2,
+                spacingY: 16,
+            })
+            .sca(1.2).loc(600, 590, page6)
+            .run({
+                loop: true,
+                time: .6,
+                waitedCall: .4,
+                rewind: true,
+                rewindWait: .3
+            });
+
+            new Sprite({image:"dog2.png",   
+                cols: 3,
+                rows: 1,
+                spacingY: 60
+            })
+            .sca(1.2).loc(120, 610, page6)
+            .run({
+                loop: true,
+                time: 1,
+                waitedCall: .4,
+                rewind: true,
+                rewindWait: .3
+            });
+
+            const bird = new Sprite({image:"bird.png",   
+                cols: 3,
+                rows: 2,
+                animations:{
+                    startFrame:0 ,
+                    endFrame:2
+                }
+            })
+            .sca(1.2).loc(200, 210, page6)
+            .run({
+                loop: true,
+                time: 1,
+                waitedCall: .4,
+                rewind: true,
+                rewindWait: .3
+            });
+
+            bird.clone().loc(500,260, page6)
+            .run({loop:true, time:.5, rewind:true})
+
+            new Label({
+                text: "اكتب العدد المناسب",
+                align: RIGHT,
+                size: 80,
+                backgroundBorderColor: red,
+                color: blue,
+                rollColor: red,
+                bold: true,
+                italic: true
+            }).loc(700, 60, page6);
+            new Emoji("\u270f\ufe0f", 100).loc(600,60,page6);
+
+            new Label({
+                text: "أضغط مرتين لتفعيل أو ايقاف القلم",
+                align: RIGHT,
+                size: 40,
+                backgroundBorderColor: red,
+                color: black,
+                rollColor: red,
+                bold: true,
+                italic: true
+            }).pos(50, 60,RIGHT,BOTTOM, page6);
+
+
+            let isDrawing = false;
+
+            const pen = new Pen({
+                damp: 0.5,
+                //color: "black",
+                ctrlKey: false, // لا نحتاج لاستخدام CTRL هنا
+                nib: new Circle(10, "pink") // لضبط حجم القلم
+            }).center(page6);
+
+            // تفعيل وتعطيل الرسم باستخدام النقر المزدوج
+            page6.on("dblclick", () => {
+                isDrawing = !isDrawing; // عكس حالة الرسم
+                pen.write = isDrawing; // ضبط خاصية write حسب حالة الرسم
+                zog(isDrawing ? "Started drawing" : "Stopped drawing");
+            });
+
+            // إعداد القلم للبدء في الرسم عند تفعيل `write`
+            pen.on("start", () => {
+                if (isDrawing) {
+                    pen.color = series(shuffle(orange, purple, green));
+                    pen.size = series(10, 20);
+                }
+            });
+
+            new Button({
+                label: "الصفحة الرئيسية",
+                width: 220,
+                height: 60,
+                backgroundColor: "purple",
+                rollBackgroundColor: "MediumOrchid",
+                borderWidth: 8,
+                borderColor: "violet",
+                gradient: .3,
+                corner: 10
+            }).loc(900, 100, page6)
+            .tap(() => zgo(`${dev_url}`, "_blank"))
+
+
+/*
+ // create Labels to capture the text from the keyboard
+const text1 = new Label({text:"", backgroundColor:white}).loc(400,200, page6);
+const text2 = new Label({text:"", backgroundColor:white}).loc(400,300, page6);
+
+// create a new Keyboard and pass in the labels as an array
+// or if just one label, then pass in the label
+const keyboard = new Keyboard([text1, text2]);
+
+// if just the letter is needed use the keydown event
+keyboard.on("keydown", e=>{
+   zog(e.letter);
+});
+
+// create events to capture a mousedown on the labels
+const text1Event = text1.on("mousedown", activate);
+const text2Event = text2.on("mousedown", activate);
+function activate(e) {
+   keyboard.show();
+   // remove the events when keyboard is active
+   text1.off("mousedown", text1Event);
+   text2.off("mousedown", text2Event);
+}
+keyboard.show(); // optionally show the keyboard to start
+
+// add back the events to show the keyboard
+keyboard.on("close", ()=>{
+   text1.on("mousedown", text1Event);
+   text2.on("mousedown", text2Event);
+});
+*/
+
+            ///////// list of pages
+            var pages = new Pages([
+                { page: page1, swipe: [page5, page2, page5, page2] },
+                { page: page2, swipe: [page1, page3, page1, page3] },
+                { page: page3, swipe: [page2, page4, page2, page4] },
+                { page: page4, swipe: [page3, page5, page3, page5] },
+                { page: page5, swipe: [page4, page6, page4, page6] },
+                { page: page6, swipe: [page5, page1, page5, page1] },
+                //{ page: page5, swipe: [page4, page1, page4, page1] }
+            ], "bubbleZIM", .5, [
+                [page2, page3, "pixelZIM"],
+                [page3, page2, "pixelZIM"],
+                [page3, page4, "fan"],
+                [page4, page3, "fan"],
+                [page4, page5, "explodeDark"],
+                [page5, page4, "explodeZIM"],
+                [page5, page6, "fan"],
+                [page6, page5, "lineDark"],
+                //[page1, page5, "lineLight"],
+                //[page5, page1, "lineDark"],
+            ]).addTo();
+
+            // التأكد من تفعيل الرسم فقط عند الضغط على الصفحة وعندما تكون حالة `isDrawing` مفعلة
+            stage.on("stagemousedown", (e) => {
+                if (pages.page === page6 && isDrawing) { // التأكد من التواجد على page6 و `isDrawing` مفعلة
+                    pen.write = true; // تفعيل الرسم فقط إذا كانت حالة isDrawing مفعلة
+                } else {
+                    pen.write = false; // إيقاف الرسم إذا كانت isDrawing غير مفعلة
+                }
+            });
+
+
+/* تغيير خاصية paper عند الانتقال بين الصفحات
+pages.on("page", () => {
+    if (pages.page === page6) {
+        pen.paper = drawContainer6; // تعيين حاوية الصفحة 6 كـ paper
+        pen.write = true; // السماح بالرسم على الصفحة 6
+    } else {
+        pen.write = false; // تعطيل الرسم عند الانتقال لصفحات أخرى
+    }
+});
+
+
+     loop(pages.pages, function (page) {
+                 page.page.icon.tap(function () {
+                zgo("https://zimjs.com", "_blank");
+                });
+            });
+ */
+
+            stage.update()
+
+        })
+    </script>
+
+</body>
+
+</html>

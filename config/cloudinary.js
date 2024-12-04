@@ -12,3 +12,13 @@ const uploadOptions = {
 };
 
 module.exports = {cloudinary, uploadOptions};
+
+/*
+cloudinary.uploader
+.destroy('educational-resources/file-1727632208513', {resource_type: 'raw'})
+.then(result => console.log(result)); 
+
+ 
+ cloudinary.api
+    .delete_resources('educational-resources/file-1727632208513')
+    .then(res => console.log(res)) */

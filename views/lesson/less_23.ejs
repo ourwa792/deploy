@@ -1,0 +1,787 @@
+<%- include('../partial/head.ejs') %>
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"
+        integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+
+    <link href="/css/animate.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="/css/e-learning-js.min.css" />
+
+    <script type="text/javascript" src="/library/jsxgraphcore.js"></script>
+    <link rel="stylesheet" href="/css/jsxgraph.css">
+
+    <script type="text/javascript" src="/library/e-learning-js.min.js"></script>
+
+    <style>
+        .header {
+            background-color: #defdb6;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .learning-box {
+            background-color: #ffebcd;
+            padding: 10px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .learning-box img {
+            width: 80px;
+            height: auto;
+        }
+
+        .angle-box {
+            background-color: #ffe4e1;
+            padding: 10px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+            transition: transform 0.2s;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .angle-box:hover {
+            transform: scale(1.05);
+        }
+
+        .text-div {
+            background-color: #fafad2;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        ul li {
+            background-color: #e0ffff;
+            margin: 5px 0;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s;
+        }
+
+        ul li:hover {
+            background-color: #afeeee;
+        }
+
+
+
+        .table-container {
+            margin: 20px auto;
+            max-width: 800px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        .table {
+            width: 100%;
+            margin-bottom: 0;
+        }
+
+        .table th,
+        .table td {
+            vertical-align: middle;
+            text-align: center;
+        }
+
+        .image-cell {
+            max-width: 100px;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .highlight {
+            background-color: #f0f8ff;
+        }
+    </style>
+
+
+    <body>
+        <div class="row header animate__animated animate__fadeInDown d-flex align-items-center">
+
+            <!-- عمود العنوان -->
+            <div class="col-lg-4 col-md-4 col-sm-4">
+                <img src="<%= lesson.cover %>" class="rounded-2 float-start" style="width: 100%;">
+            </div>
+
+            <div class="col-lg-8 col-md-8 col-sm-8">
+                <h1 class="text-start">
+                    <%= lesson.title %>
+                </h1>
+                <hr>
+            </div>
+        </div>
+
+        <div class="row container animate__animated animate__fadeInUp">
+            <p class="col-lg-6 col-md-6 col-sm-6 ">
+                في العلم السوري نجد ثلاثة مستطيلات ملونة من الأعلى للأسفل بالأحمر و الأبيض و الأسود
+                وفي الوسط نجمتان خماسيتان خضراوتا اللون
+                ضمن المستطيل الأبيض و يبلغ عرض العلم ثلثي طوله
+            </p>
+            <!-- عمود فارغ للـ gap -->
+            <div class="col-lg-1"></div>
+
+            <div class="col-lg-4 col-md-4 col-sm-12 border-2 border-black card shadow-lg" style="width: 18rem;">
+                <img src="<%= lesson.resources[0].url %>" class="card-img-top" alt="imgg">
+            </div>
+
+        </div>
+
+        <div class="row my-4">
+            <div class="learning-box col-lg-6 col-sm-12">
+                <h5>تعلم:</h5>
+                <p>
+                    <span style="color: rgb(250, 128, 80);">المستطيل:</span>
+                    هو متوازي أضلاع فيه زاوية قائمة
+                </p>
+                <p>مثال: في الشكل المجاور ABCD متوازي أضلاع لأن:
+                    <br>
+                    AD // BC و AB // CD
+                    وفيه $ \widehat{D} = \degree{90} $
+                    فالشكل مستطيل.
+                    ونجد أن:
+                    $ \widehat{A} = \widehat{B} = \widehat{C} = \widehat{D} = \degree{90} $
+                </p>
+            </div>
+
+            <!-- عمود فارغ للـ gap -->
+            <div class="col-lg-1"></div>
+
+            <div class="col-lg-4 col-md-4 col-sm-12 border-2 border-black card shadow-lg float-end"
+                style="width: 18rem;">
+                <img src="<%= lesson.resources[1].url %>" class="card-img-top" alt="imgg">
+            </div>
+
+        </div>
+
+        <div class="row">
+            <p>
+            <h5>
+                تحقق من فهمك
+            </h5>
+            <br>
+            علل لماذا كل من الأشكال التالية ليس مستطيل
+            </p>
+        </div>
+
+        <div class="d-flex flex-row container">
+
+            <div class="col-6">
+                <ul class="no_list float grid12 answers_place_4_1">
+                    <li>
+                        <img src="<%= lesson.resources[2].url %>" class="image-cell">
+                        <span data-question="1" class="box"></span>.
+                    </li>
+
+                    <li>
+                        <img src="<%= lesson.resources[3].url %>" class="image-cell">
+                        <span data-question="2" class="box"></span>
+                    </li>
+
+                    <li>
+                        <img src="<%= lesson.resources[4].url %>" class="image-cell">
+                        <span data-question="3" class="box"></span>
+                    </li>
+
+                </ul>
+
+            </div>
+
+            <div class="col-6 ">
+                <ul class="no_list grid12 answer_options_4_1">
+                    <li class="box_answer_content">
+                        <div class="box answer_par w-100" data-option="1">
+                            لأن فيه ضلعان متقابلان غير متوازيان
+                        </div>
+                    </li>
+                    <br><br>
+
+                    <li class="box_answer_content">
+                        <div class="box answer_par w-100" data-option="2">
+                            لأنه لا يحوي زوايا قائمة
+                        </div>
+                    </li>
+                    <br><br>
+
+                    <li class="box_answer_content">
+                        <div class="box answer_par w-100" data-option="3">
+                            لأن اضلاعه غير متوازية و غير متساوية
+                        </div>
+                    </li>
+                </ul>
+
+            </div>
+
+        </div>
+        <div class="row btn_activities grid12">
+            <div id="check_answers_4_1">
+                <span>Check</span>
+            </div>
+            <div id="reset_answers_4_1">
+                <span>Reset</span>
+            </div>
+            <div id="answers_4_1">
+                <span>Answers</span>
+            </div>
+        </div>
+
+        <div class="container table-container">
+            <h5>
+                <span style="color: palevioletred;">خواص المستطيل</span>
+            </h5>
+            <p>
+                للمستطيل خواص متوازي الأضلاع نفسها يضاف لها أن جميع زواياه قائمة.
+            </p>
+            <p>
+                متى يكون متوازي الاضلاع مستطيلاً؟
+                <button class="btn btn-sm btn-warning my-3" data-sound="/sound/less-23-1.mp3" id="btn1">
+                    تعبير شفهي
+                </button>
+            </p>
+
+        </div>
+
+        <div class="col-12">
+            <h5>
+                <span style="color: palevioletred;">رسم المستطيل</span>
+            </h5>
+            <p>
+                كيف نرسم مستطيل (باستعمال المسطرة و المنقلة)
+            </p>
+
+            <div class="row container">
+                <div class="col-lg-6 col-md-6 col-sm-12 card my-3">
+                    <img src="<%= lesson.resources[5].url %>" class="img-fluid">
+                </div>
+                <div class="col-lg-6 col-md-4 col-sm-12 card my-3">
+                    <img class="img-fluid" src="<%= lesson.resources[6].url %>">
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12 card my-3">
+                    <img class="img-fluid" src="<%= lesson.resources[7].url %>">
+                </div>
+                <div class="col-lg-6 col-md-6 col-sm-12 card shadow my-3">
+                    <img class="img-fluid" src="<%= lesson.resources[8].url %>">
+                </div>
+            </div>
+
+            <div class="container justify-content-center align-items-center">
+                <h5 class="bg-danger-subtle border-1 rounded-2 shadow my-2 text-center"> انشئ مستطيلاً </h5>
+                <div class="d-flex flex-row">
+                    <div id="jxgbox" class="jxgbox col-lg-9 col-md-9 col-sm-12 "
+                        style="aspect-ratio: 1/1; max-width: 100%;margin:10px">
+                    </div>
+
+                    <div class="row btn-group-sm w-25 h-25 mx-1" role="group">
+                        <button class=" btn btn-sml btn-warning my-2" id="polygonModeBtn">مضلع </button>
+                        <button class="btn btn-sml btn-warning my-2" id="lineModeBtn"> قطعة مستقيمة</button>
+                        <button class="btn btn-sml btn-warning my-2" id="resetBoardBtn"> مسح اللوح</button>
+                        <button class="btn btn-sml btn-warning my-2" id="toggleInteractionBtn">تبديل وضع
+                            التفاعل</button>
+                    </div>
+
+                </div>
+            </div>
+
+            <h3><span style="color: burlywood;">تدرب</span></h3>
+            <div class="container table-container">
+                <h5>تمرين-1-</h5>
+                <p> ABCD مستطيل, إملأ الفراغات التالية</p>
+
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-12">
+                        <ul class="grid12 no_list questions_1">
+                            <li>
+                                <span class="bold lesson_color">1.</span> AB // <input size="8" type="text"
+                                    autocomplete="off" />.
+                            </li>
+                            <li>
+                                <span class="bold lesson_color">2.</span> BC // <input size="8" type="text"
+                                    autocomplete="off" />.
+                            </li>
+                            <li>
+                                <span class="bold lesson_color">3.</span> AD = <input size="8" type="text"
+                                    autocomplete="off" /> = <input size="8" type="text" autocomplete="off" />.
+                            </li>
+                            <li>
+                                <span class="bold lesson_color">4.</span> AB = DC <input size="8" type="text"
+                                    autocomplete="off" />.
+                            </li>
+                            <li>
+                                <span class="bold lesson_color">5.</span> $ \widehat{A} = \widehat{B} $ = <input
+                                    size="8" type="text" autocomplete="off" /> = <input size="8" type="text"
+                                    autocomplete="off" />.
+                            </li>
+                        </ul>
+
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-12 ">
+                        <img class="img-thumbnail" src="<%= lesson.resources[9].url %>">
+                    </div>
+                </div>
+                <div class="btn_activities">
+                    <div id="check_answers_1">
+                        <span>Check</span>
+                    </div>
+                    <div id="reset_answers_1">
+                        <span>Reset</span>
+                    </div>
+                    <div id="answers_1">
+                        <span>Answers</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="container table-container">
+                <h5>تمرين-2-</h5>
+                <p> أجب بصح أو خطأ على العبارات التالية </p>
+                <ul class="word_list questions_7_1" dir="ltr"> <!-- الاتجاه لليسار -->
+                    <li data-question="1">
+                        كل مستطيل هو متوازي اضلاع
+                        <span><input type="radio" value="1" data-option="option_1" name="option_1"
+                                autocomplete="off" /><label for="option_1_1"><i class="far"></i></label>
+                            (T)</span>&nbsp;
+                        <span><input type="radio" value="2" data-option="option_2" name="option_1"
+                                autocomplete="off" /><label for="option_1_2"><i class="far"></i></label> (F)</span>
+                    </li>
+
+                    <li data-question="2">
+                        كل متوازي اضلاع هو مستطيل
+                        <span><input type="radio" value="1" data-option="option_1" name="option_2"
+                                autocomplete="off" /><label for="option_2_1"><i class="far"></i></label>
+                            (T)</span>&nbsp;
+                        <span><input type="radio" value="2" data-option="option_2" name="option_2"
+                                autocomplete="off" /><label for="option_2_1"><i class="far"></i></label> (F)</span>
+                    </li>
+
+                    <li data-question="3">
+                        كل ضلعين متقابلين في المستطيل متساويا الطول
+                        <span><input type="radio" value="1" data-option="option_1" name="option_3"
+                                autocomplete="off" /><label for="option_3_1"><i class="far"></i></label>
+                            (T)</span>&nbsp;
+                        <span><input type="radio" value="2" data-option="option_2" name="option_3"
+                                autocomplete="off" /><label for="option_3_2"><i class="far"></i></label> (F)</span>
+                    </li>
+            
+                </ul>
+                <div class="btn_activities grid12">
+                    <div id="check_answers_7_1">
+                        <span>Check</span>
+                    </div>
+                    <div id="reset_answers_7_1">
+                        <span>Reset</span>
+                    </div>
+                    <div id="answers_7_1">
+                        <span>Answers</span>
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div class="container table-container">
+                <h5>تمرين-3-</h5>
+                <p> في الشكل المجاور: <br>
+                    عين الرأس الرابع W ليكون XYZW مستطيل
+                    ثم أكمل الرسم
+                </p>
+
+                <div class="d-flex flex-row">
+                    <div id="jxgbox2" class="jxgbox col-lg-8 col-md-8 col-sm-12"
+                        style="aspect-ratio: 1/1; max-width: 100%;margin:10px" dir="ltr">
+                    </div>
+    
+                    <div class="col-2 btn-group-sm" role="group">
+                        <button class="btn btn-warning btn-sm my-2" id="moveForward">تحرك للأمام</button>
+                        <button class="btn btn-warning btn-sm my-2" id="moveBackward">تحرك للخلف</button>
+                        <button class="btn btn-warning btn-sm my-2" id="turnLeft">استدر لليسار</button>
+                        <button class="btn btn-warning btn-sm my-2" id="turnRight">استدر لليمين</button>
+                        <button class="btn btn-warning btn-sm my-2" id="clearScreen">امسح الرسم </button>
+                        <button class="btn btn-warning btn-sm my-2" id="moveWithoutDrawing">تحرك دون رسم</button>
+                        <button class="btn btn-warning btn-sm my-2" id="draw">تفعيل الرسم</button>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="">
+                    <a href="/" class="btn btn-outline-info mt-5">
+                        <img src="/icon/iconBack.png" class="" width="34" height="34">
+                        <span>الصفحة الرئيسية</span>
+
+                    </a>
+
+                </div>
+            </div>
+
+        </div>
+
+
+
+        <script type="module">
+                        import {
+                           MathfieldElement,
+                           renderMathInDocument,
+                           renderMathInElement,
+                       } from "//unpkg.com/mathlive?module"; 
+
+            window.addEventListener("DOMContentLoaded", () => {
+                    renderMathInDocument({
+                       TeX: {
+                           delimiters: {
+                               inline: [
+                                   ["$", "$"],
+                                   ["\\(", "\\)"],
+                               ],
+                               display: [
+                                   ["\\[", "\\]"],
+                                   ["$$", "$$"],
+                               ],
+                           },
+                       },
+                   }); 
+
+                createDragAndDrop({
+                    options_html: '.answer_options_4_1',
+                    questions_html: '.answers_place_4_1',
+                    check_button: '#check_answers_4_1',
+                    reset_button: '#reset_answers_4_1',
+                    answer_button: '#answers_4_1',
+                    answers: [2, 1, 3]
+                });
+
+                const btn = document.getElementById("btn1"); // تحديد جميع الأزرار
+                const audio = new Audio(btn.getAttribute("data-sound"));
+
+                btn.addEventListener("click", (e) => {
+                    if (!audio.playing) {
+                        audio.play();
+                        btn.disabled = true; // تعطيل الزر أثناء تشغيل الصوت
+
+                        audio.onended = () => {
+                            btn.disabled = false;
+                        };
+                    }
+                });
+
+                Object.defineProperty(audio, "playing", {
+                    get: function () {
+                        return !this.paused && !this.ended;
+                    },
+                });
+
+                var brd = JXG.JSXGraph.initBoard("jxgbox", {
+                    boundingbox: [-6, 6, 6, -6],
+                    keepaspectratio: true,
+                    axis: true,
+                });
+
+                var tape = brd.create('tapemeasure', [[1, 2], [4, 2]], { name: 'مسطرة', fontSize: 20, label: "مسطرة" });
+
+                var img = brd.create('image', [
+                    '/image/protractor.svg', // رابط الصورة
+                    [-2, -2], // إحداثيات الزاوية السفلى اليسرى
+                    [6, 3.2]  //حجم الصورة (عرض وارتفاع)
+                ], { cssClass: "opacity: 1" });
+
+                brd.create("button", [4, 5.4, " تدوير لليمين",
+                    function () {
+                        let rotate = 0
+                        rotate += 5
+                        img.setAttribute({
+                            draggable: true,
+                            rotate: rotate
+                        })
+                    }
+                ], { cssClass: 'background-color: green' });
+
+                brd.create("button", [-4, 5.4, " تدوير لليسار",
+                function () {
+                    let rotate = 0
+                    rotate -= 5
+                    img.setAttribute({
+                        draggable: true,
+                        rotate: rotate
+                    })
+                }
+                ], { cssClass: '' });
+
+
+                var points = []; // لتخزين النقاط للمضلع الحالي
+                var polygonComponents = []; // لتخزين عناصر المضلع مثل النقاط والخطوط
+                var drawingMode = 'polygon'; // الوضع الافتراضي لرسم المضلعات
+                var interactionMode = false; // وضع التفاعل الافتراضي (مغلق)
+
+                // دالة لإعادة تعيين النقاط الحالية للمضلع
+                function resetPolygon() {
+                    points = [];
+                }
+
+                // دالة لإنشاء مضلع عندما يكتمل
+                function createPolygon() {
+                    if (points.length > 2) { // تأكد من وجود 3 نقاط على الأقل
+                        var polygon = brd.create('polygon', points, {
+                            borders: { strokeWidth: 3 },
+                            hasInnerPoints: true,
+                        });
+                        //console.info(points)
+                        var areaText = brd.create('text', [
+                            points[0].X(), points[0].Y(),
+                            function () { return 'Area: ' + polygon.Area().toFixed(2); }
+                        ]);
+
+                        polygonComponents.push(polygon);
+                        resetPolygon();
+                    }
+                }
+
+                // دالة لإنشاء قطعة مستقيمة بين نقطتين
+                function createLineSegment() {
+                    if (points.length === 2) { // تأكد من وجود نقطتين فقط
+                        var lineSegment = brd.create('segment', [points[0], points[1]], {
+                            strokeWidth: 3,
+                        });
+                        polygonComponents.push(lineSegment);
+                        resetPolygon();
+                    }
+                }
+
+                // دالة للتحقق من المسافة للنقر بالقرب من النقطة الأولى لإغلاق المضلع
+                function checkFirstPoint(coords) {
+                    if (points.length > 2 && drawingMode === 'polygon') {
+                        var firstPoint = points[0];
+                        var distance = JXG.Math.Geometry.distance(coords.usrCoords.slice(1), firstPoint.coords.usrCoords.slice(1));
+                        if (distance < 0.2) { // إذا كانت النقطة قريبة من النقطة الأولى بما يكفي
+                            createPolygon();
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+
+                // دالة للتعامل مع النقر على اللوحة
+                function down(e) {
+                    if (interactionMode) return; // عند تفعيل وضع التفاعل، يتم تعطيل إضافة الأشكال الجديدة
+
+                    var coords = getMouseCoords(e);
+
+                    if (!checkFirstPoint(coords)) {
+                        var newPoint = brd.create('point', [coords.usrCoords[1], coords.usrCoords[2]]);
+                        points.push(newPoint);
+                        polygonComponents.push(newPoint);
+
+                        // إضافة قطعة مستقيمة بين آخر نقطتين
+                        if (points.length > 1) {
+                            if (drawingMode === 'line') {
+                                createLineSegment(); // إنشاء قطعة مباشرة في وضع الخط
+                            } else {
+                                var newLine = brd.create('line', [points[points.length - 2], points[points.length - 1]], {
+                                    straightFirst: false,
+                                    straightLast: false,
+                                    strokeWidth: 2
+                                });
+                                polygonComponents.push(newLine);
+                            }
+                        }
+                    }
+                }
+
+                // دالة للحصول على إحداثيات الفأرة
+                function getMouseCoords(e) {
+                    var cPos = brd.getCoordsTopLeftCorner(e),
+                        absPos = JXG.getPosition(e);
+
+                    var dx = absPos[0] - cPos[0];
+                    var dy = absPos[1] - cPos[1];
+
+                    return new JXG.Coords(JXG.COORDS_BY_SCREEN, [dx, dy], brd);
+                }
+
+                // تسجيل حدث النقر على اللوحة
+                brd.on('down', down);
+
+                // دالة لتبديل وضع التفاعل
+                function toggleInteractionMode() {
+                    interactionMode = !interactionMode;
+                    var modeText = interactionMode ? "Interaction Mode ON" : "Interaction Mode OFF";
+                    console.log(modeText); // أو يمكن استبدال هذا بأية واجهة مستخدم لإظهار الوضع الحالي
+                }
+
+                // زر لتبديل وضع التفاعل
+                document.getElementById('toggleInteractionBtn').addEventListener('click', toggleInteractionMode);
+
+                // دالة إعادة تعيين اللوحة
+                function resetBoard() {
+                    while (polygonComponents.length > 0) {
+                        brd.removeObject(polygonComponents.pop());
+                    }
+
+                    points = [];
+                    polygonComponents = [];
+                    brd.update();
+                }
+
+                // دالة لتغيير وضع الرسم بين مضلع وقطعة مستقيمة
+                function switchDrawingMode(mode) {
+                    drawingMode = mode;
+                }
+
+                // أزرار لتغيير وضع الرسم
+                document.getElementById('polygonModeBtn').addEventListener('click', function () {
+                    switchDrawingMode('polygon');
+                });
+
+                document.getElementById('lineModeBtn').addEventListener('click', function () {
+                    switchDrawingMode('line');
+                });
+
+                // زر إعادة تعيين اللوحة
+                document.getElementById('resetBoardBtn').addEventListener('click', resetBoard);
+
+                createMultipleChoice({
+                    questions_html: '.questions_1',
+                    check_button: '#check_answers_1',
+                    reset_button: '#reset_answers_1',
+                    answer_button: '#answers_1',
+                    answers: [
+                        ['CD', 'DC'],
+                        ['AD', 'DA'],
+                        ['BC', 'CB'], ['2'],
+                        ['4'],
+                        ['C', 'D', 'D', 'C'],
+                    ]
+                });
+
+                createFalseAndTrue({
+                    questions_html: '.questions_7_1',
+                    check_button: '#check_answers_7_1',
+                    reset_button: '#reset_answers_7_1',
+                    answer_button: '#answers_7_1',
+                    answers: [1, 2, 1]
+                });
+
+                var board = JXG.JSXGraph.initBoard('jxgbox2',{boundingbox: [-10, 10, 8, -8],
+                    axis:true
+                });
+
+                var X = board.create("point", [-7, -4], {name: "X"})
+                var Y = board.create("point", [-7, 4], {name: "Y"})
+                var Z = board.create("point", [7, 4], {name: "Z"})
+
+                let xy = board.create("segment", [X,Y])
+                let zy = board.create("segment", [Z,Y])
+
+                board.create("text", [-7,1, ()=>{return xy.L()+"cm"} ], {fontSize:20, strokeColor: "green"})
+                board.create("text", [0,5, ()=>{return zy.L()+"cm"} ], {fontSize:20, strokeColor: "green"})
+
+                var t = board.create('turtle',[0, 0], {strokeOpacity:0.5});
+                t.setPenSize(3)
+
+                // Function to move the turtle forward
+                document.getElementById('moveForward').addEventListener("click", ()=> {
+                    t.forward(.5);
+                })
+
+                // Function to move the turtle backward
+                document.getElementById('moveBackward').addEventListener("click", ()=> {
+                    t.back(.5);
+                }) 
+
+                // Function to turn the turtle left
+                document.getElementById('turnLeft').addEventListener("click", ()=> {
+                    t.left(30);
+                })                  
+
+                // Function to turn the turtle right
+                document.getElementById('turnRight').addEventListener("click", ()=> {
+                    t.right(30);
+                })               
+                
+                // Function to clear the screen
+                document.getElementById('clearScreen').addEventListener("click", ()=> {
+                    t.clearScreen();
+                })
+
+                document.getElementById('moveWithoutDrawing').addEventListener("click", ()=> {
+                    t.penUp()
+                })
+
+                document.getElementById('draw').addEventListener("click", ()=> {
+                    t.penDown()
+                })               
+
+                const successSound = new Audio("/sound/rightanswer.mp3");
+
+                const targetPoints = [
+                  { x: 7, y: -4, description: "حدد النقطة عند (4-, 7)" },
+                ]       
+                
+                let currentTargetIndex = 0;
+
+                function checkPoint(x, y){
+                    const target = targetPoints[currentTargetIndex];
+                    const tolerance = 0.7;
+
+                    if (Math.abs(x - target.x ) <= tolerance
+                        && Math.abs(y - target.y) <= tolerance
+                    ) {
+                        board.create("text", [0, -4, "أحسنت"], {
+                            fontSize: 18,
+                            anchorX: "left",
+                            color: "green",
+                        });
+
+                        successSound.play().catch((error) => console.error("تعذر تشغيل الصوت:", error));
+                    }
+                    else {
+                        board.create("text", [0, -6, "النقطة خاطئة"], {
+                            fontSize: 18,
+                            anchorX: "left",
+                            color: "red",
+                        });
+                    }
+                };
+
+                board.on("down", function (e) {
+                        var coords = board.getCoordsTopLeftCorner(e),
+                        absPos = JXG.getPosition(e),
+                        dx = absPos[0] - coords[0],
+                        dy = absPos[1] - coords[1],
+                        boardCoords = new JXG.Coords(JXG.COORDS_BY_SCREEN, [dx, dy], board);
+
+                        var x = parseFloat(boardCoords.usrCoords[1].toFixed(2));
+                        var y = parseFloat(boardCoords.usrCoords[2].toFixed(2));
+              
+                        board.create("point", [x, y], {
+                            name: "(" + x + ", " + y + ")",
+                            size: 4,
+                            color: "blue",
+                            fontSize:17
+                        });
+              
+                      checkPoint(x, y);             
+                   })
+                })
+
+
+        </script>
+
+
+        <%- include("../partial/end.ejs")%>

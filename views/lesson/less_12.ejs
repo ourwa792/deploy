@@ -1,0 +1,342 @@
+<%- include('../partial/head.ejs') %>
+
+
+<link href="/css/animate.min.css" rel="stylesheet">
+ 
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+
+<link rel="stylesheet" href="/css/e-learning-js.min.css"/> 
+
+<link rel="stylesheet" href="/css/jsxgraph.css">
+
+<link rel="stylesheet" href="/css/lesson.css"/>
+
+<script type="text/javascript" src="/library/e-learning-js.min.js"></script>
+<script type="text/javascript" src="/library/jsxgraphcore.js"></script> 
+<!-- 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/polyfill/7.0.0/polyfill.min.js"></script> 
+<script src="/library/MathJax.js"></script>
+<script>
+    window.MathJax = {
+        loader: { load: ['input/tex', 'output/chtml', 'input/mml'] },
+        tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
+        svg: { fontCache: 'global' }
+    };
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>  -->
+
+</head>
+
+<body class="">
+
+    <div class="row header animate__animated animate__fadeInDown d-flex align-items-center bg-warning">
+       
+        <!-- عمود العنوان -->
+         <div class="col-lg-4 col-md-4 col-sm-6">
+             <img src="<%= lesson.cover %>" 
+             class="rounded-2 float-start" style="width: 100%;">
+         </div>
+        
+        <div class="col-lg-8 col-md-8 col-sm-8">
+            <h1 class="text-start">
+                <%= lesson.title  %>
+            </h1>
+            <hr>
+        </div>
+    </div>
+
+    
+    <div class="row">
+
+        <div class="col-lg-6 col-md-6 col-sm-12">
+           <p> نسمي
+                <span class="bg-danger"> $ \widehat{AMB} $ زاوية محيطية</span>
+                في الدائرة C تحصر (أو تقابل القوس)
+                \( \overset{ \Huge \frown }{AB} \) 
+                الملون بالأحمر.
+            </p>
+           <p> نسمي
+                <span class="bg-danger"> $ \widehat{AOB} $ زاوية محيطية</span>
+                في الدائرة C تحصر (أو تقابل القوس)
+                \( \overset{ \Huge \frown }{AB} \) 
+                الملون بالأحمر.
+            </p>
+                
+        </div> 
+
+        <div class="col-lg-4 col-md-4 col-sm-12">
+            <div class="card border-info mb-2 float-end shadow-lg">
+                <img src="<%= lesson.resources[0].url %>" class="img-fluid">
+            </div>
+        </div>
+
+    </div>
+
+    <div class="col-12 knowledge-section mt-4 animate__animated animate__fadeInLeft bg-info-subtle" >
+        <h3>تعلم</h3>
+
+        <h5><span style="background-color: rgb(246, 229, 218);"><strong>تعريف</strong></span></h5>
+
+        <div class="row">
+            <p> A,B,M ثلاث نقاط من دائرة C مركزها O مع 
+                \( A \neq M و B \neq M \)
+                <ul>
+                    <li>نقول ان $ \widehat{AMB} $ زاوية محيطية في الدائرة C تقابل أو تحصر القوس  \( \overset{ \Huge \frown }{AB} \) 
+                        التي لا تضم M.
+                    </li>
+                    <li> ونقول أن $ \widehat{AOB} $
+                        زاوية مركزية في الدائرة C تشترك مع
+                        $\widehat{AMB}$
+                        بالقوس $ \overset{ \Huge \frown }{AB} $
+                    </li>
+                </ul>
+            </p>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-10 col-md-10 col-sm-12">
+                <h5><span style="background-color: rgb(246, 229, 218);"><strong>خاصة</strong></span></h5>
+                  قياس الزاوية المحيطية في الدائرة يساوي نصف قياس الزاوية المركزية
+                    المشتَرِِكَة معها بالقوس.
+                <button class="btn btn-warning col-lg-1 col-md-1 col-sm-2" id="btn1" data-sound="/sound/less_12-1.mp3">
+                أسمع</button>
+            </div>
+        </div> 
+
+        <div id="box1" class="jxgbox col-lg-6 col-md-6 col-sm-12 text-center" 
+        style=" width: 350px; height: 370px; max-width: 80%;margin:10px;box-shadow: 3px 5px;"></div>
+
+        <div class="d-flex flex-row">
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                <h5><span style="background-color: rgb(246, 229, 218);"><strong>نتيجة</strong></span></h5>
+
+                <p> قياسا زاويتين محيطيتين مشتركتين بالقوس في دائرة، متساويتان.
+                    <br>                    
+                    في الشكل المرافق:                   
+                    <ul>
+                        <li>  $ \widehat{AMB} $
+                            زاوية محيطية في دائرة مركزها O تشترك مع المركزية $\widehat{AOB}$
+                            بالقوس $ \overset{ \Huge \frown }{AB} $
+                            اذاً: $ \widehat{AMB} = \dfrac{1}{2} \overset{ \Huge \frown }{AB} $
+
+                        </li>
+
+                        <li>  $ \widehat{AMB} $ و  $ \widehat{ANB} $
+                            زاويتان محيطيتان مشتركتان بالقوس  $ \overset{ \Huge \frown }{AB} $
+                            إذن $ \widehat{AMB} = \widehat{ANB}  $
+                        </li>
+                    </ul>
+                </p>
+
+                <h5><span style="background-color: rgb(144, 136, 130);"><strong>مصطلح</strong></span></h5>
+                <p>الزاوية المركزية تقاس بالقوس المقابل لها والمحيطية بنصف القوس المقابل لها
+                <button class="btn btn-warning col-lg-2 col-md-2 col-sm-2" data-sound="/sound/less_12-2.mp3" id="btn2" >
+                أسمع</button>
+                   
+                </p>
+
+            </div>
+
+            <div id="box2" class="jxgbox col-lg-6 col-md-6 col-sm-12 text-center" 
+            style=" width: 400px; height: 350px; max-width: 80%;margin:10px;box-shadow: 3px 5px;"></div>
+            
+        </div>
+        
+        <div class="d-flex flex-row">
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                <h5><span style="background-color: rgb(246, 229, 218);"><strong>خواص الزوايا المحيطية والمركزية</strong></span></h5>
+        
+                <%- lesson.content %>
+              <!--   <p> في الشكل المرافق:                   
+                    <ul>
+                        <li>قياسا زاويتين مركزيتين تقابلان قوسين متساويين في دائرة متساويان, وبالعكس </li>
+        
+                        <li>                           
+                            قياسا زاويتين محيطيتين تقابلان قوسين متساويين في دائرة متساويان, وبالعكس
+                        </li>
+                    </ul>
+                </p> -->
+                <button class="btn btn-warning col-lg-2 col-md-2 col-sm-2" data-sound="/sound/less_12-4.mp3" id="btn4" >
+                أسمع</button>
+
+            </div>
+            <div id="brd" class="jxgbox col-lg-6 col-md-6 col-sm-12 text-center" 
+                style="width: 400px; height: 350px; max-width: 80%;margin:10px;box-shadow: 3px 5px;">
+            </div>
+        </div>
+
+        <div class="d-flex flex-row">
+            <div class="col-lg-6 col-md-6 col-sm-12">
+                <h5><span style="background-color: rgb(246, 229, 218);"><strong>أوتار وأقواس</strong></span></h5>
+        
+                <p> في الشكل المرافق:                   
+                    <ul>
+                        <li>الوتران المتساويان في دائرة يحدان قوسين متساويين, وبالعكس 
+                            <button class="btn btn-warning col-lg-2 col-md-2 col-sm-2" id="btn3" data-sound="/sound/less_12-3.mp3" >
+                                أسمع
+                            </button>
+                        </li>
+        
+                        <li> إذا كان                           
+                            $ \overset{ \Huge \frown }{AB} =  \overset{ \Huge \frown }{CD} $
+                            فإن $ AB = CD $
+                        </li>
+                        <li> إذا كان                           
+                             $ AB = CD $
+                             فإن
+                             $ \overset{ \Huge \frown }{AB} =  \overset{ \Huge \frown }{CD} $
+                        </li>
+                    </ul>
+                </p>
+              
+
+            </div>
+            <div id="box3" class="jxgbox col-lg-6 col-md-6 col-sm-12 text-center" 
+                style="width: 400px; height: 350px; max-width: 80%;margin:10px;box-shadow: 3px 5px;">
+            </div>
+        </div>
+
+        <div class="row bg-warning-subtle">
+            <div class="col-lg-8 col-md-6 col-sm-12 rounded-2 border-2">
+                <h5><span style="background-color: rgb(246, 229, 218);"><strong>اكتساب معارف  </strong></span></h5>
+        
+                <p > كيف يتم التعامل مع الزوايا المحيطية و المركزية:   <br> 
+                   A,B,C,M تنتمي الى الدائرة C مركزها O.
+                   $ \widehat{AOB} = 84° و \widehat{BMC} = 31° $ 
+                   احسب قياسات زوايا المثلث ABC.
+                </p>
+                <p >الزاوية المحيطية $\widehat{ACB}$
+                    والزاوية المركزية $\widehat{AOB}$ مشتركتان بالقوس  $ \overset{ \Huge \frown }{AB} $ إذن،
+                    <math-field id="f1" class="bg-warning border-1 border-info rounded-2"> 
+                        \widehat{ACB} = \frac{ \placeholder[num1]{?} } { \placeholder[den1]{?} } ×
+                        \angle \placeholder[angel1]{?} 
+                    </math-field> وحسب النص: $ \widehat{AOB} = 84° $ إذن:
+                       $ \widehat{ACB} = \dfrac{1}{2} × 84° = 42° $
+                </p>
+                <p>
+                    الزاويتان المحيطيتان $\widehat{BAC} , \widehat{BMC}$ مشتركتان بالقوس
+                    <math-field id="f2" read-only class="bg-warning border-1 border-info rounded-2"> 
+                        \overset{ \frown } { \placeholder[frown1]{?} } <!-- تعبير صالح -->
+                    </math-field> فقياسهما متساويان. أي ان
+                    <math-field id="f3" read-only class="bg-warning border-1 border-info rounded-2"> 
+                        \angle \placeholder[angel2]{?}  = \angle \placeholder[angel3]{?} 
+                    </math-field> وحسب النص $ \widehat{BMA} = 31° $ إذن $\widehat{BAC} = 31° $ <br>
+                    ونعلم ان مجموع قياسات زوايا المثلث 180° إذن
+                    <math-field id="f4" read-only class="bg-warning border-1 border-info rounded-2"> 
+                        \angle \placeholder[angle4]{?} + \angle \placeholder[angle5]{?} + \angle \placeholder[angle6]{?} = °180
+                    </math-field>
+                    ومنه: $ \widehat{ABC} 
+                     + 73° = 180°-73° = 107° $
+                </p>
+
+            </div>
+
+            <div class="col-lg-4 col-md-4 col-sm-12">
+                <div class="card border-info mb-2 float-end shadow-lg">
+                    <img src="<%= lesson.resources[1].url %>" class="">
+                </div>
+            </div>
+        </div>
+   
+        
+        <div class="d-flex flex-row">
+            <div class="col-lg-6 col-md-6 col-sm-12 my-2">
+                <h5><span style="background-color: rgb(246, 229, 218);"><strong>الزاوية المماسية </strong></span></h5>
+                <p>
+                    تسمى الزاوية التي رأسها على دائرة وأحد ضلعيها وتر في هذه الدائرة وضلعها الاخر مماس لها
+                    <span class="bg-danger">زاوية مماسية</span>
+                    تقاس الزاوية المماسية بقياس نصف القوس المقابل لها كما الزاوية المحيطية.
+                    $ \widehat{CBE} = \widehat{CAB} = \dfrac{1}{2} \widehat{COB} $
+                </p>
+            </div>
+        
+            <div id="box4" class="jxgbox col-lg-6 col-md-6 col-sm-12 text-center" 
+            style="width: 400px; height: 350px; max-width: 80%;margin:10px;box-shadow: 3px 5px;">
+            </div>
+        </div>
+        
+    </div>    
+
+    <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 question-section mt-3 animate__animated animate__backInUp">
+            <h5><span style="background-color: rgb(246, 229, 218);"><strong> تحقق من فهمك </strong></span></h5>
+            <div class="card border-info mb-2 float-end shadow-lg">
+                <img src="<%= lesson.resources[2].url %>" class="img-thumbnail">
+            </div>
+
+            <%- lesson.exercies %>
+           <!--  <p> قل إن كانت كل زاوية في كل شكل مركزية ام محيطية ام ليست مركزيةوليست محيطية</p>
+
+            <ul class="number_list select_activity questions_1">
+                <p>الشكل -1-</p>
+                <li data-question='1'>
+                    <div data-option='1'>مركزية</div>
+                    <div data-option='2'>محيطية</div>
+                    <div data-option='3'>ليست مركزية ولا محيطية</div>
+                <p> الشكل -2- </p>
+
+                <li data-question='2'>
+                    <div data-option='1'>مركزية</div>
+                    <div data-option='2'>محيطية</div>
+                    <div data-option='3'>ليست مركزية ولا محيطية</div>
+                </li>
+                <p>الشكل -3-</p>
+                <li data-question='3'>
+                    <div data-option='1'>مركزية</div>
+                    <div data-option='2'>محيطية</div>
+                    <div data-option='3'>ليست مركزية ولا محيطية</div>
+                </li>
+                <p>الشكل -4-</p>
+                <li data-question='4'>
+                    <div data-option='1'>مركزية</div>
+                    <div data-option='2'>محيطية</div>
+                    <div data-option='3'>ليست مركزية ولا محيطية</div>
+                </li>
+            </ul>
+          
+
+            <div class="btn_activities grid13">
+                <div id="check_answers_1">
+                    <span>Check</span>
+                </div>
+                <div id="reset_answers_1">
+                    <span>Reset</span>
+                </div>
+                <div id="answers_1">
+                    <span>Answers</span>
+                </div>
+            </div> -->
+
+            <script>
+                createSelect ({
+                 questions_html: '.questions_1',
+                 check_button: '#check_answers_1',
+                 reset_button: '#reset_answers_1',
+                 answer_button: '#answers_1',
+                 answers: [1, 3,3,2]
+               });
+            </script>
+
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-1">
+            <a href="/" class="btn btn-outline-info mt-5">
+                <img src="/icon/iconBack.png" class="" width="34" height="34">
+                <span>الصفحة الرئيسية</span>
+
+            </a>
+
+        </div>
+    </div>
+
+    <script type="module" src="/js/less_12.js"></script>
+    <script src="/js/less_12-1.js"></script>
+    <script src="/js/less_12-2.js"></script>
+    <script src="/js/less_12-3.js"></script>
+    <script src="/js/less_12-4.js"></script>
+
+    <%- include("../partial/end.ejs") %>

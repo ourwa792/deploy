@@ -1,0 +1,475 @@
+<%- include('../partial/head.ejs') %>
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"
+        integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+
+    <link href="/css/animate.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="/css/e-learning-js.min.css" />
+
+    <script type="text/javascript" src="/library/jsxgraphcore.js"></script>
+    <link rel="stylesheet" href="/css/jsxgraph.css">
+
+    <script type="text/javascript" src="/library/e-learning-js.min.js"></script>
+
+    <style>
+        .header {
+            background-color: rgb(147, 255, 117);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .learning-box {
+            background-color: #ffebcd;
+            padding: 10px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .learning-box img {
+            width: 80px;
+            height: auto;
+        }
+
+        .angle-box {
+            background-color: #ffe4e1;
+            padding: 10px;
+            border-radius: 10px;
+            text-align: center;
+            margin-bottom: 20px;
+            transition: transform 0.2s;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .angle-box:hover {
+            transform: scale(1.05);
+        }
+
+        .text-div {
+            background-color: #fafad2;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        ul li {
+            background-color: #e0ffff;
+            margin: 5px 0;
+            padding: 10px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.3s;
+        }
+
+        ul li:hover {
+            background-color: #afeeee;
+        }
+
+
+
+        .table-container {
+            margin: 20px auto;
+            max-width: 800px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+
+        .table {
+            width: 100%;
+            margin-bottom: 0;
+        }
+
+        .table th,
+        .table td {
+            vertical-align: middle;
+            text-align: center;
+        }
+
+        .image-cell {
+            max-width: 100px;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        .highlight {
+            background-color: #f0f8ff;
+        }
+    </style>
+
+<!-- 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/polyfill/7.0.0/polyfill.min.js"></script>
+    <script>
+        window.MathJax = {
+            loader: { load: ['input/tex', 'output/chtml', 'input/mml'] },
+            tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
+            svg: { fontCache: 'global' }
+        };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script> 
+ -->
+    
+<body>
+    <div class="row header animate__animated animate__fadeInDown d-flex align-items-center">
+
+        <!-- عمود العنوان -->
+        <div class="col-lg-4 col-md-4 col-sm-4">
+            <img src="<%= lesson.cover %>" class="rounded-2 float-start" style="width: 100%;">
+        </div>
+
+        <div class="col-lg-8 col-md-8 col-sm-8">
+            <h1 class="text-start">
+                <%= lesson.title %>
+            </h1>
+            <hr>
+        </div>
+    </div>
+
+    
+    <div class="row animate__animated animate__fadeInUp">
+        <div class="col-lg-6 col-md-6 col-sm-12">
+            <p > نرغب أحياناً أن نُكبِّر صورة فوتوغرافية موجودة لدينا فنحصل على صورة جديدة مُكبّرة عن 
+                هذه الصورة، وهنا تكون للصورتين الصفات نفسها ولكنهما مختلفان بالقياس.
+            </p>
+            <br>
+            <p>نقول عن هاتين الصورتين إنهما متشابهتان.</p>
+
+        </div>
+        <!-- عمود فارغ للـ gap -->
+        <div class="col-lg-1"></div>
+        
+        <img src="<%= lesson.resources[0].url %>" 
+        class="col-lg-4 col-md-4 col-sm-12 border-2 border-black shadow-lg card-body img-fluid">
+        
+
+    </div>
+
+
+    <div class="row my-4">
+        <div class="bg-light border-black rounded-2 col-lg-6 col-sm-12">
+            <h5>تعلم:</h5>
+            <p>حاولت سلمى تكبير الصورة باستعمال الحاسب، وعند المحاولة نتجت الصورتان التاليتان
+                <br>
+                <ul>
+                    <li>قس بعدي الصورة الثانية تلاحظ أنها تنتج عن الأصلية بزيادة العرض فقط</li>
+                    <li>قس بعدي الصورة الثالثة تلاحظ أنها تنتج عن الأصلية بضرب طولها  بالعدد 2</li>
+                </ul>
+
+
+            </p>
+        </div>
+
+        <!-- عمود فارغ للـ gap -->
+        <div class="col-lg-3"></div>
+
+        <div class="col-lg-2 col-md-2 col-sm-12 border-2 h-auto border-black shadow-lg float-end">
+            <img src="/image/تشابه.png" class="img-fluid" alt="imgg">
+           
+        </div>
+
+    </div>
+
+
+    <div class=" justify-content-center align-content-center">
+
+        <div class="container">
+            <div id="box" class="col-lg-10 jxgbox w-90 mx-auto"
+                style="aspect-ratio: 1/1; max-height: 450px;" dir="ltr">
+            </div>
+
+        </div>
+
+       
+        <div class="container table-container">
+            <h5> <span style="color: rgb(248, 126, 126);"> الشكلان المتشابهان </span> </h5>
+                <button class="btn btn-sm btn-info my-3" data-sound="/sound/less-28.mp3" id="btn-1">
+                    تعبير شفهي
+                </button> 
+        </div>
+
+        <div class="container table-container">
+            <h5> <span style="color: rgb(248, 126, 126);"> المضلعان المتشابهان:</span> </h5>
+            <p> 
+                هما مضلعان:
+                <br>
+                <ul>
+                    <li>تتساوى كل زاوية في أحدهما ومقابلاتها في الآخر.</li>
+                    <li>تنتج أطوال أحدهما عم الآخر بضربها أو قسمتها على عدد بعينه</li>
+                </ul>
+
+            </p>
+        </div>
+
+
+
+        <div class="container">
+            <div id="box2" class=" jxgbox mx-auto col-lg-12 col-md-12 col-sm-12"
+                style="aspect-ratio: 1/1; width: 100%; max-height: 500px;" dir="ltr">
+            </div>
+
+        </div>
+
+        <div class="col-12 justify-content-center align-items-center">
+
+            <div class="container table-container">
+                
+                <h5 class="p-3" > <span style="background-color: aqua;"> تحقق من فهمك </span> </h5>
+                <p >
+                    أي من المستطيلين ZYXO, FETL
+                    يشابه المستطيل NMKR
+                </p>
+                
+                <p class="questions_9_1">
+
+                    <select data-position="question_9_2" class="input_select" autocomplete="off">
+                        <option value="" selected></option>
+                        <option value="1">FETL</option>
+                        <option value="2">ZYXO</option>
+               
+                    </select><br/>
+                </p>
+                <img class="card img-fluid" src="<%= lesson.resources[1].url %>">
+
+
+                    <div class="btn_activities grid12">
+                        <div id="check_answers_9_1">
+                            <span>Check</span>
+                        </div>
+                        <div id="reset_answers_9_1">
+                            <span>Reset</span>
+                        </div>
+                        <div id="answers_9_1">
+                            <span>Answers</span>
+                        </div>
+                    </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="row">
+            <div class="col-lg-7 col-md-7 col-sm-12 ">
+
+                <ul class="number_list select_activity questions_3_1">
+                        <li data-question='1'> أحسب 5 × 2
+                            <br>
+                            <div data-option='1'>24</div>
+                            <div data-option='2'>10</div>
+                            <div data-option='3'>14</div>
+                        </li>                  
+                                       
+                        <li data-question='2'> أحسب 7 × 2
+                            <br>
+                            <div data-option='1'>7</div>
+                            <div data-option='2'>10</div>
+                            <div data-option='3'>14</div>
+                        </li>                  
+                                       
+                        <li data-question='3'> هل يمكن القول أن متوازيي الاضلاع متشابهتان
+                            <br>
+                            <div data-option='1'>لا</div>
+                            <div data-option='2'>نعم</div>
+                        </li>                  
+                                       
+                </ul>
+                <div class="btn_activities grid13">
+                        <div id="check_answers_3_1">
+                            <span>Check</span>
+                        </div>
+                        <div id="reset_answers_3_1">
+                            <span>Reset</span>
+                        </div>
+                        <div id="answers_3_1">
+                            <span>Answers</span>
+                        </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4" style="max-width: 100%;">
+                <img src=" <%= lesson.resources[2].url %> " 
+                class=" border-black shadow-lg  card-img-top">
+            </div>
+        </div> 
+
+        
+        <div class="row">
+            <div class="">
+                <a href="/" class="btn btn-outline-info mt-5">
+                    <img src="/icon/iconBack.png" class="" width="34" height="34">
+                    <span>الصفحة الرئيسية</span>
+    
+                </a>
+    
+            </div>
+        </div>
+
+    </div>
+
+
+    <script>
+        window.addEventListener("DOMContentLoaded", ()=> {
+        
+            createSelect ({
+                questions_html: '.questions_3_1',
+                check_button: '#check_answers_3_1',
+                reset_button: '#reset_answers_3_1',
+                answer_button: '#answers_3_1',
+                answers: [2,3,2]
+            });
+
+            // board -1-
+
+            var board1 = JXG.JSXGraph.initBoard("box", {
+                boundingbox: [-4, 4, 4, -4],
+                keepaspectratio: true,
+                axis: true,
+            });
+
+            const s = board1.create("slider",[[-2,3], [2,3], [1,1,2.5] ], {name:"إنشاء" ,snapWidht:.1, fontSize:15})
+            
+            var tape = board1.create('tapemeasure', [[2, 2], [4, 2]], {name:'مسطرة'});
+
+            var img1 = board1.create('image', [
+            '/image/تشابه.png',  
+            [-5,1],    
+            [2, 2.4]  
+            ], {});
+           
+            var img2 = board1.create('image', [
+            '/image/تشابه.png',  
+            [-5,-3], 
+            [ ()=> s.Value(), 2.4]  
+            ], {});
+
+            const img3 = board1.create('image', [
+            '/image/تشابه.png',  
+            [2,-3], 
+            [2, ()=> s.Value() * 2] 
+            ], {}); 
+
+            
+
+            // -board 2-
+
+
+            var board2 = JXG.JSXGraph.initBoard("box2", {
+                boundingbox: [-11, 5, 5, -5],
+                keepaspectratio: true,
+                axis: true,
+            });
+
+            var A = board2.create('point', [-1, 0], {name: 'A', size: 3, color: 'blue'});
+            var B = board2.create('point', [-5, 0], {name: 'B', size: 3, color: 'blue'});
+            var C = board2.create('point', [-5, 2], {name: 'C', size: 3, color: 'blue'});
+
+            board2.create("angle", [A,B,C], {radius:.5, fillColor:"red"});
+            var D = board2.create("parallelpoint", [B,A,C], {color:'blue'});
+
+            var polygon = board2.create('polygon', [A, B, C, D], {
+                borders: {strokeColor: 'blue', strokeWidth:2}
+            });
+            
+            var t = board2.create('transform', [2, 2], {type: 'scale'});
+            
+            var pol2 = board2.create('polygon', [polygon, t], {vertices: {withLabel: true}});            
+            const ver0 = polygon.vertices[0]
+            const ver1 = polygon.vertices[1]
+            const ver2 = polygon.vertices[2]
+
+            const ver_0 = pol2.vertices[0];
+            const ver_1 = pol2.vertices[1];
+            const ver_2 = pol2.vertices[2];
+
+            board2.create("text", [ ( ver0.X() + ver1.X() ) / 2 , ( ver0.Y() + ver1.Y() ) / 2
+                , ()=> JXG.Math.Geometry.distance([ver0.X(), ver0.Y()],
+                [ver1.X(), ver1.Y()]).toFixed(1)
+            ], {color: 'red', fontSize: 16});
+            board2.create("text", [ ( ver1.X() + ver2.X() ) / 2 , ( ver1.Y() + ver2.Y() ) / 2
+                , ()=> JXG.Math.Geometry.distance([ver1.X(), ver1.Y()],
+                [ver2.X(), ver2.Y()]).toFixed(1)
+            ], {color: 'red', fontSize: 16});
+
+            board2.create("text", [ ( ver_0.X() + ver_1.X() ) / 2 , ( ver_0.Y() + ver_1.Y() ) / 2
+                , ()=> JXG.Math.Geometry.distance([ver_0.X(), ver_0.Y()],
+                [ver_1.X(), ver_1.Y()]).toFixed(1)
+            ], {color: 'red', fontSize: 16});
+            board2.create("text", [ ( ver_1.X() + ver_2.X() ) / 2 , ( ver_1.Y() + ver_2.Y() ) / 2
+                , ()=> JXG.Math.Geometry.distance([ver_1.X(), ver_1.Y()],
+                [ver_2.X(), ver_2.Y()]).toFixed(1)
+            ], {color: 'red', fontSize: 16});
+            
+
+            var a = board2.create('point', [-3,-1], {name: 'a'});
+            var b = board2.create('point', [0,-1], {name: 'b'});
+            var c = board2.create('point', [1.3,-2], {name: 'c'});
+            var pol1 = board2.create('polygon', [a,b,c], {vertices: {withLabel: false}, fillColor:"blue"});
+            var pol2Traingle = board2.create('polygon', [pol1, t], {vertices: {withLabel: true}, fillColor:"blue"});
+            
+            const ver0Traingle = pol1.vertices[0]
+            const ver1Traingle = pol1.vertices[1]
+            const ver2Traingle = pol1.vertices[2]
+
+            const ver_0Traingle = pol2Traingle.vertices[0];
+            const ver_1Traingle = pol2Traingle.vertices[1];
+            const ver_2Traingle = pol2Traingle.vertices[2];
+
+            board2.create("text", [ ( ver0Traingle.X() + ver1Traingle.X() ) / 2 , ( ver0Traingle.Y() + ver1Traingle.Y() ) / 2
+                , ()=> JXG.Math.Geometry.distance([ver0Traingle.X(), ver0Traingle.Y()],
+                [ver1Traingle.X(), ver1Traingle.Y()]).toFixed(1)
+            ], {color: 'red', fontSize: 16});
+            board2.create("text", [ ( ver1Traingle.X() + ver2Traingle.X() ) / 2 , ( ver1Traingle.Y() + ver2Traingle.Y() ) / 2
+                , ()=> JXG.Math.Geometry.distance([ver1Traingle.X(), ver1Traingle.Y()],
+                [ver2Traingle.X(), ver2Traingle.Y()]).toFixed(1)
+            ], {color: 'red', fontSize: 16});
+
+            board2.create("text", [ ( ver_0Traingle.X() + ver_1Traingle.X() ) / 2 , ( ver_0Traingle.Y() + ver_1Traingle.Y() ) / 2
+                , ()=> JXG.Math.Geometry.distance([ver_0Traingle.X(), ver_0Traingle.Y()],
+                [ver_1Traingle.X(), ver_1Traingle.Y()]).toFixed(1)
+            ], {color: 'red', fontSize: 16});
+            board2.create("text", [ ( ver_1Traingle.X() + ver_2Traingle.X() ) / 2 , ( ver_1Traingle.Y() + ver_2Traingle.Y() ) / 2
+                , ()=> JXG.Math.Geometry.distance([ver_1Traingle.X(), ver_1Traingle.Y()],
+                [ver_2Traingle.X(), ver_2Traingle.Y()]).toFixed(1)
+            ], {color: 'red', fontSize: 16});
+
+
+            //////
+            createAccordionSelect ({
+                questions_html: '.questions_9_1',
+                check_button: '#check_answers_9_1',
+                reset_button: '#reset_answers_9_1',
+                answer_button: '#answers_9_1',
+                answers: [2, 1]
+            });
+            const btn = document.getElementById("btn-1"); // تحديد جميع الأزرار
+
+                const audio = new Audio(btn.getAttribute("data-sound"));
+                btn.addEventListener("click", e => {
+                    if (!audio.playing) {
+                    audio.play();
+                    btn.disabled = true;  // تعطيل الزر أثناء تشغيل الصوت
+
+                    audio.onended = () => {
+                        btn.disabled = false;
+                    };
+                    }
+                });
+
+    })
+
+    </script>
+
+<%- include("../partial/end.ejs")%>

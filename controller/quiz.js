@@ -7,6 +7,9 @@ const {cloudinary} = require('../config/cloudinary')
 const fs = require('fs')
 const path = require('path')
 
+const {gameNames} = require("./gameName")
+
+
 const PDFDocument = require('pdfkit')
 // دالة لحساب النقاط القصوى
 function calculateMaxScore(questions) {
@@ -45,7 +48,7 @@ function calculateTotalScore(data, survey) {
 exports.getAllQuizzes = async (req, res) => {
   try {
     const quizzes = await Quiz.findAll();
-    res.render("quiz/list", { quizzes, pageTitle: "اختبارات" });
+    res.render("quiz/list", { quizzes, pageTitle: "اختبارات" , gameNames});
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -74,6 +77,7 @@ exports.getQuizById = async (req, res) => {
     const quiz = await Quiz.findByPk(req.params.id);
     if (!quiz) return res.status(404).json({ message: "Quiz not found" });
     res.render("quiz/takeQuiz", {
+      gameNames,
       quiz,
       username: req.user.userName,
       pageTitle: quiz.title,
@@ -158,10 +162,14 @@ exports.submitQuiz = async (req, res) => {
     // تحميل الخطوط والصور
     const arabicFontPath = path.join(__dirname, '../public/fonts/Amiri-Regular.ttf');
     const backgroundImagePath = path.join(__dirname, '../public/image/certificate.jfif');
-    const logoImagePath = path.join(__dirname, '../public/image/logo.png');
-
+    const logoImagePath = path.join(__dirname, "../public/icon/ourwaMath.png");
+    
     doc.image(backgroundImagePath, 0, 0, { width: doc.page.width, height: doc.page.height});
 
+    doc.image(logoImagePath, doc.page.width * 0.5 - 30, doc.page.height-210, {
+      width: 130,
+      height: 130,
+    });
  // اختيار الخط بناءً على اللغة
 
  doc.registerFont('ArabicFont', arabicFontPath);
@@ -294,12 +302,27 @@ exports.getUserAttempts = async (req, res) => {
           limit: 10 // جلب أعلى 10 متفوقين
       });
 
+      const topUser = await QuizResult.findOne({
+        attributes: [
+          "userId" ,
+          [sequelize.fn('SUM', sequelize.col('userScore')), 'totalScore']
+        ],
+        group: ['userId'],
+        order: [[sequelize.fn('SUM', sequelize.col('userScore')), 'DESC']],
+        include: [{ model: User }],
+        limit: 1
+      });
+
+      //console.log(topUser)
+
       const performanceData = await analyzePerformance(req.user.id);
 
-      res.render('quiz/attempts', { attempts, userScores, performanceData, pageTitle: "محاولات الاختبارات" });
+      res.render('quiz/attempts', { attempts, userScores, 
+        topUser,
+         performanceData, pageTitle: "محاولات الاختبارات" });
   } catch (error) {
-      res.status(500).json({ error: error.message });
-  }
+        res.status(500).json({ error: error.message });
+    }
 };
 
 //=======
@@ -414,7 +437,10 @@ exports.getAllUsersPerformanceReport = async (req, res) => {
     const performanceReports = await analyzeAllUsersPerformance();
     console.log("====performanceReports==="+JSON.stringify(performanceReports,null,2))
 
-    res.render("admin/allUsersPerformance", { performanceReports, pageTitle: "تقرير أداء الطلاب" });
+    res.render("admin/allUsersPerformance", {
+      gameNames, 
+      performanceReports,
+       pageTitle: "تقرير أداء الطلاب" });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }

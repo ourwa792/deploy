@@ -1,0 +1,452 @@
+<%- include('../partial/head.ejs') %>
+
+
+<link href="/css/animate.min.css" rel="stylesheet">
+ 
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+
+<link rel="stylesheet" href="/css/e-learning-js.min.css"/> 
+
+<link rel="stylesheet" href="/css/jsxgraph.css">
+
+<link rel="stylesheet" href="/css/lesson.css"/>
+
+<script type="text/javascript" src="/library/e-learning-js.min.js"></script>  
+<!--   <script type="text/javascript" src="/library/jsxgraphcore.js"></script>  -->
+
+<style> 
+  .table-container {
+            margin: 20px auto;
+            max-width: 900px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+    }
+    .table {
+            margin-bottom: 0;
+    }
+    .table th, .table td {
+        vertical-align: middle;
+        text-align: center;
+    }
+    .image-cell {
+        max-width: 100px;
+    }
+    img {
+        max-width: 100%;
+        height: auto;
+    }
+    .highlight {
+        background-color: #f0f8ff;
+    }
+
+</style>
+
+<body class="container">
+
+    <div class="row header animate__animated animate__fadeInDown d-flex align-items-center">
+       
+        <!-- عمود العنوان -->
+         <div class="col-lg-4 col-md-4 col-sm-6">
+             <img src="<%= lesson.cover %>" 
+             class="rounded-2 float-start" style="width: 100%;">
+         </div>
+        
+        <div class="col-lg-8 col-md-8 col-sm-8">
+            <h1 class="text-start">
+                <%= lesson.title  %>
+            </h1>
+            <hr>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-lg-4 col-md-4 col-sm-12">
+            <div class="card border-info mb-2 float-start">
+                <img src="<%= lesson.resources[0].url %>" class="img-fluid">
+
+                <p class="card-text mx-2 my-2">تبنى المدارس عادة على شكل متوازي مستطيلات</p>
+    
+            </div>
+            
+        </div> 
+        <div class="col-lg-4 col-md-4 col-sm-12">
+            <div class="card border-info mb-2 float-end">
+                <img src="<%= lesson.resources[1].url %>" class="img-fluid">
+
+                <p class="card-text mx-2 my-2">ستتعلم</p>    
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="container col-12 knowledge-section mt-4">
+        <h5>انطلاقة نشطة</h5>
+
+        <div class="col-lg-10 col-md-10 col-sm-12">
+            <div class="card border-info mb-2 text-center">
+                <img src="<%= lesson.resources[2].url %>" class="shadow-lg">
+            </div>
+        </div>
+
+        <p class="bold">اكتب اسم كل مجسم:</p>
+        <ul class="grid12 no_list questions_2_1">
+                <li>
+                    <span class="bold lesson_color">1.</span> <input size="8" type="text" autocomplete="off"/>.
+                </li>
+                <li>
+                    <span class="bold lesson_color">2.</span> <input size="8" type="text" autocomplete="off"/>.
+                </li>
+                <li>
+                    <span class="bold lesson_color">3.</span> <input size="8" type="text" autocomplete="off"/> 
+                </li>
+                <li>
+                    <span class="bold lesson_color">4.</span> <input size="8" type="text" autocomplete="off"/>.
+                </li>
+                <li>
+                    <span class="bold lesson_color">5.</span> <input size="8" type="text" autocomplete="off"/>.
+                </li>
+        </ul>
+        <div class="btn_activities">
+                <div id="check_answers_2_1">
+                    <span>Check</span>
+                </div>
+                <div id="reset_answers_2_1">
+                    <span>Reset</span>
+                </div>
+                <div id="answers_2_1">
+                    <span>Answers</span>
+                </div>
+        </div>
+
+
+        <ul class="number_list select_activity questions_3_1">
+                <p>رقم كل مجسم جميع سطوحه مستوية</p>
+
+                <li data-question='1'>
+                    <div data-option='1'>1</div>
+                    <div data-option='2'>2</div>
+                    <div data-option='3'>1 و4 و 3</div>
+                    <div data-option='4'>4</div>
+                </li>
+                <p>رقم كل مجسم بعض سطوحه منحنية</p>
+
+                <li data-question='2'>
+                    <div data-option='1'>1</div>
+                    <div data-option='2'>2</div>
+                    <div data-option='3'>5</div>
+                    <div data-option='4'>2 و 5</div>
+                </li>
+        </ul>
+
+        <div class="btn_activities grid13">
+            <div id="check_answers_3_1">
+                <span>Check</span>
+            </div>
+            <div id="reset_answers_3_1">
+                <span>Reset</span>
+            </div>
+            <div id="answers_3_1">
+                <span>Answers</span>
+            </div>
+        </div>
+
+        <div class="container table-container">
+            <h5 class="text-center mb-4">مجسمات متعددة السطوح</h5>
+            <p>الجدول التالي يوضح خصائص بعض المجسمات</p>
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr class="table-warning">
+                        <th scope="col">المجسم</th>
+                        <th scope="col">اسم المجسم</th>
+                        <th scope="col">الرسم</th>
+                        <th scope="col">الخصائص</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="image-cell"><img src="<%= lesson.resources[3].url %>" alt="المكعب"></td>
+                        <td>المكعب</td>
+                        <td><img src="<%= lesson.resources[4].url %>" alt="رسم المكعب"></td>
+                        <td>له 8 رؤوس و12 حرفًا و6 سطوح.</td>
+                    </tr>
+                    <tr class="highlight">
+                        <td class="image-cell"><img src="<%= lesson.resources[5].url %>" alt="متوازي المستطيلات"></td>
+                        <td>متوازي المستطيلات</td>
+                        <td><img src="<%= lesson.resources[6].url %>" alt="رسم متوازي المستطيلات"></td>
+                        <td>له 8 رؤوس و12 حرفًا و6 سطوح.</td>
+                    </tr>
+                    <tr>
+                        <td class="image-cell"><img src="<%= lesson.resources[7].url %>" alt="الهرم الرباعي"></td>
+                        <td>الهرم الرباعي (قاعدته شكل رباعي)</td>
+                        <td><img src="<%= lesson.resources[8].url %>" alt="رسم الهرم الرباعي"></td>
+                        <td>له 5 رؤوس و8 أحرف و5 أسطح.</td>
+                    </tr>
+                    <tr class="highlight">
+                        <td class="image-cell"><img src="<%= lesson.resources[9].url %>" alt="الهرم الثلاثي"></td>
+                        <td>الهرم الثلاثي (قاعدته مثلث)</td>
+                        <td><img src="<%= lesson.resources[10].url %>" alt="رسم الهرم الثلاثي"></td>
+                        <td>له 4 رؤوس و6 أحرف و4 أسطح.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>            
+
+
+
+
+    </div>
+
+    <div class="row container">
+
+        <div id="cube" class="jxgbox col-lg-6 col-md-6 col-sm-12" 
+            style="width: 450px; height: 500px; max-width: 80%;margin:10px;box-shadow: 3px 5px; "></div>
+        
+        <div id="rect" class="jxgbox col-lg-6 col-md-6 col-sm-12" 
+            style="width: 450px; height: 500px; max-width: 80%;margin:10px;box-shadow: 3px 5px;"></div>
+
+    </div>  
+
+    <div class="row container">
+
+        <div class="container table-container">
+            <h5 class="text-center mb-4">مجسمات بعض سطوحها منحنية</h5>
+
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr class="table-warning">
+                        <th scope="col">المجسم</th>
+                        <th scope="col">اسم المجسم</th>
+                        <th scope="col">الرسم</th>
+                        <th scope="col">الخصائص</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="image-cell"><img src="<%= lesson.resources[11].url %>"></td>
+                        <td>اسطوانة</td>
+                        <td><img src="<%= lesson.resources[12].url %>"></td>
+                        <td>قاعدتاها دائرتان</td>
+                    </tr>
+                    <tr class="highlight">
+                        <td class="image-cell"><img src="<%= lesson.resources[13].url %>"></td>
+                        <td> مخروط</td>
+                        <td><img src="<%= lesson.resources[14].url %>"></td>
+                        <td>له رأس وقاعدة شكلها دائرة.</td>
+                    </tr>
+                    
+                </tbody>
+            </table>
+        </div>   
+
+
+        <div id="cilynder" class="jxgbox col-lg-6 col-md-6 col-sm-12" 
+            style="width: 450px; height: 500px; max-width: 80%;margin:10px;box-shadow: 3px 5px; "></div>
+        
+        <div id="cone" class="jxgbox col-lg-6 col-md-6 col-sm-12" 
+            style="width: 450px; height: 500px; max-width: 80%;margin:10px;box-shadow: 3px 5px;"></div>
+
+    </div>    
+
+    <div class="row container">
+        <div class="container table-container">
+            <h5 class="text-center mb-4">مجسمات بعض سطوحها منحنية</h5>
+
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr class="table-warning">
+                        <th scope="col">اصنع نموذجاً</th>
+            
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><ul><li>احضر ورق مقوى وأدوات هندسية ومقص</li><li>ارسم على الورق المقوى المخطط التالي</li></ul></td>
+                        <td><img src="<%= lesson.resources[15].url %>"></td>
+                    </tr>
+                    <tr class="highlight">
+                        <td> <ul><li>قص الخطوط الخارجية للمخطط</li><li>اطو المخطط</li></ul></td>
+                        <td><img src="<%= lesson.resources[16].url %>"></td>
+                    </tr>
+                    
+                </tbody>
+            </table>
+        </div> 
+       
+        <div id="box16" class="jxgbox col-lg-6 col-md-6 col-sm-12" 
+            style="width: 450px; height: 300px; max-width: 80%;margin:10px;box-shadow: 3px 5px;"></div>    
+        
+    </div>
+
+
+    <div class="container col-lg-12 col-md-12 col-sm-12 question-section">
+
+        <h2>تدرب</h2>
+
+        <h5>السؤال الاول</h5>
+        <p>اختر الاجابة الصحيحة الوحيدة</p>
+
+        <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-12">
+                <div class="card border-info mb-2 float-start">
+                    <img src="<%= lesson.resources[8].url %>" class="img-thumbnail">
+                    <p class="card-text mx-2 my-2">
+                        <ul class="number_list select_activity questions_1">
+                            <p>عدد السطوح التي شكلها مثلث</p>
+            
+                            <li data-question='1'>
+                                <div data-option='1'>1</div>
+                                <div data-option='2'>2</div>
+                                <div data-option='3'>3</div>
+                                <div data-option='4'>4</div>
+                            </li>
+                            <p>عدد السطوح التي شكلها رباعي</p>
+            
+                            <li data-question='2'>
+                                <div data-option='1'>1</div>
+                                <div data-option='2'>0</div>
+                                <div data-option='3'>3</div>
+                                <div data-option='4'>4</div>
+                            </li>
+                        </ul>
+                    </p>
+                </div>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12">
+                <div class="card border-info mb-2 float-end">
+                    <img src="<%= lesson.resources[10].url %>" class="img-thumbnail">
+                    <p class="card-text mx-2 my-2">
+                        <ul class="number_list select_activity questions_2">
+                            <p>عدد السطوح التي شكلها مثلث</p>
+            
+                            <li data-question='1'>
+                                <div data-option='1'>1</div>
+                                <div data-option='2'>2</div>
+                                <div data-option='3'>3</div>
+                                <div data-option='4'>4</div>
+                            </li>
+                            <p>عدد السطوح التي شكلها رباعي</p>
+            
+                            <li data-question='2'>
+                                <div data-option='1'>1</div>
+                                <div data-option='2'>2</div>
+                                <div data-option='3'>3</div>
+                                <div data-option='4'>4</div>
+                            </li>
+                        </ul>
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-lg-2 col-md-2 col-sm-12">
+                <div class="btn_activities grid13">
+                    <div id="check_answers_1">
+                        <span>Check1</span>
+                    </div>
+                    <div id="reset_answers_1">
+                        <span>Reset1</span>
+                    </div>
+                    <div id="answers_1">
+                        <span>Answers1</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="col-lg-2 col-md-2 col-sm-12">
+                <div class="btn_activities grid13">
+                    <div id="check_answers_2">
+                        <span>Check2</span>
+                    </div>
+                    <div id="reset_answers_2">
+                        <span>Reset2</span>
+                    </div>
+                    <div id="answers_2">
+                        <span>Answers2</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-12 my-2">
+                <div class="card border-info mb-2 float-start">
+                    <img src="<%= lesson.resources[17].url %>" class="img-thumbnail">
+                    <p class="card-text mx-2 my-2">
+                        <ul class="number_list select_activity questions_3">
+                            <p>سمّ المجسمات التالية</p>
+            
+                            <li data-question='1'> (أ) <br>
+                                <div data-option='1'>متوازي مستطيلات</div>
+                                <div data-option='2'>اسطوانة</div>
+                                <div data-option='3'>مكعب</div>
+                                <div data-option='4'>هرم رباعي</div>
+                            </li>
+                      
+            
+                            <li data-question='2'> (ب) <br>
+                                <div data-option='1'>متوازي مستطيلات</div>
+                                <div data-option='2'>اسطوانة</div>
+                                <div data-option='3'>مكعب</div>
+                                <div data-option='4'>هرم رباعي</div>
+                            </li>
+
+
+                            <li data-question='3'> (ج) <br>
+                                <div data-option='1'>متوازي مستطيلات</div>
+                                <div data-option='2'>اسطوانة</div>
+                                <div data-option='3'>مكعب</div>
+                                <div data-option='4'>هرم رباعي</div>
+                            </li>
+
+                            <li data-question='4'> (د) <br>
+                                <div data-option='1'>متوازي مستطيلات</div>
+                                <div data-option='2'>اسطوانة</div>
+                                <div data-option='3'>مكعب</div>
+                                <div data-option='4'>هرم رباعي</div>
+                            </li>
+                        </ul>
+                    </p>
+                </div>
+            </div>
+
+            <div class="col-lg-2 col-md-2 col-sm-12"></div>
+                <div class="btn_activities grid13">
+                    <div id="check_answers_3">
+                        <span>Check3</span>
+                    </div>
+                    <div id="reset_answers_3">
+                        <span>Reset3</span>
+                    </div>
+                    <div id="answers_3">
+                        <span>Answers3</span>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-1">
+                <a href="/" class="btn btn-outline-info mt-5">
+                    <img src="/icon/iconBack.png" class="" width="34" height="34">
+                    <span>الصفحة الرئيسية</span>
+    
+                </a>
+    
+            </div>
+        </div>
+    </div>
+          
+
+    <script type="module" src="/js/less_11.js"></script>
+
+
+<%- include('../partial/end.ejs') %>

@@ -95,7 +95,8 @@ const getWolframAlphaAnswer = async (question) => {
   
   */
 
-const { Lesson } = require("./model/association"); // استيراد Lesson من ملف association
+  
+const { Lesson, Quiz, VideoLesson } = require("./model/association"); // استيراد Lesson من ملف association
 
 (async () => {
   let newContent = String.raw`
@@ -819,14 +820,991 @@ const { Lesson } = require("./model/association"); // استيراد Lesson من
                 <br>
             </p>
     `
+    
+    const exercies10 = String.raw`
+     <div class="col-lg-12 col-md-12 col-sm-12 question-section questions_2_1">
+            <h2>تدرب</h2>
+
+            <h5>السؤال الاول</h5>
+            <p>
+                ارتفع مصعد من الطابق الارضي بمقدار 4 طوابق. اكتب العدد الصحيح الدال على مكان وجود المصعد
+
+                <ul class="grid12 no_list ">
+                    <li>
+                        <span class="bold lesson_color"></span>  <input size="8" type="text" autocomplete="off"/>.
+                    </li>
+            
+                </ul>
+
+            </p>
+            <h5>السؤال الثاني</h5>
+            <p>
+                غطست غواصة 25 متراً عن سطح البحر اكتب العدد الصحيح الدال على ارتفاع الغواصة عن سطح البحر
+                <ul class="grid12 no_list ">
+                    <li>
+                        <span class="bold lesson_color"></span>  <input dir="auto" size="8" type="text" autocomplete="off"/>.
+                    </li>
+            
+                </ul>
+                
+            </p> 
+
+
+            <div class="btn_activities">
+                <div id="check_answers_2_1">
+                    <span>Check</span>
+                </div>
+                <div id="reset_answers_2_1">
+                    <span>Reset</span>
+                </div>
+                <div id="answers_2_1">
+                    <span>Answers</span>
+                </div>
+            </div>
+
+            <h5>السؤال الثالث</h5>
+            <p>أوجد ناتج مايلي</p>
+
+            <div dir="ltr" id="problem-container">
+              
+            </div>
+
+            <h5>السؤال الرابع</h5>
+            <p>صل بين كل عبارة مع صيغتها المختزلة</p>
+
+
+            <div class="container-fluid" dir="auto">
+                <div class="matching-container row justify-content-center">
+                    <div class="col-lg-4 col-md-5 col-12 mb-4">
+                        <div class="matching-item" id="q1">
+                            (+9)-(+3)
+                        </div>
+                        <div class="matching-item" id="q2">
+                            (-4)-(-7)
+                        </div>
+                        <div class="matching-item" id="q3">
+                            (-6)-(+2)
+                        </div>
+                        <div class="matching-item" id="q4">
+                            (+9)-(-3)
+                        </div>
+                        <div class="matching-item" id="q5">
+                            (+6)-(-2)
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-5 col-12 offset-space">
+                        <div class="matching-item" id="a1">
+                            -6-2
+                        </div>
+                        <div class="matching-item" id="a2">
+                            -4+7
+                        </div>
+                        <div class="matching-item" id="a3">
+                            9-3
+                        </div>
+                        <div class="matching-item" id="a4">
+                            6+2
+                        </div>
+                        <div class="matching-item" id="a5">
+                            9+3
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="feedback" class="feedback"></div>
+
+
+        </div>
+    `
+    const content10 = String.raw`
+            <p>
+                <ul class="example-box">
+                    <li>عندما نجمع عددين  من اشارة واحدة نجمع بعديهما عن الصفر ثم نلافق بالناتج الاشارة المشتركة</li>
+                    <li>عندما نجمع عددين من اشارتين مختلفتين نطرح بعد اقربهما عن الصفر من بعد الاخر ثم نرفق بالناتج اشارة الابعد</li>
+                </ul>
+                
+                <div class="row">
+                    <div class="col-lg-6 col-md-6 col-sm-12 example-box math-equation-ltr">
+                        (+8)+(-11) = -3 
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-12 example-box math-equation-ltr" >
+                        (-13)+(-5) = -18 
+                    </div>
+                </div>
+            </p>   
+            
+            <div class="container mt-5">
+                <h5 >الكتابة المختزلة لعملية الجمع:</h5>
+                <ul class="">
+                    <li>يمكن الاستغناء عن الأقواس وإشارة عملية الجمع.</li>
+                    <li>يمكن الاستغناء عن إشارة (+) عند كتابة الأعداد الموجبة.</li>
+                    <li>أو بعد إشارة (=) أو بداية عملية حسابية.</li>
+                </ul>
+        
+                <div class="row">
+                    <div class="col-lg-6">
+                        <table class="table table-custom mt-4 text-end">
+                            <thead>
+                                <tr>
+                                    <th>الكتابة المختزلة</th>
+                                    <th>العملية</th>
+                                </tr>
+                            </thead>
+                            <tbody dir="ltr">
+                                <tr>
+                                    <td>-5 + 8</td>
+                                    <td>(-5) + (+8)</td>
+                                </tr>
+                                <tr>
+                                    <td>-15 - 3</td>
+                                    <td>(-15) + (-3)</td>
+                                </tr>
+                                <tr>
+                                    <td>9 - 11</td>
+                                    <td>(+9) + (-11)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+        
+                    <div class="col-lg-6 example-box math-equation-ltr">
+                        <p class="arrow">➔ -5 + 8 = 3</p>
+                        <p class="arrow">➔ -15 - 3 = -18</p>
+                        <p class="arrow">➔ 9 - 11 = -2</p>
+                    </div>
+                </div>
+        
+                <h5 class="mt-4">أمثلة:</h5>
+        
+                    <p><span class="highlighted-text">الجمع عملية تبديلية</span> إذا كان a, b عددان، فإن a + b = b + a</p>
+                    <p><span class="highlighted-text">خاصة 1:</span> إذا كانت a + b + c ثلاثة أعداد، فإن a + b + c = (a + b) + c = a + (b + c)</p>
+                    <p><span class="highlighted-text">خاصة 2:</span> الجمع عملية تجميعية أي أننا نستطيع إجراء عملية الجمع وفق أي ترتيب.</p>
+
+            </div>
+
+            <h5>الطرح</h5>
+
+            <p>
+             باستخدام مستقيم الاعداد:         
+            </p>
+            <p>
+            حدد العدد الأول ثم انتقل لليمين لطرح عدد سالب وإلى اليسار لطرح عدد موجب.          
+            </p>
+    `
+
+    const content12 = String.raw`
+        <p> في الشكل المرافق:                   
+                    <ul>
+                        <li>قياسا زاويتين مركزيتين تقابلان قوسين متساويين في دائرة متساويان, وبالعكس </li>
+        
+                        <li>                           
+                            قياسا زاويتين محيطيتين تقابلان قوسين متساويين في دائرة متساويان, وبالعكس
+                        </li>
+                    </ul>
+        </p>
+    `
+
+    const exercies12 = String.raw`
+     <p> قل إن كانت كل زاوية في كل شكل مركزية ام محيطية ام ليست مركزيةوليست محيطية</p>
+
+            <ul class="number_list select_activity questions_1">
+                <p>الشكل -1-</p>
+                <li data-question='1'>
+                    <div data-option='1'>مركزية</div>
+                    <div data-option='2'>محيطية</div>
+                    <div data-option='3'>ليست مركزية ولا محيطية</div>
+                <p> الشكل -2- </p>
+
+                <li data-question='2'>
+                    <div data-option='1'>مركزية</div>
+                    <div data-option='2'>محيطية</div>
+                    <div data-option='3'>ليست مركزية ولا محيطية</div>
+                </li>
+                <p>الشكل -3-</p>
+                <li data-question='3'>
+                    <div data-option='1'>مركزية</div>
+                    <div data-option='2'>محيطية</div>
+                    <div data-option='3'>ليست مركزية ولا محيطية</div>
+                </li>
+                <p>الشكل -4-</p>
+                <li data-question='4'>
+                    <div data-option='1'>مركزية</div>
+                    <div data-option='2'>محيطية</div>
+                    <div data-option='3'>ليست مركزية ولا محيطية</div>
+                </li>
+            </ul>
           
 
+            <div class="btn_activities grid13">
+                <div id="check_answers_1">
+                    <span>Check</span>
+                </div>
+                <div id="reset_answers_1">
+                    <span>Reset</span>
+                </div>
+                <div id="answers_1">
+                    <span>Answers</span>
+                </div>
+            </div>
+    `
+    const exercies3 = String.raw`
+     <div class="container border-2 border-black rounded-3 my-3">
+
+        <ul class="number_list select_activity questions_1">
+          <p>ما المادة التي عدد واجباتها الأسبوعية أقل؟</p>
+          <li data-question='1'>
+            <div data-option='1'>الموسيقا</div>
+            <div data-option='2'>اللغة العربية</div>
+            <div data-option='3'>العلوم</div>
+          </li>
+
+          <p>ما المادة التي عدد واجباتها الأسبوعية أكثر؟</p>
+
+          <li data-question='2'>
+            <div data-option='1'>الرياضيات</div>
+            <div data-option='2'>اللغة العربية</div>
+            <div data-option='3'>الموسيقا</div>
+          </li>
+
+        </ul>
+
+        <div class="btn_activities grid13">
+          <div id="check_answers_1">
+            <span>Check</span>
+          </div>
+          <div id="reset_answers_1">
+            <span>Reset</span>
+          </div>
+          <div id="answers_1">
+            <span>Answers</span>
+          </div>
+        </div>
+
+      </div>
+
+    `
+    const exercies19 = String.raw`
+        <div class=" col-8">
+                <ul class="number_list select_activity questions_2">
+                    <p>الطول المثالي عند الولادة</p>
+
+                    <li data-question='1'>
+                        <div data-option='1'>50</div>
+                        <div data-option='2'>55</div>
+                        <div data-option='3'>59</div>
+                    </li>
+
+                    <p>الطول المثالي في الشهر الأول</p>
+                    <li data-question='2'>
+                        <div data-option='1'>50</div>
+                        <div data-option='2'>55</div>
+                        <div data-option='3'>59</div>
+                    </li>
+
+                    <p>الطول المثالي في الشهر الثاني</p>
+                    <li data-question='3'>
+                        <div data-option='1'>55</div>
+                        <div data-option='2'>50</div>
+                        <div data-option='3'>58<div>
+                    </li>
+
+                    <p>الطول المثالي في الشهر الثالث</p>
+                    <li data-question='4'>
+                        <div data-option='1'>62</div>
+                        <div data-option='2'>60</div>
+                        <div data-option='3'>66</div>
+                    </li>
+
+                    <p>الطول المثالي في الشهر الخامس</p>
+                    <li data-question='5'>
+                        <div data-option='1'>55</div>
+                        <div data-option='2'>65</div>
+                        <div data-option='3'>60</div>
+                    </li>
+
+
+                </ul>
+
+                <div class="btn_activities grid13">
+                    <div id="check_answers_2">
+                        <span>Check</span>
+                    </div>
+                    <div id="reset_answers_2">
+                        <span>Reset</span>
+                    </div>
+                    <div id="answers_2">
+                        <span>Answers</span>
+                    </div>
+                </div>
+
+            </div>    <div class=" col-8">
+                <ul class="number_list select_activity questions_2">
+                    <p>الطول المثالي عند الولادة</p>
+
+                    <li data-question='1'>
+                        <div data-option='1'>50</div>
+                        <div data-option='2'>55</div>
+                        <div data-option='3'>59</div>
+                    </li>
+
+                    <p>الطول المثالي في الشهر الأول</p>
+                    <li data-question='2'>
+                        <div data-option='1'>50</div>
+                        <div data-option='2'>55</div>
+                        <div data-option='3'>59</div>
+                    </li>
+
+                    <p>الطول المثالي في الشهر الثاني</p>
+                    <li data-question='3'>
+                        <div data-option='1'>55</div>
+                        <div data-option='2'>50</div>
+                        <div data-option='3'>58<div>
+                    </li>
+
+                    <p>الطول المثالي في الشهر الثالث</p>
+                    <li data-question='4'>
+                        <div data-option='1'>62</div>
+                        <div data-option='2'>60</div>
+                        <div data-option='3'>66</div>
+                    </li>
+
+                    <p>الطول المثالي في الشهر الخامس</p>
+                    <li data-question='5'>
+                        <div data-option='1'>55</div>
+                        <div data-option='2'>65</div>
+                        <div data-option='3'>60</div>
+                    </li>
+
+
+                </ul>
+
+                <div class="btn_activities grid13">
+                    <div id="check_answers_2">
+                        <span>Check</span>
+                    </div>
+                    <div id="reset_answers_2">
+                        <span>Reset</span>
+                    </div>
+                    <div id="answers_2">
+                        <span>Answers</span>
+                    </div>
+                </div>
+
+        </div>
+    `
+    const exercies20 = String.raw`
+       <ul class="number_list select_activity questions_2">
+                    <p>  نقطة لها فاصلة a </p>
+
+                    <li data-question='1'>
+                        <div data-option='1'>b</div>
+                        <div data-option='2'>c</div>
+                        <div data-option='3'>d</div>
+                    </li>
+
+                    <p> نقطة لها ترتيب b </p>
+                    <li data-question='2'>
+                        <div data-option='1'>o</div>
+                        <div data-option='2'>c</div>
+                        <div data-option='3'>d</div>
+                    </li>
+
+                    <p> نقطتين فاصلتاهما موجبتين تماماً </p>
+                    <li data-question='3'>
+                        <div data-option='1'>a,c</div>
+                        <div data-option='2'>c,d</div>
+                        <div data-option='3'>a,b<div>
+                    </li>
+
+                    <p> نقطة ترتيبها سالب تماماً </p>
+                    <li data-question='4'>
+                        <div data-option='1'>b</div>
+                        <div data-option='2'>d</div>
+                        <div data-option='3'>c</div>
+                    </li>
+
+                    <p> نقطة ترتيبهاو فاصلتها سالب تماماً </p>
+                    <li data-question='5'>
+                        <div data-option='1'>b</div>
+                        <div data-option='2'>c</div>
+                        <div data-option='3'>d</div>
+                    </li>
+
+
+                </ul>
+    `
+
+    const exercies1 = String.raw`
+        
+            <p>حدد نوع كل من الزوايا الملونة بالأحمر في كل من الاشكال التالية: </p>
+
+            <ul class="number_list select_activity questions_1">
+                <p>الشكل -1-</p>
+                  <li data-question='1'>
+                    <div data-option='1'>قائمة</div>
+                    <div data-option='2'>مستقيمة</div>
+                    <div data-option='3'>حادة</div>
+                  </li>
+                <p> الشكل -2- </p>
+
+                <li data-question='2'>
+                    <div data-option='1'>حادة</div>
+                    <div data-option='2'>قائمة</div>
+                    <div data-option='3'>منفرجة</div>
+                </li>
+                <p>الشكل -3-</p>
+                <li data-question='3'>
+                    <div data-option='1'>منفرجة</div>
+                    <div data-option='2'>قائمة</div>
+                    <div data-option='3'>مستقيمة</div>
+                </li>
+                <p>الشكل -4-</p>
+                <li data-question='4'>
+                    <div data-option='1'>قائمة</div>
+                    <div data-option='2'>مستقيمة</div>
+                    <div data-option='3'>خادة</div>
+                </li>
+            </ul>
+          
+
+            <div class="btn_activities grid13">
+                <div id="check_answers_1">
+                    <span>Check</span>
+                </div>
+                <div id="reset_answers_1">
+                    <span>Reset</span>
+                </div>
+                <div id="answers_1">
+                    <span>Answers</span>
+                </div>
+            </div> 
+
+    `
+
+    const content1 = String.raw`
+         <ul>
+            <li class="animate__animated animate__lightSpeedInRight">زاوية قائمة (ضلعاها متعامدان)</li>
+            <li class="animate__animated animate__lightSpeedInRight">نسمي نقطة التقاء ضلعي الزاوية: رأس الزاوية</li>
+            <li class="animate__animated animate__lightSpeedInRight">نسمي الزاوية وفق رؤوسها</li>
+            <li class="animate__animated animate__lightSpeedInRight">مثال في الزاوية المجاورة</li>
+            <li class="animate__animated animate__lightSpeedInRight">الرأس: م</li>
+            <li class="animate__animated animate__lightSpeedInRight">اسم الزاوية: س م ع</li>
+            <li class="animate__animated animate__lightSpeedInRight">ضلعا الزاوية: م س و م ع</li>
+          </ul>
+    `
+
+    const content13 = String.raw`
+    <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-12">
+                <h5><span style="background-color: rgb(246, 229, 218);"><strong>
+                    نشر (c+d)(a+b)
+                </strong></span></h5> <br>
+                <p> $ (a+b)×(c+d) $ <br> $ = a(c+d) + b(c+d) $ <br> 
+                    $ = a×c + a×d + b×c + b×d $ <br>
+                    $ = ac + ad + bc + bd $
+                </p>
+                <h5><span style="background-color: rgb(246, 229, 218);"><strong>
+                    توضيح هندسي:
+                </strong></span></h5> <br>
+                <p> في الشكل المرافق مساحة المستطيل ABCD تساوي مجموع مساحات المستطيلات الاربعة الملونة  </p>
+
+            </div>
+
+            <div id="jxgbox" class="jxgbox col-lg-8 col-md-8 col-sm-12 text-center" 
+            style="width: 650px; height: 400px; max-width: 95%;margin:10px;" dir="ltr">
+            </div>
+
+        </div>
+        <p class="example-box">مثال:
+            نشر واختصار
+            $ (x+5)(2x+1)=x(2x+1)+5(2x+1)=x × 2x + x × 1 +5×2x +5×1 =
+                2x^2+(1+10)x +5 = 2x^2+11x+5
+            $
+        </p>
+
+        <h5>كيف ننشر عبارة من الصيغة $ a-b(c+d) $</h5>
+        <p class="example-box"> مثال: يرمز $x$ إلى عدد.
+            أنشر ثم أنجز ناتج $ A=2-3(x+5) $
+       
+            <button class="btn btn-warning col-lg-2 col-md-2 col-sm-2" id="btn3" data-sound="/sound/less-13-1.mp3" >
+                أسمع
+            </button>
+        </p>
+        <div id="ex1"></div>
+
+        <h5>كيف ننشر عبارة من الصيغة $ (a-b)(c+d) $</h5>
+        <p class="example-box"> مثال: يرمز $x$ إلى عدد.
+            أنشر ثم أنجز ناتج $ A=(x-2)(2x+5) $
+        
+            <button class="btn btn-warning col-lg-2 col-md-2 col-sm-2" id="btn2" data-sound="/sound/less-13-2.mp3" >
+                أسمع
+            </button>
+
+        </p>
+        <div class="math-equation" id="ex2"></div>
+
+        <h5>كيف ننشر عبارة من الصيغة $ (a-b)(c-d) $</h5>
+        <p class="example-box"> مثال: يرمز $x$ إلى عدد.
+            أنشر ثم أنجز ناتج $ A=(x-1)(x-2) $
+        </p>
+        <div class="math-equation" id="ex3"></div>
+
+    </div>
+
+    `
+    const content14 = String.raw `
+        <h5><span style="background-color: rgb(246, 229, 218);"><strong>
+                    هل طرأ تغيير على مساحة متوازي الأضلاع؟
+                    <strong></span>
+                    <br>
+                </h5>
+
+                    <p>
+                        <button class="btn btn-warning col-lg-2 col-md-2 col-sm-2" id="btn2" data-sound="/sound/less-14-2.mp3" >
+                            أسمع
+                        </button>
+                         الجواب لا.
+                    </p>
+                <h5><span style="background-color: rgb(246, 229, 218);"><strong>
+                    ما العلاقة بين مساحة المستطيل ومساحة متوازي الأضلاع؟
+                    <strong></span>
+                    <br>
+                </h5> 
+
+                <p> 
+                    <button class="btn btn-warning col-lg-2 col-md-2 col-sm-2" id="btn3" data-sound="/sound/less-14-3.mp3" >
+                        أسمع
+                    </button>
+                      إن عرض المستطيل هو ارتفاع لمتوازي الأضلاع، وطول المستطيل هو طول ضلع لمتوازي الأضلاع،
+                </p>
+                <br>
+                <p class="bg-danger-subtle">      
+                    <button class="btn btn-warning col-lg-2 col-md-2 col-sm-2" id="btn4" data-sound="/sound/less-14-4.mp3" >
+                        أسمع
+                    </button>             
+                    مساحة متوازي الأضلاع = طول الضلع × الارتفاع المتعلق بها
+                </p>
+            </div>
+
+            <p class="example-box">أحسب مساحة متوازي أضلاع طول ضلعه 10cm, والارتفاع المتعلق بها 7cm.</p>
+            <p>
+                مساحة متوازي الأضلاع = طول الضلع × الارتفاع المتعلق بها
+                = 7 × 10 = 70
+            </p>
+
+    `
+    const content3 = String.raw`
+      <div class="container">
+
+        <ul class="number_list select_activity questions_3_1">
+          <p>كم الفرق بين عدد واجبات العلوم و عدد واجبات الموسيقا</p>
+
+          <li data-question='1'>
+            <div data-option='1'>1</div>
+            <div data-option='2'>2</div>
+            <div data-option='3'>3</div>
+          </li>
+          <p>كم يزيد عدد واجبات اللغة العربية على واجبات الرياضيات</p>
+
+          <li data-question='2'>
+            <div data-option='1'>4</div>
+            <div data-option='2'>2</div>
+            <div data-option='3'>3</div>
+          </li>
+          <p>ما مجموع عدد الواجبات الاسبوعية للمواد الدراسية السابقة</p>
+
+          <li data-question='3'>
+            <div data-option='1'>14</div>
+            <div data-option='2'>21</div>
+            <div data-option='3'>18</div>
+          </li>
+        </ul>
+
+        <div class="btn_activities grid13">
+          <div id="check_answers_3_1">
+            <span>Check</span>
+          </div>
+          <div id="reset_answers_3_1">
+            <span>Reset</span>
+          </div>
+          <div id="answers_3_1">
+            <span>Answers</span>
+          </div>
+        </div>
+
+      </div>
+
+    `
+    const content19 = String.raw `
+    
+        <div class=" col-8">
+                    <ul class="number_list select_activity questions_3_1">
+                        <p>ما درجة الحرارة في دمشق يوم الأربعاء</p>
+
+                        <li data-question='1'>
+                            <div data-option='1'>16</div>
+                            <div data-option='2'>18</div>
+                            <div data-option='3'>14</div>
+                        </li>
+
+                        <p>ما اليوم التي كانت درجة الحرارة فيه الأكثر انخفاضاً</p>
+                        <li data-question='2'>
+                            <div data-option='1'>الجمعة</div>
+                            <div data-option='2'>الأثنين</div>
+                            <div data-option='3'>الأحد</div>
+                        </li>
+
+                        <p>ما الأيام التي كانت درجة الحرارة فيها الأكثر ارتفاعاً</p>
+                        <li data-question='3'>
+                            <div data-option='1'>الجمعة</div>
+                            <div data-option='2'>السبت</div>
+                            <div data-option='3'>الأربعاء و الخميس</div>
+                        </li>
+
+                    </ul>
+
+                    <div class="btn_activities grid13">
+                        <div id="check_answers_3_1">
+                            <span>Check</span>
+                        </div>
+                        <div id="reset_answers_3_1">
+                            <span>Reset</span>
+                        </div>
+                        <div id="answers_3_1">
+                            <span>Answers</span>
+                        </div>
+                    </div>
+
+        </div>
+    `
+    const content20 = String.raw`
+    <ul>
+            <li>
+                        <button class="btn btn-warning " data-sound="/sound/less-20-1.mp3" id="btn1">
+                            أسمع
+                        </button>
+                        المحور الأفقي والمحور الشاقولي هما مستقيما اعداد متعامدان يتقاطعان في مبدأ الأحداثيات</li>
+                    <li>
+                        نسمي المحور الأفقي محور الفواصل ونرمز Ox</li>
+                    <li>
+                        نسمي المحور الشاقولي محور الفواصل ونرمز Oy
+                        <button class="btn btn-warning " data-sound="/sound/less-20-2.mp3" id="btn4">
+                            أسمع
+                        </button>
+                    
+                    </li>
+                    <li>
+                        محورا الفواصل والتراتيب يشكلان معاً معلم مستوي ويسمى مستوي الإحداثيات
+                    </li>
+                </ul> 
+    `
+
   try {
-    const less = await Lesson.findByPk(8); // جلب الدرس بناءً على المفتاح الأساسي
-    less.exercies = exercies8
-    await less.save();
+
+    const qz = await Quiz.findByPk(3);
+    qz.title = 'السؤال الأول تمارين الوحدة الاولى-ثامن هندسة' ;
+    qz.quizSchema = 
+    {
+        "pages": [
+            {
+                "name": "startPage",
+                "elements": [
+                    {
+                        "html": "<p style='font-size:larger'>اختبار في السؤال الاول من اسئلة الوحدة الاولى للصف الثامن قسم الهندسة</p></br></br><i>هل سيحالفك الحظ ؟</i></br><img src='https://res.cloudinary.com/dg0d0jmtz/image/upload/v1722119336/quiz/Screenshot_2024-07-28_002751_cdys4n.png' width='100%' height='auto'></img>",
+                        "name": "welcomeMsg",
+                        "type": "html"
+                    }
+                ]
+            },
+            {
+                "elements": [
+                    {
+                        "type": "imagepicker",
+                        "name": "question1",
+                        "title": "أي الاشكال التالية تعبر عن شكل وصورته وفق انسحاب؟",
+                        "correctAnswer": "Image 2",
+                        "score": 2,
+                        "choices": [
+                            {
+                                "value": "Image 1",
+                                "imageLink": "https://res.cloudinary.com/dg0d0jmtz/image/upload/v1722118991/quiz/Screenshot_2024-07-28_002046_czxtpu.png"
+                            },
+                            {
+                                "value": "Image 2",
+                                "imageLink": "https://res.cloudinary.com/dg0d0jmtz/image/upload/v1722118989/quiz/Screenshot_2024-07-28_002105_mrhact.png"
+                            },
+                            {
+                                "value": "Image 3",
+                                "imageLink": "https://res.cloudinary.com/dg0d0jmtz/image/upload/v1722118988/quiz/Screenshot_2024-07-28_002124_su9uvz.png"
+                            }
+                        ],
+                        "imageFit": "cover"
+                    }
+                ]
+            },
+            {
+                "elements": [
+                    {
+                        "name": "qtow",
+                        "type": "radiogroup",
+                        "score": 3,
+                        "title": "\\(P\\) نقطة غير واقعة على المستقيم \\(RS\\), و \\(Q\\) هي صورة \\(P\\) وفق الانسحاب الذي ينقل \\(R\\) إلى \\(S\\). إذن:",
+                        "choices": [
+                            {
+                                "text": "\\(RSPQ\\) هو متوازي أضلاع",
+                                "value": "1"
+                            },
+                            {
+                                "text": "\\(PQRS\\) هو متوازي أضلاع",
+                                "value": "2"
+                            },
+                            {
+                                "text": "\\(RSQP\\) هو متوازي أضلاع",
+                                "value": "3"
+                            }
+                        ],
+                        "correctAnswer": "3"
+                    }
+                ]
+            },
+            {
+                "elements": [
+                    {
+                        "name": "qthree",
+                        "type": "radiogroup",
+                        "score": 3,
+                        "title": "MNPQ متوازي أضلاع فوفق الانسحاب الذي ينقل M الى Q",
+                        "choices": [
+                            {
+                                "text": "P هي صورة Q",
+                                "value": "1"
+                            },
+                            {
+                                "text": "صورة P هي N",
+                                "value": "2"
+                            },
+                            {
+                                "text": "P هي صورة N",
+                                "value": "3"
+                            }
+                        ],
+                        "correctAnswer": "3"
+                    }
+                ]
+            },
+            {
+                "elements": [
+                    {
+                        "name": "qfour",
+                        "type": "radiogroup",
+                        "score": 2,
+                        "title": "مساحة شكل F تساوي \\(15 cm^2\\), فمساحة F' صورة هذا الشكل وفق انسحاب:",
+                        "choices": [
+                            {
+                                "text": "غير معلومة",
+                                "value": "1"
+                            },
+                            {
+                                "text": "تساوي \\(30cm^2\\)",
+                                "value": "2"
+                            },
+                            {
+                                "text": "تساوي \\(15cm^2\\)",
+                                "value": "3"
+                            }
+                        ],
+                        "correctAnswer": "3"
+                    }
+                ]
+            },
+            {
+                "elements": [
+                    {
+                        "name": "qfife",
+                        "type": "radiogroup",
+                        "score": 2,
+                        "title": "ABC مثلث قائم فصورته وفق أي انسحاب، هي:",
+                        "choices": [
+                            {
+                                "text": "مثلث كيفي",
+                                "value": "1"
+                            },
+                            {
+                                "text": "مثلث متساوي الاضلاع",
+                                "value": "2"
+                            },
+                            {
+                                "text": "مثلث قائم",
+                                "value": "3"
+                            }
+                        ],
+                        "correctAnswer": "3"
+                    }
+                ]
+            },
+            {
+                "elements": [
+                    {
+                        "name": "qsix",
+                        "type": "radiogroup",
+                        "score": 2,
+                        "title": "المستقيمان (d), (AB) غير متوازيان ،فصورة (d) وفق الانسحاب الذي ينقل A الى B هو مستقيم",
+                        "choices": [
+                            {
+                                "text": "يوازي (d)",
+                                "value": "1"
+                            },
+                            {
+                                "text": "يوازي (AB)",
+                                "value": "2"
+                            },
+                            {
+                                "text": "يمر بالنقطة B",
+                                "value": "3"
+                            }
+                        ],
+                        "correctAnswer": "1"
+                    }
+                ]
+            },
+            {
+                "elements": [
+                    {
+                        "name": "qseven",
+                        "type": "radiogroup",
+                        "score": 2,
+                        "title": "(d), ('d) مستقيمان متقاطعان في A وصورتاهما وفق انسحابٍ r، هما مستقيمان متقاطعان في B إذن r هو :",
+                        "choices": [
+                            {
+                                "text": "الانسحاب الذي ينقل A الى B",
+                                "value": "1"
+                            },
+                            {
+                                "text": "أي انسحاب",
+                                "value": "2"
+                            },
+                            {
+                                "text": "الانسحاب الذي ينقل B الى A",
+                                "value": "3"
+                            }
+                        ],
+                        "correctAnswer": "1"
+                    }
+                ]
+            },
+            {
+                "elements": [
+                    {
+                        "name": "qeight",
+                        "type": "imagepicker",
+                        "score": 2,
+                        "title": "وفق الانسحاب الذي ينقل A الى A' ،  تكون القطعة المستقيمة الحمراء صورة القطعة المستقيمة الزرقاء في الشكل:",
+                        "correctAnswer": "Image 2",
+                        "choices": [
+                            {
+                                "value": "Image 1",
+                                "imageLink": "https://res.cloudinary.com/dg0d0jmtz/image/upload/v1732657788/quiz/%D8%A7%D9%84%D8%A7%D9%86%D8%B3%D8%AD%D8%A7%D8%A8_holdk5.png"
+                            },
+                            {
+                                "value": "Image 2",
+                                "imageLink": "https://res.cloudinary.com/dg0d0jmtz/image/upload/v1732657827/quiz/Capture_lz3gaj.png"
+                            },
+                            {
+                                "value": "Image 3",
+                                "imageLink": "https://res.cloudinary.com/dg0d0jmtz/image/upload/v1732657849/quiz/%D8%B5%D8%AB%D8%AB_lfymjp.png"
+                            }
+                        ],
+                        "imageFit": "cover"
+                    }
+                ]
+            },
+            {
+                "elements": [
+                    {
+                        "name": "Image",
+                        "type": "image",
+                        "imageLink": "https://res.cloudinary.com/dg0d0jmtz/image/upload/v1732658093/quiz/Capture.PNG%D8%B6_ungbyv.png"
+                    },
+                    {
+                        "name": "qnighn",
+                        "type": "radiogroup",
+                        "title": "في الشكل المجاور لديك مثلثان طبوقان، عندئذٍ :",
+                        "score": 5,
+                        "choices": [
+                            {
+                                "text": "$ \\hat{A} = \\hat{E} $",
+                                "value": "1"
+                            },
+                            {
+                                "text": "$ \\hat{A} = \\hat{F} $",
+                                "value": "2"
+                            },
+                            {
+                                "text": "$ \\hat{A} = \\hat{D} $",
+                                "value": "3"
+                            }
+                        ],
+                        "correctAnswer": "3",
+                        "startWithNewLine": false
+                    }
+                ]
+            },
+            {
+                "elements": [
+                    {
+                        "name": "qten",
+                        "type": "radiogroup",
+                        "score": 2,
+                        "title": "الدائرة 'C هي صورة الدائرة C وفق انسحاب، فالدائرتان C , 'C",
+                        "choices": [
+                            {
+                                "text": "نصفا قطريهما متساويان",
+                                "value": "1"
+                            },
+                            {
+                                "text": "متحدتان بالمركز",
+                                "value": "2"
+                            },
+                            {
+                                "text": "غير متقاطعتين",
+                                "value": "3"
+                            }
+                        ],
+                        "correctAnswer": "1"
+                    }
+                ]
+            },
+        ],
+        "logoPosition": "right",
+        "completedHtml": "<h4>You got <b>{totalScore}</b> out of <b>{maxScore}</b> correct answers.</h4>",
+        "showTimerPanel": "top",
+        "showProgressBar": "top",
+        "firstPageIsStarted": true,
+        "maxTimeToFinishPage": 30,
+        "completedHtmlOnCondition": [
+            {
+                "html": "<h5>You got {totalScore} out of {maxScore} points. </h5> </br></br><h6>ممتاز نتيجتك رائعة !!</h6>",
+                "expression": "{totalScore} >= 20"
+            },
+            {
+                "html": "<h5>You got {totalScore} out of {maxScore} points. </h5> </br></br><h6> <i>لا بأس بإمكانك التحسن</i></h6>",
+                "expression": "{totalScore} <= 19 && {totalScore} > 10"
+            },
+            {
+                "html": "<h5>You got {totalScore} out of {maxScore} points. </h5></br></br><h6><i>يجب عليك الدراسة بشكل اكبر</i></h6>",
+                "expression": "{totalScore} <= 10"
+            }
+        ]
+    }
+    
+    await qz.save() 
+
+    /* const less = await Lesson.findByPk(20)
+    less.content = content20
+    await less.save(); */
     console.log("data inserted.."); // طباعة المحتوى
   } catch (error) {
     console.log(error + " error");
   }
-})() 
+})();
+

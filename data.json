@@ -1,0 +1,882 @@
+{
+    "pages": [
+        {
+            "name": "startPage",
+            "elements": [
+                {
+                    "html": "<p style='font-size: larger'>تمارين درس مجموع قياسات زوايا مثلث - الصف السابع</p></br></br><i>هل سيحالفك الحظ ؟</i></br><img src='https://res.cloudinary.com/dg0d0jmtz/image/upload/v1729563825/quiz/%D8%AA%D9%85%D8%A7%D8%B1%D9%8A%D9%86_%D8%AF%D8%B1%D8%B3_%D8%AA%D8%B5%D9%86%D9%8A%D9%81_%D9%85%D8%AB%D9%84%D8%AB_-%D8%B3%D8%A7%D8%A8%D8%B9_hdprwt.png' width='100%' height='auto'></img>",
+                    "name": "welcomeMsg",
+                    "type": "html"
+                }
+            ]
+        },
+        {
+            "elements": [
+                {
+                    "name": "Image",
+                    "type": "image",
+                    "imageLink": "https://res.cloudinary.com/dg0d0jmtz/image/upload/v1729564187/quiz/q1_rn4hhg.png"
+                },
+                {
+                    "name": "qone",
+                    "title": "أحسب قياس الزاوية A",
+                    "type": "radiogroup",
+                    "score": 5,
+                    "choices": [
+                        {
+                            "text": "A=102°",
+                            "value": "1"
+                        },
+                        {
+                            "text": "A=73°",
+                            "value": "2"
+                        },
+                        {
+                            "text": "A=93°",
+                            "value": "3"
+                        }
+                    ],
+                    "correctAnswer": "1",
+                    "startWithNewLine": false
+                }
+            ]
+        },
+        {
+            "elements": [
+                {
+                    "name": "Image",
+                    "type": "image",
+                    "imageLink": "https://res.cloudinary.com/dg0d0jmtz/image/upload/v1729564187/quiz/q2PNG_y2pskk.png"
+                },
+                {
+                    "name": "qtow",
+                    "type": "radiogroup",
+                    "title": "أحسب قياس الزاوية A",
+                    "score": 5,
+                    "choices": [
+                        {
+                            "text": "A=102°",
+                            "value": "1"
+                        },
+                        {
+                            "text": "A=73°",
+                            "value": "2"
+                        },
+                        {
+                            "text": "A=50°",
+                            "value": "3"
+                        }
+                    ],
+                    "correctAnswer": "3",
+                    "startWithNewLine": false
+                }
+            ]
+        },
+        {
+            "elements": [
+                {
+                    "name": "Image",
+                    "type": "image",
+                    "imageLink": "https://res.cloudinary.com/dg0d0jmtz/image/upload/v1729564188/quiz/q3_anbxi9.png"
+                },
+                {
+                    "name": "qthree",
+                    "type": "radiogroup",
+                    "title": "أحسب قياس الزاوية A",
+                    "score": 5,
+                    "choices": [
+                        {
+                            "text": "A=23°",
+                            "value": "1"
+                        },
+                        {
+                            "text": "A=73°",
+                            "value": "2"
+                        },
+                        {
+                            "text": "A=120°",
+                            "value": "3"
+                        }
+                    ],
+                    "correctAnswer": "1",
+                    "startWithNewLine": false
+                }
+            ]
+        },
+        {
+            "elements": [
+                {
+                    "name": "Image",
+                    "type": "image",
+                    "imageLink": "https://res.cloudinary.com/dg0d0jmtz/image/upload/v1729564189/quiz/q4_rdsmfu.png"
+                },
+                {
+                    "name": "qfour",
+                    "type": "radiogroup",
+                    "title": "أحسب قياس الزاوية A",
+                    "score": 5,
+                    "choices": [
+                        {
+                            "text": "A=23°",
+                            "value": "1"
+                        },
+                        {
+                            "text": "A=40°",
+                            "value": "2"
+                        },
+                        {
+                            "text": "A=70°",
+                            "value": "3"
+                        }
+                    ],
+                    "correctAnswer": "2",
+                    "startWithNewLine": false
+                }
+            ]
+        },
+        {
+            "elements": [
+                {
+                    "name": "Image",
+                    "type": "image",
+                    "imageLink": "https://res.cloudinary.com/dg0d0jmtz/image/upload/v1729564189/quiz/q5_ikgh7d.png"
+                },
+                {
+                    "name": "qfife",
+                    "type": "radiogroup",
+                    "title": "أحسب قياس الزاوية A",
+                    "score": 5,
+                    "choices": [
+                        {
+                            "text": "A=49°",
+                            "value": "1"
+                        },
+                        {
+                            "text": "A=40°",
+                            "value": "2"
+                        },
+                        {
+                            "text": "A=170°",
+                            "value": "3"
+                        }
+                    ],
+                    "correctAnswer": "1",
+                    "startWithNewLine": false
+                }
+            ]
+        },
+        {
+            "elements": [
+                {
+                    "name": "qsix",
+                    "type": "radiogroup",
+                    "score": 5,
+                    "title": "مثلث فيه $ \\hat{A}=25° , \\hat{B}=65° $ فإن قياس الزاوية C يكون: ",
+                    "choices": [
+                        {
+                            "text": "40°",
+                            "value": "1"
+                        },
+                        {
+                            "text": "100°",
+                            "value": "2"
+                        },
+                        {
+                            "text": "90°",
+                            "value": "3"
+                        }
+                    ],
+                    "correctAnswer": "2"
+                }
+            ]
+        },
+        {
+            "elements": [
+                {
+                    "name": "qseven",
+                    "type": "radiogroup",
+                    "score": 5,
+                    "title": "مثلث فيه $ \\hat{A}=25° , \\hat{B}=65° $فيكون نوعه بالنسبة  لزواياه",
+                    "choices": [
+                        {
+                            "text": "منفرج الزاوية",
+                            "value": "1"
+                        },
+                        {
+                            "text": "حاد الزوايا",
+                            "value": "2"
+                        },
+                        {
+                            "text": "قائم الزاوية",
+                            "value": "3"
+                        }
+                    ],
+                    "correctAnswer": "3"
+                }
+            ]
+        },
+        {
+            "elements": [
+                {
+                    "name": "Image",
+                    "type": "image",
+                    "imageLink": "https://res.cloudinary.com/dg0d0jmtz/image/upload/v1729564448/quiz/q8_yhrwxt.png"
+                },
+                {
+                    "name": "qeight",
+                    "type": "radiogroup",
+                    "title": "أحسب قياس الزاوية C",
+                    "score": 5,
+                    "choices": [
+                        {
+                            "text": "C=23°",
+                            "value": "1"
+                        },
+                        {
+                            "text": "C=30°",
+                            "value": "2"
+                        },
+                        {
+                            "text": "C=120°",
+                            "value": "3"
+                        }
+                    ],
+                    "correctAnswer": "2",
+                    "startWithNewLine": false
+                }
+            ]
+        },
+        {
+            "elements": [
+                {
+                    "name": "Image",
+                    "type": "image",
+                    "imageLink": "https://res.cloudinary.com/dg0d0jmtz/image/upload/v1729564448/quiz/q8_yhrwxt.png"
+                },
+                {
+                    "name": "q-9",
+                    "type": "radiogroup",
+                    "title": "أحسب قياس الزاوية G",
+                    "score": 5,
+                    "choices": [
+                        {
+                            "text": "G=23°",
+                            "value": "1"
+                        },
+                        {
+                            "text": "G=30°",
+                            "value": "2"
+                        },
+                        {
+                            "text": "G=105°",
+                            "value": "3"
+                        }
+                    ],
+                    "correctAnswer": "3",
+                    "startWithNewLine": false
+                }
+            ]
+        },
+        {
+            "elements": [
+                {
+                    "name": "Image",
+                    "type": "image",
+                    "imageLink": "https://res.cloudinary.com/dg0d0jmtz/image/upload/v1729564663/quiz/q10_mwdhow.jpg"
+                },
+                {
+                    "name": "q-10",
+                    "type": "radiogroup",
+                    "title": "أحسب قياس الزاوية c",
+                    "score": 5,
+                    "choices": [
+                        {
+                            "text": "c=23°",
+                            "value": "1"
+                        },
+                        {
+                            "text": "c=57°",
+                            "value": "2"
+                        },
+                        {
+                            "text": "c=105°",
+                            "value": "3"
+                        }
+                    ],
+                    "correctAnswer": "2",
+                    "startWithNewLine": false
+                }
+            ]
+        },
+        {
+            "elements": [
+                {
+                    "name": "Image",
+                    "type": "image",
+                    "imageLink": "https://res.cloudinary.com/dg0d0jmtz/image/upload/v1729564663/quiz/q10_mwdhow.jpg"
+                },
+                {
+                    "name": "q-12",
+                    "type": "radiogroup",
+                    "title": "أحسب قياس الزاوية h",
+                    "score": 5,
+                    "choices": [
+                        {
+                            "text": "h=55°",
+                            "value": "1"
+                        },
+                        {
+                            "text": "h=57°",
+                            "value": "2"
+                        },
+                        {
+                            "text": "h=105°",
+                            "value": "3"
+                        }
+                    ],
+                    "correctAnswer": "1",
+                    "startWithNewLine": false
+                }
+            ]
+        },
+        {
+            "elements": [
+                {
+                    "name": "Image",
+                    "type": "image",
+                    "imageLink": "https://res.cloudinary.com/dg0d0jmtz/image/upload/v1729564663/quiz/q10_mwdhow.jpg"
+                },
+                {
+                    "name": "q-11",
+                    "type": "radiogroup",
+                    "title": "أحسب قياس الزاوية k",
+                    "score": 5,
+                    "choices": [
+                        {
+                            "text": "k=23°",
+                            "value": "1"
+                        },
+                        {
+                            "text": "k=68°",
+                            "value": "2"
+                        },
+                        {
+                            "text": "k=105°",
+                            "value": "3"
+                        }
+                    ],
+                    "correctAnswer": "2",
+                    "startWithNewLine": false
+                }
+            ]
+        },
+        {
+            "elements": [
+                {
+                    "name": "Image",
+                    "type": "image",
+                    "imageLink": "https://res.cloudinary.com/dg0d0jmtz/image/upload/v1729564663/quiz/q10_mwdhow.jpg"
+                },
+                {
+                    "name": "qtherteen",
+                    "type": "radiogroup",
+                    "title": "أحسب قياس الزاوية f",
+                    "score": 5,
+                    "choices": [
+                        {
+                            "text": "f=45°",
+                            "value": "1"
+                        },
+                        {
+                            "text": "f=57°",
+                            "value": "2"
+                        },
+                        {
+                            "text": "f=68°",
+                            "value": "3"
+                        }
+                    ],
+                    "correctAnswer": "3",
+                    "startWithNewLine": false
+                }
+            ]
+        },
+        {
+            "elements": [
+                {
+                    "name": "qfourteen",
+                    "type": "radiogroup",
+                    "score": 5,
+                    "title": " :  ABC مثلث  فيه $ \\hat{A}=72° , \\hat{B}=33° , \\hat{C}=? $",
+                    "choices": [
+                        {
+                            "text": "72°",
+                            "value": "1"
+                        },
+                        {
+                            "text": "70°",
+                            "value": "2"
+                        },
+                        {
+                            "text": "75°",
+                            "value": "3"
+                        }
+                    ],
+                    "correctAnswer": "3"
+                }
+            ]
+        },
+        {
+            "elements": [
+                {
+                    "name": "qfifteen",
+                    "type": "radiogroup",
+                    "score": 5,
+                    "title": " : EFG مثلث فيه $ \\hat{E}=47° , \\hat{F}=90° , \\hat{G}=? $",
+                    "choices": [
+                        {
+                            "text": "72°",
+                            "value": "1"
+                        },
+                        {
+                            "text": "43°",
+                            "value": "2"
+                        },
+                        {
+                            "text": "75°",
+                            "value": "3"
+                        }
+                    ],
+                    "correctAnswer": "2"
+                }
+            ]
+        },
+        {
+            "elements": [
+                {
+                    "name": "qsixteen",
+                    "type": "radiogroup",
+                    "score": 5,
+                    "title": " مثلث HIJ متساوي الساقين رأسه  J  فيه: $ \\hat{H}=50° , \\hat{I}=?° , \\hat{J}=? $",
+                    "choices": [
+                        {
+                            "text": "\\( \\hat{I}=50° , \\hat{J}=80° \\)",
+                            "value": "1"
+                        },
+                        {
+                            "text": "\\( \\hat{I}=50° , \\hat{J}=50° \\)",
+                            "value": "2"
+                        },
+                        {
+                            "text": "\\( \\hat{I}=100° , \\hat{J}=100° \\)",
+                            "value": "3"
+                        }
+                    ],
+                    "correctAnswer": "1"
+                }
+            ]
+        },
+        {
+            "elements": [
+                {
+                    "name": "qseventeen",
+                    "type": "radiogroup",
+                    "score": 5,
+                    "title": " مثلث KLM متساوي الساقين رأسه  K = 56°  فيه: $ \\hat{L}=? , \\hat{M}=? $",
+                    "choices": [
+                        {
+                            "text": "\\( \\hat{L}=50° , \\hat{M}=50° \\)",
+                            "value": "1"
+                        },
+                        {
+                            "text": "\\( \\hat{L}=62° , \\hat{M}=62° \\)",
+                            "value": "2"
+                        },
+                        {
+                            "text": "\\( \\hat{L}=100° , \\hat{M}=100° \\)",
+                            "value": "3"
+                        }
+                    ],
+                    "correctAnswer": "2"
+                }
+            ]
+        },
+        {
+            "elements": [
+                {
+                    "name": "qeighteen",
+                    "type": "radiogroup",
+                    "score": 5,
+                    "title": " مثلث NOP فيه: $ \\hat{O}=33° , \\hat{N}= 40° $",
+                    "choices": [
+                        {
+                            "text": "\\( \\hat{P}=50°\\)",
+                            "value": "1"
+                        },
+                        {
+                            "text": "\\( \\hat{P}=150°\\)",
+                            "value": "2"
+                        },
+                        {
+                            "text": "\\( \\hat{P}=107°\\)",
+                            "value": "3"
+                        }
+                    ],
+                    "correctAnswer": "3"
+                }
+            ]
+        }
+    ],
+    "logoPosition": "right",
+    "completedHtml": "<h4>You got <b>{totalScore}</b> out of <b>{maxScore}</b> correct answers.</h4>",
+    "showTimerPanel": "top",
+    "showProgressBar": "top",
+    "firstPageIsStarted": true,
+    "maxTimeToFinishPage": 30,
+    "completedHtmlOnCondition": [
+        {
+            "html": "You got {totalScore} out of {maxScore} points.</br></br><h5>ممتاز نتيجتك رائعة !!</h5>",
+            "expression": "{totalScore} >= 80"
+        },
+        {
+            "html": "You got {totalScore} out of {maxScore} points.</br></br><i>لا بأس بإمكانك التحسن</i>",
+            "expression": " {totalScore} >=60 && {totalScore} <= 79"
+        },
+        {
+            "html": "You got {totalScore} out of {maxScore} points.</br></br><i>يجب عليك الدراسة بشكل اكبر</i>",
+            "expression": "{totalScore} <= 59"
+        }
+    ]
+}
+/* ///////////////////////////////////////////////////////////////*/
+
+[
+    {
+        "time": 53,
+        "asked": false,
+        "correct": 2,
+        "options": [
+            "صح",
+            "خطأ",
+        ],
+        "question": "من الممكن أن يكون مقام العدد العادي مساوي للصفر"
+    },
+    {
+        "time": 140,
+        "asked": false,
+        "correct": 3,
+        "options": [
+            "عشري عادي",
+            "غير عادي",
+            "دوري عادي",
+        ],
+        "question": "في المثال السابق العدد $ \\frac{5}{3} $"
+    },
+    {
+        "time": 252,
+        "asked": false,
+        "correct": 2,
+        "options": [
+            "غير عادي",
+            "دوري عادي",
+            "غير عشري و دوري"
+        ],
+        "question": "العدد <math><mi>&#x3C0;</mi></math> هو عدد"
+    }
+];
+
+
+////
+
+{
+    "pages": [
+        {
+            "name": "startPage",
+            "elements": [
+                {
+                    "html": "<p style='font-size:larger'>اختبار في السؤال الاول من اسئلة الوحدة الاولى للصف الثامن قسم الهندسة</p></br></br><i>هل سيحالفك الحظ ؟</i></br><img src='https://res.cloudinary.com/dg0d0jmtz/image/upload/v1722119336/quiz/Screenshot_2024-07-28_002751_cdys4n.png' width='100%' height='auto'></img>",
+                    "name": "welcomeMsg",
+                    "type": "html"
+                }
+            ]
+        },
+        {
+            "elements": [
+                {
+                    "type": "imagepicker",
+                    "name": "question1",
+                    "title": "أي الاشكال التالية تعبر عن شكل وصورته وفق انسحاب؟",
+                    "correctAnswer": "Image 2",
+                    "score": 2,
+                    "choices": [
+                        {
+                            "value": "Image 1",
+                            "imageLink": "https://res.cloudinary.com/dg0d0jmtz/image/upload/v1722118991/quiz/Screenshot_2024-07-28_002046_czxtpu.png"
+                        },
+                        {
+                            "value": "Image 2",
+                            "imageLink": "https://res.cloudinary.com/dg0d0jmtz/image/upload/v1722118989/quiz/Screenshot_2024-07-28_002105_mrhact.png"
+                        },
+                        {
+                            "value": "Image 3",
+                            "imageLink": "https://res.cloudinary.com/dg0d0jmtz/image/upload/v1722118988/quiz/Screenshot_2024-07-28_002124_su9uvz.png"
+                        }
+                    ],
+                    "imageFit": "cover"
+                }
+            ]
+        },
+        {
+            "elements": [
+                {
+                    "name": "qtow",
+                    "type": "radiogroup",
+                    "score": 3,
+                    "title": "\\(P\\) نقطة غير واقعة على المستقيم \\(RS\\), و \\(Q\\) هي صورة \\(P\\) وفق الانسحاب الذي ينقل \\(R\\) إلى \\(S\\). إذن:",
+                    "choices": [
+                        {
+                            "text": "\\(RSPQ\\) هو متوازي أضلاع",
+                            "value": "1"
+                        },
+                        {
+                            "text": "\\(PQRS\\) هو متوازي أضلاع",
+                            "value": "2"
+                        },
+                        {
+                            "text": "\\(RSQP\\) هو متوازي أضلاع",
+                            "value": "3"
+                        }
+                    ],
+                    "correctAnswer": "3"
+                }
+            ]
+        },
+        {
+            "elements": [
+                {
+                    "name": "qthree",
+                    "type": "radiogroup",
+                    "score": 3,
+                    "title": "MNPQ متوازي أضلاع فوفق الانسحاب الذي ينقل M الى Q",
+                    "choices": [
+                        {
+                            "text": "P هي صورة Q",
+                            "value": "1"
+                        },
+                        {
+                            "text": "صورة P هي N",
+                            "value": "2"
+                        },
+                        {
+                            "text": "P هي صورة N",
+                            "value": "3"
+                        }
+                    ],
+                    "correctAnswer": "3"
+                }
+            ]
+        },
+        {
+            "elements": [
+                {
+                    "name": "qfour",
+                    "type": "radiogroup",
+                    "score": 2,
+                    "title": "مساحة شكل F تساوي \\(15 cm^2\\), فمساحة F' صورة هذا الشكل وفق انسحاب:",
+                    "choices": [
+                        {
+                            "text": "غير معلومة",
+                            "value": "1"
+                        },
+                        {
+                            "text": "تساوي \\(30cm^2\\)",
+                            "value": "2"
+                        },
+                        {
+                            "text": "تساوي \\(15cm^2\\)",
+                            "value": "3"
+                        }
+                    ],
+                    "correctAnswer": "3"
+                }
+            ]
+        },
+        {
+            "elements": [
+                {
+                    "name": "qfife",
+                    "type": "radiogroup",
+                    "score": 2,
+                    "title": "ABC مثلث قائم فصورته وفق أي انسحاب، هي:",
+                    "choices": [
+                        {
+                            "text": "مثلث كيفي",
+                            "value": "1"
+                        },
+                        {
+                            "text": "مثلث متساوي الاضلاع",
+                            "value": "2"
+                        },
+                        {
+                            "text": "مثلث قائم",
+                            "value": "3"
+                        }
+                    ],
+                    "correctAnswer": "3"
+                }
+            ]
+        },
+        {
+            "elements": [
+                {
+                    "name": "qsix",
+                    "type": "radiogroup",
+                    "score": 2,
+                    "title": "المستقيمان (d), (AB) غير متوازيان ،فصورة (d) وفق الانسحاب الذي ينقل A الى B هو مستقيم",
+                    "choices": [
+                        {
+                            "text": "يوازي (d)",
+                            "value": "1"
+                        },
+                        {
+                            "text": "يوازي (AB)",
+                            "value": "2"
+                        },
+                        {
+                            "text": "يمر بالنقطة B",
+                            "value": "3"
+                        }
+                    ],
+                    "correctAnswer": "1"
+                }
+            ]
+        },
+        {
+            "elements": [
+                {
+                    "name": "qseven",
+                    "type": "radiogroup",
+                    "score": 2,
+                    "title": "(d), ('d) مستقيمان متقاطعان في A وصورتاهما وفق انسحابٍ r، هما مستقيمان متقاطعان في B إذن r هو :",
+                    "choices": [
+                        {
+                            "text": "الانسحاب الذي ينقل A الى B",
+                            "value": "1"
+                        },
+                        {
+                            "text": "أي انسحاب",
+                            "value": "2"
+                        },
+                        {
+                            "text": "الانسحاب الذي ينقل B الى A",
+                            "value": "3"
+                        }
+                    ],
+                    "correctAnswer": "1"
+                }
+            ]
+        },
+        {
+            "elements": [
+                {
+                    "name": "qeight",
+                    "type": "imagepicker",
+                    "score": 2,
+                    "title": "وفق الانسحاب الذي ينقل A الى A' ،  تكون القطعة المستقيمة الحمراء صورة القطعة المستقيمة الزرقاء في الشكل:",
+                    "correctAnswer": "Image 2",
+                    "choices": [
+                        {
+                            "value": "Image 1",
+                            "imageLink": "https://res.cloudinary.com/dg0d0jmtz/image/upload/v1732657788/quiz/%D8%A7%D9%84%D8%A7%D9%86%D8%B3%D8%AD%D8%A7%D8%A8_holdk5.png"
+                        },
+                        {
+                            "value": "Image 2",
+                            "imageLink": "https://res.cloudinary.com/dg0d0jmtz/image/upload/v1732657827/quiz/Capture_lz3gaj.png"
+                        },
+                        {
+                            "value": "Image 3",
+                            "imageLink": "https://res.cloudinary.com/dg0d0jmtz/image/upload/v1732657849/quiz/%D8%B5%D8%AB%D8%AB_lfymjp.png"
+                        }
+                    ],
+                    "imageFit": "cover"
+                }
+            ]
+        },
+        {
+            "elements": [
+                {
+                    "name": "Image",
+                    "type": "image",
+                    "imageLink": "https://res.cloudinary.com/dg0d0jmtz/image/upload/v1732658093/quiz/Capture.PNG%D8%B6_ungbyv.png"
+                },
+                {
+                    "name": "qnighn",
+                    "type": "radiogroup",
+                    "title": "في الشكل المجاور لديك مثلثان طبوقان، عندئذٍ :",
+                    "score": 5,
+                    "choices": [
+                        {
+                            "text": "$ \\hat{A} = \\hat{E} $",
+                            "value": "1"
+                        },
+                        {
+                            "text": "$ \\hat{A} = \\hat{F} $",
+                            "value": "2"
+                        },
+                        {
+                            "text": "$ \\hat{A} = \\hat{D} $",
+                            "value": "3"
+                        }
+                    ],
+                    "correctAnswer": "3",
+                    "startWithNewLine": false
+                }
+            ]
+        },
+        {
+            "elements": [
+                {
+                    "name": "qten",
+                    "type": "radiogroup",
+                    "score": 2,
+                    "title": "الدائرة 'C هي صورة الدائرة C وفق انسحاب، فالدائرتان C , 'C",
+                    "choices": [
+                        {
+                            "text": "نصفا قطريهما متساويان",
+                            "value": "1"
+                        },
+                        {
+                            "text": "متحدتان بالمركز",
+                            "value": "2"
+                        },
+                        {
+                            "text": "غير متقاطعتين",
+                            "value": "3"
+                        }
+                    ],
+                    "correctAnswer": "1"
+                }
+            ]
+        },
+    ],
+    "logoPosition": "right",
+    "completedHtml": "<h4>You got <b>{totalScore}</b> out of <b>{maxScore}</b> correct answers.</h4>",
+    "showTimerPanel": "top",
+    "showProgressBar": "top",
+    "firstPageIsStarted": true,
+    "maxTimeToFinishPage": 30,
+    "completedHtmlOnCondition": [
+        {
+            "html": "<h5>You got {totalScore} out of {maxScore} points. </h5> </br></br><h6>ممتاز نتيجتك رائعة !!</h6>",
+            "expression": "{totalScore} >= 20"
+        },
+        {
+            "html": "<h5>You got {totalScore} out of {maxScore} points. </h5> </br></br><h6> <i>لا بأس بإمكانك التحسن</i></h6>",
+            "expression": "{totalScore} <= 19 && {totalScore} > 10"
+        },
+        {
+            "html": "<h5>You got {totalScore} out of {maxScore} points. </h5></br></br><h6><i>يجب عليك الدراسة بشكل اكبر</i></h6>",
+            "expression": "{totalScore} <= 10"
+        }
+    ]
+}

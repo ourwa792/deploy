@@ -68,6 +68,22 @@ button:hover {
     /* تغيير لون الأزرار عند التمرير */
 }
 
+
+/* الأزرار المخصصة .btnjxg */
+.btnjxg {
+    width: 100px; /* زيادة العرض */
+    height: auto; /* زيادة الطول */
+    background-color: #ffce54; /* نفس اللون بدون تأثير hover */
+    border-radius: 5px; /* تعديل حسب الحاجة */
+}
+
+/* منع تأثير hover على الأزرار المخصصة */
+.btnjxg:hover {
+    background-color: #ffce54; /* إعادة ضبط اللون عند التمرير */
+    cursor: default; /* إذا كنت تريد تغيير سلوك المؤشر */
+}
+
+
 /* من الضروري استخدامه عند كل تنسيق رياضي لتصبح الشاشات الصغيرة مناسبة ومتجاوبة */
 .example-box {
     background-color: #fff3cd;
@@ -85,6 +101,18 @@ button:hover {
     display: block;  /* عرض المعادلة كـ block */
     white-space: nowrap;  /* منع التفاف النص */
     max-width: 100%;  /* ضمان أن المعادلة لا تتجاوز عرض الحاوية */
+}
+.math-equation-rtl {
+    direction: rtl;
+    /* لجعل المعادلات تظهر من اليسار إلى اليمين */
+    display: inline-block;
+    /* للتأكد من عرض المعادلة بشكل مضمن */
+}
+.math-equation-ltr {
+    direction: ltr;
+    /* لجعل المعادلات تظهر من اليسار إلى اليمين */
+    display: inline-block;
+    /* للتأكد من عرض المعادلة بشكل مضمن */
 }
 
 .example-box:hover {

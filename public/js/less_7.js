@@ -94,7 +94,8 @@ window.addEventListener("DOMContentLoaded", e => {
     
     console.log(ce.box(["Factor", ["NumeratorDenominator", input]]
     ).evaluate().value ); 
-    */
+*/
+
     const problems = [{
        latex: '\\( -(-2) \\times 3 \\times (-7y) \\quad \\textcolor{red}{.2}\\)',
        solution: ce.box(["Negate", ["Multiply",2,3,7,"y"]],{canonical:false}) ,

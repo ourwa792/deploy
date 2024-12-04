@@ -2,6 +2,7 @@ const axios = require('axios');
 const {translate} = require("google-translate-api-x");
 
 const express = require('express');
+const { gameNames } = require('../controller/gameName');
 const route = express.Router();
 
 
@@ -74,7 +75,11 @@ route.post('/ask', async (req, res) => {
 
 // عرض صفحة الأسئلة
 route.get('/', (req, res) => {
-  res.render('ask', { answers: [], error: null, pageTitle: "اسأل سؤال" });
+  res.render('ask', { 
+    answers: [], 
+    error: null,
+    gameNames,
+    pageTitle: "اسأل سؤال" });
 });
 
 

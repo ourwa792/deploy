@@ -14,6 +14,12 @@
                 font-size: 5.5rem;
             }
         }
+        .alert {
+         max-width: 100%; /* تمنع تمدد التنبيه خارج حدود الحاوية */
+         word-wrap: break-word; /* تحافظ على التفاف النص الطويل داخل حدود التنبيه */
+         padding: 2%;   
+        }
+
     </style>
 
 
@@ -22,7 +28,7 @@
     </head>
 
 
-    <body class="container border border-info text-center">
+    <body class="container border border-info text-center align-content-center align-items-center">
         <header>
             <div class="px-3 py-2 border rounded-3 my-3 border border-secondary">
                 <div class="container d-flex flex-wrap align-items-center justify-content-center">
@@ -46,7 +52,9 @@
 
         </header>
 
-        <main class="form-signin">
+    
+
+        <main class=" form-signin " >
 <!--من الفلاش -->
             <% if(error.length > 0){ %>
                 <div class="alert alert-danger" role="alert">
@@ -60,30 +68,30 @@
                     <strong><%= errorMessage %></strong>
                 </div>
             <% } %>
+            
+            <form action="/register" method="post" class="container" novalidate>
+                
+                <h1 class="h3 mb-2 fw-normal"> التسجيل </h1>
 
-            <form action="/register" method="post" novalidate>
-
-                <h1 class="h3 mb-3 fw-normal"> التسجيل </h1>
-
-                <div class="form-floating mb-3">
+                <div class="form-floating mb-2">
                     <input name="userName" type="text" id="username"
                     class="form-control <%= validationErrors.find(e => e.path === 'userName') ? 'is-invalid' : ''%>" 
                         value="<%= oldInput.userName  %>">
                     <label for="username">اسم المستخدم</label>
                 </div>
-                <div class="form-floating mb-3">
+                <div class="form-floating mb-2">
                     <input name="email" type="email"  id="email"
                     class="form-control <%= validationErrors.find(e => e.path === 'email') ? 'is-invalid' : ''%>"
                         value="<%= oldInput.email %>" >
                     <label for="email">البريد الالكتروني</label>
                 </div>
-                <div class="form-floating mb-3">
+                <div class="form-floating mb-2">
                     <input name="password" type="password" id="password"
                     class="form-control <%= validationErrors.find(e => e.path === 'password') ? 'is-invalid' : '' %>" 
                         value="<%= oldInput.password %>">
                     <label for="password">كلمة المرور</label>
                 </div>
-                <div class="form-floating mb-3">
+                <div class="form-floating mb-2">
                     <input name="confirmPassword" type="password" id="confirmPassword"
                     class="form-control <%= validationErrors.find(e => e.path === 'confirmPassword') ? 'is-invalid' : '' %>" 
                         value="<%= oldInput.confirmPassword %>">
@@ -95,8 +103,12 @@
                     <label class="form-check-label" for="isAdmin">سجل كأدمن</label>
                 </div>
                 
-                <button class="w-100 btn btn-lg btn-success" type="submit">سجل</button>
+                <button class="w-100 btn btn-lg btn-success " type="submit">سجل</button>
+                
             </form>
+            
+           
         </main>
+      
 
     <%- include('../partial/end.ejs') %>

@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> <%- lesson.title %> </title>
+
+    <!--     <script src="/library/createjs.js"></script>
+    <script src="/library/zim_min.js"></script> -->
+
+</head>
+
+<body style="margin: 0; padding: 0">
+
+
+
+    <script type="module">
+
+
+        import zim from "https://zimjs.org/cdn/016/zim_game.js";
+
+        const scaling = FIT;
+        const width = 1240;
+        const height = 868;
+
+        const assets = ["less-18.png", "50.png", "wallet.png", "100.png", '10.png',
+            "10_pounds.png", "25_pounds.png", "50_pounds.png", "25.png",
+            "abkor2.png", "abkor.png", "less-18-tamreen1.png", "less-18-tamreen2.png",
+            "less-18-tamreen3.png", "less-18-3.mp3"
+        ];
+        const path = "/assets/";
+
+        var frame = new Frame({
+            scaling,
+            width, height,
+            color: light,
+            outerColor: dark,
+            allowDefault: true,
+            assets,
+            path,
+            progress: new Waiter({ backgroundColor: blue, corner: 10 }),
+        });
+
+        frame.on("ready", function ready() {
+            var stage = frame.stage;
+            let stageW = frame.width;
+            let stageH = frame.height;
+
+            let dev_url = 'http://localhost:3000';
+            let prod_url = 'https://deploy-kewv.onrender.com'
+
+            //new Poly(200, 5, .6, pink)//.center();
+
+            const sound25 = new Aud({
+                file: "/sound/less-18-1.mp3", volume: .8, loop: false,
+                maxNum: 1, interrupt: "any"
+            });
+            const coinSound = new Aud({
+                file: "/sound/coin-touch.wav", volume: 1.2, loop: false,
+                maxNum: 1, interrupt: "any"
+            });
+            const coinWin = new Aud({
+                file: "/sound/coin-win.wav", volume: 1, loop: false,
+                maxNum: 1, interrupt: "any"
+            });
+            const sound2 = new Aud({
+                file: "/sound/less-18-2.mp3", volume: .8, loop: false,
+                maxNum: 1, interrupt: "any"
+            });
+            const sound1 = new Aud({
+                file: "/sound/less-18-3.mp3", volume: .8, loop: false,
+                maxNum: 1, interrupt: "any"
+            });
+
+
+
+            const wrongSound = new Aud({
+                file: "/sound/wronganswer.mp3", volume: .8, loop: false,
+                maxNum: 1, interrupt: "any"
+            });
+            const rightSound = new Aud({
+                file: "/sound/rightanswer.mp3", volume: .8, loop: false,
+                maxNum: 1, interrupt: "any"
+            });
+
+            STYLE = { width: W / 2, color: series("aqua", 'lightgreen', "lightpink") };
+
+            const page0 = new Page();
+            const page1 = new Page();
+            const page2 = new Page();
+            const page3 = new Page();
+            const page4 = new Page();
+            const page5 = new Page();
+            const page6 = new Page();
+            const page7 = new Page();
+            const pages = [page0, page1, page2, page3, page4, page5, page6, page7];
+
+
+            const emitter = new Emitter({
+                obj: new Poly([30, 50, 80], 5, .5, [yellow, silver, grey, red]),
+                gravity: 0,
+                force: { min: 3, max: 6 },
+                startPaused: true
+            })
+
+
+            //page -0-
+            const pic = new Pic("less-18.png").pos(0, 40).addTo(page0).sca(.88)
+            const lab = new Label({
+                text: "أتعلم:",
+                align: RIGHT,
+                size: 100,
+                backgroundBorderColor: red,
+                color: red,
+                rollColor: red,
+                bold: true,
+                italic: true
+            }).loc(90, 200, pic)
+                .animate({ props: { scaleX: 0.4 }, time: 4, rewind: true, loop: true, });
+
+            new Emoji("\u270f\ufe0f", 100).loc(0, 200, pic);
+
+            const lab2 = new Label({
+                text: "مكونات ١٠ ليرة و ٢٥ ليرة",
+                align: RIGHT,
+                size: 50,
+                backgroundBorderColor: red,
+                color: white,
+                rollColor: red,
+                bold: true,
+                italic: true
+            })
+            lab2.pos(80, 360, RIGHT, BOTTOM, page0)
+                .animate({ props: { scaleX: 0.4 }, time: 4, rewind: true, loop: true, });
+
+
+
+            //page -1-
+
+            const words = ["هيا يا أطفال ", "سنتعلم اليوم عن شيء أحبه", "مكونات النقود ٥٠", "مكونات النقود ١٠٠",]
+
+            let dialog = new Dialog({
+                width: 500,
+                height: 100,
+                words: "هيا يا أطفال سنكمل الجزء الثاني من الدرس",
+                fill: false,
+                dialogType: "slant",
+                tailType: "triangle",
+                size: 40,
+                paddingH: 0,
+                font: "Comic Sans MS",
+                color: dark,
+                backgroundColor: white,
+                borderColor: grey,
+                borderWidth: 2,
+                corner: 60,
+                tailH: RIGHT,
+                tailV: BOTTOM
+            }).loc(20, 120, page1)
+
+            const animation = new Sprite({
+                image: "abkor.png",
+                style: false,
+                cols: 3,
+                rows: 1,
+                //spacingX: 30,
+            }).sca(1.3)
+                .run({ time: 1.3, rewind: false, loop: true })
+                .loc(200, 500, page1)
+
+            new Sprite({
+                image: "abkor2.png",
+                style: false,
+                rows: 1,
+                cols: 3
+            }).sca(1.3)
+                .run({ time: 1.3, rewind: true, loop: true })
+                .loc(380, 250, page1)
+
+
+
+            //page -2-
+            asset("25.png").rot(90).sca(.95).drag().cur().loc(400, 10, page2)
+            
+            new Label({
+                text: "مكونات ٢٥ ",
+                align: RIGHT,
+                size: 50,
+                backgroundBorderColor: red,
+                color: white,
+                rollColor: red,
+                bold: true,
+                italic: true
+            })
+            .pos(80, 60, RIGHT, BOTTOM, page2)
+            .animate({ props: { scaleX: 0.4 }, time: 4, rewind: true, loop: true, });
+
+
+            new Button({
+                label: "اسمع الصوت",
+                width: 160,
+                height: 60,
+                backgroundColor: "green",
+                rollBackgroundColor: "MediumOrchid",
+                borderWidth: 8,
+                borderColor: "violet",
+                gradient: .3,
+                corner: 10
+            }).loc(40, 700, page2)
+                .tap(() => sound25.play());
+
+            new Button({
+                label: "اسمع الصوت",
+                width: 160,
+                height: 60,
+                backgroundColor: "green",
+                rollBackgroundColor: "MediumOrchid",
+                borderWidth: 8,
+                borderColor: "violet",
+                gradient: .3,
+                corner: 10
+            }).loc(400, 700, page2)
+                .tap(() => sound2.play())
+
+
+
+
+            //page -3-
+
+            const wallet = new Pic("wallet.png").pos(40, 450).addTo(page3).sca(.6).drag();
+            const coins = [
+                { value: 5, image: "5_pounds.png", sca: 0.3, x: 100, y: 20 },
+                { value: 5, image: "5_pounds.png", sca: 0.3, x: 200, y: 20 },
+                { value: 5, image: "5_pounds.png", sca: 0.3, x: 300, y: 20 },
+                { value: 5, image: "5_pounds.png", sca: 0.3, x: 400, y: 20 },
+                { value: 5, image: "5_pounds.png", sca: 0.3, x: 500, y: 20 },
+                { value: 10, image: "10_pounds.png", sca: 0.26, x: 100, y: 120 },
+                { value: 10, image: "10_pounds.png", sca: 0.26, x: 200, y: 120 },
+                { value: 25, image: "25_pounds.png", sca: 0.43, x: 300, y: 120 },
+            ];
+
+            const salt3 = new Sprite({
+                image: "abkor.png",
+                style: false,
+                cols: 3,
+                rows: 1,
+            }).sca(1.6)
+                .run({ time: 1.2, rewind: true, loop: true })
+                .loc(400, 380, page3) 
+
+            const phase = new Dialog({
+                width: 400,
+                height: 90,
+                words: "هل يمكنك تشكيل ٢٥ ليرة",
+                fill: false,
+                dialogType: "slant",
+                tailType: "triangle",
+                size: 35,
+                paddingH: -100,
+                font: "Comic Sans MS",
+                color: dark,
+                backgroundColor: white,
+                borderColor: grey,
+                borderWidth: 2,
+                corner: 60,
+                tailH: RIGHT,
+                tailV: BOTTOM
+            }).loc(130, 250, page3);
+
+            // مجموع النقود
+            let totalAmount = 0;
+            const totalLabel = new Label({
+                text: `المجموع: ${totalAmount}`,
+                size: 40,
+                backgroundBorderColor: red,
+                color: white,
+                rollColor: red,
+                bold: true,
+                italic: true
+            })
+                .pos(100, 620).addTo(page3).animate({ props: { rotation: 45 }, time: 3, loop: true })
+
+            coins.forEach((coin, index) => {
+
+                const coinPic = new Pic(coin.image).sca(coin.sca)
+                    .pos(coin.x, coin.y).addTo(page3).drag()
+                // تخزين الموقع الأصلي للقطعة
+                const originalX = coin.x;
+                const originalY = coin.y;
+
+                coinPic.on("pressmove", (e) => {
+                    e.currentTarget.cursor = "grabbing";
+                    if (coinPic.hitTestBounds(wallet)) {
+                        coinSound.play();
+                        totalAmount += coin.value; // تحديث المجموع
+                        totalLabel.text = `المجموع: ${totalAmount}`;
+                        coinPic.animate({ alpha: 0, call: () => coinPic.removeFrom() });
+                        if (totalAmount == 25) {
+                            coinWin.play();
+                            phase.setWords("أحسنت لقد كونت ٢٥ ليرة");
+                            phase.backgroundColor = green
+                            emitter.spurt(40).center(page3)
+                            return
+                        }
+                    }
+                });
+                coinPic.on("pressup", () => {
+                    // إعادة العملة إلى موقعها الأصلي في حال عدم التداخل مع المحفظة
+                    if (!coinPic.hitTestBounds(wallet)) {
+                        coinPic.animate({ x: originalX, y: originalY, time: 0.5 });
+                    }
+                });
+
+            });
+
+
+
+            // page -4-
+            asset("10.png").rot(90).sca(1.6).drag().cur().loc(470, 80, page4)
+
+            new Button({
+                label: "تحدث",
+                width: 220,
+                height: 60,
+                backgroundColor: green,
+                rollBackgroundColor: "MediumOrchid",
+                borderWidth: 8,
+                borderColor: "violet",
+                gradient: .3,
+                corner: 10
+            }).loc(250, 745, page4)
+                .tap(() => sound1.play())
+
+
+            //page -5-
+
+            const wallet1 = new Pic("wallet.png").pos(40, 450).addTo(page5).sca(.33).drag();
+            const coins1 = [
+                { value: 5, image: "5_pounds.png", sca: 0.3, x: 100, y: 20 },
+                { value: 5, image: "5_pounds.png", sca: 0.3, x: 200, y: 20 },
+            ];
+
+            salt3.clone()
+                .run({ time: 1.7, rewind: true, loop: true })
+                .loc(400, 480, page5)
+
+            const phase1 = new Dialog({
+                width: 400,
+                height: 90,
+                words: "هل يمكنك تشكيل ١٠ ليرات",
+                fill: false,
+                dialogType: "slant",
+                tailType: "triangle",
+                size: 35,
+                paddingH: -100,
+                font: "Comic Sans MS",
+                color: dark,
+                backgroundColor: white,
+                borderColor: grey,
+                borderWidth: 2,
+                corner: 60,
+                tailH: RIGHT,
+                tailV: BOTTOM
+            }).loc(170, 320, page5);
+
+            let totalAmount1 = 0;
+            const totalLabel1 = new Label({
+                text: `المجموع: ${totalAmount1}`,
+                size: 40,
+                backgroundBorderColor: red,
+                color: white,
+                rollColor: red,
+                bold: true,
+                italic: true
+            })
+            .pos(100, 620).addTo(page5).animate({ props: { rotation: 45 }, time: 3, loop: true })
+
+            coins1.forEach((coin, index) => {
+
+                const coinPic = new Pic(coin.image).sca(coin.sca)
+                    .pos(coin.x, coin.y).addTo(page5).drag()
+
+                const originalX = coin.x;
+                const originalY = coin.y;
+
+                coinPic.on("pressmove", (e) => {
+                    e.currentTarget.cursor = "grabbing";
+                    if (coinPic.hitTestBounds(wallet1)) {
+                        coinSound.play();
+                        totalAmount1 += coin.value; // تحديث المجموع
+                        totalLabel1.text = `المجموع: ${totalAmount1}`;
+                        coinPic.animate({ alpha: 0, call: () => coinPic.removeFrom() });
+                        if (totalAmount1 == 10) {
+                            coinWin.play();
+                            phase1.setWords("أحسنت لقد كونت ١٠ ليرات");
+                            phase1.backgroundColor = green
+                            emitter.spurt(40).center(page5)
+                            return
+                        }
+                    }
+                });
+                coinPic.on("pressup", () => {
+                    // إعادة العملة إلى موقعها الأصلي في حال عدم التداخل مع المحفظة
+                    if (!coinPic.hitTestBounds(wallet1)) {
+                        coinPic.animate({ x: originalX, y: originalY, time: 0.5 });
+                    }
+                });
+
+            });
+
+
+
+            // page -6-
+
+            new Pic("10_pounds.png").pos(200, 300).addTo(page6).sca(.3)
+            new Pic("10_pounds.png").pos(200, 400).addTo(page6).sca(.3)
+            new Pic("10_pounds.png").pos(200, 500).addTo(page6).sca(.3)
+            new Label({text: "=30",color:"black", size:77}).loc(200,610,page6)
+          
+            new Label({
+                text: "اكتب العدد المناسب",
+                align: RIGHT,
+                size: 75,
+                backgroundBorderColor: red,
+                color: "gold",
+                rollColor: red,
+                bold: true,
+                italic: true
+            }).loc(370, 60, page6);
+
+            new Emoji("\u270f\ufe0f", 100).loc(380, 160, page6).drag()
+            .animate({
+                props: { rotation: 90 },
+                loop: true,
+                time: 2,
+            });
+
+
+
+            // page -7-    
+
+            asset("less-18-tamreen1.png").pos(50, 75).addTo(page7);
+
+            asset("less-18-tamreen2.png").pos(50, 195).addTo(page7).sca(.95);
+
+            asset("less-18-tamreen3.png").pos(50, 295).addTo(page7).sca(.95);
+
+            // الإجابات الصحيحة
+            const correctAnswers = ["15", "20", "35"]; // يمكنك إضافة أي عدد من الإجابات هنا
+
+            // مصفوفة لتخزين حقول الإجابة (Labels)
+            const answerFields = [];
+
+            // إنشاء حقول الإجابة ديناميكيًا وإضافتها للصفحة
+            correctAnswers.forEach((answer, index) => {
+                const answerLabel = new Label({
+                    text: "",
+                    backgroundColor: "white",
+                    size: 30,
+                }).pos(460, 100 + index * 100).addTo(page7); // تعديل الموضع عموديًا لكل حقل
+                answerFields.push(answerLabel); // إضافة الحقل للمصفوفة
+            });
+
+            // إعداد لوحة المفاتيح وتوصيلها بحقول الإجابة
+            const keyboard = new Keyboard({
+                labels: answerFields,
+                backgroundColor: "lightgray",
+                color: "black",
+                draggable: true,
+            }).loc(40, 600, page7).scaleTo(page7, 95, 25);
+
+            // إظهار لوحة المفاتيح عند النقر على أي حقل إجابة
+            answerFields.forEach((answerField, index) => {
+                answerField.on("mousedown", () => keyboard.show(index)); // يظهر المؤشر في الحقل المحدد
+            });
+
+            // زر للتحقق من الإجابات
+            const checkButton = new Button({
+                label: "تحقق من الإجابات",
+                width: 250,
+                height: 60,
+                backgroundColor: green,
+                rollBackgroundColor: "darkblue",
+                color: "white"
+            }).center(page7);
+
+            checkButton.on("click", () => {
+                // التحقق من الإجابة في كل حقل
+                answerFields.forEach((label, index) => {
+                    const userAnswer = label.text.trim();
+                    if (userAnswer === correctAnswers[index]) {
+                        label.color = "green"; // إظهار الإجابة الصحيحة باللون الأخضر
+                        label.text = "✅ " + userAnswer; // إضافة إشارة صح للإجابة الصحيحة
+                    } else {
+                        label.color = "red"; // إظهار الإجابة غير الصحيحة باللون الأحمر
+                        label.text = "❌ " + userAnswer; // إضافة إشارة خطأ للإجابة الخاطئة
+                    }
+                });
+            });
+
+            // إعادة ضبط الإجابة عند النقر على الحقل مرة أخرى
+            answerFields.forEach(label => {
+                label.on("mousedown", () => {
+                    label.color = "black"; // إعادة اللون إلى الأسود
+                    label.text = ""; // مسح النص السابق
+                });
+            });
+
+            // إضافة سجل عند إغلاق لوحة المفاتيح
+            keyboard.on("close", () => {
+                console.log("إغلاق لوحة المفاتيح:");
+            });
+
+
+            new Button({
+                label: "الصفحة الرئيسية",
+                width: 220,
+                height: 60,
+                backgroundColor: "purple",
+                rollBackgroundColor: "MediumOrchid",
+                borderWidth: 8,
+                borderColor: "violet",
+                gradient: .3,
+                corner: 10
+            }).loc(350, 700, page6)
+                .tap(() => zgo(`${dev_url}`, "_blank"))
+
+
+            // book  ///    
+            const book = new Book({
+                width: W - 30, height: H - 30, pages: pages,
+                startPage: 1, radius: 120
+            }).center()
+            //zog(book)
+            stage.update()
+
+        })
+
+    </script>
+
+
+
+</body>
+
+</html>

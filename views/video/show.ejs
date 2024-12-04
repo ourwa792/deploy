@@ -19,7 +19,7 @@
                 <img height="100%" width="100%" src="<%= video.thumbnailUrl %>">
             </div>
             <div class="bg-light border rounded-3">
-                <img height="100%" width="100%" src="/image/panner/panner2.jpg">
+                <img height="100%" width="100%" src="/image/panner/R.gif">
             </div>
         </div>
     </div>
@@ -123,6 +123,7 @@
             function checkAnswer(selectedIndex, correctIndex, option) {
                 if (selectedIndex === correctIndex) {
                     option.classList.add('correct');
+                    new Audio('/sound/rightanswer.mp3').play()
                     score++;
                     scoreElement.textContent = score;
                 } else {
@@ -132,7 +133,7 @@
                 setTimeout(() => {
                     quizContainer.style.display = 'none';
                     player.play();
-                }, 2000); // Wait 2 seconds before resuming video
+                }, 1000); // Wait 2 seconds before resuming video
             }
 
             window.addEventListener('resize', adjustQuizContainer);

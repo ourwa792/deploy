@@ -1,7 +1,9 @@
 const { Lesson, Category, FeedBack, Resources } = require("../model/association");
-
+const {gameNames} = require("./gameName")
 
 exports.getIndex = async (req, res, next) => {
+  
+
   try {
     //throw new Error('dummmy')
     const page = parseInt(req.query.page) || 1;
@@ -20,7 +22,7 @@ exports.getIndex = async (req, res, next) => {
 
     const totalPages = Math.ceil(count / pageSize);
 
-    res.render("home", {
+    res.render("home", { gameNames,
       lesson: rows,
       currentPage: page,
       totalPages,
@@ -50,14 +52,15 @@ exports.getLessonById = async (req, res, next) => {
        exercies = lesson.exercies
     }
        
-    */ 
     let exercies = lesson.exercies  || []
     let resource = lesson.exercies  || []
+    */ 
 
     //console.log(lesson.resources[0])
 
     
     res.render(`lesson/less_${lesson.id}`, {
+      gameNames,
       pageTitle:lesson.title, lesson
     });
 
@@ -146,6 +149,7 @@ exports.getLessonRate = (req, res, next) => {
         res.render("lesson/lessonRate", {
           pageTitle: `تقييم الدرس: ${lessn.title}`,
           lessn: lessn,
+          gameNames ,
           temp: JSON.stringify(json),
         });
       });

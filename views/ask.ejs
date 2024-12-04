@@ -10,13 +10,105 @@
   </script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
+  <style>
+    /* From Uiverse.io by cssbuttons-io */ 
+    .c-button {
+      color: #000;
+      font-weight: 700;
+      font-size: 16px;
+      text-decoration: none;
+      padding: 0.9em 1.6em;
+      cursor: pointer;
+      display: inline-block;
+      vertical-align: middle;
+      position: relative;
+      z-index: 1;
+    }
+    
+    .c-button--gooey {
+      color: #06c8d9;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      border: 4px solid #06c8d9;
+      border-radius: 0;
+      position: relative;
+      transition: all 700ms ease;
+    }
+    
+    .c-button--gooey .c-button__blobs {
+      height: 100%;
+      filter: url(#goo);
+      overflow: hidden;
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: -3px;
+      right: -1px;
+      z-index: -1;
+    }
+    
+    .c-button--gooey .c-button__blobs div {
+      background-color: #06c8d9;
+      width: 34%;
+      height: 100%;
+      border-radius: 100%;
+      position: absolute;
+      transform: scale(1.4) translateY(125%) translateZ(0);
+      transition: all 700ms ease;
+    }
+    
+    .c-button--gooey .c-button__blobs div:nth-child(1) {
+      left: -5%;
+    }
+    
+    .c-button--gooey .c-button__blobs div:nth-child(2) {
+      left: 30%;
+      transition-delay: 60ms;
+    }
+    
+    .c-button--gooey .c-button__blobs div:nth-child(3) {
+      left: 66%;
+      transition-delay: 25ms;
+    }
+    
+    .c-button--gooey:hover {
+      color: #fff;
+    }
+    
+    .c-button--gooey:hover .c-button__blobs div {
+      transform: scale(1.4) translateY(0) translateZ(0);
+    }
+    
+  </style>
 
   </head>
 
   <body>
+    <%- include('./partial/navBar.ejs') %>
 
-    <div class="container mt-5 border border-2 border-info-subtle">
-      <h1>Student Answers</h1>
+    <div class="container mt-5 border border-2 border-info-subtle rounded-3">
+
+      <div class="row rounded-2 text-center my-2 ">
+        <button class="c-button c-button--gooey"> <h2> اسئلة الطلاب</h2>
+          <div class="c-button__blobs">
+          <div></div>
+          <div></div>
+          <div></div>
+          </div>
+        </button>
+        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" style="display: block; height: 0; width: 0;">
+          <defs>
+            <filter id="goo">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="10" result="blur"></feGaussianBlur>
+              <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 18 -7" result="goo"></feColorMatrix>
+              <feBlend in="SourceGraphic" in2="goo"></feBlend>
+            </filter>
+          </defs>
+        </svg>
+      
+      </div>
+
+
       <form id="questionForm">
         <div class="form-group">
           <label for="questionInput">اسأل سؤالك"</label>
@@ -24,8 +116,11 @@
         </div>
         <button type="submit" class="btn btn-primary my-3" id="submitButton">ارسال</button>
       </form>
-      <div id="loadingMessage" class="my-3" style="display: none;">جاري جلب الإجابة...</div>
-      <div id="answersContainer" class="my-5">
+      <div id="loadingMessage" class="my-3 spinner-border" style="display: none;">
+      </div>
+      
+<!--       <span>جاري جلب الإجابة ...</span>
+ -->      <div id="answersContainer" class="my-5">
         <% if (error) { %>
           <div class="alert alert-danger"><%= error %></div>
         <% } %>
@@ -76,6 +171,7 @@
             answersContainer.empty();
             response.answer.forEach(answer => {
               const answerCard = `
+              <div class = "container" style="overflow-x: scroll"
                 <div class="card mb-3">
                   <div class="card-body">
                     <h5 class="card-title">${answer.title}</h5>
@@ -84,7 +180,8 @@
                     <p class="card-text">خطوات الحل: ${answer.steps.replace(/\n/g, '<br>')}</p>
                     ${answer.images ? answer.images.map(img => `<img src="${img}" class="img-fluid" />`).join('') : ''}
                   </div>
-                </div>
+                </div> 
+              </div>
               `;
               answersContainer.append(answerCard);
             });

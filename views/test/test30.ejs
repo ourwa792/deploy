@@ -19,9 +19,9 @@
 
 
         const assets = ["car.jpg", 'butterfly.png', "flowers02.jpg",
-            "book1.png", "book2.png", "teacher1.jpg",
+             "teacher1.jpg",
             "rightfish.png", "junko walking.png",
-            "drabstract.png", "city.png"];
+            "city.png"];
         const path = "/assets/"
 
         const frame = new Frame({scaling:FIT, width:1024, height:768,color: "#501",
@@ -91,44 +91,64 @@
                 // play a sound here!
             }); */
 
-                        // إنشاء الوجه (الدائرة)
-            const face = new Circle(100, "yellow")
-            .center(stage)
-            .drag()
-            .animate({
-                props: {rotation: 360},
-                loop: true,
-                time: 5000,
-            });
 
-            // إضافة العيون
-            const eye1 = new Circle(10, "black").loc({x:35, y: -30, container:face})
-            .animate({
-                props: {scaleY: .6},
-                loop: true,
-                time: 2,
-                rewind: true
-            })
-            const eye2 = new Circle(10, "black").loc({x:-35, y: -30, container:face})
-            .animate({
-                props: {scaleY: .6},
-                loop: true,
-                time: 2,
-                rewind: true
-            })
+// إنشاء الأجزاء المكونة للمعادلة
+const parts = [
+    new Label({ text: "2", size: 50, color: "white", backgroundColor: "red" }),
+    new Label({ text: "+", size: 50, color: "white", backgroundColor: "green" }),
+    new Label({ text: "3", size: 50, color: "white", backgroundColor: "blue" }),
+    new Label({ text: "*", size: 50, color: "white", backgroundColor: "orange" }),
+    new Label({ text: "5", size: 50, color: "white", backgroundColor: "purple" }),
+];
 
-            // إنشاء الفم باستخدام Squiggle
-            const mouth = new Squiggle({
-                points: 'M 35 60 Q 50 80 65 60',
-                length: 70,
-                controlType: "mirror",
-                color: "black",
-                thickness: 7,
-                showControls: false,
-            }).sca(2).loc(-100,-90, face)
-            .animate({props: {}
-        
-            })
+// إنشاء الشبكة
+const tile = new Tile({
+    obj: parts, // الأجزاء المكونة للمعادلة
+    cols: 5, // عدد الأعمدة
+    rows: 1, // صف واحد فقط
+    spacingH: 20,
+}).center(stage);
+
+// ترتيب المعادلة الصحيح
+const correctOrder = ["2", "+", "3", "*", "5"];
+
+// Scrambler مع التفاعل
+const scrambler = new Scrambler(tile, {
+    keys: correctOrder, // الترتيب الصحيح
+    keyProperty: "text", // الخاصية المستخدمة للمطابقة
+    scramble: true, // خلط الأجزاء
+    time: 1, // مدة الخلط
+}).center(stage);
+
+// إضافة رسالة عند إكمال الترتيب بشكل صحيح
+scrambler.on("complete", () => {
+    new Pane({
+        label: "رائع! لقد أتممت التمرين 🎉",
+        width: 400,
+        height: 200,
+        color: "green",
+        draggable: true,
+    }).show();
+});
+
+// إضافة زر "تحقق من الحل"
+const checkButton = new Button({
+    label: "تحقق",
+    width: 150,
+    height: 50,
+    backgroundColor: "blue",
+    rollBackgroundColor: "darkblue",
+}).pos(500, 500).addTo(stage);
+
+// التحقق من النتيجة
+checkButton.on("click", () => {
+    if (scrambler.test()) {
+        alert("الترتيب صحيح! 🎉");
+    } else {
+        alert("حاول مرة أخرى. 😕");
+    }
+});
+
 
         })
 

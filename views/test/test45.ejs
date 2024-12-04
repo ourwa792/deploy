@@ -3,10 +3,9 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>مبرهنة فيثاغورث العكسية</title>
-    <script type="text/javascript" src="/library/jsxgraphcore.js"></script>
-    
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/polyfill/7.0.0/polyfill.min.js"></script>
+    <title>cilynder</title>
+
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/polyfill/7.0.0/polyfill.min.js"></script>
     <script>
         window.MathJax = {
             loader: { load: ['input/tex', 'output/chtml', 'input/mml'] },
@@ -14,14 +13,19 @@
             svg: { fontCache: 'global' }
         };
     </script>
-    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script> 
-     
-    <style> 
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+     -->
+<!--     <script src="https://cdn.jsdelivr.net/npm/jsxgraph@1.11.0-beta1/distrib/jsxgraphcore.js"></script>
+ -->
+    <!--     <script src="/library/jsxgraphcore.js"></script>
+ -->
+    <style>
         .jxgbox {
             width: 500px;
             height: 500px;
             margin: 20px;
         }
+
         .controls {
             margin: 20px;
         }
@@ -34,55 +38,588 @@
     <div class="jxgbox" id="jxgbox"></div>
     <div id="info"></div>
 
-    <div></div>
-    <script>
 
+
+    <script type="module">
+
+        import JXG from 'https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraphcore.mjs'; 
+
+/*
+        (function(){
+               var JSXBoard_b = JXG.JSXGraph.initBoard('jxgbox', {
+                   boundingbox:[-8,8,8,-8],
+                   originX:4, originY:4,
+                   zoomX:1, zoomY:1,
+                   keepaspectratio:false,	axis:false,
+                   showCopyright:false,	showNavigation:false,
+                   grid:false
+           });
+       
+       
+           
+       let az=JSXBoard_b .create('slider', [[-7,-7],[5,-7],[0,0.54,2*Math.PI]], {style:6, name:'az'});
+       let kierto=JSXBoard_b .create('transform', [function () {return 0.5*Math.PI-az.Value();}], {type: 'rotate'});
+       let el=JSXBoard_b .create('slider', [[-7,0],[-7,6],[0,0.44,Math.PI/2]], {style:6, name:'el'});
+       
+       let muunnos=JSXBoard_b .create('transform', [1,0,0,0,-1,0,0,0,-1], {type: 'generic'});
+       
+       let skaalaus=JSXBoard_b .create('transform', [1,0,0,0,1,0,0,0,function () {return Math.sin(el.Value());}], {type: 'generic'});
+       
+       
+       let u=JSXBoard_b .create('point', [2,0], {name:'u', showInfoBox:false, visible:false, size:2});
+       let o=JSXBoard_b .create('point', [0,0], {name:'o', showInfoBox:false, visible:false, size:2});
+       let v=JSXBoard_b .create('point', [0,2], {name:'v', showInfoBox:false, visible:false, size:2});
+       let uv=JSXBoard_b .create('point', [function () {return u.X()+v.X();},function () {return u.Y()+v.Y();}], {name:'uv', showInfoBox:false, visible:false, size:2});
+       let w=JSXBoard_b .create('point', [0,2], {name:'w', showInfoBox:false, visible:false, size:2,color:'blue'});
+       
+       let poly=JSXBoard_b .create('polygon', [o,u,uv,v], {strokeWidth:1, strokeColor:'black', showInfoBox:false, highlight:false,visible:false,color:'blue',borders:{strokecolor:'blue'}, size:2});
+       
+       
+       let uu=JSXBoard_b .create('point', [u,[kierto,muunnos,skaalaus]], {name:'', showInfoBox:false, visible:true, size:2,color:'blue'});
+       let vv=JSXBoard_b .create('point', [v,[kierto,muunnos,skaalaus]], {name:'', showInfoBox:false, visible:true, size:2,color:'blue'});
+       let uuvv=JSXBoard_b .create('point', [uv,[kierto,muunnos,skaalaus]], {name:'', showInfoBox:false, visible:true, size:2,color:'blue'});
+       
+       JSXBoard_b .create('polygon', [poly,[kierto,muunnos,skaalaus]], {name:'', showInfoBox:false, visible:true, size:2,color:'blue'});
+       
+       let t=JSXBoard_b .create('slider', [[-7,-6], [5, -6], [0,1,Math.PI/2]],{name:'t',snapWidth: 0.01});
+       
+       let ts=JSXBoard_b .create('transform', [function () {return 1/Math.cos(t.Value());},0,0,0,1,0,0,0,1], {type: 'generic'});
+       let ss=JSXBoard_b .create('transform', [function () {return 1/Math.sin(t.Value());},0,0,0,1,0,0,0,1], {type: 'generic'});
+       
+       let ts2=JSXBoard_b .create('transform', [function () {return 1/Math.cos(2*t.Value());},0,0,0,1,0,0,0,1], {type: 'generic'});
+       let ss2=JSXBoard_b .create('transform', [function () {return 1/Math.sin(2*t.Value());},0,0,0,1,0,0,0,1], {type: 'generic'});
+       
+       let ut=JSXBoard_b .create('point', [u,[ts,kierto,muunnos,skaalaus]], {name:'', showInfoBox:false, visible:false, size:2});
+       let vt=JSXBoard_b .create('point', [v,[ts,kierto,muunnos,skaalaus]], {name:'', showInfoBox:false, visible:false, size:2});
+       let wt=JSXBoard_b .create('point', [w,[ss]], {name:'', showInfoBox:false, visible:false, size:2,color:'blue'});
+       
+       
+       let ut2=JSXBoard_b .create('point', [u,[ts2,kierto,muunnos,skaalaus]], {name:'', showInfoBox:false, visible:false, size:2});
+       let vt2=JSXBoard_b .create('point', [v,[ts2,kierto,muunnos,skaalaus]], {name:'', showInfoBox:false, visible:false, size:2});
+       let wt2=JSXBoard_b .create('point', [w,[ss2]], {name:'', showInfoBox:false, visible:false, size:2,color:'blue'});
+       
+       
+       //let a=JSXBoard_b .create('point', [function () {return ;},function () {return ;}], {name:'', showInfoBox:false, visible:true, size:2});
+       
+       let a=JSXBoard_b .create('point', [function () {return uu.X()+ut.X()+wt.X();},function () {return uu.Y()+ut.Y()+wt.Y();}], {name:'', showInfoBox:false, visible:true, size:2});
+       
+       let  b=JSXBoard_b .create('point', [function () {return uuvv.X()+ut.X()+wt.X();},function () {return uuvv.Y()+ut.Y()+wt.Y();}], {name:'', showInfoBox:false, visible:true, size:2});
+       
+       JSXBoard_b .create('polygon', [uu,a,b,uuvv], {strokeWidth:1, strokeColor:'black', showInfoBox:false, highlight:false,visible:true,color:'blue',borders:{strokecolor:'blue'}, size:2});
+       
+       let c=JSXBoard_b .create('point', [function () {return uuvv.X()+vt.X()+wt.X();},function () {return uuvv.Y()+vt.Y()+wt.Y();}], {name:'', showInfoBox:false, visible:true, size:2});
+       
+       let d=JSXBoard_b .create('point', [function () {return vv.X()+vt.X()+wt.X();},function () {return vv.Y()+vt.Y()+wt.Y();}], {name:'', showInfoBox:false, visible:true, size:2});
+       
+       JSXBoard_b .create('polygon', [uuvv,c,d,vv], {strokeWidth:1, strokeColor:'black', showInfoBox:false, highlight:false,visible:true,color:'blue',borders:{strokecolor:'blue'}, size:2});
+       
+       let ma=JSXBoard_b .create('point', [function () {return uu.X()-vt.X()+wt.X();},function () {return uu.Y()-vt.Y()+wt.Y();}], {name:'', showInfoBox:false, visible:true, size:2});
+       
+       let mb=JSXBoard_b .create('point', [function () {return -vt.X()+wt.X();},function () {return -vt.Y()+wt.Y();}], {name:'', showInfoBox:false, visible:true, size:2});
+       
+       JSXBoard_b .create('polygon', [o,mb,ma,uu], {strokeWidth:1, strokeColor:'black', showInfoBox:false, highlight:false,visible:true,color:'blue',borders:{strokecolor:'blue'}, size:2});
+       
+       let mc=JSXBoard_b .create('point', [function () {return vv.X()-ut.X()+wt.X();},function () {return vv.Y()-ut.Y()+wt.Y();}], {name:'', showInfoBox:false, visible:true, size:2});
+       
+       let md=JSXBoard_b .create('point', [function () {return -ut.X()+wt.X();},function () {return -ut.Y()+wt.Y();}], {name:'', showInfoBox:false, visible:true, size:2});
+       
+       JSXBoard_b .create('polygon', [o,md,mc,vv], {strokeWidth:1, strokeColor:'black', showInfoBox:false, highlight:false,visible:true,color:'blue',borders:{strokecolor:'blue'}, size:2});
+       
+       let aa=JSXBoard_b .create('point', [function () {return a.X()+ut2.X()+wt2.X();},function () {return a.Y()+ut2.Y()+wt2.Y();}], {name:'', showInfoBox:false, visible:true, size:2});
+       
+       let bb=JSXBoard_b .create('point', [function () {return b.X()+ut2.X()+wt2.X();},function () {return b.Y()+ut2.Y()+wt2.Y();}], {name:'', showInfoBox:false, visible:true, size:2});
+       
+       JSXBoard_b .create('polygon', [a,aa,bb,b], {strokeWidth:1, strokeColor:'black', showInfoBox:false, highlight:false,visible:true,color:'blue',borders:{strokecolor:'blue'}, size:2});
+       
+           })();
+       */
+
+        // تأكد من أن اللوحة ثلاثية الأبعاد تعمل بشكل صحيح
         var board = JXG.JSXGraph.initBoard('jxgbox', {
-            boundingbox: [-5, 5, 5, -5],
-            axis: true,
-            keepAspectRatio:true
+            boundingbox: [-8, 8, 8, -8],
+            axis: false,
+            keepaspectratio: true
         });
+        var bound = [-5, 5];
+        var view = board.create('view3d',
+            [[-6, -3], [8, 8],
+            [bound, bound, bound]], {
+            xPlaneRear: { fillOpacity: 0.2, visible: false },
+            yPlaneRear: { fillOpacity: 0.2, visible: false },
+            zPlaneRear: { fillOpacity: 0.2, visible: false }
+        });
+
+
+        /* 
+        // Define two points that will act as the centers of the spheres
+        var point1 = view.create('point3d', [-1, 0, 0]);
+        var point2 = view.create('point3d', [1, 0, 0]);
+        
+        // Create two spheres with initial radii of 2
+        var sphere1 = view.create('sphere3d', [point1, 2], {fillColor: '#00ff80'});
+        var sphere2 = view.create('sphere3d', [point2, 2], {fillColor: '#ff0000'});
+        
+        // Create the intersection circle between the two spheres
+        var intersectionCircle = view.create('intersectioncircle3d', [sphere1, sphere2], {
+            strokeColor: '#0000ff',
+            strokeWidth: 2,
+            highlightStrokeColor: '#ff00ff', // Color when highlighted
+            highlightStrokeWidth: 4
+        });
+        
+        // a. Animation function for radius change
+        function animateRadius(startRadius, endRadius, duration) {
+            let startTime = Date.now();
+        
+            function updateRadius() {
+                let currentTime = Date.now();
+                let elapsed = currentTime - startTime;
+                let progress = Math.min(elapsed / duration, 1); // Ensure progress stays between 0 and 1
+                let newRadius = startRadius + (endRadius - startRadius) * progress;
+        
+                sphere1.setRadius(newRadius); // Update sphere radius
+                sphere2.setRadius(newRadius); // Update sphere radius
+        
+                if (progress < 1) {
+                    requestAnimationFrame(updateRadius); // Continue animation
+                }
+            }
+        
+            updateRadius(); // Start animation
+        }
+        
+        // Start animation to change radius from 2 to 3 over 3 seconds (3000 ms)
+        animateRadius(2, 3, 3000);
+        
+        // b. Add interactive highlight effects for mouseover and mouseout
+        intersectionCircle.on('mouseover', function() {
+            this.setAttribute({
+                strokeColor: this.visProp.highlightStrokeColor,
+                strokeWidth: this.visProp.highlightStrokeWidth
+            });
+        });
+        
+        intersectionCircle.on('mouseout', function() {
+            this.setAttribute({
+                strokeColor: '#0000ff', // Reset to default color
+                strokeWidth: 2          // Reset to default width
+            });
+        }); */
+
+
+       /*  var center = view.create('point3d', [0, 0, 0], { size: 5, name: 'Center' });
+        var radiusPoint = view.create('point3d', [2, 0, 0], { size: 5, name: 'Radius Point' });
+
+        // إنشاء الكرة
+        var sphere = view.create('sphere3d', [center, radiusPoint], {
+            fillColor: '#87ceeb',
+            fillOpacity: 0.3,
+            strokeColor: '#1e90ff',
+            strokeWidth: 2
+        });
+
+        // إعداد مستوى ثلاثي الأبعاد (نقطة + اتجاهين لتحديده)
+        var planePoint = view.create('point3d', [0, 0, 1], { size: 5, name: 'Plane Point' });
+        var direction1 = [1, 0, 0];
+        var range1 = [-5, 5];
+        var direction2 = [0, 1, 0];
+        var range2 = [-5, 5];
+
+        // إنشاء المستوى
+        var plane = view.create('plane3d', [planePoint, direction1, direction2], {
+            fillColor: '#d9d9d9',
+            fillOpacity: 0.5,
+            strokeColor: '#333333',
+            strokeWidth: 2
+        });
+
+        // إنشاء دائرة التقاطع بين الكرة والمستوى
+        var intersectionCircle = view.create('intersectioncircle3d', [sphere, plane], {
+            strokeColor: 'blue',
+            strokeWidth: 2,
+            fillColor: "red"
+        });
+
+        // إضافة تفاعل لتغيير نصف قطر الكرة باستخدام نقطة Radius Point
+        radiusPoint.on('drag', function () {
+            sphere.setRadius(JXG.Math.Geometry.distance(center, radiusPoint, 3));
+            intersectionCircle.update();
+        });
+
+        // تفاعل لتغيير موضع المستوى
+        planePoint.on('drag', function () {
+            plane.update();
+            intersectionCircle.update();
+        }); */
+
+/* 
+
+شغال
+
+var center = view.create('point3d', [0, 0, 0], {size: 5, name: 'Center'});
+var radiusPoint = view.create('point3d', [2, 0, 0], {size: 5, name: 'Radius Point'});
+
+// إنشاء الكرة
+var sphere = view.create('sphere3d', [center, radiusPoint], {
+    fillColor: '#87ceeb',
+    fillOpacity: 0.3,
+    strokeColor: '#1e90ff',
+    strokeWidth: 2
+});
+
+// إعداد مستوى ثلاثي الأبعاد (نقطة + اتجاهين)
+var planePoint = view.create('point3d', [0, 0, 1], {size: 5, name: 'Plane Point'});
+var direction1 = [1, 0, 0];
+var range1 = [-5, 5];
+var direction2 = [0, 1, 0];
+var range2 = [-5, 5];
+
+// إنشاء المستوى
+var plane = view.create('plane3d', [planePoint, direction1, direction2], {
+    fillColor: '#d9d9d9',
+    fillOpacity: 0.5,
+    strokeColor: '#333333',
+    strokeWidth: 2
+});
+
+// إنشاء دائرة التقاطع بين الكرة والمستوى
+var intersectionCircle = view.create('intersectioncircle3d', [sphere, plane], {
+    strokeColor: '#ff4500',
+    strokeWidth: 2
+});
+ */
+
  
 
-        
-        /* var A = board.create('point', [0, 0], { name: 'A', size: 3, color: 'blue' });
-        var B = board.create('point', [2.5, 0], { name: 'B', size: 3, color: 'blue' });
-        var C = board.create('point', [0, 1.5], { name: 'C', size: 3, color: 'blue' });
-      
-        var lineAB = board.create('segment', [A, B]);
-        var lineAC = board.create('segment', [A, C]);
-        var lineBC = board.create('segment', [B, C]);
-      
-        function updateC() {
-            var dx = B.X() - A.X();
-            var dy = C.Y() - A.Y();
-            C.setPosition(JXG.COORDS_BY_USER, [A.X(), A.Y() + dy]);
-            B.setPosition(JXG.COORDS_BY_USER, [A.X() + dx, A.Y()]);
-        }
-        function updateB() {
-            var dx = B.X() - A.X();
-            var dy = C.Y() - A.Y();
-            B.setPosition(JXG.COORDS_BY_USER, [A.X() + dx, A.Y()]);
-            C.setPosition(JXG.COORDS_BY_USER, [A.X(), A.Y() + dy]);
-        }
-      
-        A.on('drag', function() {
-            updateB();
-            updateC();
+//intersectionCircle = view.create('intersectioncircle3d', [sphere, plane])
+//console.log(JXG.Math.Geometry.intersectionFunction3D(view, plane, sphere))
+
+/* 
+
+
+
+var center = view.create('point3d', [0, 0, 0], {size: 5, name: 'Center'});
+
+
+var initialRadius = 4;  // نصف قطر كبير لتوضيح التقاطع
+var sphere = view.create('sphere3d', [center, initialRadius], {
+    fillColor: '#87ceeb',
+    fillOpacity: 0.3,
+    strokeColor: '#1e90ff',
+    strokeWidth: 2
+});
+
+
+var planePoint = view.create('point3d', [3, 2, 1], {size: 5, name: 'Plane Point'}); // اجعل المستوى يمر عبر مركز الكرة
+var direction1 = [1, 0, 0];
+var range1 = [-5, 5];
+var direction2 = [0, 1, 0];
+var range2 = [-5, 5];
+
+// إنشاء المستوى
+var plane = view.create('plane3d', [planePoint, direction1, direction2], {
+    fillColor: 'pink',
+    fillOpacity: 0.5,
+    strokeColor: '#333333',
+    strokeWidth: 2
+});
+// إنشاء دائرة التقاطع بين الكرة والمستوى
+var intersectionCircle = view.create('intersectioncircle3d', [sphere, plane], {
+    strokeColor: '#ff4500',
+    strokeWidth: 2,
+    fillColor: "red"
+});
+
+// شريط تمرير للتحكم في نصف قطر الكرة
+var radiusSlider = board.create('slider', [[-8, 8], [-5, 8], [1, initialRadius, 6]], {
+    name: 'Radius',
+    snapWidth: 0.1,
+    baseline: {strokeColor: 'blue'},
+    highline: {strokeColor: 'red'}
+});
+
+// تفاعل: تحديث نصف القطر فقط باستخدام setRadius وضمان تحديث اللوحة
+radiusSlider.on('drag', function() {
+    var newRadius = radiusSlider.Value();
+    sphere.setRadius(newRadius);  // تعيين نصف القطر
+    intersectionCircle.update();   // تحديث دائرة التقاطع
+    board.update();                // تحديث اللوحة بالكامل
+});
+
+// شريط تمرير للتحكم في زاوية ميل المستوى حول المحور X
+var angleXSlider = board.create('slider', [[-8, 6], [-5, 6], [0, 0, 180]], {
+    name: 'Angle X',
+    snapWidth: 1,
+    baseline: {strokeColor: 'green'},
+    highline: {strokeColor: 'purple'}
+});
+
+// شريط تمرير للتحكم في زاوية ميل المستوى حول المحور Y
+var angleYSlider = board.create('slider', [[-8, 4], [-5, 4], [0, 0, 180]], {
+    name: 'Angle Y',
+    snapWidth: 1,
+    baseline: {strokeColor: 'green'},
+    highline: {strokeColor: 'purple'}
+});
+
+// تفاعل: تحديث اتجاه المستوى وتحديث اللوحة بالكامل
+function updatePlaneDirection() {
+    var angleX = angleXSlider.Value() * Math.PI / 180;
+    var angleY = angleYSlider.Value() * Math.PI / 180;
+
+    // حساب الاتجاهات الجديدة للمستوى
+    direction1 = [Math.cos(angleX), 0, Math.sin(angleX)];
+    direction2 = [0, Math.cos(angleY), Math.sin(angleY)];
+
+    // تحديث اتجاه المستوى
+    plane.direction1 = direction1;
+    plane.direction2 = direction2;
+    plane.update();
+    intersectionCircle.update();  // تحديث دائرة التقاطع
+    board.update();               // تحديث اللوحة بالكامل
+}
+
+// تحديث الاتجاه عند تحريك أشرطة التمرير
+angleXSlider.on('drag', updatePlaneDirection);
+angleYSlider.on('drag', updatePlaneDirection);
+console.log(JXG.Math.Geometry.intersectionFunction3D(view, plane, sphere) )
+ */
+
+ /*
+ شغال
+ var center = view.create('point3d', [0, 0, 0], {size: 5, name: 'Center'});
+var radius = 4;
+var sphere = view.create('sphere3d', [center, radius], {
+    fillColor: '#87ceeb',
+    fillOpacity: 0.3,
+    strokeColor: '#1e90ff',
+    strokeWidth: 2
+});
+
+// إعداد المستوى بحيث يمر عبر مركز الكرة
+var planePoint = view.create('point3d', [0, 0, 0], {size: 5, name: 'Plane Point'});
+var direction1 = [1, 0, 0];
+var range1 = [-5, 5];
+var direction2 = [0, 1, 0];
+var range2 = [-5, 5];
+
+// إنشاء المستوى
+var plane = view.create('plane3d', [planePoint, direction1, range1, direction2, range2], {
+    fillColor: '#d9d9d9',
+    fillOpacity: 0.5,
+    strokeColor: '#333333',
+    strokeWidth: 2
+});
+
+// إنشاء دائرة التقاطع ثلاثية الأبعاد
+var intersectionCircle3D = view.create('circle3d', [center, [0, 0, 1], radius], {
+    strokeColor: '#ff4500',
+    strokeWidth: 2,
+    fillOpacity: 0.3
+});
+
+// دالة لتحديث دائرة التقاطع عند تغيير نصف قطر الكرة
+function updateIntersection() {
+    // تحديث نصف قطر دائرة التقاطع ليطابق نصف قطر الكرة
+    intersectionCircle3D.setRadius(sphere.Radius()); // استخدام قيمة نصف القطر الحالية
+    board.update(); // تحديث اللوحة بالكامل
+}
+
+// إضافة شريط تمرير للتحكم في نصف قطر الكرة وتحديث دائرة التقاطع
+var radiusSlider = board.create('slider', [[-8, 8], [-5, 8], [1, radius, 6]], {
+    name: 'Radius',
+    snapWidth: 0.1,
+    baseline: {strokeColor: 'blue'},
+    highline: {strokeColor: 'red'}
+});
+
+radiusSlider.on('drag', function() {
+    // تغيير نصف قطر الكرة عند تحريك شريط التمرير
+    sphere.setRadius(radiusSlider.Value());
+    updateIntersection(); // تحديث دائرة التقاطع
+});
+
+// طباعة نتيجة meetPlaneSphere لمراجعتها
+var intersectionResult = JXG.Math.Geometry.meetPlaneSphere(plane, sphere);
+console.log("Intersection result:", intersectionResult);
+
+*/
+
+
+/* var apex = view.create('point3d', [0, 0, 5], {name: 'Apex', size: 5}); // قمة الهرم
+var base1 = view.create('point3d', [-3, -3, 0], {name: 'Base1', size: 5});
+var base2 = view.create('point3d', [3, -3, 0], {name: 'Base2', size: 5});
+var base3 = view.create('point3d', [3, 3, 0], {name: 'Base3', size: 5});
+var base4 = view.create('point3d', [-3, 3, 0], {name: 'Base4', size: 5});
+
+// إنشاء أضلاع الهرم
+view.create('line3d', [apex, base1], {strokeColor: 'blue', strokeWidth: 2});
+view.create('line3d', [apex, base2], {strokeColor: 'blue', strokeWidth: 2});
+view.create('line3d', [apex, base3], {strokeColor: 'blue', strokeWidth: 2});
+view.create('line3d', [apex, base4], {strokeColor: 'blue', strokeWidth: 2});
+view.create('line3d', [base1, base2], {strokeColor: 'green', strokeWidth: 2});
+view.create('line3d', [base2, base3], {strokeColor: 'green', strokeWidth: 2});
+view.create('line3d', [base3, base4], {strokeColor: 'green', strokeWidth: 2});
+view.create('line3d', [base4, base1], {strokeColor: 'green', strokeWidth: 2});
+
+// إعداد مستوى بحيث يمر عبر الهرم
+var planePoint = view.create('point3d', [0, 0, 2], {size: 5, name: 'Plane Point'}); // نقطة على المستوى
+var planeNormal = [0, 0, 1];  // شعاع عمودي على المستوى
+
+// دالة لإيجاد نقطة تقاطع محسوبة كنسبة من رأس الهرم
+function findScaledPoint(apex, basePoint, scale) {
+    return [
+        apex.X() + scale * (basePoint.X() - apex.X()),
+        apex.Y() + scale * (basePoint.Y() - apex.Y()),
+        apex.Z() + scale * (basePoint.Z() - apex.Z())
+    ];
+}
+
+// دالة حساب نقاط تقاطع الهرم مع المستوى للحصول على مضلع مشابه للقاعدة
+function calculateIntersectionPolygon() {
+    var intersectionPoints = [];
+    
+    // حساب النسبة من رأس الهرم إلى المستوى
+    var scale = (planePoint.Z() - apex.Z()) / (base1.Z() - apex.Z());
+
+    // حساب النقاط المحسوبة لكل نقطة قاعدة باستخدام النسبة
+    [base1, base2, base3, base4].forEach(function(basePoint) {
+        var intersection = findScaledPoint(apex, basePoint, scale);
+        var p3d = view.create('point3d', intersection, {size: 2, color: 'red'});
+        intersectionPoints.push(p3d);
+    });
+
+    return intersectionPoints;
+}
+
+// إنشاء المضلع الناتج من التقاطع
+var intersectionPolygon;
+
+function updateIntersection() {
+    // إزالة المضلع القديم
+    if (intersectionPolygon) {
+        board.removeObject(intersectionPolygon);
+    }
+    
+    // حساب نقاط التقاطع وإنشاء مضلع التقاطع
+    var points = calculateIntersectionPolygon();
+    if (points.length >= 3) {
+        intersectionPolygon = view.create('polygon3d', points, {
+            fillColor: 'purple',
+            fillOpacity: 0.5,
+            strokeColor: 'purple',
+            strokeWidth: 2
         });
-        B.on('drag', function() {
-            updateC();
-        });
-        C.on('drag', function() {
-            updateB();
-        });
-      
-        updateC();
-        function dist() {
-            var d = B.Dist(C);
-            board.update() 
-        }
-        dist() */
-    </script>
-</body>
+    }
+}
+
+
+[apex, base1, base2, base3, base4].forEach(function(point) {
+    point.on('drag', updateIntersection); // تحديث التقاطع عند سحب أي نقطة
+});
+
+
+updateIntersection();
+ */
+
+
+ /* 
+
+var p0, p1, p2, v1, v2,
+    seg1, seg2,
+    plane, coneSurface, cone,
+    eq_cone, eq_cone_plane,
+    intersect2d, curve;
+
+// تعريف المستوى
+p0 = view.create('point3d', [-1, 0, 2], { name: 'p_0' });
+p1 = view.create('point3d', [3, 0, 0], { name: 'p_1' });
+p2 = view.create('point3d', [0, 2, 2], { name: 'p_2' });
+
+// متجهات المستوى
+v1 = () => [p1.X() - p0.X(), p1.Y() - p0.Y(), p1.Z() - p0.Z()];
+v2 = () => [p2.X() - p0.X(), p2.Y() - p0.Y(), p2.Z() - p0.Z()];
+
+plane = view.create('plane3d', [p0, v1, v2, [-Infinity, Infinity], [-Infinity, Infinity]], {
+    fillColor: 'blue', strokeWidth: 1, strokeColor: '#888888', strokeOpacity: 0.6
+});
+
+// تعريف المخروط
+cone = {
+    center: [0, 0, 0], // مركز القاعدة
+    radii: [3, 3],     // نصفا القاعدة في الاتجاهين X و Y
+    height: 5          // الارتفاع
+};
+
+// رسم المخروط باستخدام سطح بارامتري
+coneSurface = view.create('parametricsurface3d', [
+    function (u, v) { return v * Math.cos(u); }, // x
+    function (u, v) { return v * Math.sin(u); }, // y
+    function (u, v) { return cone.height * (v / cone.radii[0]); },
+    [0, 2*Math.PI] , [0, cone.radii[0]]
+  ], {
+    fillColor: '#FFA500',
+    fillOpacity: 0.4,
+    strokeColor: '#FF8C00',
+    strokeWidth: 1
+});
+
+// معادلة المخروط
+eq_cone = (x, y, z) => {
+    let a = cone.radii[0],
+        b = cone.radii[1],
+        c = cone.height;
+    return (x / a) ** 2 + (y / b) ** 2 - (z / c) ** 2;
+};
+
+// معادلة تقاطع المستوى مع المخروط
+eq_cone_plane = (u, v) => {
+    let w = [
+        u * plane.vec1[0] + v * plane.vec2[0] + plane.point.X(),
+        u * plane.vec1[1] + v * plane.vec2[1] + plane.point.Y(),
+        u * plane.vec1[2] + v * plane.vec2[2] + plane.point.Z()
+    ];
+    return eq_cone(w[0], w[1], w[2]);
+};
+
+// إنشاء منحنى 2D غير مرئي للتقاطع
+intersect2d = board.create('implicitcurve', [eq_cone_plane], { visible: false });
+
+// إنشاء منحنى التقاطع 3D
+curve = view.create('curve3d', [[], [], []], { strokeWidth: 2, strokeColor: 'red', fillColor:"green" });
+curve.updateDataArray = function () {
+    var i, le, u, v, w;
+
+    this.X = [];
+    this.Y = [];
+    this.Z = [];
+    le = intersect2d.numberPoints;
+
+    for (i = 0; i < le; i++) {
+        u = intersect2d.points[i].usrCoords[1];
+        v = intersect2d.points[i].usrCoords[2];
+        w = [
+            u * plane.vec1[0] + v * plane.vec2[0] + plane.point.X(),
+            u * plane.vec1[1] + v * plane.vec2[1] + plane.point.Y(),
+            u * plane.vec1[2] + v * plane.vec2[2] + plane.point.Z()
+        ];
+
+        this.X.push(w[0]);
+        this.Y.push(w[1]);
+        this.Z.push(w[2]);
+    }
+};
+
+// تحديث المنحنى
+curve.updateDataArray();
+board.update(); 
+
+*/	
+
+
+
+
+
+
+    </script> 
 </body>

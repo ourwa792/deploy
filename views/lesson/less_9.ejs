@@ -40,10 +40,19 @@
             let stageW = frame.width;
             let stageH = frame.height;
 
+            let dev_url ='http://localhost:3000' ;
+            let prod_url ='https://deploy-kewv.onrender.com'
+
               //new Poly(200, 5, .6, pink)//.center();
            
             const sound1 = new Aud({ file: "/sound/fawaki.mp3", volume: .8, loop: false,  
             maxNum: 1, interrupt: "any" });           
+            const sound2 = new Aud({ file: "/sound/anmatmn3-1.mp3", volume: .8, loop: false,  
+            maxNum: 1, interrupt: "any" });           
+            const sound3 = new Aud({ file: "/sound/anmatmn3-2.mp3", volume: .8, loop: false,  
+            maxNum: 1, interrupt: "any" });           
+
+            
 
             const wrongSound = new Aud({file: "/sound/wronganswer.mp3", volume: .8, loop: false,
             maxNum: 1, interrupt: "any" });    
@@ -116,7 +125,7 @@
                 gradient:.3,
                 corner:10
             }).loc(40,400,page1)
-            .tap(()=> sound1.play())
+            .tap(()=> sound2.play())
             new Button({
                 label:"اسمع الصوت",
                 width:160,
@@ -128,16 +137,17 @@
                 gradient:.3,
                 corner:10
             }).loc(400,400,page1)
-            .tap(()=> sound2.play())
+            .tap(()=> sound3.play())
 
             const animation = new Sprite({
                 image: "pragma_wink.png",
                 style: false,
                 cols: 6,
                 rows: 5,
-            }).loc(20, 500, page1)
+            })
+            .run({ time:5, rewind:true, loop:true})
+            .loc(20, 500, page1)
 
-            .run({wait:2, time:5, rewind:true, rewindWait:3, loop:true, loopWait:2})
 
             //page -2-
 
@@ -341,7 +351,18 @@
 
             posTraingle.forEach(pos => createTraingle(pos.x, pos.y, page5));
 
-
+            new Button({
+                label: "الصفحة الرئيسية",
+                width: 220,
+                height: 60,
+                backgroundColor: "purple",
+                rollBackgroundColor: "MediumOrchid",
+                borderWidth: 8,
+                borderColor: "violet",
+                gradient: .3,
+                corner: 10
+            }).loc(350, 700, page5)
+            .tap(() => zgo(`${dev_url}`, "_blank")) 
 
          
             const book = new Book({width:W - 30, height: H - 30, pages: pages,

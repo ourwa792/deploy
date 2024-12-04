@@ -1,5 +1,21 @@
 <%- include("../partial/head.ejs") %>
-  <link href="/css/animate.min.css" rel="stylesheet">
+ 
+
+<link href="/css/animate.min.css" rel="stylesheet">
+ 
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.13/css/all.css" integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp" crossorigin="anonymous">
+
+<link rel="stylesheet" href="/css/e-learning-js.min.css"/> 
+<script type="text/javascript" src="/library/e-learning-js.min.js"></script>
+
+<link rel="stylesheet" href="/css/jsxgraph.css">
+
+<script type="text/javascript" src="/library/jsxgraphcore.js"></script> 
+
+<script lang="text/javascript" src="/library/typed.js"></script>
+
   <style>
     .header {
       background-color: #defdb6;
@@ -42,11 +58,6 @@
       transform: scale(1.05);
     }
 
-    .angle-box img {
-      width: 100px;
-      height: auto;
-    }
-
     .text-div {
       background-color: #fafad2;
       padding: 20px;
@@ -71,26 +82,17 @@
     ul li:hover {
       background-color: #afeeee;
     }
-
-    .diagram {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin-top: 20px;
-    }
-
-    .diagram div {
-      margin-right: 10px;
-    }
   </style>
 
-  <script lang="text/javascript" src="/library/typed.js"></script>
+
+
+
 
   </head>
 
-  <body >
+  <body>
 
-   <!-- ترويسة الصفحة -->
+    <!-- ترويسة الصفحة -->
     <div class="row header animate__animated animate__fadeInDown d-flex align-items-center">
       <!-- عمود الصورة -->
       <div class=" col-6 text-start">
@@ -98,86 +100,553 @@
       </div>
       <!-- عمود العنوان -->
       <div class="col-lg-10 text-center">
-        <h1><%= lesson.title %></h1>
+        <h1>
+          <%= lesson.title %>
+        </h1>
       </div>
     </div>
 
+    <%#- lesson.content %>
+      <!--      النص التمهيدي -->
+      <div class="row content-section animate__animated animate__fadeInUp">
+        <div class="col-lg-8 col-md-8 col-sm-12">
+          <p>تعلمت أن الزاوية تتشكل من التقاء نصفي مستقيمين، وستتعلم في هذا الدرس بعض أنواع الزوايا وسنستعمل الكوس
+            لتمييز أنواع الزوايا.</p>
+        </div>
 
+        <div class="col-lg-4 col-md-4 col-sm-12">
+          <div class="card border-info mb-2 float-end">
+            <img src="<%= lesson.resources[2].url %>" class="img-fluid">
 
+            <p class="card-text mx-2 my-2">ستتعلم</p>
+          </div>
+        </div>
 
-    <%- lesson.content %>
-      <!-- النص التمهيدي 
-   <div class="row content-section animate__animated animate__fadeInUp">
-    <div class="col-12">
-      <p>تعلمت أن الزاوية تتشكل من التقاء نصفي مستقيمين، وستتعلم في هذا الدرس بعض أنواع الزوايا وسنستعمل الكوس لتمييز أنواع الزوايا.</p>
-    </div>
-  </div>
-
-  <!-- النص والصورة التوضيحية 
-  <div class="row content-section">
-    <div class="col-md-3">
-      <div class="learning-box animate__animated animate__bounceInLeft">
-        <p id="element"></p>
-        <img src="https://res.cloudinary.com/dg0d0jmtz/image/upload/v1722639160/lesson/%D8%A7%D9%84%D8%B5%D9%81_%D8%A7%D9%84%D8%B1%D8%A7%D8%A8%D8%B9_%D8%A7%D9%86%D9%88%D8%A7%D8%B9_%D8%A7%D9%84%D8%B2%D9%88%D8%A7%D9%8A%D8%A7_omy5ru.png"
-         alt="Girl Icon" class="left-image">
       </div>
+
+      <!--    النص والصورة التوضيحية  -->
+      <div class="row content-section">
+        <div class="col-lg-4 col-md-4">
+
+          <div class="learning-box animate__animated animate__bounceInLeft">
+            <p id="element"></p>
+            <img src="<%= lesson.resources[0].url %>" alt="Girl Icon" class="left-image">
+          </div>
+
+        </div>
+
+        <div class="col-lg-8 col-md-8 animate__animated animate__zoomIn">
+          <div class="card border-info float-end animate__animated animate__bounceInLeft">
+            <div class="card-text my-2">انواع الزوايا</div>
+            <img src="<%= lesson.resources[1].url %>" alt="" class="img-fluid left-image">
+          </div>
+
+        </div>
+      </div>
+
+
+      <div class="row content-section animate__animated animate__fadeInUp">
+        <div class="col-12">
+          <%- lesson.content %>
+         <!--  <ul>
+            <li class="animate__animated animate__lightSpeedInRight">زاوية قائمة (ضلعاها متعامدان)</li>
+            <li class="animate__animated animate__lightSpeedInRight">نسمي نقطة التقاء ضلعي الزاوية: رأس الزاوية</li>
+            <li class="animate__animated animate__lightSpeedInRight">نسمي الزاوية وفق رؤوسها</li>
+            <li class="animate__animated animate__lightSpeedInRight">مثال في الزاوية المجاورة</li>
+            <li class="animate__animated animate__lightSpeedInRight">الرأس: م</li>
+            <li class="animate__animated animate__lightSpeedInRight">اسم الزاوية: س م ع</li>
+            <li class="animate__animated animate__lightSpeedInRight">ضلعا الزاوية: م س و م ع</li>
+          </ul> -->
+        </div>
+        <div class="row">
+          <h5 class="col-lg-2 col-md-2 col-sm-1 bg-secondary"> تحدث</h5>
+          <p>كيف تستخدم الكوس لتحديد نوع الزاوية</p>
+          <button class="col-lg-2 col-md-2 col-sm-1 btn btn-outline-warning" id="btn">اسمع</button>
+        </div>
+      </div>
+
+      <div class="container">
+        <div id="jxgbox" class="jxgbox col-lg-10 col-md-10 col-sm-12"
+          style="aspect-ratio: 1/1; max-width: 90%;margin:10px;box-shadow: 3px 5px;">
+        </div>
+      </div>
+
+
+      <div class="row bg-info-subtle rounded-2 my-2">
+        <div class="col-lg-6 col-md-6 col-sm-12 ">
+            <h5><span style="background-color: rgb(150, 252, 166);"><strong>تحقق من فهمك</strong></span></h5>
+
+            <h5><span style="background-color: rgb(250, 192, 210);"><strong>السؤال الأول</strong></span></h5>
+
+            <%- lesson.exercies %>
+<!-- 
+            <p>حدد نوع كل من الزوايا الملونة بالأحمر في كل من الاشكال التالية: </p>
+
+            <ul class="number_list select_activity questions_1">
+                <p>الشكل -1-</p>
+                  <li data-question='1'>
+                    <div data-option='1'>قائمة</div>
+                    <div data-option='2'>مستقيمة</div>
+                    <div data-option='3'>حادة</div>
+                  </li>
+                <p> الشكل -2- </p>
+
+                <li data-question='2'>
+                    <div data-option='1'>حادة</div>
+                    <div data-option='2'>قائمة</div>
+                    <div data-option='3'>منفرجة</div>
+                </li>
+                <p>الشكل -3-</p>
+                <li data-question='3'>
+                    <div data-option='1'>منفرجة</div>
+                    <div data-option='2'>قائمة</div>
+                    <div data-option='3'>مستقيمة</div>
+                </li>
+                <p>الشكل -4-</p>
+                <li data-question='4'>
+                    <div data-option='1'>قائمة</div>
+                    <div data-option='2'>مستقيمة</div>
+                    <div data-option='3'>خادة</div>
+                </li>
+            </ul>
+          
+
+            <div class="btn_activities grid13">
+                <div id="check_answers_1">
+                    <span>Check</span>
+                </div>
+                <div id="reset_answers_1">
+                    <span>Reset</span>
+                </div>
+                <div id="answers_1">
+                    <span>Answers</span>
+                </div>
+            </div> 
+ -->
+
+        </div>
+
+        <div class="col-lg-6 col-md-6 col-sm-12">
+          <div class="card border-info mb-2 float-end">
+            <img src="<%= lesson.resources[3].url %>" class="img-fluid">
+
+            <p class="card-text my-2">من اليمين لليسار</p>
+          </div>
+        </div>
+
+        <div class="container row">
+          <h5><span style="background-color: rgb(250, 192, 210);"><strong>السؤال الثاني</strong></span></h5>
+
+          <p>اكتب انواع الزوايا التي تعلمتها</p>
+          <ul class="grid12 no_list questions_2_1">
+            <li>
+                <span class="bold lesson_color">1.</span> زاوية <input size="8" type="text" autocomplete="off"/>.
+            </li>
+            <li>
+                <span class="bold lesson_color">2.</span> زاوية <input size="8" type="text" autocomplete="off"/>.
+            </li>
+            <li>
+                <span class="bold lesson_color">3.</span> زاوية <input size="8" type="text" autocomplete="off"/>.
+            </li>
+            <li>
+                <span class="bold lesson_color">4.</span> زاوية <input size="8" type="text" autocomplete="off"/>.
+            </li>
+
+          </ul>
+          <div class="btn_activities">
+              <div id="check_answers_2_1">
+                  <span>Check</span>
+              </div>
+              <div id="reset_answers_2_1">
+                  <span>Reset</span>
+              </div>
+              <div id="answers_2_1">
+                  <span>Answers</span>
+              </div>
+          </div>
+
+        </div>
+
     </div>
-    <div class="col-md-9">
+
+
+<div class="row">
+  <h5><span style="background-color: rgb(250, 192, 210);"><strong>السؤال الثالث</strong></span></h5>
+
+  <p>ارسم على الشبكة التالية الزوايا المطلوبة</p>
+  <ul>
+    <li> زاوية حادة رأسها (م1) </li>
+    <li> زاوية قائمة رأسها (م1) </li>
+    <li> زاوية منفرجة رأسها (م1) </li>
+    <li> زاوية مستقيمة رأسها (م1) </li>
+  </ul>
+</div>
+
+      <div class="d-flex flex-lg-row container">
+        <div id="jxgbox1" class="jxgbox col-lg-6 col-md-6 col-sm-12"
+          style="aspect-ratio: 1/1; max-width: 90%;margin:10px;box-shadow: 3px 5px;">
+        </div>
+          
+        <div id="jxgbox2" class="jxgbox col-lg-6 col-md-6 col-sm-12"
+          style="aspect-ratio: 1/1; max-width: 90%;margin:10px ; box-shadow: 3px 5px;">
+        </div>
+
+      </div>
+      
       <div class="row">
-        <div class="col-lg angle-box animate__animated animate__zoomIn">
-          <img src="https://via.placeholder.com/100" alt="زاوية حادة">
-          <p>زاوية حادة</p>
+        <button class="col-lg-6 col-md-6 col-sm-12 btn btn-outline-warning" id="resetBoardBtn1">امسح </button>
+        <button class="col-lg-6 col-md-6 col-sm-12 btn btn-outline-warning" id="resetBoardBtn2"> امسح</button>
+
+      </div>
+
+
+      <div class="d-flex flex-lg-row container">
+        <div id="jxgbox3" class="jxgbox col-lg-6 col-md-6 col-sm-12"
+          style="aspect-ratio: 1/1; max-width: 90%;margin:10px;box-shadow: 3px 5px;">
+        </div>
+          
+        <div id="jxgbox4" class="jxgbox col-lg-6 col-md-6 col-sm-12"
+          style="aspect-ratio: 1/1; max-width: 90%;margin:10px ; box-shadow: 3px 5px;">
+        </div>
+
+      </div>
+      
+      <div class="row">
+        <button class="col-lg-6 col-md-6 col-sm-12 btn btn-outline-warning" id="resetBoardBtn3">امسح </button>
+        <button class="col-lg-6 col-md-6 col-sm-12 btn btn-outline-warning" id="resetBoardBtn4"> امسح</button>
+
+      </div>
+
+
+      <div class="row">
+        <div class="col-1">
+            <a href="/" class="btn btn-outline-info mt-5">
+                <img src="/icon/iconBack.png" class="" width="34" height="34">
+                <span>الصفحة الرئيسية</span>
+
+            </a>
+
         </div>
     </div>
-</div>
-</div>
-
-<!-- الشرح 
-<div class="row content-section animate__animated animate__fadeInUp">
-    <div class="col-12">
-      <ul>
-        <li class="animate__animated animate__lightSpeedInRight">أنواع الزوايا (ضلعاها متعامدان)</li>
-        <li class="animate__animated animate__lightSpeedInRight">نسمي نقطة التقاء ضلعي الزاوية: رأس الزاوية</li>
-        <li class="animate__animated animate__lightSpeedInRight">نسمي الزاوية وفق رؤوسها</li>
-        <li class="animate__animated animate__lightSpeedInRight">مثال في الزاوية المجاورة</li>
-        <li class="animate__animated animate__lightSpeedInRight">الرأس: م</li>
-        <li class="animate__animated animate__lightSpeedInRight">اسم الزاوية: س م ع</li>
-        <li class="animate__animated animate__lightSpeedInRight">ضلعا الزاوية: م س و م ع</li>
-      </ul>
-    </div>
-  </div>
-
-  <!-- الرسم البياني 
-  <div class="row content-section">
-    <div class="col-12 diagram animate__animated animate__bounceInUp">
-      <div>ع</div>
-      <div>
-        <svg height="80" width="200">
-          <line x1="0" y1="80" x2="100" y2="0" style="stroke:black;stroke-width:2" />م
-          <line x1="0" y1="80" x2="200" y2="80" style="stroke:black;stroke-width:2" />
-        </svg>
-    </div>
-      <div>س</div>
-    </div>
-  </div>
-</div>
 
 
-    <!--  <div class="col-md-6 angle-box animate__animated animate__zoomIn">
-       <img src="https://via.placeholder.com/100" alt="زاوية قائمة">
-       <p>زاوية قائمة</p>
-     </div>
-     <div class="col-md-6 angle-box animate__animated animate__zoomIn">
-       <img src="https://via.placeholder.com/100" alt="زاوية منفرجة">
-       <p>زاوية منفرجة</p>
-     </div>
-     <div class="col-md-6 angle-box animate__animated animate__zoomIn">
-       <img src="https://via.placeholder.com/100" alt="زاوية مستقيمة">
-       <p>زاوية مستقيمة</p>
-     </div> -->
-     
+      <script>
+       
+  /*     
+        var points = [];
+        var predefinedPoints = []; // To store predefined points
+        var selectedPoints = []; // To store user selected points for drawing lines
+        var polygonComponents = [];
+        
+        // Initialize the board
+        var board = JXG.JSXGraph.initBoard('jxgbox1', {
+            boundingbox: [-10, 10, 10, -10],
+            axis: true
+        });
+    
+        // Function to create predefined points
+        function createPredefinedPoints() {
+            var pointA = board.create('point', [2, 2], { name: 'A', size: 4, fixed: true });
+            var pointB = board.create('point', [6, 2], { name: 'B', size: 4, fixed: true });
+            var pointC = board.create('point', [4, 5], { name: 'C', size: 4, fixed: true });
+            board.create("angle",[pointB,pointA,pointC], {
+          
+            });
+ 
+            //var A = board.create('point', [-2, 2], { name: 'A', size: 4, fixed: true });
+            //var B = board.create('point', [-6, 2], { name: 'B', size: 4, fixed: true });
+            //var C = board.create('point', [-6, 6], { name: 'C', size: 4, fixed: true });
+            //board.create("angle",[pointB,pointA,pointC], {}) 
+    
+            // Store predefined points
+          predefinedPoints.push(pointA, pointB, pointC);
+        }
 
-      <script >
+    
+        // Function to handle click on predefined points
+        function handlePointClick(e) {
+            var coords = getMouseCoords(e);
+            var clickedPoint = getClickedPredefinedPoint(coords);
+    
+            if (clickedPoint) {
+                selectedPoints.push(clickedPoint);
+    
+                // If two points are selected, draw a line between them
+                if (selectedPoints.length === 2) {
+                    createLineSegment(selectedPoints[0], selectedPoints[1]);
+                    selectedPoints = []; // Reset after drawing the line
+                }
+            }
+        }
+    
+        // Function to create a line segment between two points
+        function createLineSegment(point1, point2) {
+            var lineSegment = board.create('segment', [point1, point2], { strokeWidth: 3 });
+            polygonComponents.push(lineSegment);
+        }
+    
+        // Function to check if a predefined point was clicked
+        function getClickedPredefinedPoint(coords) {
+            for (var i = 0; i < predefinedPoints.length; i++) {
+                var distance = JXG.Math.Geometry.distance(coords.usrCoords.slice(1), predefinedPoints[i].coords.usrCoords.slice(1));
+                if (distance < 0.5) { // If the click is close enough to a predefined point
+                    return predefinedPoints[i];
+                }
+            }
+            return null;
+        }
+    
+        // Function to get mouse coordinates relative to the board
+        function getMouseCoords(e) {
+            var cPos = board.getCoordsTopLeftCorner(e),
+                absPos = JXG.getPosition(e);
+    
+            var dx = absPos[0] - cPos[0];
+            var dy = absPos[1] - cPos[1];
+    
+            return new JXG.Coords(JXG.COORDS_BY_SCREEN, [dx, dy], board);
+        }
+    
+        // Register the mouse down event on the board
+        board.on('down', handlePointClick);
+    
+        // Create predefined points on board initialization
+        createPredefinedPoints();
+    
+        // Function to reset the board
+        function resetBoard() {
+            while (polygonComponents.length > 0) {
+                board.removeObject(polygonComponents.pop());
+            }
+            selectedPoints = [];
+            board.update();
+        }
+    
+        // Attach the resetBoard function to the reset button
+        document.getElementById('resetBoardBtn').addEventListener('click', resetBoard);
+  */      
+        
+  /*    
+    var points = [];
+    var predefinedPoints = []; // To store predefined points
+    var selectedPoints = []; // To store user selected points for drawing lines
+    var polygonComponents = [];
+    
+    // Initialize the board
+    var board = JXG.JSXGraph.initBoard('jxgbox1', {
+        boundingbox: [-10, 10, 10, -10],
+        axis: true
+    });
+
+    // Function to create predefined points
+    function createPredefinedPoints() {
+        var pointA = board.create('point', [2, 2], { name: 'A', size: 4, fixed: true });
+        var pointB = board.create('point', [6, 2], { name: 'B', size: 4, fixed: true });
+        var pointC = board.create('point', [4, 5], { name: 'C', size: 4, fixed: true });
+        var pointD = board.create('point', [1, 6], { name: 'D', size: 4, fixed: true });
+
+        // Store predefined points
+        predefinedPoints.push(pointA, pointB, pointC, pointD);
+    }
+
+    // Function to handle click on predefined points
+    function handlePointClick(e) {
+        var coords = getMouseCoords(e);
+        var clickedPoint = getClickedPredefinedPoint(coords);
+
+        if (clickedPoint) {
+            selectedPoints.push(clickedPoint);
+
+            // If three points are selected, draw two lines and calculate the angle
+            if (selectedPoints.length === 3) {
+                createAngle(selectedPoints[0], selectedPoints[1], selectedPoints[2]);
+                selectedPoints = []; // Reset after drawing
+            }
+        }
+    }
+
+    // Function to create a line segment between two points
+    function createLineSegment(point1, point2) {
+        var lineSegment = board.create('segment', [point1, point2], { strokeWidth: 3 });
+        polygonComponents.push(lineSegment);
+        return lineSegment;
+    }
+
+    // Function to create an angle and display its measurement
+    function createAngle(point1, vertexPoint, point2) {
+        // Create two line segments
+        var line1 = createLineSegment(vertexPoint, point1);
+        var line2 = createLineSegment(vertexPoint, point2);
+
+        // Calculate and display the angle between the two lines
+        var angle = board.create('angle', [point1, vertexPoint, point2], {
+            name: function() {
+                var angleMeasure = this.Value();
+                return angleMeasure.toFixed(2) + '°'; // Display angle value
+            },
+            strokeColor: 'blue',
+            radius: 1
+        });
+
+        polygonComponents.push(angle);
+    }
+
+    // Function to check if a predefined point was clicked
+    function getClickedPredefinedPoint(coords) {
+        for (var i = 0; i < predefinedPoints.length; i++) {
+            var distance = JXG.Math.Geometry.distance(coords.usrCoords.slice(1), predefinedPoints[i].coords.usrCoords.slice(1));
+            if (distance < 0.5) { // If the click is close enough to a predefined point
+                return predefinedPoints[i];
+            }
+        }
+        return null;
+    }
+
+    // Function to get mouse coordinates relative to the board
+    function getMouseCoords(e) {
+        var cPos = board.getCoordsTopLeftCorner(e),
+            absPos = JXG.getPosition(e);
+
+        var dx = absPos[0] - cPos[0];
+        var dy = absPos[1] - cPos[1];
+
+        return new JXG.Coords(JXG.COORDS_BY_SCREEN, [dx, dy], board);
+    }
+
+    // Register the mouse down event on the board
+    board.on('down', handlePointClick);
+
+    // Create predefined points on board initialization
+    createPredefinedPoints();
+
+    // Function to reset the board
+    function resetBoard() {
+        while (polygonComponents.length > 0) {
+            board.removeObject(polygonComponents.pop());
+        }
+        selectedPoints = [];
+        board.update();
+    }
+
+    // Attach the resetBoard function to the reset button
+    document.getElementById('resetBoardBtn').addEventListener('click', resetBoard);
+      
+*/
+
+    </script>
+    
+
+    <!--
+    <script>
+      var predefinedPoints = []; // لتخزين النقاط المحددة مسبقًا
+      var selectedPoints = []; // لتخزين النقاط التي يحددها المستخدم لرسم الخطوط
+      var polygonComponents = []; // لتخزين العناصر المرسومة على اللوحة
+  
+      // إنشاء اللوحة
+      var board = JXG.JSXGraph.initBoard('jxgbox1', {
+          boundingbox: [-10, 10, 10, -10],
+          axis: true
+      });
+  
+      // دالة لإنشاء النقاط المحددة مسبقًا
+      function createPredefinedPoints() {
+          var pointA = board.create('point', [2, 2], { name: 'A', size: 4, fixed: true });
+          var pointB = board.create('point', [6, 2], { name: 'B', size: 4, fixed: true });
+          var pointC = board.create('point', [4, 5], { name: 'C', size: 4, fixed: true });
+  
+          // تخزين النقاط
+          predefinedPoints.push(pointA, pointB, pointC);
+      }
+  
+      // دالة للتعامل مع النقر على النقاط المحددة مسبقًا
+      function handlePointClick(e) {
+          var coords = getMouseCoords(e);
+          var clickedPoint = getClickedPredefinedPoint(coords);
+  
+          if (clickedPoint) {
+              selectedPoints.push(clickedPoint);
+  
+              // إذا تم اختيار ثلاث نقاط، نرسم القطعتين المستقيمتين ونحسب الزاوية
+              if (selectedPoints.length === 3) {
+                  createAngle(selectedPoints[0], selectedPoints[1], selectedPoints[2]);
+                  selectedPoints = []; // إعادة التعيين بعد الرسم
+              }
+          }
+      }
+  
+      // دالة لرسم قطعة مستقيمة بين نقطتين
+      function createLineSegment(point1, point2) {
+          var lineSegment = board.create('segment', [point1, point2], { strokeWidth: 3 });
+          polygonComponents.push(lineSegment);
+          return lineSegment;
+      }
+  
+      // دالة لإنشاء الزاوية وعرض قياسها
+      function createAngle(point1, vertexPoint, point2) {
+          // إنشاء القطعتين المستقيمتين
+          var line1 = createLineSegment(vertexPoint, point1);
+          var line2 = createLineSegment(vertexPoint, point2);
+  
+          // إنشاء الزاوية بين القطعتين
+          var angle = board.create('angle', [point1, vertexPoint, point2], {
+              name: function() {
+                  if (angle && typeof angle.Value === 'function') {  // التحقق من أن الزاوية تم إنشاؤها
+                      var angleMeasure = angle.Value("degree"); // الحصول على قيمة الزاوية
+                      return angleMeasure.toFixed(2) + '°'; // عرض قيمة الزاوية
+                  }
+                  return ''; // إذا لم يتم إنشاؤها بعد
+              },
+              strokeColor: 'blue',
+              radius: 1
+          });
+  
+          polygonComponents.push(angle);
+      }
+  
+      // دالة للتحقق مما إذا تم النقر على نقطة محددة مسبقًا
+      function getClickedPredefinedPoint(coords) {
+          for (var i = 0; i < predefinedPoints.length; i++) {
+              var distance = JXG.Math.Geometry.distance(coords.usrCoords.slice(1), predefinedPoints[i].coords.usrCoords.slice(1));
+              if (distance < 0.5) { // إذا كان النقر قريبًا بما يكفي من النقطة
+                  return predefinedPoints[i];
+              }
+          }
+          return null;
+      }
+  
+      // دالة للحصول على إحداثيات الماوس
+      function getMouseCoords(e) {
+          var cPos = board.getCoordsTopLeftCorner(e),
+              absPos = JXG.getPosition(e);
+  
+          var dx = absPos[0] - cPos[0];
+          var dy = absPos[1] - cPos[1];
+  
+          return new JXG.Coords(JXG.COORDS_BY_SCREEN, [dx, dy], board);
+      }
+  
+      // تسجيل حدث النقر على اللوحة
+      board.on('down', handlePointClick);
+  
+      // إنشاء النقاط المحددة مسبقًا عند تهيئة اللوحة
+      createPredefinedPoints();
+  
+      // دالة لإعادة تعيين اللوحة
+      function resetBoard() {
+          while (polygonComponents.length > 0) {
+              board.removeObject(polygonComponents.pop());
+          }
+          selectedPoints = [];
+          board.update();
+      }
+  
+      // إرفاق دالة إعادة تعيين اللوحة بزر إعادة التعيين
+      document.getElementById('resetBoardBtn').addEventListener('click', resetBoard);
+  </script>
+-->
+
+
+      <script>
         setTimeout(() => {
 
           var typed = new Typed('#element', {
@@ -186,6 +655,13 @@
             loop: false
           });
         },)
+
+        document.getElementById("btn").addEventListener("click", function(){
+          new Audio("/sound/less_1.mp3").play()
+        })
+
       </script>
+
+      <script src="/js/less_1.js"></script>
 
       <%- include('../partial/end.ejs') %>

@@ -1,10 +1,9 @@
-// import zim from "https://zimjs.org/cdn/016/zim.js";
+
 import zim from "https://zimjs.org/cdn/016/zim_game.js";
 
 const scaling = "zim1";
 const width = 1440;
 const height = 488;
-
 
 
 var frame = new Frame({
@@ -225,8 +224,7 @@ window.addEventListener("DOMContentLoaded", (ev) => {
       let newX = M.X() + 1; // زيادة X بمقدار 1
       M.moveTo([newX, M.Y()], 1000); // تحريك النقطة إلى الموقع الجديد
     },
-    { fontSize: 20 },
-  ]);
+  ], { cssClass:'btnjxg'});
 
   board.create("button", [
     6,
@@ -235,9 +233,7 @@ window.addEventListener("DOMContentLoaded", (ev) => {
     function () {
       let newX = M.X() - 1; // زيادة X بمقدار 1
       M.moveTo([newX, M.Y()], 1000); // تحريك النقطة إلى الموقع الجديد
-    },
-    { fontSize: 20 },
-  ]);
+    }], {cssClass:'btnjxg'});
 
 
   createMultipleChoice ({
@@ -250,7 +246,7 @@ window.addEventListener("DOMContentLoaded", (ev) => {
     ['عشرات الالوف', 'عشرات الألوف'],
     ['مئات الملايين'],
     ['4503444000']
-    ]});
+  ]});
 
 
 });

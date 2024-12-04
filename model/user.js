@@ -21,7 +21,7 @@ const User = seq.define(
     },
     avatar: {
       type: DataTypes.STRING,
-      defaultValue: '/icon/profileAvatar.png'
+      defaultValue: 'https://res.cloudinary.com/dg0d0jmtz/image/upload/v1728690697/mobile/profileAvatar_qindpg.png'
     },
     cloudinaryId: {
       type: DataTypes.STRING,

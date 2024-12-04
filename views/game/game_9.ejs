@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>المسار</title>
+
+
+    <script lang="text/javascript" src="/library/createjs.js"> </script>
+	<!-- <script lang="text/javascript" src="/library/zim_min.js"> </script> -->
+
+</head>
+
+<body>
+
+    <script type="module">
+
+        import "https://zimjs.org/cdn/createjs_1.1_min.js";
+        import zim from "https://zimjs.org/cdn/017/zim_game.js";
+        //import "https://zimjs.org/cdn/icon4.js" ;
+        const assets = [];
+        const path = "/assets/"
+
+        var frame = new Frame({
+            scaling: FIT,
+            width: 1024, height: 768, color: light,
+            outerColor: dark,
+            progress: new Waiter({
+                backgroundColor: blue, corner: 10
+            }),
+            assets: assets, path: path
+        });
+        frame.on("ready", () => {
+
+            const stage = frame.stage;
+            const stageW = frame.width;
+            const stageH = frame.height;
+
+
+            const stars = new Container(stageW, stageH*1.2).addTo();
+    const shades = [white,light,lighter,silver,grey,tin,dark];
+    loop(100, i=>{new Circle([1,2,3],shades).loc(rand(stageW), rand(stageH*1.2), stars)})
+    stars.loop(star=>{
+		 if (rand()>.8) new Circle([4,6,8],shades,shades,{min:2,max:6}).alp(.1).loc(star, null, stars);
+	 });
+	 stars.cache();
+
+    // MAKE SPACE
+    // space will hold the path and spaceship
+    // we will move space to keep the spaceship centered on stage
+    var space = new Container(stageW, stageH).addTo();
+
+    // MAKE PATH
+    // used https://zimjs.com/nio/paths.html to record these numbers
+    var path = new Squiggle({
+        thickness:8,
+        interactive:false,
+        points:[[3.3,1.2,0,0,1.4,128.9,-1.4,-128.9],[-82.5,-189.5,0,0,1.9,59.4,-1.9,-59.4],[80.7,-164.6,0,0,15.9,-58.7,-15.9,58.7],[-15,-191,0,0,-14.1,83,14.1,-83],[95,-331.9,0,0,8.8,64.9,-8.8,-64.9],[-66.4,-461.7,0,0,11.3,96.9,-11.3,-96.9],[118.5,-500.3,0,0,27.7,-111.1,-27.7,111.1],[-1.6,-491.6,0,0,-10.5,83.5,11.5,-91.1,"straight"],[-102.8,-621.9,0,0,83.5,-13.3,-83.5,13.3],[-122,-536.3,0,0,-71.8,11.6,71.8,-11.6],[-7.2,-730.3,0,0,7.3,91.3,-7.3,-91.3]]
+    })
+        .alp(.1)
+        .transformPoints("scale", 5)
+        .loc(stageW/2,stageH-100,space);
+
+    // MAKE SHIP
+    var ship = new Container().center(space).animate({
+        props:{path},
+        ease:"linear",
+        time:30000,
+        rewind:true,
+        loop:true,
+        drag:true,
+        startPaused:false
+    });
+    var fins = new Rectangle(100,70,silver,light,2,[-60,35,35,-60]).center(ship)
+    fins.linearGradient([grey,light,dark],[0,.5,1], 0,0, 0,70);
+    var body = new Triangle(40,90,90,null,grey,1).sca(1.5).rot(90).center(ship).mov(45)
+    body.linearGradient([grey,lighter,dark],[0,.5,1], 0,0, 40,0);
+    new Tile({
+        obj:new Circle(series(3,4,5),series(pink,green,blue),grey,1),
+        rows:3, spacingV:4, align:"center"
+    }).center(body).mov(0,18);
+    new Emitter({
+        life:700,
+        decayTime:700,
+        gravity:0,
+        force:0,
+        num:2,
+        wind:-10
+    })//.center(ship).bot().mov(-70);
+
+
+
+    // MAKE ASTEROIDS
+    let count = 0;
+	 let collectRock = null;
+    const darkShades = [darker,dark,grey];
+    shades.push(yellow, yellow);
+    function makeAsteroid() {
+        var body = new Circle({min:40, max:60}, null).rot(rand(-30,30));
+        body.radialGradient([shuffle(darkShades)[0],light],[.8,1], 0,0,body.radius, -30,-50,0);
+        loop(rand(10,20), ()=>{
+            let moon = new Circle({min:5, max:10}, shades)
+					.loc(rand(-body.width,body.width), rand(-body.height/10,body.height/10), body)
+					.alp(rand(.5,.8));
+            // if gold then let player collect!
+            if (moon.color == yellow) {
+                count++;
+                body.mouseEnabled = true;
+                body.mouseChildren = true;
+                moon.alp(1).expand(20).on("mousedown", e=>{
+                   if (collectRock) return; // already collecting rock
+                    collectRock = e.target;
+                    timeout(100, ()=> {
+                        collectRock.removeFrom();
+                        collectRock = null;
+                        ray.graphics.clear();
+                        scorer.score = scorer.score-1;
+                        if (scorer.score == 0) {
+                            var pane = new Pane(800,200,"Zagbot! Now come code with ZIM!",green).show();
+                            new Button(160,60,"GO").center(pane).mov(0,100).tap(()=>{
+										 zgo("https://zimjs.com", "_blank")
+									 });
+                        }
+                    });
+                });
+            } else {
+                moon.mouseEnabled = false;
+            }
+        })
+        return body;
+    }
+    makeAsteroid().loc(700,-150,space);
+    makeAsteroid().loc(700,-950,space);
+    makeAsteroid().loc(800,-1850,space);
+    makeAsteroid().loc(-100,-2250,space);
+	
+	 // MAKE RAY
+    var ray = new Shape().addTo().alp(.5);
+
+
+    // MAKE SCORE
+    var scorer = new Scorer({score:count, backgroundColor:yellow}).sca(.8).pos(40,55,true)
+    new Label({text:"collect gold space rocks", color:yellow}).sca(.5).alp(.6).pos(40,20,true)
+    // MOVE SPACE AND STARS
+    // we use damping to make the motion smoother
+    const dampX = new Damp();
+    const dampY = new Damp();
+    // slowly move stars
+    // numbers came from rough min and max location if ship.y
+    const dampS = new ProportionDamp(-3000,700,-stageH*.2,0,.01,-1); // opposite direction
+    Ticker.add(()=>{
+        space.x = dampX.convert(stageW/2-ship.x);
+        space.y = dampY.convert(stageH/2-ship.y);
+        // zog(ship.y) // was used to get min and max y of ship
+        stars.y = dampS.convert(ship.y);
+
+        if (collectRock) {
+            let r = collectRock.localToGlobal(0,0);
+            let s = ship.localToGlobal(0,0);
+            ray.graphics.c().f(yellow).mt(s.x, s.y)
+			.lt(r.x+collectRock.radius, r.y).lt(r.x-collectRock.radius, r.y); 
+            ray.graphics.clear(); // تنظيف الشعاع
+
+        }
+    });
+ 
+
+
+        });
+
+
+    </script>
+
+</body>
+
+</html>

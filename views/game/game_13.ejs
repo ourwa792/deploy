@@ -1,0 +1,143 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+
+
+    <script type="module">
+    
+    import zim from "https://zimjs.org/cdn/016/zim_game";
+
+        // REFERENCES for ZIM at https://zimjs.com
+        // see https://zimjs.com/intro.html for an intro example
+        // see https://zimjs.com/learn.html for video and code tutorials
+        // see https://zimjs.com/docs.html for documentation
+        // see https://codepen.io/topic/zim/ for ZIM on CodePen
+            
+        // HTML 5 GAME TUTORIALS 
+        // https://zimjs.com/html5
+        
+        // ZIM Editor 
+        // https://zimjs.com/zapp/Z_UHU6J
+        
+        const frame = new Frame(FIT, 1024, 768, brown.lighten(.5), brown.darken(.5), ready);
+        function ready() {
+        
+            // given F (Frame), S (Stage), W (width), H (height)
+           // put code here
+        
+            // The Board can have more tiles around the edges that are not viewed 
+            // then arrows are provided to move the "camera" and see the other tiles 
+            // see https://zimjs.com/iso for an example
+        
+            // could add the items in the info array - here we add them after with add()
+            const board = new Board({backgroundColor:grey, indicatorBorderColor:light})
+                 .scaleTo(S,110,100)
+                 .center();
+        
+            const player = new Person();
+            const orb = new Orb();
+        
+            board.add(player, 2, 0);
+        
+            // data "-" in this case means no path
+            // "none" or "avoid" or 0, etc. would be fine too 
+            // anything but "x" which is default empty data
+            board.add(new Tree().alp(.9), 4, 3, "-", green.darken(.6));
+            board.add(new Tree().alp(.9), 5, 7, "-");
+            board.add(new Tree().alp(.9), 0, 5, "-");
+            board.add(new Tree().alp(.9), 5, 0, "-");
+        
+            const garden = board.getTilesAround(4,3);
+            loop(garden, tile => {
+                 board.setColor(tile, green.darken(.3));
+                 board.setData(tile, "-");
+            });
+        
+            board.add(orb, 6, 4);
+        
+            board.addKeys(player,"arrows", {notData:["-"]}); // pressing is automatic
+        
+            player.on("movingdone", ()=>{
+                 if (player.boardTile == orb.boardTile) { // landing on orb
+                      // board.remove(orb);
+                      const randTile = board.getRandomTile({notItem:[player, orb], notData:["-"]});
+                    orb.color = pluck([red,blue,green,orange,pink]) 
+                    board.position(orb, randTile.boardCol, randTile.boardRow);
+                 }
+            });
+        
+        
+            // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+            // PATH FINDING
+            // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        
+            // Tiles can have values applied to make it more or less likely to be chosen 
+            // see https://zimjs.com/iso
+            // Below is pretty well default for setting a path 
+            // So you most likely can use this for most of what you do
+        
+         
+        
+            const AI = new EasyStar.js();
+            AI.setAcceptableTiles(["x"]); // default empyt tile is "x" 
+            let pathID;
+            let ticker;
+            let path;
+            board.on("change", () => { // change triggers when rolled over square changes
+                 if (player.moving) return;
+                 getPath(); // just get path - don't go to path with the go parameter true
+            });
+        
+            function getPath(go) { // called from change (mouseover) and from tap
+                 AI.setGrid(board.data);
+                 AI.cancelPath(pathID); // cancel any previous path and ticker
+                 if (ticker) Ticker.remove(ticker);
+                 if (!board.currentTile) {
+                      board.clearPath();
+                      path = null;
+                      return;
+                 }
+                 // get a path from the player to the currentTile (selected or highlighted tile)
+                 pathID = AI.findPath(
+                      player.boardCol,
+                      player.boardRow,
+                      board.currentTile.boardCol,
+                      board.currentTile.boardRow,
+                      thePath => { // the callback function when path is found
+                            path = thePath;
+                            Ticker.remove(ticker);
+                            board.showPath(path);
+                            if (go) {
+                                 board.followPath(player, path);
+                                 path = null;
+                            }
+                      }
+                 );
+                 // must calculate the path in a Ticker
+                 ticker = Ticker.add(() => {AI.calculate();});
+            }
+
+            board.tiles.tap(e => {
+                 if (player.moving) return;
+                 if (path) { // because rolled over already
+                      board.followPath(player, path);
+                      path = null;
+                 } else { // could be tapping or on mobile with no rollover
+                      getPath(true); // true to follow it once found
+                 }
+                 S.update();
+            });
+            
+        }
+        
+    </script>
+    
+</body>
+</html>

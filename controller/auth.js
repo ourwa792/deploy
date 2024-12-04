@@ -5,6 +5,8 @@ const { mailerReset } = require("../utils/mailer");
 const { validationResult, body } = require("express-validator"); //بتجمع كل الاخطاء من الروتر
 const { Op } = require("sequelize");
 
+const gameNames = require("./gameName")
+
 exports.getSign = (req, res, next) => {
   //console.log(req.session)
   res.render("auth/signup", {

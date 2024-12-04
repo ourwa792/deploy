@@ -1,4 +1,6 @@
 const {VideoLesson} = require('../model/association');
+const {gameNames} = require("./gameName")
+
 
 const ITEMS_PER_PAGE = 4
 
@@ -13,6 +15,7 @@ exports.getVideos = async (req, res, next) => {
         });
 
         res.render('video/index', {
+            gameNames,
             videos,
             currentPage: page,
             hasNextPage: ITEMS_PER_PAGE * page < totalVideos,
@@ -36,11 +39,17 @@ console.log(videoId)
         const video = await VideoLesson.findByPk(videoId);
         
         if (!video) {
-            return res.status(404).render('error', { message: 'Video not found',
-             pageTitle: 'Error' });
+            return res.status(404).render('error', {
+            message: 'Video not found',
+            pageTitle: 'Error' ,
+            gameNames    
+            });
         }
 
-        res.render('video/show', { video, pageTitle: video.title });
+        res.render('video/show', { 
+            gameNames,
+            video,
+            pageTitle: video.title });
     } catch (err) {
         console.error(err);
         next(err);

@@ -1,5 +1,4 @@
 const {DataTypes} = require("sequelize");
-
 const seq = require("../utils/database").seq;
 
 const FeedBack = seq.define(
