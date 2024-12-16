@@ -574,7 +574,7 @@
   <!-- هرم ع أساس -->
 
 
-
+<!-- 
   <div class="mathcell" style="width: 6in; height: 6in">
     <script>
     var parent = document.currentScript.parentNode;
@@ -591,47 +591,148 @@
     
       var h = 5; // ارتفاع الهرم
       var baseSize = 2; // نصف طول قاعدة الهرم
-      
+    
       // القاعدة الأصلية
-      var base = parametric(
-        (u, v) => [baseSize * u, baseSize * v, 0],
-        [-1, 1], [-1, 1],
-        { color: 'blue', opacity: 0.6 }
-      );
+      var base = line([
+        [-baseSize, -baseSize, 0],
+        [baseSize, -baseSize, 0],
+        [baseSize, baseSize, 0],
+        [-baseSize, baseSize, 0],
+        [-baseSize, -baseSize, 0]
+      ], { color: 'blue', radius: 0.05 });
     
       // المستوى القاطع
-      var cutBase = parametric(
-        (u, v) => [(baseSize * u * c / h), (baseSize * v * c / h), c],
-        [-1, 1], [-1, 1],
-        { color: 'red', opacity: 0.6 }
-      );
+      var cutBase = line([
+        [-baseSize * c / h, -baseSize * c / h, c],
+        [baseSize * c / h, -baseSize * c / h, c],
+        [baseSize * c / h, baseSize * c / h, c],
+        [-baseSize * c / h, baseSize * c / h, c],
+        [-baseSize * c / h, -baseSize * c / h, c]
+      ], { color: 'red', radius: 0.05, opacity: 0.8 });
     
       // الأضلاع
       var edges = [
-        line([[0, 0, h], [-baseSize, -baseSize, 0]], { color: 'green' }),
-        line([[0, 0, h], [-baseSize, baseSize, 0]], { color: 'green' }),
-        line([[0, 0, h], [baseSize, -baseSize, 0]], { color: 'green' }),
-        line([[0, 0, h], [baseSize, baseSize, 0]], { color: 'green' })
+        line([[0, 0, h], [-baseSize, -baseSize, 0]], { color: 'green', radius: 0.03 }),
+        line([[0, 0, h], [baseSize, -baseSize, 0]], { color: 'green', radius: 0.03 }),
+        line([[0, 0, h], [baseSize, baseSize, 0]], { color: 'green', radius: 0.03 }),
+        line([[0, 0, h], [-baseSize, baseSize, 0]], { color: 'green', radius: 0.03 })
       ];
     
       // الأضلاع إلى المقطع
       var cutEdges = [
-        line([[-baseSize * c / h, -baseSize * c / h, c], [-baseSize, -baseSize, 0]], { color: 'gray' }),
-        line([[-baseSize * c / h, baseSize * c / h, c], [-baseSize, baseSize, 0]], { color: 'gray' }),
-        line([[baseSize * c / h, -baseSize * c / h, c], [baseSize, -baseSize, 0]], { color: 'gray' }),
-        line([[baseSize * c / h, baseSize * c / h, c], [baseSize, baseSize, 0]], { color: 'gray' })
+        line([[-baseSize * c / h, -baseSize * c / h, c], [-baseSize, -baseSize, 0]], { color: 'gray', radius: 0.02 }),
+        line([[-baseSize * c / h, baseSize * c / h, c], [-baseSize, baseSize, 0]], { color: 'gray', radius: 0.02 }),
+        line([[baseSize * c / h, -baseSize * c / h, c], [baseSize, -baseSize, 0]], { color: 'gray', radius: 0.02 }),
+        line([[baseSize * c / h, baseSize * c / h, c], [baseSize, baseSize, 0]], { color: 'gray', radius: 0.02 })
       ];
+    
+      // نصوص توضيحية
+      var baseText = text("Base", [-baseSize, -baseSize, 0], { fontSize: 12, color: 'blue' });
+      var cutText = text("Cut Section", [-baseSize * c / h, -baseSize * c / h, c], { fontSize: 12, color: 'red' });
     
       var config = { type: 'threejs', frame: true };
     
-      evaluate(id, [base, cutBase, ...edges, ...cutEdges], config);
+      evaluate(id, [base, cutBase, ...edges, ...cutEdges, baseText, cutText], config);
     };
     
     parent.update(id);
     </script>
-    </div>
+    </div> -->
     
-    
+
+   
+    <div class="mathcell" style="width: 6in; height: 6in">
+      <script>
+      var parent = document.currentScript.parentNode;
+      var id = generateId();
+      parent.id = id;
+      
+      // إضافة منزلق للتحكم بارتفاع المستوى
+      MathCell(id, [
+        { type: 'slider', name: 'cutHeight', label: 'Cut Height:', min: 0.1, max: 5, value: 2 }
+      ]);
+      
+      parent.update = function (id) {
+        var cutHeight = getVariable(id, 'cutHeight'); // قيمة ارتفاع المستوى القاطع
+      
+        var pyramidHeight = 5; // ارتفاع الهرم
+        var baseSize = 2; // نصف طول قاعدة الهرم
+      
+        // تعريف المستوى كسطح بارامتري
+        var plane = parametric(
+          (u, v) => [u, v, cutHeight], // معادلة المستوى
+          [-baseSize, baseSize],
+          [-baseSize, baseSize],
+          { color: 'rgba(255, 0, 0, 0.4)' } // لون شفاف للمستوى
+        );
+      
+        // تعريف أوجه الهرم كمسطحات بارامترية
+        var faces = [
+          parametric(
+            (u, v) => [
+              (1 - u) * (-baseSize) + u * v * (0),
+              (1 - u) * (-baseSize) + u * v * (pyramidHeight),
+              u * pyramidHeight
+            ],
+            [0, 1],
+            [0, 1],
+            { color: 'rgb(0, 127, 255)', opacity: 0.6 }
+          ),
+          parametric(
+            (u, v) => [
+              (1 - u) * (baseSize) + u * v * (0),
+              (1 - u) * (-baseSize) + u * v * (pyramidHeight),
+              u * pyramidHeight
+            ],
+            [0, 1],
+            [0, 1],
+            { color: 'rgb(0, 127, 255)', opacity: 0.6 }
+          ),
+          parametric(
+            (u, v) => [
+              (1 - u) * (baseSize) + u * v * (0),
+              (1 - u) * (baseSize) + u * v * (pyramidHeight),
+              u * pyramidHeight
+            ],
+            [0, 1],
+            [0, 1],
+            { color: 'rgb(0, 127, 255)', opacity: 0.6 }
+          ),
+          parametric(
+            (u, v) => [
+              (1 - u) * (-baseSize) + u * v * (0),
+              (1 - u) * (baseSize) + u * v * (pyramidHeight),
+              u * pyramidHeight
+            ],
+            [0, 1],
+            [0, 1],
+            { color: 'rgb(0, 127, 255)', opacity: 0.6 }
+          )
+        ];
+      
+        // حساب نقاط تقاطع المستوى مع الأوجه
+        var intersectionLines = [];
+        faces.forEach(face => {
+          var line = isoline(
+            (x, y, z) => z - cutHeight, // معادلة المستوى
+            [-baseSize, baseSize],
+            [-baseSize, baseSize],
+            { color: 'rgb(255, 255, 0)', thickness: 2 }
+          );
+          intersectionLines.push(line);
+        });
+      
+        // إعدادات العرض
+        var config = { type: 'threejs', frame: true, animate: true };
+      
+        evaluate(id, [plane, ...faces, ...intersectionLines], config);
+      };
+      
+      parent.update(id);
+      </script>
+      </div>
+      
+
 
 
 

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-User Puzzle</title>
+    <script  src="https://zimjs.org/cdn/00/zim.js"></script>
+    <script  src="https://zimjs.org/cdn/2.3.0/socket.io.js"></script>
+    <script  src="https://zimjs.org/cdn/zimsocket_1.1.js"></script>
+</head>
+<body>
+    <script>
+        // 1. إعداد الإطار
+        const frame = new Frame({
+            width: 1280, height: 720, scaling: "fit", color: "white"
+        });
+
+        frame.on("ready", () => {
+            const stage = frame.stage;
+
+            // 2. إعداد الاتصال بالسيرفر
+            const socket = new Socket("puzzleApp");
+
+            // 3. إنشاء شبكة الألغاز
+            const grid = new Grid({
+                rows: 2, cols: 3, spacing: 20, backgroundColor: light, borderColor: dark, borderWidth: 2,
+                items: [
+                    new Label("1 + 1 ?", 30, null, dark),
+                    new Label("2 x 2 ?", 30, null, dark),
+                    new Label("3 + 5 ?", 30, null, dark),
+                    new Label("8 / 2 ?", 30, null, dark),
+                    new Label("6 - 4 ?", 30, null, dark),
+                    new Label("7 x 1 ?", 30, null, dark),
+                ]
+            }).center();
+
+            // 4. منطقة الإجابات
+            const answers = new Container();
+            const answerLabels = [
+                new Label("2", 30, null, blue).drag(),
+                new Label("4", 30, null, blue).drag(),
+                new Label("8", 30, null, blue).drag(),
+                new Label("4", 30, null, blue).drag(),
+                new Label("2", 30, null, blue).drag(),
+                new Label("7", 30, null, blue).drag(),
+            ];
+
+            answerLabels.forEach((label, index) => {
+                label.centerReg().pos(200 + index * 150, 600);
+                answers.addChild(label);
+            });
+            stage.addChild(answers);
+
+            // 5. المزامنة بين المستخدمين
+            socket.on("ready", () => {
+                answerLabels.forEach((label, index) => {
+                    label.on("pressmove", () => {
+                        socket.setProperties({ [`label_${index}`]: { x: label.x, y: label.y } });
+                    });
+                });
+
+                socket.on("data", (data) => {
+                    answerLabels.forEach((label, index) => {
+                        const position = data[`label_${index}`];
+                        if (position) {
+                            label.loc(position.x, position.y);
+                        }
+                    });
+                });
+            });
+
+            // 6. التحقق من الإجابات
+            const correctAnswers = [0, 3, 2, 1, 4, 5]; // الترتيب الصحيح للإجابات
+            const puzzleItems = grid.items;
+
+            function checkAnswers() {
+                let isCorrect = true;
+                puzzleItems.forEach((puzzle, index) => {
+                    const puzzleBounds = puzzle.getBounds();
+                    const answer = answerLabels[correctAnswers[index]];
+                    const answerBounds = answer.getBounds();
+
+                    if (!puzzleBounds.intersects(answerBounds)) {
+                        isCorrect = false;
+                    }
+                });
+
+                if (isCorrect) {
+                    new Label("Correct!", 50, null, green).center().show(stage);
+                } else {
+                    new Label("Try Again", 50, null, red).center().show(stage);
+                }
+            }
+
+            new Button("Check Answers").pos(1100, 650).on("click", checkAnswers);
+
+            stage.update();
+        });
+    </script>
+</body>
+</html>

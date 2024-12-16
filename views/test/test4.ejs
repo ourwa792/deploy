@@ -8,8 +8,8 @@
   <title>Document</title>
 
 
-   <script type="text/javascript" src="/library/jsxgraphcore.js"></script>
-
+<!--    <script type="text/javascript" src="/library/jsxgraphcore.js"></script>
+ -->
 </head>
 <body>
   <div id="jxgbox" style="width: 600px; height: 500px;"></div>
@@ -23,8 +23,8 @@
   <button class="btn btn-sml btn-warning my-2" id="toggleInteractionBtn">تبديل وضع
       التفاعل</button> -->
 
-  <script type="">
-     //import JXG from 'https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraphcore.mjs'; 
+  <script type="module">
+    import JXG from 'https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraphcore.mjs'; 
 
   
 /* var brd = JXG.JSXGraph.initBoard("jxgbox1", {
@@ -269,8 +269,7 @@ board.update();
 */
 
 
-
-/*  هرم مقطعو مو شغال
+/*   هرم مقطعو مو شغال
 // إعداد اللوحة ثلاثية الأبعاد
 const board = JXG.JSXGraph.initBoard('jxgbox', {
     boundingbox: [-8, 8, 8, -8],
@@ -380,11 +379,11 @@ function updateIntersection() {
         });
     }
 }
+
  */
 
 
-
- /* مكعب شغال مو زابط
+/*  // مكعب شغال مو زابط
 
  const board = JXG.JSXGraph.initBoard('jxgbox', {
     boundingbox: [-8, 8, 8, -8],
@@ -542,8 +541,8 @@ function updateIntersection() {
 
 // تحديث التقاطع عند تغيير النقاط
 updateIntersection();
+ */
 
-*/
 
 /*  اسطوانة شغال
 
@@ -844,8 +843,8 @@ curve.updateDataArray();
  */
 
 
-/*  سطح مخروط شغال
-
+  //سطح مخروط شغال
+/* 
 const board = JXG.JSXGraph.initBoard('jxgbox', {
     boundingbox: [-8, 8, 8, -8],
     axis: false,
@@ -877,7 +876,7 @@ const coneSurface = view.create('parametricsurface3d', [
     (u, v) => (1 - unfoldSlider.Value()) * slantHeight * v * Math.sin(u) + unfoldSlider.Value() * v * baseRadius * Math.sin(u), // y
     (u, v) => unfoldSlider.Value() * v * coneHeight, // z: يعتمد على الارتفاع
     [0, 2 * Math.PI * (1 - unfoldSlider.Value())], // المجال الخاص بـ u
-    [0, 1]            // المجال الخاص بـ v
+    [0, 1.5]            // المجال الخاص بـ v
 ], {
     fillColor: '#FFA500',
     fillOpacity: 0.6,
@@ -886,12 +885,11 @@ const coneSurface = view.create('parametricsurface3d', [
     stepsV: 60
 });
 
-// تحديث السطح عند تحريك السلايدر
-unfoldSlider.on('drag', function () {
-    coneSurface.updateDataArray();
-});
+coneSurface.updateDataArray(); */
 
-*/ 
+
+
+
 
 
 /* 
@@ -962,10 +960,12 @@ unfoldSlider.on('drag', function () {
     coneSurface.updateDataArray();
     coneBase.update(); // تحديث القاعدة لتتفاعل مع السطح الجانبي
 
-}); */
+}); */ 
 
 
-// ملف: dynamic_cone_surface.js
+
+/* سطح جانبي لللمخروط زفت
+
 const board = JXG.JSXGraph.initBoard('jxgbox', {
     boundingbox: [-6, 6, 6, -6],
     axis: true,
@@ -1025,11 +1025,8 @@ board.create('text', [-5.5, 3.5, () => {
     return Math.abs(arcLength() - 2 * Math.PI * baseRadius()) < 0.1
         ? '✅ طول القوس يطابق محيط القاعدة!'
         : '❌ هناك اختلاف بين طول القوس ومحيط القاعدة!';
-}], { fontSize: 15 });
-
-
-
-
+}], { fontSize: 15 }); 
+*/
 
 
 
@@ -1184,6 +1181,8 @@ board.create('text', [-5.5, 3.5, () => {
 
 
 */
+
+
 
 
 </script>

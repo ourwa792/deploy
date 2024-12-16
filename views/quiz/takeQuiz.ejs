@@ -12,17 +12,17 @@
 
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/polyfill/7.0.0/polyfill.min.js"></script> -->
 
-    <script src="/library/mathJax.js"></script>     
-    <script>
+
+    <!-- <script>
         window.MathJax = {
             loader: { load: ['input/tex', 'output/chtml', 'input/mml'] },
             tex: { inlineMath: [['$', '$'], ['\\(', '\\)']] },
             svg: { fontCache: 'global' }
         };
-    </script>
+    </script> -->
 
 <!-- <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script> -->    
-   
+
    <style>
         /* From Uiverse.io by cssbuttons-io */ 
         .c-button {
@@ -125,6 +125,7 @@
                 <a id="viewResults" class="btn btn-primary " href="#">نتيجة الاختبار</a>
             </div>
         </div>
+
         <script>
             $(document).ready(function () {
 
@@ -171,6 +172,7 @@
 
                     return { totalScore, correctAnswers, incorrectAnswers };
                 }
+
 
                 survey.onComplete.add((sender) => { // sender = json survey
                     const { totalScore, correctAnswers, incorrectAnswers } = calculateTotalScore(sender.data);
@@ -237,12 +239,15 @@
                 setTimeout(function () {
                     MathJax.typesetPromise().catch(function (err) {
                         console.error('MathJax typeset failed: ' + err.message);
-                    });
+                    }); 
                 }, 500)
 
             });
 
         </script>
+
+<script type="module" src="/js/render.js"> </script>
+
     </body>
 
     </html>

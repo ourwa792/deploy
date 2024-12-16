@@ -6,17 +6,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>balance</title>
 
-    <script type="module" src="https://zimjs.org/cdn/2.1.3/box2d.js"></script>
+<!--     <script type="module" src="https://zimjs.org/cdn/2.1.3/box2d.js"></script>
 
-    <script type="module" src="https://zimjs.org/cdn/2.1.3/box2d_doc.js"></script>
+    <script type="module" src="https://zimjs.org/cdn/2.1.3/box2d_doc.js"></script> -->
 
+    <script type="module" src="/library/zim_physics.js"></script>
 </head>
 
 <body>
 
     <script type="module">
 
-        import zim from "https://zimjs.com/cdn/016/zim_physics";
+        //import zim from "https://zimjs.com/cdn/016/zim_physics";
 
         const width = 1024;
         const height = 768;
@@ -37,17 +38,16 @@
             const stageW = frame.width;
             const stageH = frame.height;
             
-                                    // إعداد الفيزياء مع جاذبية وحدود المسرح
+    
             const physics = new Physics({ gravity: 9.8});
             
-                        // إنشاء عنصرين: دائرة ومستطيل
             const circle = new Circle(50, "blue").centerReg()
             .drag().center();
             const rect = new Rectangle(100, 50, "green").centerReg()
             .pos(400, 100, stage).drag()
             
-            circle.addPhysics({density:5 });   // الدائرة بوزن خفيف
-            rect.addPhysics({density: 5});    // المستطيل بوزن ثقيل
+            circle.addPhysics({density:5 });  
+            rect.addPhysics({density: 5});    
             
             let rectBody = rect.body;
             //console.log(rectBody)
@@ -69,7 +69,6 @@
             Ticker.add(() => stage.update());
 
 
-            const speech = new Speech();
             // interact at least once before talking
             new Button({label:"TALK"}).center().tap(()=>{
             speech.talk("Hello World");
