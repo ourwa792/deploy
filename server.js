@@ -1,7 +1,7 @@
 require('dotenv').config()
 const express = require('express')
 const morgan = require('morgan')
-const compression = require('compression');
+//const compression = require('compression');
 const cors = require('cors')
 const session = require('express-session')
 const flash = require('connect-flash')
